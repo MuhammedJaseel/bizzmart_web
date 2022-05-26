@@ -462,7 +462,6 @@ function AddProdect({ state, setState }) {
           <button type="submil" className="hinLbB">
             SAVE
           </button>
-          
         </div>
       </div>
     </form>
