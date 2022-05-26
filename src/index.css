@@ -1,13 +1,72 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@font-face {
+  font-family: Mic32NewRounded;
+  src: url(./asset/font/Mic32NewRounded/Regular.ttf);
+}
+@font-face {
+  font-family: Mic32NewRounded;
+  src: url(./asset/font/Mic32NewRounded/Regular.ttf);
+  font-weight: 300;
+}
+@font-face {
+  font-family: Mic32NewRounded;
+  src: url(./asset/font/Mic32NewRounded/Light.ttf);
+  font-weight: 200;
+}
+@font-face {
+  font-family: Mic32NewRounded;
+  src: url(./asset/font/Mic32NewRounded/Medium.ttf);
+  font-weight: 500;
+}
+@font-face {
+  font-family: Mic32NewRounded;
+  src: url(./asset/font/Mic32NewRounded/Bold.ttf);
+  font-weight: bold;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+body {
+  margin: 0;
+  font-family: Mic32NewRounded;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(214, 214, 214);
+  border-radius: 1ex;
+  box-shadow: 1px 0px 0px #fff;
+}
+
+::-webkit-scrollbar-corner {
+  background: #fff;
+}
+
+input {
+  font-family: Mic32NewRounded;
+}
+
+select {
+  font-family: Mic32NewRounded;
+}
+
+textarea {
+  font-family: Mic32NewRounded;
+}
+
+/* code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+} */
+
+button {
+  font-family: Mic32NewRounded;
+  border: none;
+}
+
+:root {
+  --primart_blue: #2d4c86;
 }

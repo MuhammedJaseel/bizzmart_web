@@ -1,25 +1,12 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import BranchScreen from "./screen/branch";
+import HomeScreen from "./screen/home";
+import LoginScreen from "./screen/login";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default function App() {
+  const path = window.location.pathname.split("/")[1];
+  if (path === "login") return <LoginScreen />;
+  if (path === "branches") return <BranchScreen />;
+  if (path === "dashbord") return <HomeScreen />;
+  return <div>App</div>;
 }
-
-export default App;

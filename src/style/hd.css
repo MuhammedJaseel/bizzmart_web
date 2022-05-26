@@ -1,0 +1,16 @@
+.hdA {
+  height: 45px;
+  border-bottom: 1px solid #d7dadd;
+  display: flex;
+  align-items: center;
+  padding: 0px 15px;
+  color: #2b2d30;
+  font-size: 15px;
+  justify-content: space-between;
+}
+.hdAa {
+  display: flex;
+}
+.hdAb {
+  font-weight: bold;
+}

@@ -1,0 +1,65 @@
+.btnA {
+  background-color: #2d4c86;
+  width: 38px;
+  height: 20px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 3px;
+  margin-right: 5px;
+}
+.btnAa {
+  width: 20px;
+  height: 20px;
+  border-radius: 20px;
+  background-color: white;
+}
+/* //////////////////////////////////////////////////// */
+.btnB {
+  height: 120px;
+  width: 520px;
+  display: flex;
+  justify-content: space-between;
+  background-color: white;
+  box-shadow: 0px 3px 7px #00000026;
+  margin-bottom: 4px;
+}
+.btnBa {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: calc(33% - 10px);
+  padding: 5px;
+  cursor: pointer;
+  border: 1.5px solid white;
+}
+.btnBa_ {
+  border: 1.5px solid var(--primart_blue);
+  background-color: #e8ebf2;
+}
+.btnBb {
+  font-size: 12px;
+  font-weight: 500;
+  color: #c2bebe;
+  text-align: center;
+  margin-bottom: 15px;
+  margin-top: 5px;
+}
+.btnBb_ {
+  color: #3d424e;
+}
+.btnBc {
+  background-color: #bcc7cc;
+  height: 1px;
+  width: 100%;
+}
+.btnBd {
+  font-size: 9.5px;
+  color: #c2bebe;
+  text-align: center;
+  padding: 10px;
+}
+.btnBd_ {
+  color: #3d424e;
+}
