@@ -30,6 +30,7 @@ import icAbout from "../asset/icon/ic_about.png";
 import icAboutW from "../asset/icon/ic_about-w.png";
 import HomeDashboard from "../widget/home_dashboard";
 import HomeInventory from "../widget/home_inventory";
+import HomeCalender from "../widget/home_calendar";
 
 const sidebarIc = [
   {
@@ -42,7 +43,7 @@ const sidebarIc = [
     title: "Calendar",
     icon: icCalendar,
     iconW: icCalendarW,
-    widget: HomeDashboard,
+    widget: HomeCalender,
   },
   {
     title: "Reports",
