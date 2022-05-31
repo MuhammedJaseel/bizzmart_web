@@ -101,7 +101,7 @@
   top: 0px;
   bottom: 0px;
   left: 0px;
-  width: 58px;
+  width: 4.60vw;
   overflow: hidden;
   background-color: var(--primart_blue);
   overflow: hidden;
@@ -115,7 +115,7 @@
 }
 .hmB:not(:hover) {
   transition: width 0.3s;
-  width: 58px;
+  width: 4.60vw;
 }
 .hmBa {
   display: flex;
@@ -123,8 +123,8 @@
   margin-bottom: 25px;
 }
 .hmBb {
-  min-width: 36px;
-  height: 36px;
+  min-width: 2.43vw;
+  height: 2.43vw;
   border-radius: 8px;
   background-color: #312f7c;
   display: flex;
@@ -186,11 +186,11 @@
   padding: 0px 11px;
   display: flex;
   justify-content: center;
-  width: 16px;
-  height: 16px;
+  width: 1.27vw;
+  height: 1.27vw;
 }
 .hmBjA {
-  width: 16px;
+  width: 1.27vw;
   object-fit: contain;
 }
 .hmBk {

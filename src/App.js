@@ -8,20 +8,34 @@ export default function App() {
   if (path === "login") return <LoginScreen />;
   if (path === "branches") return <BranchScreen />;
   if (path === "dashbord") return <HomeScreen />;
-  return (
-    <form
-      style={{ padding: 30 }}
-      onSubmit={(e) => {
-        const value = (e.target.kk.value / 30).toFixed(2);
-        navigator.clipboard.writeText(value + "vw");
-      }}
-    >
-      <input id="kk" />
-    </form>
-  );
+  return <Cal />;
 }
-
 
 // git add .
 // git commit -m "cloner"
 // git push origin main
+
+function Cal() {
+  return (
+    <>
+      <form
+        style={{ padding: 30 }}
+        onSubmit={(e) => {
+          const value = (e.target.kk.value / 35).toFixed(2);
+          navigator.clipboard.writeText(value + "vw");
+        }}
+      >
+        <input id="kk" placeholder="px to wh" />
+      </form>
+      <form
+        style={{ padding: 30 }}
+        onSubmit={(e) => {
+          const value = (e.target.kk.value * 1.2).toFixed(2);
+          navigator.clipboard.writeText(value + "vw");
+        }}
+      >
+        <input id="kk" placeholder="wh to wh" />
+      </form>
+    </>
+  );
+}
