@@ -20,3 +20,8 @@ export default function App() {
     </form>
   );
 }
+
+
+// git add .
+// git commit -m "cloner"
+// git push origin main
