@@ -37,12 +37,14 @@
 }
 .lnBaA {
   font-size: 1.24vw;
-  width: 55vw;
+  width: 35vw;
+  padding-right: 20vw;
   margin-bottom: 1.45vw;
 }
 .lnBaB {
   font-size: 0.87vw;
-  width: 55vw;
+  width: 35vw;
+  padding-right: 20vw;
   font-weight: 350;
 }
 .lnBb {
