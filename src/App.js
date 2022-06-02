@@ -21,7 +21,7 @@ function Cal() {
       <form
         style={{ padding: 30 }}
         onSubmit={(e) => {
-          const value = (e.target.kk.value / 40).toFixed(2);
+          const value = (e.target.kk.value / 32).toFixed(2);
           navigator.clipboard.writeText(value + "vw");
         }}
       >
@@ -30,7 +30,7 @@ function Cal() {
       <form
         style={{ padding: 30 }}
         onSubmit={(e) => {
-          const value = (e.target.kk.value * 0.87).toFixed(2);
+          const value = (e.target.kk.value * 1.33).toFixed(2);
           navigator.clipboard.writeText(value + "");
         }}
       >

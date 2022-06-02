@@ -63,7 +63,7 @@ export default class HomeScreen extends Component {
               </div>
               <div className="hmBd">
                 <div className="hmBe">
-                  <div className="hmBf">bizzSmart</div>
+                  <div className="hmBf">bizzSmart&nbsp;</div>
                   <div className="hmBg">ERP</div>
                 </div>
                 <div className="hmBh">Workspace</div>
