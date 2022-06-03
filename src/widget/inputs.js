@@ -32,6 +32,7 @@ export function DropDown2({ ph, id, items }) {
   return (
     <select
       className="inpB"
+      id={id}
       style={checked ? { color: "black" } : {}}
       onChange={() => setChecked(true)}
     >

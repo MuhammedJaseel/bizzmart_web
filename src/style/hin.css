@@ -54,24 +54,24 @@
   background-color: white;
   margin-top: 30px;
   width: 115px;
-  height: 0px;
+  height: 0vw;
   overflow: hidden;
 }
 .hinCc:hover .hinCcC {
   transition: height 0.5s;
   height: 70px;
-  box-shadow: 0px 0.03vw 2px #87878729;
+  box-shadow: 0vw 0.03vw 2px #87878729;
 }
 .hinCc:not(:hover) .hinCcC {
   transition: height 0.2s;
-  height: 0px;
+  height: 0vw;
 }
 .hinCcCa {
   cursor: pointer;
   color: #393939;
   font-size: 0.94vw;
   padding: 4px 8px;
-  margin: 0px 8px;
+  margin: 0vw 8px;
   border-radius: 0.19vw;
 }
 .hinCcCa:hover {
@@ -118,7 +118,7 @@
   background-color: #f3f6f6;
   font-weight: bold;
   font-size: 1.53vw;
-  padding: 0.94vw 16px;
+  padding: 0.94vw 0.97vw;
   padding-bottom: 0vw;
   color: #123347;
 }
@@ -132,52 +132,69 @@
 }
 .hinGa {
   font-size: 0.88vw;
-  padding: 0px 16px;
+  padding: 0vw 0.97vw;
 }
 .hinGb {
   display: flex;
   align-items: center;
 }
 .hinGbA {
-  font-size: 9px;
+  font-size: 0.66vw;
   border-radius: 0.19vw;
   border: 0.03vw solid #d5d9dd;
   width: 17vw;
   height: 1.56vw;
   padding-left: 0.47vw;
-  padding-right: 30px;
+  padding-right: 1vw;
 }
 .hinGbA::placeholder {
   color: #8f9092;
+  font-size: 0.66vw;
 }
 .hinGbA-icon {
   position: relative;
-  left: -15px;
-  width: 10px;
-  height: 10px;
+  left: -1.4vw;
+  width: 0.81vw;
+  height: 0.81vw;
   background-size: contain;
   background-image: url(../asset/icon/ic_search1.png);
 }
 .hinGbB {
   font-size: 0.69vw;
   color: #707070;
-  margin: 8px;
+  margin: 0.28vw;
 }
 .hinGbC {
   border-radius: 0.19vw;
   border: 0.03vw solid #d5d9dd;
-  margin-right: 4px;
+  margin-right: 0.4vw;
   width: 6.25vw;
   height: 1.56vw;
-  font-size: 9px;
+  font-size: 0.66vw;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -o-appearance: none;
+  background: url(../asset/icon/ic_arrowdown3.png) no-repeat right white;
+  background-size: 0.34vw auto;
+  background-position: 5.5vw 0.6vw !important;
+  padding-left: 0.5vw;
+  padding-right: 0.8vw;
 }
 .hinGbD {
   border-radius: 0.19vw;
   border: 0.03vw solid #d5d9dd;
-  margin-right: 4px;
+  margin-right: 0.4vw;
   width: 6.25vw;
   height: 1.56vw;
-  font-size: 9px;
+  font-size: 0.66vw;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -o-appearance: none;
+  background: url(../asset/icon/ic_arrowdown3.png) no-repeat right white;
+  background-size: 0.34vw auto;
+  background-position: 5.5vw 0.6vw !important;
+  padding-left: 0.5vw;
+  padding-right: 0.8vw;
 }
 .hinGbE {
   border-radius: 0.19vw;
@@ -194,7 +211,7 @@
 }
 .hinI {
   background-color: #f3f6f6;
-  padding: 0px 16px;
+  padding: 0vw 0.97vw;
 }
 .hinIa {
   border-radius: 0.19vw;
@@ -202,11 +219,11 @@
 }
 .hinIb {
   background-color: #c6d5fb;
-  height: 42px;
+  height: 2.88vw;
   display: flex;
   align-items: center;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 0.94vw;
   color: #123347;
 }
 .hinIbB {
@@ -249,7 +266,7 @@
   border-radius: 0.47vw;
 }
 .hinIcA {
-  height: 50px;
+  height: 4.13vw;
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -263,8 +280,8 @@
   justify-content: center;
 }
 .hinIcAbA {
-  height: 38px;
-  width: 38px;
+  height: 2.81vw;
+  width: 2.81vw;
   border-radius: 1.53vw;
   background-color: #c6d5fb;
   display: flex;
@@ -272,7 +289,7 @@
   justify-content: center;
   color: #5b7abe;
   font-weight: bold;
-  font-size: 15px;
+  font-size: 1.06vw;
 }
 /* .hinIcAc {
 } */
@@ -283,7 +300,7 @@
 }
 .hinIcAcB {
   color: #595d68;
-  font-size: 0.75vw;
+  font-size: 0.81vw;
 }
 .hinIcAd {
   font-size: 0.94vw;
@@ -327,25 +344,25 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0px1.53vw;
+  padding: 0vw 1.53vw;
   padding-bottom: 1.53vw;
 }
 .hinJb {
   font-weight: bold;
-  font-size: 10px;
+  font-size: 0.69vw;
   color: #242629;
 }
 .hinJa {
   font-weight: 500;
   display: flex;
   align-items: center;
-  font-size: 10px;
+  font-size: 0.69vw;
   color: #242629;
 }
 .hinJaB {
   width: 50px;
   margin: 0px 8px;
-  font-size: 10px;
+  font-size: 0.69vw;
   border: 0.03vw solid #c6d5fb;
   border-radius: 0.19vw;
   width: 38px;
@@ -360,15 +377,15 @@
 }
 .hinJbA {
   cursor: pointer;
-  padding: 5px 8px;
+  padding: 0.47vw 8px;
 }
 .hinJbB {
-  padding: 5px 4px;
+  padding: 0.47vw 0.25vw;
   background-color: white;
   border: 0.03vw solid #c6d5fb;
   border-radius: 0.19vw;
-  min-width: 10px;
-  margin: 0px 2px;
+  min-width: 0.95vw;
+  margin: 0vw 0.11vw;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -379,12 +396,16 @@
   background-color: #2d4c86;
   color: white;
 }
+/* ///////////////////////////////////////////////////////////////////////////////////////// */
+/* ///////////////////////////////////////////////////////////////////////////////////////// */
+/* ///////////////////////////////////////////////////////////////////////////////////////// */
+/* ///////////////////////////////////////////////////////////////////////////////////////// */
 .hinK {
   background-color: #f3f6f6;
-  padding: 0px 16px;
-  padding-top: 50px;
+  padding: 0vw 0.97vw;
+  padding-top: 4vw;
   overflow: auto;
-  height: calc(100vh - 300px);
+  height: calc(100vh - 22vw);
 }
 
 .hinKa {
@@ -397,63 +418,64 @@
   justify-content: space-between;
 }
 .hinKbA {
-  padding-right: 4%;
+  padding-right: 1.34vw;
 }
 .hinKbB {
-  width: 80px;
-  height: 2px;
+  width: 2.81vw;
+  height: 0.13vw;
   background-color: #2d4c86;
-  margin-top: 10px;
+  margin-top: 0.44vw;
 }
 .hinKbC {
   color: #757a82;
-  font-size: 10.03vw;
-  margin-top: 15px;
+  font-size: 0.78vw;
+  margin-top: 1.06vw;
 }
 .hinKbE {
-  min-width: 760px;
+  max-width: 62.59vw;
+  min-width: 62.59vw;
 }
 .hinKbEa {
   display: flex;
-  margin-bottom: 14px;
+  margin-bottom: 0.94vw;
 }
 .hinKbEaA {
-  width: 150px;
+  width: 13.44vw;
   display: flex;
   justify-content: flex-end;
-  font-size: 10.03vw;
+  font-size: 0.69vw;
   font-weight: 500;
   color: #3d424e;
-  margin-right: 16px;
-  margin-top: 5px;
+  margin-right: 0.97vw;
+  margin-top: 0.4vw;
 }
 .hinKbEaB {
-  width: 400px;
+  width: 27.6vw;
   border-radius: 0.19vw;
   border: 0.03vw solid #d5d9dd;
-  height: 20.19vw;
-  padding: 0px 7px;
-  font-size: 10.03vw;
+  height: 1.56vw;
+  padding: 0vw 0.47vw;
+  font-size: 0.69vw;
   color: #242629;
 }
 .hinKbEaB::placeholder {
-  font-size: 10px;
+  font-size: 0.69vw;
   color: #c2bebe;
 }
 .hinKbEaB:focus {
   outline: 0.03vw solid #2d4c86;
 }
-
 .hinKbEaD {
-  width: 400px;
+  width: 27.67vw;
+  height: 1.56vw;
   border-radius: 0.19vw;
   border: 0.03vw solid #d5d9dd;
-  padding: 0.47vw 7px;
-  font-size: 10.03vw;
+  padding: 0.47vw 0.47vw;
+  font-size: 0.69vw;
   color: #242629;
 }
 .hinKbEaD::placeholder {
-  font-size: 10px;
+  font-size: 0.69vw;
   color: #c2bebe;
 }
 .hinKbEaD:focus {
@@ -461,38 +483,95 @@
 }
 .hinKbEaE {
   display: flex;
-  align-items: center;
+  /* align-items: center; */
 }
 
 .hinKbEaEc {
-  font-size: 10.03vw;
+  font-size: 0.69vw;
   color: #c2bebe;
+  margin-top: .5vw;
 }
-
+.hinKbEaF {
+  display: flex;
+  flex-wrap: wrap;
+}
+.hinKbEaFa {
+  display: flex;
+  align-items: center;
+  height: 1.25vw;
+  border-radius: 0.19vw;
+  margin: 0vw 0.2vw;
+  margin-top: -0.5vw;
+  /* min-width: 4vw; */
+  font-size: 0.63vw;
+  padding: 0vw 0.44vw;
+  padding-right: 1vw;
+  background-color: var(--primart_blue);
+  color: white;
+}
+.hinKbEaFa-btn {
+  position: relative;
+  cursor: pointer;
+  left: 0.8vw;
+  background-image: url(../asset/icon/ic_bin_w.png);
+  background-repeat: no-repeat;
+  background-size: 0.56vw;
+  height: 1.25vw;
+  width: 0.6vw;
+  background-position: center;
+}
+.hinKbEaFa-btn:hover {
+  background-size: 0.62vw;
+}
+.hinKbEaG {
+  min-width: 9.56vw;
+  max-width: 9.56vw;
+  height: 1.56vw;
+  border-radius: 0.2vw;
+  color: white;
+  font-size: 0.69vw;
+  font-weight: 500;
+  background-color: var(--primart_blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.hinKbEaG:hover {
+  font-size: 0.72vw;
+  box-shadow: 1px 1px 2px skyblue;
+}
+.hinKbEaH {
+  background-color: white;
+  border-radius: 0.19vw;
+  border: 0.03vw solid #d5d9dd;
+  max-width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 0.94vw;
+  padding-bottom: .3vw;
+  max-width: 35vw;
+}
 .hinKbEb {
   display: flex;
   margin-bottom: 0.19vw;
-  margin-left: 170px;
-  font-size: 10.03vw;
+  margin-left: 14.75vw;
+  font-size: 0.69vw;
   font-weight: 500;
-  color: #3d424e;
 }
 .hinKbEbB {
-  width: 180px;
-  display: flex;
-}
-.hinKbEbB_ {
+  width: 13.46vw;
   display: flex;
 }
 .hinKbEbBa {
-  font-size: 10px;
+  font-size: 0.63vw;
   font-weight: 400;
   color: #c2bebe;
 }
 
 /* //////////////// */
 .hinL {
-  padding: 0px 16px;
+  padding: 0px 0.97vw;
   height: 50px;
   background-color: #f3f6f6;
   border-top: 0.03vw solid #c2bebe;
@@ -543,18 +622,17 @@
 }
 
 .hinKbEaC {
-  width: 130px;
+  width: 12.21vw;
+  margin-right: 0.38vw;
   border-radius: 0.19vw;
   border: 0.03vw solid #d5d9dd;
-  height: 20.19vw;
-  padding: 0px 7px;
-  padding-right: 30px;
-  font-size: 10.03vw;
+  height: 1.56vw;
+  padding: 0vw 0.38vw;
+  font-size: 0.69vw;
   color: #242629;
-  margin-right: 5px;
 }
 .hinKbEaC::placeholder {
-  font-size: 10px;
+  font-size: 0.69vw;
   color: #c2bebe;
 }
 .hinKbEaC:focus {
@@ -562,9 +640,9 @@
 }
 .hinKbEaC-unit {
   position: relative;
-  left: -35px;
-  width: 0px;
+  left: -2vw;
+  width: 0vw;
   margin-top: 0.47vw;
-  font-size: 10.03vw;
+  font-size: 0.69vw;
   color: #c2bebe;
 }

@@ -1,0 +1,130 @@
+.popB {
+  position: fixed;
+  top: 0vw;
+  bottom: 0vw;
+  right: 0vw;
+  left: 0vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #00000044;
+}
+.popBa {
+  border-radius: 0.19vw;
+  width: 58.5vw;
+  box-shadow: 0vw 0.19vw 0.44vw #00000059;
+  background-color: white;
+}
+
+.popBc {
+  padding: 0vw 1.06vw;
+  padding-top: 1.16vw;
+  padding-bottom: 0.3vw;
+  border-bottom: 0.03vw solid #707070;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.popBd {
+  display: flex;
+  align-items: flex-end;
+}
+.popBe {
+  color: #123347;
+  font-size: 1.5vw;
+  font-weight: 500;
+}
+.popBf {
+  font-size: 1.13vw;
+  font-weight: 500;
+  margin-left: 0.3vw;
+  margin-bottom: 0.05vw;
+}
+.popBg {
+  width: 1.5vw;
+  height: 1.5vw;
+  background-image: url(../asset/icon/ic_close_b.png);
+  background-repeat: no-repeat;
+  background-size: 1.25vw;
+  background-position: center;
+}
+.popBg:hover {
+  background-size: 1.35vw;
+}
+.popBh {
+  padding: 0.44vw 1.28vw;
+  color: #3d424e;
+  font-size: 0.84vw;
+}
+.popBi {
+  padding: 1.69vw;
+}
+.popBj {
+  display: flex;
+  justify-content: space-between;
+}
+.popBk {
+  width: 48.03vw;
+}
+.popBl {
+  color: var(--primart_blue);
+  font-size: 0.88vw;
+}
+.popBm {
+  width: calc(100% - 1vw);
+  padding: 0vw 0.4vw;
+  margin-top: 0.28vw;
+  height: 1.88vw;
+  border-radius: 0.22vw;
+  border: 0.03vw solid #c5c6ca;
+}
+.popBm:focus {
+  outline: none;
+  border: 0.03vw solid var(--primart_blue);
+}
+.popBn {
+  width: 6.51vw;
+}
+.popBn-btn {
+  position: relative;
+  width: 1.6vw;
+  height: 2vw;
+  left: calc(100% - 1.7vw);
+  top: -2vw;
+  background-image: url(../asset/icon/ic_drop_plus.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+.popBq {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: -2vw;
+}
+.popBr {
+  display: flex;
+  align-items: center;
+  height: 1.25vw;
+  border-radius: 0.19vw;
+  margin: 0vw 0.2vw;
+  font-size: 0.63vw;
+  margin-top: 5px;
+  padding: 0vw 0.44vw;
+  padding-right: .7vw;
+  background-color: var(--primart_blue);
+  color: white;
+}
+.popBr-btn {
+  position: relative;
+  cursor: pointer;
+  left: 0.4vw;
+  background-image: url(../asset/icon/ic_bin_w.png);
+  background-repeat: no-repeat;
+  background-size: 0.56vw;
+  height: 1.25vw;
+  width: .6vw;
+  background-position: center;
+}
+.popBr-btn:hover {
+  background-size: 0.62vw;
+}

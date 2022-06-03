@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import { Header1 } from "./headers";
 import "../style/hin.css";
 import icDownload from "../asset/icon/ic_download.png";
@@ -9,13 +9,14 @@ import { getProduct } from "../method/home_inventory";
 import { DropDown1, DropDown2, ImageUploder1 } from "./inputs";
 import { SelectButton1, SwitchButton1 } from "./buttons";
 import { getComaPriceDec } from "../module/simple";
+import { InventoryAddModifirePopup } from "./popups";
 
 export default class HomeInventory extends Component {
   constructor() {
     super();
     this.state = {
       page: 0,
-      addpage: false,
+      addpage: true,
       allProduct: null,
       prodectMaxCount: 10,
       productPage: 1,
@@ -24,6 +25,12 @@ export default class HomeInventory extends Component {
       error: null,
       product: null,
       loading: true,
+      //type1 ///////////
+      modifirePop: false,
+      allModifire: [],
+      sellOnline: true,
+      manageStock: true,
+      categoryDefault: true,
     };
   }
 
@@ -35,7 +42,8 @@ export default class HomeInventory extends Component {
   }
 
   render() {
-    const { page, addpage } = this.state;
+    const { page, addpage, modifirePop } = this.state;
+
     const setState = (v) => this.setState(v);
     const state = this.state;
 
@@ -111,6 +119,9 @@ export default class HomeInventory extends Component {
           ) : (
             <ProdectList state={state} setState={setState} />
           )
+        ) : null}
+        {modifirePop ? (
+          <InventoryAddModifirePopup setState={setState} state={state} />
         ) : null}
       </React.StrictMode>
     );
@@ -292,6 +303,12 @@ function ProdectList({ state, setState }) {
 function AddProdect({ state, setState }) {
   const edit = state.product;
   const isEdit = edit !== null;
+
+  const { allModifire, manageStock, sellOnline, categoryDefault } = state;
+
+  const [type, setType] = useState(0);
+  const [station, setStation] = useState([]);
+
   return (
     <form onSubmit={(e) => addInventory(e, state, setState)}>
       <div className="hinF">{edit ? "Edit" : "New"} Product</div>
@@ -302,6 +319,13 @@ function AddProdect({ state, setState }) {
         </div>
       </div>
       <div className="hinK">
+        {/* //////////////////////////////////////////////////////////// */}
+        {/* //////////////////////////////////////////////////////////// */}
+        {/* //////////////////////////////////////////////////////////// */}
+        {/* /////////////////////GENERAL DETAILS//////////////////////// */}
+        {/* //////////////////////////////////////////////////////////// */}
+        {/* //////////////////////////////////////////////////////////// */}
+        {/* //////////////////////////////////////////////////////////// */}
         <div className="hinKa">GENERAL DETAILS</div>
         <div className="hinKbB" />
         <div className="hinKb">
@@ -320,29 +344,42 @@ function AddProdect({ state, setState }) {
               <input
                 className="hinKbEaB"
                 defaultValue={isEdit ? edit.name : null}
+                id="product_name"
                 placeholder="Enter a name for your product"
               />
             </div>
+            <div className="hinKbEb">
+              <div className="hinKbEbB">Select product type</div>
+              <div className="hinKbEbB">Category *</div>
+            </div>
             <div className="hinKbEa">
-              <div className="hinKbEaA">Category *</div>
-              <DropDown1
-                dv={isEdit ? edit.name : null}
-                items={state.allCategoty}
-                ph={"Select or add a category for your product"}
-              />
+              <div className="hinKbEaA">Inventory type *</div>
+              <div className="hinKbEaE">
+                <DropDown2 id="product_type" />
+                <DropDown2
+                  id="category_id"
+                  ph={"Select alternate unit (optional)"}
+                />
+              </div>
             </div>
             <div className="hinKbEa">
               <div className="hinKbEaA">Product description</div>
               <textarea
                 rows={4}
+                id="product_description"
                 defaultValue={isEdit ? edit.name : null}
                 className="hinKbEaD"
                 placeholder="Enter a brief description for your product, this will be shown on all the linked selling channels for your customers."
               />
             </div>
             <div className="hinKbEa">
-              <div className="hinKbEaA">Product type *</div>
-              <DropDown1 ph={"Stock"} />
+              <div className="hinKbEaA">Manage stock</div>
+              <div className="hinKbEaE">
+                <SwitchButton1
+                  onTap={() => setState({ manageStock: !manageStock })}
+                  value={manageStock}
+                />
+              </div>
             </div>
             <div className="hinKbEb">
               <div className="hinKbEbB">Selling unit *</div>
@@ -351,8 +388,11 @@ function AddProdect({ state, setState }) {
             <div className="hinKbEa">
               <div className="hinKbEaA">Units *</div>
               <div className="hinKbEaE">
-                <DropDown2 />
-                <DropDown2 ph={"Select alternate unit (optional)"} />
+                <DropDown2 id="primary_unit" />
+                <DropDown2
+                  id="secondry_unit"
+                  ph={"Select alternate unit (optional)"}
+                />
               </div>
             </div>
             <div className="hinKbEb">
@@ -369,7 +409,10 @@ function AddProdect({ state, setState }) {
             <div className="hinKbEa">
               <div className="hinKbEaA">Sell online</div>
               <div className="hinKbEaE">
-                <SwitchButton1 />
+                <SwitchButton1
+                  onTap={() => setState({ sellOnline: !sellOnline })}
+                  value={sellOnline}
+                />
                 <div className="hinKbEaEc">
                   Make this product active and available for sale on all linked
                   online channels
@@ -384,8 +427,24 @@ function AddProdect({ state, setState }) {
               <div className="hinKbEaA">Select production station</div>
               <DropDown1 ph={"Select a production station for your product"} />
             </div>
+            <div className="hinKbEa">
+              <div className="hinKbEaA" />
+              <div className="hinKbEaF">
+                <div className="hinKbEaFa">
+                  Apple
+                  <div className="hinKbEaFa-btn" />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
+        {/* //////////////////////////////////////////////////////////// */}
+        {/* //////////////////////////////////////////////////////////// */}
+        {/* //////////////////////////////////////////////////////////// */}
+        {/* ///////////////////INVENTORY INFORMATION//////////////////// */}
+        {/* //////////////////////////////////////////////////////////// */}
+        {/* //////////////////////////////////////////////////////////// */}
+        {/* //////////////////////////////////////////////////////////// */}
         <div className="hinKa">INVENTORY INFORMATION</div>
         <div className="hinKbB" />
         <div className="hinKb">
@@ -401,59 +460,203 @@ function AddProdect({ state, setState }) {
           <div className="hinKbE">
             <div className="hinKbEa">
               <div className="hinKbEaA">Product type*</div>
-              <SelectButton1 />
+              <SelectButton1 dis={isEdit} type={type} setType={setType} />
             </div>
-            <div className="hinKbEb">
-              <div className="hinKbEbB_">
-                SKU7&nbsp;
-                <div className="hinKbEbBa">
-                  will be auto generated once you left this blank
+            {/* ----------------------------------------------------------------- */}
+            {/* -------------------------type 1---------------------------------- */}
+            {/* ----------------------------------------------------------------- */}
+            {type === 0 ? (
+              <React.StrictMode>
+                {/* ///////////// */}
+                <div className="hinKbEb">
+                  <div className="hinKbEbB">
+                    SKU7&nbsp;
+                    <div className="hinKbEbBa">
+                      will be auto generated once left blank
+                    </div>
+                  </div>
+                  <div className="hinKbEbB">
+                    EAN&nbsp;
+                    <div className="hinKbEbBa">
+                      will be used for integrations
+                    </div>
+                  </div>
+                </div>
+                <div className="hinKbEa">
+                  <div className="hinKbEaA">Product Barcode (SKU)</div>
+                  <input
+                    className="hinKbEaC"
+                    placeholder="Only uppercase letters and numbers"
+                  />
+                  <input
+                    className="hinKbEaC"
+                    placeholder="Only numeric characters"
+                  />
+                </div>
+                {/* ///////////// */}
+                <div className="hinKbEb">
+                  <div className="hinKbEbB">Supplier / Cost*</div>
+                  <div className="hinKbEbB">Purchase unit </div>
+                </div>
+                <div className="hinKbEa">
+                  <div className="hinKbEaA">Purchase Info *</div>
+                  <input
+                    className="hinKbEaC"
+                    id="purchase_price"
+                    placeholder="Enter cost / purchase price"
+                  />
+                  <DropDown2 />
+                </div>
+                {/* ////////////////// */}
+                <div className="hinKbEb">
+                  <div className="hinKbEbB">
+                    MRP * &nbsp;
+                    <div className="hinKbEbBa">Maximum Retail Price</div>
+                  </div>
+                  <div className="hinKbEbB">
+                    RRP &nbsp;
+                    <div className="hinKbEbBa">Recommended Retail Price</div>
+                  </div>
+                  <div className="hinKbEbB">Online Price</div>
+                </div>
+                <div className="hinKbEa">
+                  <div className="hinKbEaA">Selling info *</div>
+                  <input
+                    id="mrp"
+                    className="hinKbEaC"
+                    placeholder="Enter MRP"
+                  />
+                  <span className="hinKbEaC-unit">/PSC</span>
+                  <input
+                    id="selling_price"
+                    className="hinKbEaC"
+                    placeholder="Enter RRP"
+                  />
+                  <span className="hinKbEaC-unit">/PSC</span>
+                  <input
+                    id="online_price"
+                    className="hinKbEaC"
+                    placeholder="Enter online price"
+                  />
+                  <span className="hinKbEaC-unit">/PSC</span>
+                </div>
+                {/* ////////////////// */}
+                <div className="hinKbEb">
+                  <div className="hinKbEbB">
+                    Stock &nbsp;
+                    <div className="hinKbEbBa">
+                      Available stock in primary selling unit
+                    </div>
+                  </div>
+                  <div className="hinKbEbB">
+                    MSL &nbsp;
+                    <div className="hinKbEbBa">Minimum stock level</div>
+                  </div>
+                </div>
+                <div className="hinKbEa">
+                  <div className="hinKbEaA">Selling info *</div>
+                  <input className="hinKbEaC" placeholder="" />
+                  <span className="hinKbEaC-unit">/PSC</span>
+                  <input
+                    className="hinKbEaC"
+                    placeholder="Enter minimum stock level"
+                    id="min_stock_level"
+                  />
+                  <span className="hinKbEaC-unit">/PSC</span>
+                </div>
+              </React.StrictMode>
+            ) : null}
+            {/* ----------------------------------------------------------------- */}
+            {/* -------------------------type 2---------------------------------- */}
+            {/* ----------------------------------------------------------------- */}
+            {type === 0 ? <React.StrictMode></React.StrictMode> : null}
+            {/* ----------------------------------------------------------------- */}
+            {/* -------------------------type 3---------------------------------- */}
+            {/* ----------------------------------------------------------------- */}
+            {type === 0 ? <React.StrictMode></React.StrictMode> : null}
+          </div>
+        </div>
+        {/* //////////////////////////////////////////////////////////// */}
+        {/* //////////////////////////////////////////////////////////// */}
+        {/* //////////////////////////////////////////////////////////// */}
+        {/* /////////////////////MODIFIER SETTINGS////////////////////// */}
+        {/* //////////////////////////////////////////////////////////// */}
+        {/* //////////////////////////////////////////////////////////// */}
+        {/* //////////////////////////////////////////////////////////// */}
+        {type === 0 ? (
+          <React.StrictMode>
+            <div className="hinKa">MODIFIER SETTINGS</div>
+            <div className="hinKbB" />
+            <div className="hinKb">
+              <div className="hinKbA">
+                <div className="hinKbC">
+                  How you want to store, list, track and sell your new product?
+                </div>
+                <div className="hinKbC">
+                  You can set product supply details, suppliers, selling
+                  channels, supply & sales details in this section.
+                </div>
+              </div>
+              <div className="hinKbE">
+                <div className="hinKbEa">
+                  <div className="hinKbEaA">Apply category defaults</div>
+                  <div className="hinKbEaE">
+                    <SwitchButton1
+                      onTap={() =>
+                        setState({ categoryDefault: !categoryDefault })
+                      }
+                      value={categoryDefault}
+                    />
+                    <div className="hinKbEaEc">
+                      Apply the modifiers saved against parent category
+                    </div>
+                  </div>
+                </div>
+                <br />
+                <br />
+                <div className="hinKbEb">
+                  <div className="hinKbEbB">
+                    Multiple Selectable &nbsp;
+                    <div className="hinKbEbBa">
+                      e.g. No sugar, cook well etc.
+                    </div>
+                  </div>
+                </div>
+                <div className="hinKbE">
+                  <div className="hinKbEa">
+                    <div className="hinKbEaA">
+                      Add product specific modifiers
+                    </div>
+                    <div className="hinKbEaE">
+                      <div
+                        className="hinKbEaG"
+                        onClick={() => setState({ modifirePop: true })}
+                      >
+                        + ADD MODIFIERS
+                      </div>
+                      <div className="hinKbEaH">
+                        {allModifire.map((it, k) => (
+                          <div key={k} className="popBr">
+                            {it.title}
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            {it.price}
+                            <div
+                              className="popBr-btn"
+                              onClick={() => {
+                                allModifire.splice(k, 1);
+                                setState({ allModifire });
+                              }}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="hinKbEa">
-              <div className="hinKbEaA">Product Barcode (SKU)</div>
-              <input
-                className="hinKbEaB"
-                placeholder="Only use uppercase letters and numbers, no symbols or spaces"
-              />
-            </div>
-            <div className="hinKbEb">
-              <div className="hinKbEbB_">Supplier / Cost*</div>
-            </div>
-            <div className="hinKbEa">
-              <div className="hinKbEaA">Purchase Info *</div>
-              <input
-                className="hinKbEaC"
-                placeholder="Enter cost / purchase price"
-              />
-            </div>
-            <div className="hinKbEb">
-              <div className="hinKbEbB">
-                MRP * &nbsp;
-                <div className="hinKbEbBa">Maximum Retail Price</div>
-              </div>
-              <div className="hinKbEbB">
-                RRP &nbsp;
-                <div className="hinKbEbBa">Recommended Retail Price</div>
-              </div>
-              <div className="hinKbEbB">Online Price</div>
-            </div>
-            <div className="hinKbEa">
-              <div className="hinKbEaA">Selling info *</div>
-              <input className="hinKbEaC" placeholder="Enter MRP" />
-              <span className="hinKbEaC-unit">/PSC</span>
-              <input className="hinKbEaC" placeholder="Enter RRP" />
-              <span className="hinKbEaC-unit">/PSC</span>
-              <input className="hinKbEaC" placeholder="Enter online price" />
-              <span className="hinKbEaC-unit">/PSC</span>
-            </div>
-            <div className="hinKbEa">
-              <div className="hinKbEaA">Current Stock *</div>
-              <input className="hinKbEaC" placeholder="0.00" />
-            </div>
-          </div>
-        </div>
+          </React.StrictMode>
+        ) : null}
       </div>
       <div className="hinL">
         {isEdit ? <div className="hinLa">DELETE PRODECT</div> : <div />}
