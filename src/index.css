@@ -70,3 +70,15 @@ button {
 :root {
   --primart_blue: #2d4c86;
 }
+
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.gblINet {
+  border: none;
+}
+.gblINet:focus {
+  outline: none;
+}

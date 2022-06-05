@@ -4,22 +4,25 @@ import imgAdd from "../asset/image/add_img.png";
 import imgReorder from "../asset/image/reorder_img.png";
 import imgDelete from "../asset/image/delete_img.png";
 
-export function DropDown1({ ph, id, items, dv }) {
+export function DropDown1({ ph, id, items, dv, setState, allStations }) {
   const [checked, setChecked] = useState(false);
   return (
     <select
       className="inpA"
       style={checked ? { color: "black" } : {}}
-      onChange={() => setChecked(true)}
+      onChange={(e) => {
+        setChecked(true);
+        allStations.push(e.target.value);
+        setState({ allStations });
+      }}
       defaultValue={dv}
     >
       <option disabled selected hidden>
         {ph}
       </option>
-
       {items != null
         ? items.map((item, k) => (
-            <option key={k} value={item.id}>
+            <option key={k} value={item.name}>
               {item.name}
             </option>
           ))
@@ -36,11 +39,14 @@ export function DropDown2({ ph, id, items }) {
       style={checked ? { color: "black" } : {}}
       onChange={() => setChecked(true)}
     >
-      <option disabled selected hidden>
-        {ph}
-      </option>
-      <option>jkjkj</option>
-      <option>jkjkj</option>
+      {ph !== null ? (
+        <option disabled selected hidden>
+          {ph}
+        </option>
+      ) : null}
+      {items != null
+        ? items.map((item) => <option value={item.id}>{item.name}</option>)
+        : null}
     </select>
   );
 }

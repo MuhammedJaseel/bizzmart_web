@@ -1,36 +1,36 @@
 .btnA {
   cursor: pointer;
   background-color: #2d4c86;
-  width: 3.13vw;
-  height: 1.84vw;
-  border-radius: 1.84vw;
+  width: 3vw;
+  height: 1.80vw;
+  border-radius: 1.80vw;
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding: 0.13vw;
+  padding: 0.15vw;
   margin-right: 0.18vw;
 }
 .btnA_ {
   cursor: pointer;
   background-color: #abadaf;
-  width: 3.13vw;
-  height: 1.84vw;
-  border-radius: 1.84vw;
+  width: 3vw;
+  height: 1.80vw;
+  border-radius: 1.80vw;
   display: flex;
   align-items: center;
-  padding: 0.13vw;
+  padding: 0.15vw;
   margin-right: 0.18vw;
 }
 .btnAa {
-  width: 1.75vw;
-  height: 1.75vw;
-  border-radius: 1.75vw;
+  width: 1.63vw;
+  height: 1.63vw;
+  border-radius: 1.63vw;
   background-color: white;
 }
 .btnAa_ {
-  width: 1.75vw;
-  height: 1.75vw;
-  border-radius: 1.75vw;
+  width: 1.63vw;
+  height: 1.63vw;
+  border-radius: 1.63vw;
   background-color: white;
 }
 /* //////////////////////////////////////////////////// */

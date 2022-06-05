@@ -87,3 +87,20 @@ export function InventoryAddModifirePopup({ setState, state }) {
     </div>
   );
 }
+
+export function SuccesPopup({ show, setState }) {
+  return (
+    <div className={show ? "popCa_  " : "popCa"}>
+      <div className="popCb">
+        <div className="popCc" onClick={() => setState({ succesPop: false })} />
+      </div>
+      <div className="popCd">
+        <div className="popCe" />
+        <div className="popCf">
+          <div className="popCg">Product added successfully</div>
+          <div className="popCh">Updated Successfully</div>
+        </div>
+      </div>
+    </div>
+  );
+}

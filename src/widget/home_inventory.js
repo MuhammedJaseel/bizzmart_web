@@ -9,29 +9,46 @@ import { getProduct } from "../method/home_inventory";
 import { DropDown1, DropDown2, ImageUploder1 } from "./inputs";
 import { SelectButton1, SwitchButton1 } from "./buttons";
 import { getComaPriceDec } from "../module/simple";
-import { InventoryAddModifirePopup } from "./popups";
+import { InventoryAddModifirePopup, SuccesPopup } from "./popups";
+import { prodectTypes, taxTypes, unitTypes } from "../module/home_inventory";
 
 export default class HomeInventory extends Component {
   constructor() {
     super();
     this.state = {
+      loading: true,
+      error: null,
       page: 0,
       addpage: true,
+      // Product data
       allProduct: null,
       prodectMaxCount: 10,
       productPage: 1,
       totelProduct: 0,
-      allCategoty: [],
-      error: null,
       product: null,
-      loading: true,
+      // sub data /////////
+      allCategoty: [],
+      allUnits: [],
+      allKot: [],
+      allTax: [],
       //type1 ///////////
       modifirePop: false,
       allModifire: [],
+      allStations: [],
       sellOnline: true,
       manageStock: true,
       categoryDefault: true,
+      // type 2
+      allVariant1: [],
+      allVariant2: [],
+      allVariantList: [],
+
+      succesPop: false,
     };
+  }
+
+  componentDidUpdate() {
+    this.state.succesPop = false;
   }
 
   componentDidMount() {
@@ -42,7 +59,7 @@ export default class HomeInventory extends Component {
   }
 
   render() {
-    const { page, addpage, modifirePop } = this.state;
+    const { page, addpage, modifirePop, succesPop } = this.state;
 
     const setState = (v) => this.setState(v);
     const state = this.state;
@@ -123,6 +140,7 @@ export default class HomeInventory extends Component {
         {modifirePop ? (
           <InventoryAddModifirePopup setState={setState} state={state} />
         ) : null}
+        <SuccesPopup show={succesPop} setState={setState} />
       </React.StrictMode>
     );
   }
@@ -304,9 +322,13 @@ function AddProdect({ state, setState }) {
   const edit = state.product;
   const isEdit = edit !== null;
 
-  const { allModifire, manageStock, sellOnline, categoryDefault } = state;
+  const { manageStock, sellOnline, categoryDefault } = state;
+  const { allModifire, allStations } = state;
+  const { allCategoty, allUnits, allKot, allTax } = state;
+  const { allVariant1, allVariant2 } = state;
+  var { allVariantList } = state;
 
-  const [type, setType] = useState(0);
+  const [type, setType] = useState(1);
   const [station, setStation] = useState([]);
 
   return (
@@ -355,8 +377,9 @@ function AddProdect({ state, setState }) {
             <div className="hinKbEa">
               <div className="hinKbEaA">Inventory type *</div>
               <div className="hinKbEaE">
-                <DropDown2 id="product_type" />
+                <DropDown2 id="product_type" items={prodectTypes} />
                 <DropDown2
+                  items={allCategoty}
                   id="category_id"
                   ph={"Select alternate unit (optional)"}
                 />
@@ -366,7 +389,7 @@ function AddProdect({ state, setState }) {
               <div className="hinKbEaA">Product description</div>
               <textarea
                 rows={4}
-                id="product_description"
+                id="product_description "
                 defaultValue={isEdit ? edit.name : null}
                 className="hinKbEaD"
                 placeholder="Enter a brief description for your product, this will be shown on all the linked selling channels for your customers."
@@ -388,9 +411,10 @@ function AddProdect({ state, setState }) {
             <div className="hinKbEa">
               <div className="hinKbEaA">Units *</div>
               <div className="hinKbEaE">
-                <DropDown2 id="primary_unit" />
+                <DropDown2 id="primary_unit" items={allUnits} />
                 <DropDown2
                   id="secondry_unit"
+                  items={allUnits}
                   ph={"Select alternate unit (optional)"}
                 />
               </div>
@@ -398,12 +422,21 @@ function AddProdect({ state, setState }) {
             <div className="hinKbEb">
               <div className="hinKbEbB">Tax slab</div>
               <div className="hinKbEbB">Tax treatment</div>
+              <div className="hinKbEbB">
+                HSN&nbsp;
+                <div className="hinKbEbBa">will be used for GST reports</div>
+              </div>
             </div>
             <div className="hinKbEa">
               <div className="hinKbEaA">Tax info *</div>
               <div className="hinKbEaE">
-                <DropDown2 />
-                <DropDown2 />
+                <DropDown2 items={allTax} id="selling_tax" />
+                <DropDown2 items={taxTypes} />
+                <input
+                  id="hsncode"
+                  className="hinKbEaC"
+                  placeholder="Only numeric characters"
+                />
               </div>
             </div>
             <div className="hinKbEa">
@@ -425,15 +458,28 @@ function AddProdect({ state, setState }) {
             </div>
             <div className="hinKbEa">
               <div className="hinKbEaA">Select production station</div>
-              <DropDown1 ph={"Select a production station for your product"} />
+              <DropDown1
+                setState={setState}
+                items={allKot}
+                allStations={allStations}
+                ph={"Select a production station for your product"}
+              />
             </div>
             <div className="hinKbEa">
               <div className="hinKbEaA" />
               <div className="hinKbEaF">
-                <div className="hinKbEaFa">
-                  Apple
-                  <div className="hinKbEaFa-btn" />
-                </div>
+                {allStations.map((stat, k) => (
+                  <div className="hinKbEaFa" key={k}>
+                    {stat}
+                    <div
+                      className="hinKbEaFa-btn"
+                      onClick={() => {
+                        allStations.splice(k, 1);
+                        setState({ allStations });
+                      }}
+                    />
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -485,6 +531,7 @@ function AddProdect({ state, setState }) {
                 <div className="hinKbEa">
                   <div className="hinKbEaA">Product Barcode (SKU)</div>
                   <input
+                    id="bar_code"
                     className="hinKbEaC"
                     placeholder="Only uppercase letters and numbers"
                   />
@@ -505,7 +552,7 @@ function AddProdect({ state, setState }) {
                     id="purchase_price"
                     placeholder="Enter cost / purchase price"
                   />
-                  <DropDown2 />
+                  <DropDown2 items={unitTypes} />
                 </div>
                 {/* ////////////////// */}
                 <div className="hinKbEb">
@@ -523,18 +570,21 @@ function AddProdect({ state, setState }) {
                   <div className="hinKbEaA">Selling info *</div>
                   <input
                     id="mrp"
+                    type="number"
                     className="hinKbEaC"
                     placeholder="Enter MRP"
                   />
                   <span className="hinKbEaC-unit">/PSC</span>
                   <input
                     id="selling_price"
+                    type="number"
                     className="hinKbEaC"
                     placeholder="Enter RRP"
                   />
                   <span className="hinKbEaC-unit">/PSC</span>
                   <input
                     id="online_price"
+                    type="number"
                     className="hinKbEaC"
                     placeholder="Enter online price"
                   />
@@ -555,7 +605,12 @@ function AddProdect({ state, setState }) {
                 </div>
                 <div className="hinKbEa">
                   <div className="hinKbEaA">Selling info *</div>
-                  <input className="hinKbEaC" placeholder="" />
+                  <input
+                    id="opening_stock"
+                    type="number"
+                    className="hinKbEaC"
+                    placeholder=""
+                  />
                   <span className="hinKbEaC-unit">/PSC</span>
                   <input
                     className="hinKbEaC"
@@ -569,13 +624,169 @@ function AddProdect({ state, setState }) {
             {/* ----------------------------------------------------------------- */}
             {/* -------------------------type 2---------------------------------- */}
             {/* ----------------------------------------------------------------- */}
-            {type === 0 ? <React.StrictMode></React.StrictMode> : null}
+            {type === 1 ? (
+              <React.StrictMode>
+                <div className="hinKbEb">
+                  <div className="hinKbEbB">
+                    Single Selectable* &nbsp;
+                    <div className="hinKbEbBa">e.g. Colour, Size etc.</div>
+                  </div>
+                </div>
+                <div className="hinKbEa">
+                  <div className="hinKbEaA">Variant attributes *</div>
+                  <input className="hinKbEaJ" placeholder="CAPACITY" />
+                  <div className="hinKbEaJ-btn" />
+                  <div className="hinKbEaK">
+                    {allVariant1.map((it, k) => (
+                      <div key={k} className="popBr">
+                        {it}
+                        <div
+                          className="popBr-btn"
+                          onClick={() => {
+                            allVariant1.splice(k, 1);
+                            setState({ allVariant1 });
+                          }}
+                        />
+                      </div>
+                    ))}
+                    <input
+                      className="gblINet"
+                      onChange={(e) => {
+                        const val = e.target.value.split(",");
+                        if (val.length > 1) {
+                          e.target.value = "";
+                          allVariant1.push(val[0]);
+                          setState({ allVariant1 });
+                        }
+                      }}
+                    />
+                  </div>
+                  <SwitchButton1 />
+                  <div>
+                    <div className="hinKbEaL">
+                      Set as primary attribute
+                      <div className="hinKbEaLa">
+                        Prices will be binded with primary
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="hinKbEb">
+                  <div className="hinKbEbB">
+                    Single Selectable* &nbsp;
+                    <div className="hinKbEbBa">e.g. Colour, Size etc.</div>
+                  </div>
+                </div>
+                <div className="hinKbEa">
+                  <div className="hinKbEaA">Variant attributes</div>
+                  <input className="hinKbEaJ" placeholder="CAPACITY" />
+                  <div className="hinKbEaJ-btn" />
+                  <div className="hinKbEaK">
+                    {allVariant2.map((it, k) => (
+                      <div key={k} className="popBr">
+                        {it}
+                        <div
+                          className="popBr-btn"
+                          onClick={() => {
+                            allVariant2.splice(k, 1);
+                            setState({ allVariant2 });
+                          }}
+                        />
+                      </div>
+                    ))}
+                    <input
+                      className="gblINet"
+                      onChange={(e) => {
+                        const val = e.target.value.split(",");
+                        if (val.length > 1) {
+                          e.target.value = "";
+                          allVariant2.push(val[0]);
+                          setState({ allVariant2 });
+                        }
+                      }}
+                    />
+                  </div>
+                </div>
+                <div
+                  className="hinKbEc"
+                  onClick={() => {
+                    allVariantList = [];
+                    for (let i = 0; i < allVariant1.length; i++) {
+                      const e1 = allVariant1[i];
+                      for (let j = 0; j < allVariant2.length; j++) {
+                        const e2 = allVariant2[j];
+                        allVariantList.push({ title: `${e1}/${e2}` });
+                      }
+                    }
+                    setState({ allVariantList });
+                  }}
+                >
+                  SETUP INVENTORY
+                </div>
+              </React.StrictMode>
+            ) : null}
             {/* ----------------------------------------------------------------- */}
             {/* -------------------------type 3---------------------------------- */}
             {/* ----------------------------------------------------------------- */}
-            {type === 0 ? <React.StrictMode></React.StrictMode> : null}
+            {type === 2 ? <React.StrictMode></React.StrictMode> : null}
           </div>
         </div>
+        {/* //////////////////////////////////////////////////////////// */}
+        {/* //////////////////////////////////////////////////////////// */}
+        {/* //////////////////////////////////////////////////////////// */}
+        {/* /////////////////////VARIANT INFORMATION//////////////////// */}
+        {/* //////////////////////////////////////////////////////////// */}
+        {/* //////////////////////////////////////////////////////////// */}
+        {/* //////////////////////////////////////////////////////////// */}
+        {type === 1 && allVariantList.length !== 0 ? (
+          <React.StrictMode>
+            <div className="hinKa">VARIANT INFORMATION</div>
+            <div className="hinKbB" />
+            <div className="hinKb">
+              <div className="hinKbA">
+                <div className="hinKbC">
+                  What all variants are you planning for this product?
+                </div>
+                <div className="hinKbC">
+                  You can set product variants and sub classifications with SKU,
+                  Pricing and listing details in this section.
+                </div>
+                <div className="hinKbC">
+                  Choose up to two variable attributes for your product to
+                  create and manage SKUs and their inventory levels.
+                </div>
+              </div>
+              <div className="hinKbE">
+                <div className="hinKbEd">
+                  <div className="hinKbEdA">
+                    <div className="hinKbEdAa">Variant</div>
+                    <div className="hinKbEdAb">SKU</div>
+                    <div className="hinKbEdAb">EAN</div>
+                    <div className="hinKbEdAc">Stock</div>
+                    <div className="hinKbEdAc">MSL</div>
+                    <div className="hinKbEdAd">Cost*</div>
+                    <div className="hinKbEdAd">MRP*</div>
+                    <div className="hinKbEdAd">RRP</div>
+                    <div className="hinKbEdAc">Online Price</div>
+                  </div>
+                  {allVariantList.map((item, k) => (
+                    <div key={k} className="hinKbEdB">
+                      <div className="hinKbEdAa">{item.title}</div>
+                      <input className="hinKbEdAb hinKbEdBa" />
+                      <input className="hinKbEdAb hinKbEdBa" />
+                      <input className="hinKbEdAc hinKbEdBa" />
+                      <input className="hinKbEdAc hinKbEdBa" />
+                      <input className="hinKbEdAd hinKbEdBa" />
+                      <input className="hinKbEdAd hinKbEdBa" />
+                      <input className="hinKbEdAd hinKbEdBa" />
+                      <input className="hinKbEdAc hinKbEdBa" />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </React.StrictMode>
+        ) : null}
         {/* //////////////////////////////////////////////////////////// */}
         {/* //////////////////////////////////////////////////////////// */}
         {/* //////////////////////////////////////////////////////////// */}
@@ -583,7 +794,7 @@ function AddProdect({ state, setState }) {
         {/* //////////////////////////////////////////////////////////// */}
         {/* //////////////////////////////////////////////////////////// */}
         {/* //////////////////////////////////////////////////////////// */}
-        {type === 0 ? (
+        {type !== 2 ? (
           <React.StrictMode>
             <div className="hinKa">MODIFIER SETTINGS</div>
             <div className="hinKbB" />

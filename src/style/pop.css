@@ -110,7 +110,7 @@
   font-size: 0.63vw;
   margin-top: 5px;
   padding: 0vw 0.44vw;
-  padding-right: .7vw;
+  padding-right: 0.7vw;
   background-color: var(--primart_blue);
   color: white;
 }
@@ -122,9 +122,75 @@
   background-repeat: no-repeat;
   background-size: 0.56vw;
   height: 1.25vw;
-  width: .6vw;
+  width: 0.6vw;
   background-position: center;
 }
 .popBr-btn:hover {
   background-size: 0.62vw;
+}
+
+/* ///////////////////////////////////////////////////////////////////// */
+/* ///////////////////////////////////////////////////////////////////// */
+/* ///////////////////////////////////////////////////////////////////// */
+/* ///////////////////////////////////////////////////////////////////// */
+
+.popCa {
+  transition: 0.5s;
+  right: -27.5vw;
+  position: fixed;
+  bottom: 3.09vw;
+  width: 25vw;
+  height: 5.5vw;
+  padding: 0.63vw;
+  border-radius: 0.78vw;
+  background-color: #039003;
+  color: white;
+}
+.popCa_ {
+  transition: 0.5s;
+  right: 2.5vw;
+  position: fixed;
+  bottom: 3.09vw;
+  width: 25vw;
+  height: 5.8vw;
+  padding: 0.5vw;
+  border-radius: 0.78vw;
+  background-color: #039003;
+  color: white;
+  cursor: pointer;
+}
+.popCb {
+  display: flex;
+  justify-content: flex-end;
+}
+.popCc {
+  width: 1.5vw;
+  height: 1.5vw;
+  background-image: url(../asset/icon/ic_close_w.png);
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.popCd {
+  display: flex;
+}
+.popCe {
+  width: 3.31vw;
+  height: 3.31vw;
+  margin: 0vw 1vw;
+  background-image: url(../asset/icon/eye1.png);
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.popCf {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.popCg {
+  font-size: 1.56vw;
+}
+.popCh {
+  font-size: 0.94vw;
 }
