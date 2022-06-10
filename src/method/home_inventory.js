@@ -1,6 +1,7 @@
 import { logDOM } from "@testing-library/react";
 import axios from "axios";
 import { baseApi } from "../module/api_int";
+import { getTodayType1 } from "../module/simple";
 
 const headers = {
   Authorization: "Bearer " + window.localStorage.getItem("bearer_token"),
@@ -10,7 +11,7 @@ const headers = {
 export async function getProduct(state, setState) {
   const { prodectMaxCount, productPage } = state;
   const body = {
-    branch_id: 178,
+    branch_id: window.localStorage.getItem("branch_id"),
     page_number: productPage,
     limit: prodectMaxCount,
   };
@@ -35,26 +36,26 @@ export async function getProduct(state, setState) {
 export async function getCategoryList(state, setState) {
   var getCat = axios.post(
     baseApi + "categoryLists",
-    { branch_id: 178 },
+    { branch_id: window.localStorage.getItem("branch_id") },
     { headers }
   );
   var getUnit = axios.post(
     baseApi + "unitLists",
-    { branch_id: 178 },
+    { branch_id: window.localStorage.getItem("branch_id") },
     { headers }
   );
   var getKot = axios.post(
     baseApi + "KOTLists",
-    { branch_id: 178 },
+    { branch_id: window.localStorage.getItem("branch_id") },
     { headers }
   );
-  var getKot = axios.post(
+  var getTax = axios.post(
     baseApi + "taxLists",
-    { branch_id: 178 },
+    { branch_id: window.localStorage.getItem("branch_id") },
     { headers }
   );
 
-  await Promise.all([getCat, getUnit, getKot])
+  await Promise.all([getCat, getUnit, getKot, getTax])
     .then((res) => {
       if (res[0].data.statusCode === 200 || res[0].data.statusCode === 210)
         setState({ allCategoty: res[0].data.data });
@@ -62,89 +63,95 @@ export async function getCategoryList(state, setState) {
         setState({ allUnits: res[1].data.data });
       if (res[2].data.statusCode === 200)
         setState({ allKot: res[2].data.data });
-      if (res[2].data.statusCode === 200)
-        setState({ allTax: res[2].data.data });
+      if (res[3].data.statusCode === 200)
+        setState({ allTax: res[3].data.data });
     })
     .catch(() => setState({ error: "Not Fount" }));
 }
 
-export async function addInventory(e, state, setState) {
+export async function addInventory(e, state, setState, type, unit) {
+  const { allTax } = state;
+
   e.preventDefault();
-
   const data = e.target;
-
   const formData = new FormData(e.target);
 
-  formData.append("branch_id", "178");
+  const taxType = data.tax_inclusion.value;
+  const purchasePrice = data.purchase_price.value;
+
+  var proTax = 0;
+  var costPrice = "";
+  var costTaxAmount = "";
+  var costWithTax = "";
+
+  for (let i = 0; i < allTax.length; i++) {
+    if (allTax[i].id.toString() === data.selling_tax.value) {
+      proTax = allTax[i].rate + allTax[i].cess;
+      break;
+    }
+  }
+
+  if (taxType === "Inclusive") {
+    costPrice = purchasePrice / ((1 + proTax) / 100); //rate + cess
+    costTaxAmount = purchasePrice - costPrice;
+    costWithTax = purchasePrice;
+  } else {
+    costPrice = purchasePrice; //rate + cess
+    costTaxAmount = purchasePrice * (proTax / 100);
+    costWithTax = costPrice + costTaxAmount;
+  }
+
+  formData.append("branch_id", window.localStorage.getItem("branch_id"));
   formData.append("product_name", data.product_name.value);
-  formData.append("product_type", data.product_type.value);
+  formData.append("product_type", type + 1);
   formData.append("is_service", 0);
   formData.append("category_id", data.category_id.value);
-  formData.append("purchase_price", "test");
-  formData.append("cost_price", "test");
-  formData.append("cost_with_tax", "test");
-  formData.append("selling_price", "test");
-  formData.append("online_price", "test");
-  formData.append("cost_tax_amount", "test");
-  formData.append("mrp", "test");
-  formData.append("selling_tax", "test");
-  formData.append("cost_tax", "test");
-  formData.append("online_tax", "test");
-  formData.append("bar_code", "test");
-  formData.append("hsncode", "test");
-  formData.append("primary_unit", "test");
-  formData.append("secondry_unit", "test");
-  formData.append("enable_unit_conversion", "test");
-  formData.append("conversion", "test");
-  formData.append("opening_stock", "test");
-  formData.append("stock_date", "test");
-  formData.append("stock_price", "test");
-  formData.append("stock_unit", "test");
-  formData.append("min_stock_level", "test");
-  formData.append("product_description", "test");
-  formData.append("tax_inclusion", "test");
-  formData.append("image", "test");
+  formData.append("purchase_price", purchasePrice);
+  formData.append("cost_price", costPrice);
 
-  console.log(formData.branch_id);
+  formData.append("tax_inclusion", taxType);
+  formData.append("cost_with_tax", costWithTax);
+  formData.append("cost_tax_amount", costTaxAmount);
 
-  // const body = {
-  //   branch_id: "178",
-  //   product_name: data.product_name.value,
-  //   product_type: data.product_type.value,
-  //   is_service: "0",
-  //   category_id: data.category_id.value,
-  //   purchase_price: data.purchase_price.value,
-  //   // cost_price: data.cost_price.value,
-  //   // cost_with_tax: data.cost_with_tax.value,
-  //   selling_price: data.selling_price.value,
-  //   online_price: data.online_price.value,
-  //   // cost_tax_amount: data.cost_tax_amount.value,
-  //   mrp: data.mrp.value,
-  //   selling_tax: data.selling_tax.value,
-  //   cost_tax: data.selling_tax.value,
-  //   online_tax: data.selling_tax.value,
-  //   bar_code: data.bar_code.value,
-  //   hsncode: data.hsncode.value,
-  //   primary_unit: data.primary_unit.value,
-  //   secondry_unit: data.secondry_unit.value,
-  //   // enable_unit_conversion: data.enable_unit_conversion.value,if secendory unit
-  //   // conversion: data.conversion.value,
-  //   opening_stock: data.opening_stock.value,
-  //   stock_date: new Date(),
-  //   // stock_price: data.stock_price.value, => cost price
-  //   // stock_unit: data.stock_unit.value, => purchase unit
-  //   min_stock_level: data.min_stock_level.value,
-  //   product_description: data.product_description.value,
-  //   // tax_inclusion: data.tax_inclusion.value,// tax treatment
-  //   // image: [{}, {}],
-  // };
+  formData.append("selling_price", data.selling_price.value);
+  formData.append("online_price", data.online_price.value);
+  formData.append("mrp", data.mrp.value);
+  formData.append("selling_tax", proTax);
+  formData.append("cost_tax", proTax);
+  formData.append("online_tax", proTax);
+  formData.append("bar_code", data.bar_code.value);
+  formData.append("hsncode", data.hsncode.value);
+  formData.append("primary_unit", data.primary_unit.value);
+  formData.append("secondry_unit", data.secondry_unit.value);
+  formData.append("enable_unit_conversion", true);
+  formData.append("conversion", "0.1"); // converted value
+  formData.append("opening_stock", data.opening_stock.value);
+  formData.append("stock_date", getTodayType1());
+  formData.append("stock_price", costPrice);
+  formData.append("stock_unit", unit);
+  formData.append("min_stock_level", data.min_stock_level.value);
+  formData.append("product_description", data.product_description.value);
+  formData.append("image", []);
 
-  // await axios
-  //   .post(baseApi + "productStore", body, { headers })
-  //   .then((res) => {
-  //     console.log(res.data);
-  //   })
-  //   .catch((e) => console.log(e));
-
-  setState({ succesPop: true });
+  await axios
+    .post(baseApi + "productStore", formData, { headers })
+    .then((res) => {
+      console.log(res.data);
+      if (res.data.statusCode === 200)
+        setState({
+          succesPop: {
+            type: 0,
+            msg: "Product added successfully",
+            subMsg: "Updated Successfully",
+          },
+          addpage: false,
+        });
+      else
+        setState({
+          succesPop: { type: 1, msg: "Oop's", subMsg: res.data.message },
+        });
+    })
+    .catch((e) =>
+      setState({ succesPop: { type: 2, msg: "Not Adedd", subMsg: "Error" } })
+    );
 }

@@ -38,17 +38,18 @@ export default class HomeInventory extends Component {
       sellOnline: true,
       manageStock: true,
       categoryDefault: true,
+      allImages: [],
       // type 2
       allVariant1: [],
       allVariant2: [],
       allVariantList: [],
 
-      succesPop: false,
+      succesPop: null,
     };
   }
 
   componentDidUpdate() {
-    this.state.succesPop = false;
+    this.state.succesPop = null;
   }
 
   componentDidMount() {
@@ -140,7 +141,7 @@ export default class HomeInventory extends Component {
         {modifirePop ? (
           <InventoryAddModifirePopup setState={setState} state={state} />
         ) : null}
-        <SuccesPopup show={succesPop} setState={setState} />
+        <SuccesPopup msg={succesPop} setState={setState} />
       </React.StrictMode>
     );
   }
@@ -328,11 +329,11 @@ function AddProdect({ state, setState }) {
   const { allVariant1, allVariant2 } = state;
   var { allVariantList } = state;
 
-  const [type, setType] = useState(1);
-  const [station, setStation] = useState([]);
+  const [type, setType] = useState(0);
+  const [unit, setUnit] = useState("PCS");
 
   return (
-    <form onSubmit={(e) => addInventory(e, state, setState)}>
+    <form onSubmit={(e) => addInventory(e, state, setState, type, unit)}>
       <div className="hinF">{edit ? "Edit" : "New"} Product</div>
       <div className="hinG">
         <div className="hinGa">
@@ -389,7 +390,7 @@ function AddProdect({ state, setState }) {
               <div className="hinKbEaA">Product description</div>
               <textarea
                 rows={4}
-                id="product_description "
+                id="product_description"
                 defaultValue={isEdit ? edit.name : null}
                 className="hinKbEaD"
                 placeholder="Enter a brief description for your product, this will be shown on all the linked selling channels for your customers."
@@ -411,11 +412,13 @@ function AddProdect({ state, setState }) {
             <div className="hinKbEa">
               <div className="hinKbEaA">Units *</div>
               <div className="hinKbEaE">
-                <DropDown2 id="primary_unit" items={allUnits} />
+                <DropDown2 id="primary_unit" items={allUnits} name="title" />
                 <DropDown2
                   id="secondry_unit"
-                  items={allUnits}
+                  items={[{ title: "None" }].concat(allUnits)}
                   ph={"Select alternate unit (optional)"}
+                  name="title"
+                  onchange={() => {}}
                 />
               </div>
             </div>
@@ -431,7 +434,7 @@ function AddProdect({ state, setState }) {
               <div className="hinKbEaA">Tax info *</div>
               <div className="hinKbEaE">
                 <DropDown2 items={allTax} id="selling_tax" />
-                <DropDown2 items={taxTypes} />
+                <DropDown2 items={taxTypes} id="tax_inclusion" />
                 <input
                   id="hsncode"
                   className="hinKbEaC"
@@ -454,7 +457,7 @@ function AddProdect({ state, setState }) {
             </div>
             <div className="hinKbEa">
               <div className="hinKbEaA">Upload images</div>
-              <ImageUploder1 />
+              <ImageUploder1 state={state} setState={setState} />
             </div>
             <div className="hinKbEa">
               <div className="hinKbEaA">Select production station</div>
@@ -552,7 +555,7 @@ function AddProdect({ state, setState }) {
                     id="purchase_price"
                     placeholder="Enter cost / purchase price"
                   />
-                  <DropDown2 items={unitTypes} />
+                  <DropDown2 items={unitTypes} onchange={(v) => setUnit(v)} />
                 </div>
                 {/* ////////////////// */}
                 <div className="hinKbEb">
@@ -574,21 +577,21 @@ function AddProdect({ state, setState }) {
                     className="hinKbEaC"
                     placeholder="Enter MRP"
                   />
-                  <span className="hinKbEaC-unit">/PSC</span>
+                  <span className="hinKbEaC-unit">/{unit}</span>
                   <input
                     id="selling_price"
                     type="number"
                     className="hinKbEaC"
                     placeholder="Enter RRP"
                   />
-                  <span className="hinKbEaC-unit">/PSC</span>
+                  <span className="hinKbEaC-unit">/{unit}</span>
                   <input
                     id="online_price"
                     type="number"
                     className="hinKbEaC"
                     placeholder="Enter online price"
                   />
-                  <span className="hinKbEaC-unit">/PSC</span>
+                  <span className="hinKbEaC-unit">/{unit}</span>
                 </div>
                 {/* ////////////////// */}
                 <div className="hinKbEb">
@@ -611,13 +614,13 @@ function AddProdect({ state, setState }) {
                     className="hinKbEaC"
                     placeholder=""
                   />
-                  <span className="hinKbEaC-unit">/PSC</span>
+                  <span className="hinKbEaC-unit">/{unit}</span>
                   <input
                     className="hinKbEaC"
                     placeholder="Enter minimum stock level"
                     id="min_stock_level"
                   />
-                  <span className="hinKbEaC-unit">/PSC</span>
+                  <span className="hinKbEaC-unit">/{unit}</span>
                 </div>
               </React.StrictMode>
             ) : null}

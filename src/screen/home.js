@@ -48,6 +48,7 @@ export default class HomeScreen extends Component {
                   alt="ic"
                   className="hmAaR"
                   src="https://shotkit.com/wp-content/uploads/2021/06/cool-profile-pic-matheus-ferrero.jpeg"
+                  // src={window.localStorage.getItem("profile_pic")}
                 />
                 <img alt="ic" className="hmAaP" src={icarrow1} />
               </div>

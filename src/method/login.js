@@ -20,8 +20,8 @@ export async function branchFind(props, e) {
       { headers: { Authorization } }
     )
     .then((res) => {
-    
       if (res.data.statusCode === 200) {
+        window.localStorage.setItem("branch_id", res.data.data.branch_id);
         props.setState({
           logintitle: res.data.data.name,
           branch_id: res.data.data.branch_id,
@@ -53,6 +53,8 @@ export async function branchLogin(props, e) {
       if (res.data.statusCode === 200) {
         window.localStorage.setItem("bearer_token", res.data.data.api_token);
         window.localStorage.setItem("session_id", res.data.data.session_id);
+        window.localStorage.setItem("profile_pic", res.data.data.image);
+        window.localStorage.setItem("user_name", res.data.data.phone);
         window.location.href = "/dashbord";
       } else if (res.data.statusCode === 801) {
         force_login = 1;

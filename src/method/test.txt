@@ -1,0 +1,44 @@
+[
+  {
+    "variant_name": "",
+    "sku": "",
+    "ean": "",
+    "stock": "",
+    "msl": "",
+    "cost": "",
+    "mrp": "",
+    "rrp": "",
+    "online_price": ""
+  }
+]
+{
+  "branch_id": "178                                                          ",
+  "product_name": "It is a test prodect",
+  "product_type": "Raw Material",
+  "is_service": "0",
+  "category_id": "425",
+  "purchase_price": "787",
+  "cost_price": "10.00",
+  "cost_with_tax": "10.00",
+  "selling_price": "787",
+  "online_price": "787",
+  "cost_tax_amount": "20:00",
+  "mrp": "787",
+  "selling_tax": "2332",
+  "cost_tax": "2332",
+  "online_tax": "data.online_tax.value",
+  "bar_code": "halljh",
+  "hsncode": "Hallow",
+  "primary_unit": "7476",
+  "secondry_unit": "7477",
+  "enable_unit_conversion": "true",
+  "conversion": "test",
+  "opening_stock": "7",
+  "stock_date": "Fri Jun 10 2022 14:00:31 GMT+0530 (India Standard Time)",
+  "stock_price": "100",
+  "stock_unit": "PSC",
+  "min_stock_level": "788",
+  "product_description": "This is a test product",
+  "tax_inclusion": "Exclusive",
+  "image": []
+}

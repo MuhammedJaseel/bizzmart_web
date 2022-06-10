@@ -3,9 +3,10 @@
   border-radius: 0.19vw;
   border: 0.03vw solid #d5d9dd;
   height: 1.56vw;
-  padding: 0vw 0.1vw;
+  padding: 0vw 0.4vw;
   font-size: 0.69vw;
   color: #c2bebe;
+  -webkit-appearance: none;
 }
 .inpA::placeholder {
   font-size: 0.69vw;
@@ -20,10 +21,16 @@
   border-radius: 0.19vw;
   border: 0.03vw solid #d5d9dd;
   height: 1.56vw;
-  padding: 0vw 0.1vw;
+  padding: 0vw 0.4vw;
   font-size: 0.69vw;
   color: #c2bebe;
   margin-right: 5px;
+  background-color: white;
+  -webkit-appearance: none;
+  background-image: url(../asset/ic_down.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: right;
 }
 .inpB:focus {
   outline: 0.03px solid #2d4c86;
@@ -116,4 +123,17 @@
   height: 100px;
   width: 92px;
   object-fit: cover;
+}
+/* ////////////////////////////////////////////////////////////////////////////////////// */
+/* ////////////////////////////////////////////////////////////////////////////////////// */
+/* ////////////////////////////////////////////////////////////////////////////////////// */
+/* ////////////////////////////////////////////////////////////////////////////////////// */
+/* ////////////////////////////////////////////////////////////////////////////////////// */
+.inpD {
+  position: fixed;
+  top: 0vw;
+  bottom: 0vw;
+  left: 0vw;
+  right: 0vw;
+  background-color: #00000047;
 }
