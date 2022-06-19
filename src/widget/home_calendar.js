@@ -93,7 +93,7 @@ function HomeCalenderDetailsPop({ state, setState }) {
                 {day.events.map((d, k) => (
                   <div key={k} className="hclGaBaA">
                     <div className="hclGaBaB"></div>
-                    <div className="hclGaBaC">
+                    <div>
                       <div className="hclGaBaD">{d.title}</div>
                       <div className="hclGaBaE">{d.title}</div>
                     </div>
