@@ -69,6 +69,13 @@
 .popBl {
   color: var(--primart_blue);
   font-size: 0.88vw;
+  display: flex;
+  align-items: flex-end;
+}
+.popBl-error {
+  font-size: 0.7vw;
+  color: #900303;
+  padding-left: 1vw;
 }
 .popBm {
   width: calc(100% - 1vw);
@@ -88,10 +95,10 @@
 }
 .popBn-btn {
   position: relative;
-  width: 1.6vw;
-  height: 2vw;
-  left: calc(100% - 1.7vw);
-  top: -2vw;
+  width: 1.5vw;
+  height: 1.85vw;
+  left: calc(100% - 1.65vw);
+  top: -1.9vw;
   background-image: url(../asset/icon/ic_drop_plus.png);
   background-repeat: no-repeat;
   background-size: contain;

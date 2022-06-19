@@ -16,8 +16,6 @@ import icJob from "../asset/icon/ic_job_card.png";
 import icJobW from "../asset/icon/ic_job_card-w.png";
 import icOnline from "../asset/icon/ic_online.png";
 import icOnlineW from "../asset/icon/ic_online-w.png";
-import icAssets from "../asset/icon/ic_assets.png";
-import icAssetsW from "../asset/icon/ic_assets-w.png";
 import icCash from "../asset/icon/ic_cash.png";
 import icCashW from "../asset/icon/ic_cash-w.png";
 import icParties from "../asset/icon/ic_parties.png";
@@ -31,6 +29,17 @@ import icAboutW from "../asset/icon/ic_about-w.png";
 import HomeDashboard from "../widget/home_dashboard";
 import HomeInventory from "../widget/home_inventory";
 import HomeCalender from "../widget/home_calendar";
+import HomeOnline from "../widget/home_online";
+import HomeReports from "../widget/home_reports";
+import HomeSales from "../widget/home_sales";
+import HomePurchase from "../widget/home_purchase";
+import HomeExpense from "../widget/home_expense";
+import HomeJobcard from "../widget/home_jobcard";
+import HomeCashbank from "../widget/home_cashbank";
+import HomeParties from "../widget/home_parties";
+import HomeTeam from "../widget/home_team";
+import HomeSettings from "../widget/home_settings";
+import HomeAbout from "../widget/home_about";
 
 const sidebarIc = [
   {
@@ -49,25 +58,25 @@ const sidebarIc = [
     title: "Reports",
     icon: icReports,
     iconW: icReportsW,
-    widget: HomeDashboard,
+    widget: HomeReports,
   },
   {
     title: "Sales",
     icon: icSales,
     iconW: icSalesW,
-    widget: HomeDashboard,
+    widget: HomeSales,
   },
   {
     title: "Purchases",
     icon: icPurchases,
     iconW: icPurchasesW,
-    widget: HomeDashboard,
+    widget: HomePurchase,
   },
   {
     title: "Expenses",
     icon: icExpenses,
     iconW: icExpensesW,
-    widget: HomeDashboard,
+    widget: HomeExpense,
   },
   {
     title: "Inventory",
@@ -79,49 +88,43 @@ const sidebarIc = [
     title: "Job card",
     icon: icJob,
     iconW: icJobW,
-    widget: HomeDashboard,
+    widget: HomeJobcard,
   },
   {
     title: "Online",
     icon: icOnline,
     iconW: icOnlineW,
-    widget: HomeDashboard,
-  },
-  {
-    title: "Assets",
-    icon: icAssets,
-    iconW: icAssetsW,
-    widget: HomeDashboard,
+    widget: HomeOnline,
   },
   {
     title: "Cash & bank",
     icon: icCash,
     iconW: icCashW,
-    widget: HomeDashboard,
+    widget: HomeCashbank,
   },
   {
     title: "Parties",
     icon: icParties,
     iconW: icPartiesW,
-    widget: HomeDashboard,
+    widget: HomeParties,
   },
   {
     title: "Team",
     icon: icTeam,
     iconW: icTeamW,
-    widget: HomeDashboard,
+    widget: HomeTeam,
   },
   {
     title: "Settings",
     icon: icSettings,
     iconW: icSettingsW,
-    widget: HomeDashboard,
+    widget: HomeSettings,
   },
   {
     title: "About",
     icon: icAbout,
     iconW: icAboutW,
-    widget: HomeDashboard,
+    widget: HomeAbout ,
   },
 ];
 

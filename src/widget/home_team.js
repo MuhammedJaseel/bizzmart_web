@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import "../style/hdb.css";
 import { Header1, Header2 } from "./headers";
 
-const pTitles = ["Sales", "Purchase", "Expenses", "Analytics"];
+const pTitles = ["Team Members", "Partners"];
 
-export default class HomeDashboard extends Component {
+export default class HomeTeam extends Component {
   constructor() {
     super();
     this.state = {
@@ -15,12 +15,12 @@ export default class HomeDashboard extends Component {
     const state = this.state;
     const setState = (v) => this.setState(v);
     const { page } = state;
+    const titleL = page === 0 ? "TEAM LIST" : "PARTNERS";
 
     return (
       <React.StrictMode>
-        <Header1 title="Dashboard" />
+        <Header1 title="TEAM" bodyL={titleL} />
         <Header2 titles={pTitles} page={page} setState={setState} />
-        <div className="hdbD"></div>
       </React.StrictMode>
     );
   }

@@ -12,7 +12,7 @@ export default class HomeScreen extends Component {
   constructor() {
     super();
     this.state = {
-      selectedDash: 6,
+      selectedDash: 8,
     };
   }
   render() {

@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import "../style/hdb.css";
 import { Header1, Header2 } from "./headers";
 
-const pTitles = ["Sales", "Purchase", "Expenses", "Analytics"];
+const pTitles = ["Expense Enteries"];
 
-export default class HomeDashboard extends Component {
+export default class HomeExpense extends Component {
   constructor() {
     super();
     this.state = {
@@ -18,7 +18,7 @@ export default class HomeDashboard extends Component {
 
     return (
       <React.StrictMode>
-        <Header1 title="Dashboard" />
+        <Header1 title="Expenses" />
         <Header2 titles={pTitles} page={page} setState={setState} />
         <div className="hdbD"></div>
       </React.StrictMode>

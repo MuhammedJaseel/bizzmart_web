@@ -267,7 +267,7 @@
   border-radius: 0.47vw;
 }
 .hinIcA {
-  height: 3.7vw;
+  height: 3.1vw;
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -281,8 +281,8 @@
   justify-content: center;
 }
 .hinIcAbA {
-  height: 2.6vw;
-  width: 2.6vw;
+  height: 2vw;
+  width: 2vw;
   border-radius: 1.53vw;
   background-color: #c6d5fb;
   display: flex;
@@ -295,6 +295,9 @@
 /* .hinIcAc {
 } */
 .hinIcAcA {
+  width: 90%;
+  max-height: 1.9vw;
+  overflow: hidden;
   color: #2d4c86;
   font-size: 0.8vw;
   font-weight: 500;
@@ -554,6 +557,37 @@
   padding-bottom: 0.3vw;
   max-width: 35vw;
 }
+.hinKbEaI {
+  font-size: 0.69vw;
+  display: flex;
+  align-items: center;
+  padding-left: 1vw;
+}
+.hinKbEaIa {
+  width: 3vw;
+  border-radius: 0.19vw;
+  border: 0.03vw solid #d5d9dd;
+  height: 1.4vw;
+  padding: 0vw 0.38vw;
+  font-size: 0.69vw;
+  color: #242629;
+  margin: 0vw 0.38vw;
+}
+.hinKbEaIa::placeholder {
+  font-size: 0.69vw;
+  color: #c2bebe;
+}
+.hinKbEaIa:focus {
+  outline: 0.03vw solid #2d4c86;
+}
+.hinKbEaIb {
+  height: 1.2vw;
+  width: 3vw;
+  background-image: url(../asset/ic_reverse.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
 .hinKbEaJ {
   width: 9vw;
   margin-right: 0.38vw;
@@ -567,6 +601,13 @@
 .hinKbEaJ::placeholder {
   font-size: 0.69vw;
   color: #c2bebe;
+}
+.hinKbEaC::placeholder {
+  font-size: 0.69vw;
+  color: #c2bebe;
+}
+.hinKbEaC:focus {
+  outline: 0.03vw solid #2d4c86;
 }
 .hinKbEaJ:focus {
   outline: 0.03vw solid #2d4c86;
@@ -771,7 +812,7 @@
 }
 .hinKbEaC-unit {
   position: relative;
-  left: -2vw;
+  right: 2.2vw;
   width: 0vw;
   margin-top: 0.47vw;
   font-size: 0.69vw;

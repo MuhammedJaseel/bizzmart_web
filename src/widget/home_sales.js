@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import "../style/hdb.css";
+import "../style/hsl.css";
 import { Header1, Header2 } from "./headers";
 
-const pTitles = ["Sales", "Purchase", "Expenses", "Analytics"];
+const pTitles = ["Sales Invoices", "Sales Estimates"];
 
-export default class HomeDashboard extends Component {
+export default class HomeSales extends Component {
   constructor() {
     super();
     this.state = {
@@ -18,9 +18,9 @@ export default class HomeDashboard extends Component {
 
     return (
       <React.StrictMode>
-        <Header1 title="Dashboard" />
+        <Header1 title="SALES" />
         <Header2 titles={pTitles} page={page} setState={setState} />
-        <div className="hdbD"></div>
+        <div className="hslD"></div>
       </React.StrictMode>
     );
   }

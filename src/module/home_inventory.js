@@ -11,9 +11,9 @@ export const taxTypes = [
   { name: "Exclusive", id: "Exclusive" },
 ];
 
-export const unitTypes = [
-  { name: "PCS", id: "PCS" },
-  { name: "L", id: "L" },
-  { name: "KG", id: "KG" },
-  { name: "GM", id: "GM" },
-];
+// export const unitTypes = [
+//   { name: "PCS", id: "PCS" },
+//   { name: "L", id: "L" },
+//   { name: "KG", id: "KG" },
+//   { name: "GM", id: "GM" },
+// ];

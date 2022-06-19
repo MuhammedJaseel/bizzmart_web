@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "../style/pop.css";
 
 export default function ForgrtPasswordPopup() {
@@ -17,6 +17,7 @@ export default function ForgrtPasswordPopup() {
 
 export function InventoryAddModifirePopup({ setState, state }) {
   const { allModifire } = state;
+  const [locError, setlocError] = useState(null);
   return (
     <div className="popB">
       <div className="popBa">
@@ -36,18 +37,26 @@ export function InventoryAddModifirePopup({ setState, state }) {
         <form
           className="popBi"
           onSubmit={(e) => {
+            setlocError(null);
             e.preventDefault();
             const title = e.target.mod_title.value;
-            const price = e.target.mod_price.value;
-            if (title === "") return;
-            allModifire.push({ title, price });
+            var charge = e.target.mod_price.value;
+            if (charge === "") charge = 0;
+            if (title === "") {
+              setlocError("Enter Title");
+              return;
+            }
+            allModifire.push({ title, charge });
             setState({ allModifire });
             e.target.reset();
           }}
         >
           <div className="popBj">
             <div className="popBk">
-              <div className="popBl">Add Modifier*</div>
+              <div className="popBl">
+                Add Modifier*
+                <div className="popBl-error">{locError}</div>
+              </div>
               <input
                 className="popBm"
                 id="mod_title"
@@ -62,14 +71,14 @@ export function InventoryAddModifirePopup({ setState, state }) {
                 className="popBm"
                 placeholder="0.00"
               />
-              <div className="popBn-btn" />
+              <button type="submit" className="popBn-btn" />
             </div>
           </div>
           <div className="popBq">
             {allModifire.map((it, k) => (
               <div key={k} className="popBr">
                 {it.title}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                {it.price}
+                {it.charge}
                 <div
                   className="popBr-btn"
                   onClick={() => {

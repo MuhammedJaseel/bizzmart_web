@@ -7,6 +7,10 @@
   font-size: 0.69vw;
   color: #c2bebe;
   -webkit-appearance: none;
+  background-image: url(../asset/ic_down.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: right;
 }
 .inpA::placeholder {
   font-size: 0.69vw;

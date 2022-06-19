@@ -2,8 +2,9 @@
   position: fixed;
   top: 0vw;
   bottom: 0vw;
-  left: 4.31vw;
+  left: 4vw;
   right: 0vw;
+  background-color: #f3f6f6;
 }
 .hmAa {
   background-color: #2d4c86;
@@ -99,7 +100,7 @@
   top: 0vw;
   bottom: 0vw;
   left: 0vw;
-  width: 4.31vw;
+  width: 4vw;
   overflow: hidden;
   background-color: var(--primart_blue);
   overflow: hidden;
@@ -113,7 +114,7 @@
 }
 .hmB:not(:hover) {
   transition: width 0.3s;
-  width: 4.31vw;
+  width: 4vw;
 }
 .hmBa {
   display: flex;
@@ -182,14 +183,13 @@
   margin: 0.5vw 0.75vw;
 }
 .hmBj {
-  padding: 0vw 0.76vw;
+  padding: 0vw 0.7vw;
   display: flex;
   justify-content: center;
-  width: 1.19vw;
   height: 1.19vw;
 }
 .hmBjA {
-  width: 1.19vw;
+  width: 1.15vw;
   object-fit: contain;
 }
 .hmBk {
@@ -203,7 +203,7 @@
   margin: 2.66vh 0.81vw;
   display: flex;
   align-items: center;
-  padding: 0.81vw 2px;
+  padding: 0.7vw 0.01vw;
   border-radius: 0.28vw;
 }
 .hmBm {
