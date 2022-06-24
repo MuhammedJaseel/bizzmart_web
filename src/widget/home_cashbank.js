@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import "../style/hdb.css";
-import { Header1 } from "./headers";
+import { Header1 } from "./widget";
 
 export default class HomeCashbank extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {};
   }
   render() {

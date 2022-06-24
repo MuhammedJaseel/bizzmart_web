@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "../style/hrp.css";
-import { Header1, Header2 } from "./headers";
+import { Header1, Header2 } from "./widget";
 
 const pTitles = [
   "All Report",

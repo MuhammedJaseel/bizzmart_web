@@ -1,5 +1,5 @@
 import React from "react";
-import { Header1, Header3 } from "./headers";
+import { Header1, Header3 } from "./widget";
 import "../style/hon.css";
 
 const pTitles = [

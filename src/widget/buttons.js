@@ -14,7 +14,7 @@ export function SelectButton1({ dis, type, setType }) {
   return (
     <div className="btnB">
       <div
-        onClick={dis ? null : () => setType(0)}
+        onClick={dis ? () => {} : () => setType(0)}
         className={"btnBa" + (type === 0 ? " btnBa_" : "")}
       >
         <div className={type === 0 ? "btnBb_" : "btnBb" + (dis ? "-dis" : "")}>
@@ -26,7 +26,7 @@ export function SelectButton1({ dis, type, setType }) {
         </div>
       </div>
       <div
-        onClick={dis ? null : () => setType(1)}
+        onClick={dis ? () => {} : () => setType(1)}
         className={"btnBa" + (type === 1 ? " btnBa_" : "")}
       >
         <div className={type === 1 ? " btnBb_" : "btnBb" + (dis ? "-dis" : "")}>
@@ -39,7 +39,7 @@ export function SelectButton1({ dis, type, setType }) {
         </div>
       </div>
       <div
-        onClick={dis ? null : () => setType(2)}
+        onClick={dis ? () => {} : () => setType(2)}
         className={"btnBa" + (type === 2 ? " btnBa_" : "")}
       >
         <div className={type === 2 ? " btnBb_" : "btnBb" + (dis ? "-dis" : "")}>

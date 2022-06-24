@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { Header1, Header2 } from "./headers";
+import { Header1, Header2, Header4 } from "./widget";
 import "../style/hcl.css";
 import { calender } from "../module/dummydata";
 
 export default class HomeCalender extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       day: null,
       today: "5-07-2020",
@@ -23,16 +23,16 @@ export default class HomeCalender extends Component {
       <React.StrictMode>
         <Header1 title="CALENDAR" />
         <Header2 titles={["Calendar"]} page={0} />
-        <div className="hclD">5th July, Tuesday</div>
-        <div className="hclE">
-          <div className="hclEa">
-            Shows all the recorded purchase enteries the selected date range
-          </div>
-          <div className="hclEb">
-            <div className="hclEc" />
-            <div className="hclEd" />
-          </div>
-        </div>
+        <Header4
+          title="5th July, Tuesday"
+          desc="Shows all the recorded purchase enteries the selected date range"
+          body={
+            <React.StrictMode>
+              <div className="hclEc" />
+              <div className="hclEd" />
+            </React.StrictMode>
+          }
+        />
         <div className="hclF">
           <div className="hclF_">
             <div className="hclFa">

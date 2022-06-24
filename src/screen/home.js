@@ -11,10 +11,15 @@ import "../style/hm.css";
 export default class HomeScreen extends Component {
   constructor() {
     super();
-    this.state = {
-      selectedDash: 8,
-    };
+    this.state = { selectedDash: 0 };
   }
+
+  componentDidMount() {
+    const path = window.location.pathname.split("/")[2];
+    for (let i = 0; i < sidebarIc.length; i++)
+      if (sidebarIc[i].path === path) this.setState({ selectedDash: i });
+  }
+
   render() {
     const { selectedDash } = this.state;
     const SubWidget = sidebarIc[selectedDash].widget;
@@ -74,7 +79,14 @@ export default class HomeScreen extends Component {
               <React.StrictMode key={k}>
                 <div
                   className={selectedDash === k ? "hmBi_" : "hmBi"}
-                  onClick={() => this.setState({ selectedDash: k })}
+                  onClick={() => {
+                    this.setState({ selectedDash: k });
+                    window.history.replaceState(
+                      "home",
+                      "Home",
+                      `/dashboard/${ic.path}`
+                    );
+                  }}
                 >
                   <div className="hmBj">
                     <img

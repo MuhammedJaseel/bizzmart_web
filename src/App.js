@@ -7,7 +7,7 @@ export default function App() {
   const path = window.location.pathname.split("/")[1];
   if (path === "login") return <LoginScreen />;
   if (path === "branches") return <BranchScreen />;
-  if (path === "dashbord") return <HomeScreen />;
+  if (path === "dashboard") return <HomeScreen />;
   return <Cal />;
 }
 

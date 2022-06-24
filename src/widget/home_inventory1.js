@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import "../style/hin.css";
-import { addInventory, getProduct } from "../method/home_inventory";
+import { addInventory } from "../method/home_inventory";
 import { getProducts } from "../method/home_inventory";
 import { DropDown1, DropDown2, ImageUploder1 } from "./inputs";
 import { SelectButton1, SwitchButton1 } from "./buttons";
-import { getComaPriceDec } from "../module/simple";
 import { prodectTypes, taxTypes } from "../module/home_inventory";
+import { Header4, MyTable1 } from "./widget";
 
 export function ProdectList({ state, setState }) {
   const { allProduct, productPage, totelProduct, prodectMaxCount } = state;
@@ -14,111 +14,62 @@ export function ProdectList({ state, setState }) {
   for (let i = 0; i < totelProduct / prodectMaxCount; i++) {
     pageNumbers.push(1);
   }
+  const widths = [4, 20, 9, 11, 8, 8, 9, 9, 9, 7, 4];
+  const heads = [
+    "",
+    "Product Name",
+    "Code",
+    "Category",
+    "Type",
+    "Cost",
+    "Selling",
+    "MRP",
+    "Tax",
+    "Stock",
+    "MSL",
+  ];
+  const body = [];
+  if (allProduct !== null)
+    for (let i = 0; i < allProduct.length; i++) {
+      const it = allProduct[i];
+      body.push([
+        { data: it.image, data2: it.name, type: 1 },
+        { data: it.name, data2: it.product_type, type: 2 },
+        { data: it.code, type: 2 },
+        { data: it.category_name },
+        { data: it.type },
+        { data: it.cost },
+        { data: it.selling, type: 2 },
+        { data: it.MRP },
+        { data: it.tax },
+        { data: it.stock },
+        { data: it.MSL },
+      ]);
+    }
   return (
     <React.StrictMode>
-      <div className="hinF">Product List</div>
-      <div className="hinG">
-        <div className="hinGa">
-          Shows all the team members recorded against your business
-        </div>
-        <div className="hinGb">
-          <input className="hinGbA" placeholder="Search a product" />
-          <div className="hinGbA-icon" />
-          <div className="hinGbB">SHOWING:</div>
-          <select className="hinGbC">
-            <option>All Product</option>
-          </select>
-          <select className="hinGbD">
-            <option>All Category</option>
-            {allCategoty.map((cat) => (
-              <option>{cat.name}</option>
-            ))}
-          </select>
-          <div className="hinGbE">APPLY</div>
-        </div>
-      </div>
-      <div className="hinI">
-        <div className="hinIa">
-          <div className="hinIb">
-            <div className="hinIbB" />
-            <div className="hinIbC">Product Name</div>
-            <div className="hinIbD">Code</div>
-            <div className="hinIbF">Category</div>
-            <div className="hinIbG">Type</div>
-            <div className="hinIbH">Cost</div>
-            <div className="hinIbI">Selling</div>
-            <div className="hinIbJ">MRP</div>
-            <div className="hinIbK">Tax</div>
-            <div className="hinIbL">Stock</div>
-            <div className="hinIbM">MSL</div>
-          </div>
-          <div className="hinIc">
-            {loading ? (
-              <div
-                className="hinIcA"
-                onClick={() => setState({ product: it, addpage: true })}
-              >
-                <div className="hinIbB hinIcAb">
-                  <div className="hinIcAbA">...</div>
-                </div>
-                <div className="hinIbC hinIcAc">
-                  <div className="hinIcAcA">...</div>
-                  <div className="hinIcAcB">...</div>
-                </div>
-                <div className="hinIbD hinIcAd">...</div>
-                <div className="hinIbF hinIcAe">...</div>
-                <div className="hinIbG hinIcAf">...</div>
-                <div className="hinIbH hinIcAg">...</div>
-                <div className="hinIbI hinIcAh">...</div>
-                <div className="hinIbJ hinIcAi">...</div>
-                <div className="hinIbK hinIcAj">...</div>
-                <div className="hinIbL hinIcAk">...</div>
-                <div className="hinIbM hinIcAl">...</div>
-              </div>
-            ) : null}
-            {allProduct !== null
-              ? allProduct.map((it, k) => (
-                  <div
-                    key={k}
-                    className="hinIcA"
-                    onClick={() => {
-                      state.product = it;
-                      setState({ addpage: true });
-                      getProduct(state, setState);
-                    }}
-                  >
-                    <div className="hinIbB hinIcAb">
-                      {it.image === "" || it.image === null ? (
-                        <div className="hinIcAbA">
-                          {it.name.substring(0, 2).toUpperCase()}
-                        </div>
-                      ) : (
-                        <img alt="img" src={it.image} className="hinIcAbA" />
-                      )}
-                    </div>
-                    <div className="hinIbC hinIcAc">
-                      <div className="hinIcAcA">{it.name}</div>
-                      <div className="hinIcAcB">{it.product_type}</div>
-                    </div>
-                    <div className="hinIbD hinIcAd">{it.code}</div>
-                    <div className="hinIbF hinIcAe">{it.category_name}</div>
-                    <div className="hinIbG hinIcAf">{it.type}</div>
-                    <div className="hinIbH hinIcAg">{it.cost}</div>
-                    <div className="hinIbI hinIcAh">
-                      {getComaPriceDec(it.selling)}
-                    </div>
-                    <div className="hinIbJ hinIcAi">
-                      {getComaPriceDec(it.MRP)}
-                    </div>
-                    <div className="hinIbK hinIcAj">{it.tax}</div>
-                    <div className="hinIbL hinIcAk">{it.stock} PCS</div>
-                    <div className="hinIbM hinIcAl">{it.MSL} PSC</div>
-                  </div>
-                ))
-              : null}
-          </div>
-        </div>
-      </div>
+      <Header4
+        title="Product List"
+        desc="Shows all the team members recorded against your business"
+        body={
+          <React.StrictMode>
+            <input className="hinGbA" placeholder="Search a product" />
+            <div className="hinGbA-icon" />
+            <div className="hinGbB">SHOWING:</div>
+            <select className="hinGbC">
+              <option>All Product</option>
+            </select>
+            <select className="hinGbD">
+              <option>All Category</option>
+              {allCategoty.map((cat) => (
+                <option>{cat.name}</option>
+              ))}
+            </select>
+            <div className="hinGbE">APPLY</div>
+          </React.StrictMode>
+        }
+      />
+      <MyTable1 widths={widths} heads={heads} body={body} />
       <div className="hinJ">
         <div className="hinJa">
           SHOW:

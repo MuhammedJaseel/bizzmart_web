@@ -1,15 +1,13 @@
 import React, { Component } from "react";
 import "../style/hdb.css";
-import { Header1, Header2 } from "./headers";
+import { Header1, Header2 } from "./widget";
 
 const pTitles = ["Sales", "Purchase", "Expenses", "Analytics"];
 
 export default class HomeDashboard extends Component {
-  constructor() {
-    super();
-    this.state = {
-      page: 0,
-    };
+  constructor(props) {
+    super(props);
+    this.state = {};
   }
   render() {
     const state = this.state;
