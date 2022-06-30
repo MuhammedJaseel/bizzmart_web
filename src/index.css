@@ -51,6 +51,8 @@ input {
 
 select {
   font-family: Mic32NewRounded;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }
 
 textarea {

@@ -1,6 +1,13 @@
 import React, { Component } from "react";
 import { estimateList, invoiceList } from "../module/dummydata";
-import { Header1, Header2, Header4, MyTable1 } from "./widget";
+import {
+  Header1,
+  Header2,
+  Header4,
+  HeaderButtens1,
+  MyTable1,
+  TitleFilter1,
+} from "./widget";
 import "../style/hsl.css";
 
 const pTitles = ["Sales Invoices", "Sales Estimates"];
@@ -52,12 +59,17 @@ export default class HomeSales extends Component {
     const state = this.state;
     const setState = (v) => this.setState(v);
     const { page } = state;
+    const filter = <TitleFilter1 />;
 
     return (
       <React.StrictMode>
-        <Header1 title="SALES" />
+        <Header1 title="SALES" bodyR={<HeaderButtens1 />} />
         <Header2 titles={pTitles} page={page} setState={setState} />
-        <Header4 title={titles.title[page]} desc={titles.desc[page]} />
+        <Header4
+          title={titles.title[page]}
+          desc={titles.desc[page]}
+          body={filter}
+        />
         <HomeSalesInvoicesTable state={state} setState={setState} />
         <HomeSalesEstimatesTable state={state} setState={setState} />
       </React.StrictMode>
