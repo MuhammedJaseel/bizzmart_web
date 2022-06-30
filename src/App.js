@@ -8,7 +8,8 @@ export default function App() {
   if (path === "login") return <LoginScreen />;
   if (path === "branches") return <BranchScreen />;
   if (path === "dashboard") return <HomeScreen />;
-  return <Cal />;
+  if (path === "cal") return <Cal />;
+  return <HomeScreen />;
 }
 
 // git add .
