@@ -2,19 +2,19 @@ export const typeDates = [
   {
     title: "Today",
     fun: () => {
-      return [1, 1];
+      return [10, 10];
     },
   },
   {
     title: "Yesterday",
     fun: () => {
-      return [1, 1];
+      return [9, 9];
     },
   },
   {
     title: "This Week",
     fun: () => {
-      return [1, 1];
+      return [4, 10];
     },
   },
   {

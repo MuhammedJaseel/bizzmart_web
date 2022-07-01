@@ -47,23 +47,39 @@ body {
 
 input {
   font-family: Mic32NewRounded;
+  border: 0.07vw solid #ced0d3;
+  border-radius: 0.25vw;
+  font-size: 0.8vw;
+  padding: 0vw 0.5vw;
 }
-
 select {
   font-family: Mic32NewRounded;
   -webkit-appearance: none;
   -moz-appearance: none;
+  border: 0.07vw solid #ced0d3;
+  border-radius: 0.25vw;
+  font-size: 0.8vw;
 }
-
 textarea {
   font-family: Mic32NewRounded;
+  border: 0.07vw solid #ced0d3;
+  border-radius: 0.25vw;
+  font-size: 0.8vw;
+  padding: 0.3vw 0.5vw;
 }
 
-/* code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
-} */
-
+textarea:focus {
+  outline: none;
+  border: 0.07vw solid #2d4c86;
+}
+input:focus {
+  outline: none;
+  border: 0.07vw solid #2d4c86;
+}
+select:focus {
+  outline: none;
+  border: 0.07vw solid #2d4c86;
+}
 button {
   font-family: Mic32NewRounded;
   border: none;

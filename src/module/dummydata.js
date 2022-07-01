@@ -1030,3 +1030,307 @@ export const stockIssue = [
     transferTo: "Phoenix Mall. Mumbai",
   },
 ];
+
+//
+//
+//
+//
+//
+//
+//
+
+export const customerList = [
+  {
+    customerName: "Sunder Pich",
+    loyaltyTire: "Gold",
+    status: "Active",
+    phoneNumber: "897897896",
+    email: "sinderanPichi@gmail.com",
+    lastSean: "Yesterday",
+    turnover: "12,300,20",
+    balance: "24,000",
+  },
+  {
+    customerName: "Robin Babu",
+    loyaltyTire: "Gold",
+    status: "Active",
+    phoneNumber: "897897896",
+    email: "robin@gmail.com",
+    lastSean: "Today",
+    turnover: "1,20,20",
+    balance: "1,24,000",
+  },
+  {
+    customerName: "Sunder Pich",
+    loyaltyTire: "Gold",
+    status: "Active",
+    phoneNumber: "897897896",
+    email: "sinderanPichi@gmail.com",
+    lastSean: "Yesterday",
+    turnover: "12,300,20",
+    balance: "24,000",
+  },
+  {
+    customerName: "Robin Babu",
+    loyaltyTire: "Gold",
+    status: "Active",
+    phoneNumber: "897897896",
+    email: "robin@gmail.com",
+    lastSean: "Today",
+    turnover: "1,20,20",
+    balance: "1,24,000",
+  },
+  {
+    customerName: "Sunder Pich",
+    loyaltyTire: "Gold",
+    status: "Active",
+    phoneNumber: "897897896",
+    email: "sinderanPichi@gmail.com",
+    lastSean: "Yesterday",
+    turnover: "12,300,20",
+    balance: "24,000",
+  },
+  {
+    customerName: "Robin Babu",
+    loyaltyTire: "Gold",
+    status: "Active",
+    phoneNumber: "897897896",
+    email: "robin@gmail.com",
+    lastSean: "Today",
+    turnover: "1,20,20",
+    balance: "1,24,000",
+  },
+  {
+    customerName: "Sunder Pich",
+    loyaltyTire: "Gold",
+    status: "Active",
+    phoneNumber: "897897896",
+    email: "sinderanPichi@gmail.com",
+    lastSean: "Yesterday",
+    turnover: "12,300,20",
+    balance: "24,000",
+  },
+  {
+    customerName: "Robin Babu",
+    loyaltyTire: "Gold",
+    status: "Active",
+    phoneNumber: "897897896",
+    email: "robin@gmail.com",
+    lastSean: "Today",
+    turnover: "1,20,20",
+    balance: "1,24,000",
+  },
+];
+
+//
+//
+//
+//
+//
+//
+//
+
+export const suppliersList = [
+  {
+    supplierName: "Sunder Pich",
+    status: "Active",
+    phoneNumber: "897897896",
+    email: "sinderanPichi@gmail.com",
+    lastSean: "Yesterday",
+    turnover: "12,300,20",
+  },
+  {
+    supplierName: "Robin Babu",
+    status: "Active",
+    phoneNumber: "897897896",
+    email: "robin@gmail.com",
+    lastSean: "Today",
+    turnover: "1,20,20",
+  },
+  {
+    supplierName: "Sunder Pich",
+    status: "Active",
+    phoneNumber: "897897896",
+    email: "sinderanPichi@gmail.com",
+    lastSean: "Yesterday",
+    turnover: "12,300,20",
+  },
+  {
+    supplierName: "Robin Babu",
+    status: "Active",
+    phoneNumber: "897897896",
+    email: "robin@gmail.com",
+    lastSean: "Today",
+    turnover: "1,20,20",
+  },
+  {
+    supplierName: "Sunder Pich",
+    status: "Active",
+    phoneNumber: "897897896",
+    email: "sinderanPichi@gmail.com",
+    lastSean: "Yesterday",
+    turnover: "12,300,20",
+  },
+  {
+    supplierName: "Robin Babu",
+    status: "Active",
+    phoneNumber: "897897896",
+    email: "robin@gmail.com",
+    lastSean: "Today",
+    turnover: "1,20,20",
+  },
+  {
+    supplierName: "Sunder Pich",
+    status: "Active",
+    phoneNumber: "897897896",
+    email: "sinderanPichi@gmail.com",
+    lastSean: "Yesterday",
+    turnover: "12,300,20",
+  },
+  {
+    supplierName: "Robin Babu",
+    status: "Active",
+    phoneNumber: "897897896",
+    email: "robin@gmail.com",
+    lastSean: "Today",
+    turnover: "1,20,20",
+  },
+];
+
+//
+//
+//
+//
+//
+//
+//
+
+export const teamMembers = [
+  {
+    name: "Gourav Krishna",
+    code: "EMp21-001",
+    joiningDate: "13 APL 2022",
+    phoneNumber: "9544013463",
+    email: "jaseel@gmail.com",
+    systemUser: "YES",
+    status: "ACTIVE",
+  },
+  {
+    name: "Robin babu",
+    code: "EMp21-003",
+    joiningDate: "13 APL 2022",
+    phoneNumber: "9544013463",
+    email: "jaseel@gmail.com",
+    systemUser: "No",
+    status: "ACTIVE",
+  },
+  {
+    name: "Ubaid mk",
+    code: "EMp21-001",
+    joiningDate: "13 APL 2022",
+    phoneNumber: "9544013463",
+    email: "jaseel@gmail.com",
+    systemUser: "YES",
+    status: "ACTIVE",
+  },
+  {
+    name: "Gourav Krishna",
+    code: "EMp21-051",
+    joiningDate: "13 APL 2022",
+    phoneNumber: "9544013463",
+    email: "Krishna@gmail.com",
+    systemUser: "YES",
+    status: "ACTIVE",
+  },
+  {
+    name: "Krishna",
+    code: "EMp21-001",
+    joiningDate: "13 APL 2022",
+    phoneNumber: "9544013463",
+    email: "jaseel@gmail.com",
+    systemUser: "NO",
+    status: "Suspended",
+  },
+  {
+    name: "Robin babu",
+    code: "EMp21-003",
+    joiningDate: "13 APL 2022",
+    phoneNumber: "9544013463",
+    email: "jaseel@gmail.com",
+    systemUser: "No",
+    status: "ACTIVE",
+  },
+  {
+    name: "Ubaid mk",
+    code: "EMp21-001",
+    joiningDate: "13 APL 2022",
+    phoneNumber: "9544013463",
+    email: "jaseel@gmail.com",
+    systemUser: "YES",
+    status: "ACTIVE",
+  },
+  {
+    name: "Gourav Krishna",
+    code: "EMp21-051",
+    joiningDate: "13 APL 2022",
+    phoneNumber: "9544013463",
+    email: "Krishna@gmail.com",
+    systemUser: "YES",
+    status: "ACTIVE",
+  },
+  {
+    name: "Krishna",
+    code: "EMp21-001",
+    joiningDate: "13 APL 2022",
+    phoneNumber: "9544013463",
+    email: "jaseel@gmail.com",
+    systemUser: "NO",
+    status: "Suspended",
+  },
+];
+
+//
+//
+//
+//
+//
+//
+//
+
+export const teamPartners = [
+  {
+    name: "Gourav Krishna",
+    joiningDate: "13 APL 2022",
+    phoneNumber: "9544013463",
+    email: "jaseel@gmail.com",
+    status: "ACTIVE",
+  },
+  {
+    name: "Robin babu",
+    joiningDate: "13 APL 2022",
+    phoneNumber: "9544013463",
+    email: "jaseel@gmail.com",
+    status: "ACTIVE",
+  },
+  {
+    name: "Ubaid mk",
+    joiningDate: "13 APL 2022",
+    phoneNumber: "9544013463",
+    email: "jaseel@gmail.com",
+    status: "ACTIVE",
+  },
+  {
+    name: "Gourav Krishna",
+    joiningDate: "13 APL 2022",
+    phoneNumber: "9544013463",
+    email: "Krishna@gmail.com",
+    status: "ACTIVE",
+  },
+  {
+    name: "Krishna",
+    joiningDate: "13 APL 2022",
+    phoneNumber: "9544013463",
+    email: "jaseel@gmail.com",
+    status: "Suspended",
+  },
+];

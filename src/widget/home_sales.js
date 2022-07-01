@@ -5,6 +5,7 @@ import {
   Header2,
   Header4,
   HeaderButtens1,
+  MyForm1,
   MyTable1,
   TitleFilter1,
 } from "./widget";
@@ -13,6 +14,7 @@ import "../style/hsl.css";
 const pTitles = ["Sales Invoices", "Sales Estimates"];
 const titles = {
   title: [`Invoice List`, `Estimate List`],
+  titleAdd: [`Invoice List`, `Estimate List`],
   desc: [
     `Shows all the recorded sales invoices against the selected date range`,
     `Shows all the recorded estimate against the selected date range`,
@@ -45,6 +47,7 @@ export default class HomeSales extends Component {
       page: 0,
       error: null,
       loading: false,
+      addPage: false,
       // /////////////////////////////
       allInvoice: [],
       allEstimate: [],
@@ -58,12 +61,15 @@ export default class HomeSales extends Component {
   render() {
     const state = this.state;
     const setState = (v) => this.setState(v);
-    const { page } = state;
-    const filter = <TitleFilter1 />;
+    const { page, addPage } = state;
+    const filter = !addPage ? <TitleFilter1 /> : null;
+    const bodyR = (
+      <HeaderButtens1 makeAdd={() => setState({ addPage: true })} />
+    );
 
     return (
       <React.StrictMode>
-        <Header1 title="SALES" bodyR={<HeaderButtens1 />} />
+        <Header1 title="SALES" bodyR={addPage ? null : bodyR} />
         <Header2 titles={pTitles} page={page} setState={setState} />
         <Header4
           title={titles.title[page]}
@@ -72,13 +78,15 @@ export default class HomeSales extends Component {
         />
         <HomeSalesInvoicesTable state={state} setState={setState} />
         <HomeSalesEstimatesTable state={state} setState={setState} />
+        <HomeSalesInvoicesForm state={state} setState={setState} />
+        <HomeSalesEstimatesForm state={state} setState={setState} />
       </React.StrictMode>
     );
   }
 }
 
 function HomeSalesInvoicesTable({ state, setState }) {
-  const { page, allInvoice } = state;
+  const { page, addPage, allInvoice } = state;
 
   const widths = [4, 10, 10, 25, 15, 15, 10, 8];
   const body = [];
@@ -96,7 +104,7 @@ function HomeSalesInvoicesTable({ state, setState }) {
         { data: it.status },
       ]);
     }
-  if (page !== 0) return null;
+  if (page !== 0 || addPage) return null;
   return (
     <React.StrictMode>
       <MyTable1 widths={widths} heads={heads0} body={body} />
@@ -104,7 +112,7 @@ function HomeSalesInvoicesTable({ state, setState }) {
   );
 }
 function HomeSalesEstimatesTable({ state, setState }) {
-  const { page, allEstimate } = state;
+  const { page, addPage, allEstimate } = state;
 
   const widths = [4, 10, 10, 30, 15, 15, 10];
   const body = [];
@@ -121,10 +129,29 @@ function HomeSalesEstimatesTable({ state, setState }) {
         { data: it.action },
       ]);
     }
-  if (page !== 1) return null;
+  if (page !== 1 || addPage) return null;
   return (
     <React.StrictMode>
       <MyTable1 widths={widths} heads={heads1} body={body} />
+    </React.StrictMode>
+  );
+}
+
+function HomeSalesInvoicesForm({ state, setState }) {
+  const { page, addPage } = state;
+  if (page !== 0 || !addPage) return null;
+  return (
+    <React.StrictMode>
+      <MyForm1 />
+    </React.StrictMode>
+  );
+}
+function HomeSalesEstimatesForm({ state, setState }) {
+  const { page, addPage } = state;
+  if (page !== 1 || !addPage) return null;
+  return (
+    <React.StrictMode>
+      <MyForm1 />
     </React.StrictMode>
   );
 }

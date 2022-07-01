@@ -33,7 +33,11 @@ export function Header2({ titles, page, setState }) {
   return (
     <div className="zcmB">
       {titles.map((it, k) => (
-        <div className="zcmBa" key={k} onClick={() => setState({ page: k })}>
+        <div
+          className="zcmBa"
+          key={k}
+          onClick={() => setState({ page: k, addPage: false })}
+        >
           <div className={page === k ? "zcmBb_" : "zcmBb"}>{it}</div>
           <div className={page === k ? "zcmBc" : "zcmBc_"}></div>
         </div>
@@ -310,14 +314,16 @@ function FilterCalender1({ v, y, m, add, selected, setSelected }) {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-export function HeaderButtens1({}) {
+export function HeaderButtens1({ makeAdd }) {
   const [isDrower, setIsDrower] = useState(false);
   return (
     <div className="zmcN">
       <div className="zmcNa" />
       <div className="zmcNb" />
       <div className="zmcNc">
-        <div className="zmcNcA">+ New Invoice</div>
+        <div className="zmcNcA" onClick={makeAdd}>
+          + New Invoice
+        </div>
         <div className="zmcNcB" onClick={() => setIsDrower(!isDrower)} />
         <div
           onClick={() => setIsDrower(!isDrower)}
@@ -329,6 +335,97 @@ export function HeaderButtens1({}) {
         >
           <div className="zmcNcE">Add New Invoice</div>
           <div className="zmcNcE">Add New Estimate</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////           FORMS            ///////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+export function MyForm1() {
+  return (
+    <div className="zmcQ">
+      <div className="zmcQa">
+        <div className="zmcQaA">
+          <div className="zmcQaAa">
+            <div className="zmcQaAaA">Customer*</div>
+            <select className="zmcQaAaB">
+              <option>Name</option>
+            </select>
+          </div>
+          <div className="zmcQaAa">
+            <div className="zmcQaAaA">Invoice Date*</div>
+            <div className="zmcQaAaC"></div>
+          </div>
+        </div>
+        <div className="zmcQaB">
+          <div className="zmcQaBa">Address</div>
+          <div className="zmcQaBb">
+            Jack Dorsea, 102A, Jami’a Street, New Delhi 12, India. GST:
+            AAA456AE3423AZ Phone: 974 523 6674
+          </div>
+        </div>
+      </div>
+      <div className="zmcQb">
+        <div className="zmcQbA">
+          <div className="zmcQbAa"></div>
+          <div className="zmcQbAb">Product / Service</div>
+          <div className="zmcQbAc">Qty</div>
+          <div className="zmcQbAd">Price / Rate</div>
+          <div className="zmcQbAe">Discount</div>
+          <div className="zmcQbAf">Tax Slab</div>
+          <div className="zmcQbAg">Tax Amount</div>
+          <div className="zmcQbAh">Total</div>
+        </div>
+        {[1, 1, 1, 1].map(() => (
+          <div className="zmcQbB">
+            <div className="zmcQbBa"></div>
+            <select className="zmcQbBb">
+              <option>APPLE iPHONE 13 PRO/128GB/BLACK</option>
+            </select>
+            <input className="zmcQbBc" />
+            <input className="zmcQbBd" />
+            <input className="zmcQbBe" />
+            <select className="zmcQbBf">
+              <option>Tax Slab</option>
+            </select>
+            <div className="zmcQbBg">Tax Amount</div>
+            <div className="zmcQbBh">Total</div>
+          </div>
+        ))}
+      </div>
+      <div className="zmcQc">
+        <div className="zmcQcA">
+          <div className="zmcQcAa">Delivery Address</div>
+          <textarea className="zmcQcAb" placeholder="Address" />
+          <div className="zmcQcAa">Invoice Note</div>
+          <textarea
+            className="zmcQcAc"
+            placeholder="Enter invoice terms / notes here"
+          />
+        </div>
+        <div className="zmcQcB">
+          <div className="zmcQcBa">
+            <div>Discount</div>
+            <input className="zmcQcBb" placeholder="0.0" />
+          </div>
+          <div className="zmcQcBa">
+            <div>Subtotal</div>
+            <div>4,685.00</div>
+          </div>
+          <div className="zmcQcBa">
+            <div>Tax</div>
+            <div>0.00</div>
+          </div>
+          <div className="zmcQcBc">
+            <div>Total</div>
+            <div>4,685.00</div>
+          </div>
         </div>
       </div>
     </div>
