@@ -1,6 +1,7 @@
-import React, { Component } from "react";
-import "../style/hdb.css";
+import React, { Component, StrictMode } from "react";
+import { allSettings } from "../module/home_settings";
 import { Header1, Header2 } from "./widget";
+import "../style/hst.css";
 
 const pTitles = ["All Settings"];
 
@@ -8,7 +9,7 @@ export default class HomeSettings extends Component {
   constructor() {
     super();
     this.state = {
-      page: 0,
+      page: null,
     };
   }
   render() {
@@ -20,8 +21,30 @@ export default class HomeSettings extends Component {
     return (
       <React.StrictMode>
         <Header1 title="SETTINGS" bodyL={titleL} />
-        <Header2 titles={pTitles} page={page} setState={setState} />
+        <Header2 titles={pTitles} page={0} setState={setState} />
+        <HomeSettingsLanding state={state} setState={setState} />
       </React.StrictMode>
     );
   }
+}
+
+function HomeSettingsLanding({ state, setState }) {
+  const { page } = state;
+  if (page !== null) return null;
+  return (
+    <div className="hstA">
+      {allSettings.map((it, k) => (
+        <div className="hstAa" key={k}>
+          <div className="hstAb">{it.title}</div>
+          <div className="hstAc">{it.desc}</div>
+          {it.data.map((it, k) => (
+            <div className="hstAd" key={k}>
+              <div className="hstAe">{it.title}</div>
+              <div className="hstAf">{it.desc}</div>
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
 }

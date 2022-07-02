@@ -1,0 +1,45 @@
+.hstA {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  overflow: auto;
+  height: calc(100vh - 9vw);
+  color: #000120;
+}
+.hstAa {
+  width: 37vw;
+  margin: 0vw 3vw;
+}
+.hstAb {
+  font-weight: bold;
+  font-size: 1.16vw;
+  margin: 0vw 0.4vw;
+  margin-top: 2vw;
+}
+.hstAc {
+  font-size: 0.88vw;
+  border-bottom: 0.06vw solid #b3c3de;
+  padding: 0.2vw 0vw;
+  margin: 0vw 0.4vw;
+  margin-bottom: 1vw;
+}
+.hstAd {
+  transition: 0.5s;
+  background-color: #2d4c8600;
+  padding: 0.4vw;
+  margin: 0.3vw 0vw;
+  border-radius: 0.2vw;
+  cursor: pointer;
+}
+.hstAd:hover {
+  transition: 100ms;
+  background-color: #2d4c861f;
+}
+.hstAe {
+  font-size: 0.9vw;
+  color: #2d4c86;
+  font-weight: bold;
+}
+.hstAf {
+  font-size: 0.7vw;
+}
