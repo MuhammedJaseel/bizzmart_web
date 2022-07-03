@@ -1,10 +1,6 @@
 import React, { StrictMode, useState } from "react";
-import {
-  fullMonths,
-  makeCalenderDigits,
-  shortDays,
-  typeDates,
-} from "../module/widget";
+import { fullMonths, makeCalenderDigits } from "../module/widget";
+import { shortDays, typeDates } from "../module/widget";
 import "../style/zcm.css";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -80,65 +76,6 @@ export function Header4({ title, desc, body }) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////          TABELS           /////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-export function MyTable1({ widths, heads, body }) {
-  const st = [];
-  for (let i = 0; i < widths.length; i++) st.push({ width: widths[i] + "%" });
-
-  if (widths.length !== heads.length) return <>Heading leagth different</>;
-  if (body.length > 0)
-    if (widths.length !== body[0].length) return <>Body leagth different</>;
-  return (
-    <div className="zcmH">
-      <div className="zcmHa">
-        {heads.map((it, k) => (
-          <div key={k} style={st[k]}>
-            {it}
-          </div>
-        ))}
-      </div>
-      <div className="zcmHb">
-        {body.map((it, k) => (
-          <div key={k} className="zcmHbA">
-            {it.map((it2, j) => (
-              <div
-                key={j}
-                style={st[j]}
-                className={"zcmHbB" + (it2.type || "0")}
-              >
-                {it2.type === 1 ? (
-                  it2.data === "" ||
-                  it2.data === null ||
-                  it2.data === undefined ? (
-                    <div className="zcmHbB1A">
-                      {it2.data2.substring(0, 2).toUpperCase()}
-                    </div>
-                  ) : (
-                    <img className="zcmHbB1A" src={it2.data} />
-                  )
-                ) : it2.type === 2 ? (
-                  <StrictMode>
-                    <div className="zcmHbB2A">{it2.data}</div>
-                    <div className="zcmHbB2B">{it2.data2}</div>
-                  </StrictMode>
-                ) : (
-                  it2.data
-                )}
-              </div>
-            ))}
-          </div>
-        ))}
-      </div>
-      <div className="zcmHc"></div>
-    </div>
-  );
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////          FILTERS           /////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -173,7 +110,8 @@ export function TitleTable1({ data, setPage }) {
   );
 }
 
-export function TitleFilter1({}) {
+export function TitleFilter1({ props }) {
+  const { searchPh, noDate } = props;
   const [isCalender, setIsCalender] = useState(false);
   const [value, setValue] = useState(0);
   const [selected, setSelected] = useState([10, 20]);
@@ -186,57 +124,61 @@ export function TitleFilter1({}) {
   const add = (v) => setValue(parseInt(value) + v);
   return (
     <div className="zmcK">
-      <input className="zmcKa" placeholder="Search an Invoices" />
+      <input className="zmcKa" placeholder={searchPh} />
       <div className="zmcKb">SHOWING:</div>
       <select className="zmcKc">
         <option>Hallow</option>
       </select>
-      <div className="zmcKd">17 Feb 2022 to 28 Feb 2022</div>
-      <div className="zmcKe">
-        <div className="zmcKeA" onClick={() => setIsCalender(!isCalender)}>
-          Today
-        </div>
-        <div
-          className={isCalender ? "zmcKeB_" : "zmcKeB"}
-          onClick={() => setIsCalender(!isCalender)}
-        />
-        <div className={isCalender ? "zmcKeC_" : "zmcKeC"}>
-          <div className="zmcKeCa">
-            <div className="zmcKeCb">
-              <div className="zmcKeCc">
-                <FilterCalender1
-                  v={0}
-                  y={year_}
-                  m={month_}
-                  add={add}
-                  selected={selected}
-                  setSelected={setSelected}
-                />
-                <FilterCalender1
-                  v={1}
-                  y={year}
-                  m={month}
-                  add={add}
-                  selected={selected}
-                  setSelected={setSelected}
-                />
-              </div>
-              <div className="zmcKeCd">Update</div>
+      {noDate ? null : (
+        <StrictMode>
+          <div className="zmcKd">17 Feb 2022 to 28 Feb 2022</div>
+          <div className="zmcKe">
+            <div className="zmcKeA" onClick={() => setIsCalender(!isCalender)}>
+              Today
             </div>
-            <div className="zmcKeCe">
-              {typeDates.map((it, k) => (
-                <div
-                  key={k}
-                  className="zmcKeCf"
-                  onClick={() => setSelected(it.fun)}
-                >
-                  {it.title}
+            <div
+              className={isCalender ? "zmcKeB_" : "zmcKeB"}
+              onClick={() => setIsCalender(!isCalender)}
+            />
+            <div className={isCalender ? "zmcKeC_" : "zmcKeC"}>
+              <div className="zmcKeCa">
+                <div className="zmcKeCb">
+                  <div className="zmcKeCc">
+                    <FilterCalender1
+                      v={0}
+                      y={year_}
+                      m={month_}
+                      add={add}
+                      selected={selected}
+                      setSelected={setSelected}
+                    />
+                    <FilterCalender1
+                      v={1}
+                      y={year}
+                      m={month}
+                      add={add}
+                      selected={selected}
+                      setSelected={setSelected}
+                    />
+                  </div>
+                  <div className="zmcKeCd">Update</div>
                 </div>
-              ))}
+                <div className="zmcKeCe">
+                  {typeDates.map((it, k) => (
+                    <div
+                      key={k}
+                      className="zmcKeCf"
+                      onClick={() => setSelected(it.fun)}
+                    >
+                      {it.title}
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
+        </StrictMode>
+      )}
     </div>
   );
 }
@@ -314,17 +256,20 @@ function FilterCalender1({ v, y, m, add, selected, setSelected }) {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-export function HeaderButtens1({ makeAdd }) {
+export function HeaderButtens1({ props }) {
+  const { makeAdd, title, drowelList, onShare, onDownload } = props;
   const [isDrower, setIsDrower] = useState(false);
   return (
     <div className="zmcN">
-      <div className="zmcNa" />
-      <div className="zmcNb" />
+      <div className="zmcNa" onClick={onDownload} />
+      <div className="zmcNb" onClick={onShare} />
       <div className="zmcNc">
         <div className="zmcNcA" onClick={makeAdd}>
-          + New Invoice
+          {title}
         </div>
-        <div className="zmcNcB" onClick={() => setIsDrower(!isDrower)} />
+        {drowelList !== null ? (
+          <div className="zmcNcB" onClick={() => setIsDrower(!isDrower)} />
+        ) : null}
         <div
           onClick={() => setIsDrower(!isDrower)}
           className={isDrower ? "zmcNcD_" : "zmcNcD"}
@@ -333,8 +278,11 @@ export function HeaderButtens1({ makeAdd }) {
           className={isDrower ? "zmcNcC_" : "zmcNcC"}
           onClick={() => setIsDrower(!isDrower)}
         >
-          <div className="zmcNcE">Add New Invoice</div>
-          <div className="zmcNcE">Add New Estimate</div>
+          {drowelList?.map((it, k) => (
+            <div className="zmcNcE" onClick={it.fun}>
+              {it.title}
+            </div>
+          ))}
         </div>
       </div>
     </div>

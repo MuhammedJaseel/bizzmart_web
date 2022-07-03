@@ -1,7 +1,14 @@
 import React, { Component } from "react";
 import { expenseList } from "../module/dummydata";
+import { MyTable1 } from "./widget_table";
+import {
+  Header1,
+  Header2,
+  Header4,
+  HeaderButtens1,
+  TitleFilter1,
+} from "./widget";
 import "../style/hdb.css";
-import { Header1, Header2, Header4, MyTable1 } from "./widget";
 
 const pTitles = ["Expense Enteries"];
 const desc =
@@ -22,6 +29,7 @@ export default class HomeExpense extends Component {
     this.state = {
       error: null,
       loading: false,
+      addPage: false,
       // /////////////////////////////
       allExpense: [],
     };
@@ -32,7 +40,18 @@ export default class HomeExpense extends Component {
   render() {
     const state = this.state;
     const setState = (v) => this.setState(v);
-    const { allExpense } = state;
+    const { allExpense, addPage } = state;
+
+    const filterBody = {
+      searchPh: "Search an expenses",
+    };
+    const filter = !addPage ? <TitleFilter1 props={filterBody} /> : null;
+    const bodyRBody = {
+      makeAd: () => setState({ addPage: true }),
+      title: "+ New Expense",
+      drowelList: [],
+    };
+    const bodyR = <HeaderButtens1 props={bodyRBody} />;
 
     const widths = [4, 10, 10, 20, 20, 15, 10];
     const body = [];
@@ -52,9 +71,9 @@ export default class HomeExpense extends Component {
 
     return (
       <React.StrictMode>
-        <Header1 title="EXPENSES > EXPENSES LIST" />
+        <Header1 title="EXPENSES > EXPENSES LIST" bodyR={bodyR} />
         <Header2 titles={pTitles} page={0} setState={setState} />
-        <Header4 title={"Expenses List"} desc={desc} />
+        <Header4 title={"Expenses List"} desc={desc} body={filter} />
         <MyTable1 widths={widths} heads={heads} body={body} />
       </React.StrictMode>
     );

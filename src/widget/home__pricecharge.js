@@ -1,6 +1,7 @@
 import React, { Component, StrictMode } from "react";
 import { productList } from "../module/dummydata";
-import { Header1, Header2, Header4, MyTable1 } from "./widget";
+import { MyTable1 } from "./widget_table";
+import { Header1, Header2, Header4 } from "./widget";
 
 const title = "Price Charge";
 const desc = "You can change price branch level or global business level here";

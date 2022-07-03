@@ -1,6 +1,7 @@
 import React, { Component, StrictMode } from "react";
 import { productList } from "../module/dummydata";
-import { Header1, Header2, Header4, MyTable1 } from "./widget";
+import { MyTable1 } from "./widget_table";
+import { Header1, Header2, Header4 } from "./widget";
 
 const title = "Product List";
 const desc = "Shows all the team members recorded against your business";
@@ -71,7 +72,7 @@ function HomeInventoryProductTable({ state, setState }) {
         { data: it.msl },
       ]);
     }
-    
+
   return (
     <React.StrictMode>
       <MyTable1 widths={widths} heads={heads} body={body} />

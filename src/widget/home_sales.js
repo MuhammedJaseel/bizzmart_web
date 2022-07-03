@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { estimateList, invoiceList } from "../module/dummydata";
+import { MyTable1 } from "./widget_table";
 import {
   Header1,
   Header2,
   Header4,
   HeaderButtens1,
   MyForm1,
-  MyTable1,
   TitleFilter1,
 } from "./widget";
 import "../style/hsl.css";
@@ -62,14 +62,23 @@ export default class HomeSales extends Component {
     const state = this.state;
     const setState = (v) => this.setState(v);
     const { page, addPage } = state;
-    const filter = !addPage ? <TitleFilter1 /> : null;
-    const bodyR = (
-      <HeaderButtens1 makeAdd={() => setState({ addPage: true })} />
-    );
+    const filterBody = {
+      searchPh: "Search an Invoices",
+    };
+    const filter = !addPage ? <TitleFilter1 props={filterBody} /> : null;
+    const bodyRBody = {
+      makeAd: () => setState({ addPage: true }),
+      title: page === 0 ? "+ New Invoice" : "+ New Estmates",
+      drowelList: [
+        { title: "Add New Invoice", fun: () => alert() },
+        { title: "Add New Estimate", fun: () => alert() },
+      ],
+    };
+    const bodyR = !addPage ? <HeaderButtens1 props={bodyRBody} /> : null;
 
     return (
       <React.StrictMode>
-        <Header1 title="SALES" bodyR={addPage ? null : bodyR} />
+        <Header1 title="SALES" bodyR={bodyR} />
         <Header2 titles={pTitles} page={page} setState={setState} />
         <Header4
           title={titles.title[page]}

@@ -1,7 +1,14 @@
 import React, { Component } from "react";
 import { teamMembers, teamPartners } from "../module/dummydata";
+import { MyTable1 } from "./widget_table";
+import {
+  Header1,
+  Header2,
+  Header4,
+  HeaderButtens1,
+  TitleFilter1,
+} from "./widget";
 import "../style/hdb.css";
-import { Header1, Header2, Header4, MyTable1 } from "./widget";
 
 const pTitles = ["Team Members", "Partners"];
 const titles = {
@@ -49,14 +56,38 @@ export default class HomeTeam extends Component {
   render() {
     const state = this.state;
     const setState = (v) => this.setState(v);
-    const { page } = state;
+    const { page, addPage } = state;
+
+    const filterBody = {
+      searchPh: "Search " + (page === 0 ? "team members" : "partners"),
+      noDate: true,
+    };
+    const filter = !addPage ? <TitleFilter1 props={filterBody} /> : null;
     const titleL = page === 0 ? "TEAM LIST" : "PARTNERS";
+    const bodyRBody = {
+      makeAd: () => setState({ addPage: true }),
+      title: page === 0 ? "+ NEW EMPLOYEE" : "+ ADD PARTNER",
+      drowelList:
+        page === 0
+          ? [
+              { title: "New Employee", fun: () => alert() },
+              { title: "Payslip", fun: () => alert() },
+              { title: "Payrun", fun: () => alert() },
+              { title: "Paytoll Advance", fun: () => alert() },
+            ]
+          : [],
+    };
+    const bodyR = <HeaderButtens1 props={bodyRBody} />;
 
     return (
       <React.StrictMode>
-        <Header1 title="TEAM" bodyL={titleL} />
+        <Header1 title="TEAM" bodyL={titleL} bodyR={bodyR} />
         <Header2 titles={pTitles} page={page} setState={setState} />
-        <Header4 title={titles.title[page]} desc={titles.desc[page]} />
+        <Header4
+          title={titles.title[page]}
+          desc={titles.desc[page]}
+          body={filter}
+        />
         <HomeTeamMembersTable state={state} setState={setState} />
         <HomeTeamPartnersTable state={state} setState={setState} />
         <HomeTeamMembersForm state={state} setState={setState} />

@@ -1,6 +1,7 @@
 import React, { Component, StrictMode } from "react";
 import { stockIssue } from "../module/dummydata";
-import { Header1, Header2, Header4, MyTable1 } from "./widget";
+import { MyTable1 } from "./widget_table";
+import { Header1, Header2, Header4 } from "./widget";
 
 const title = "Stock Issue";
 const desc = "Issue stock from your main branch to connected branches";

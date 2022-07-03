@@ -1,7 +1,14 @@
 import React, { Component } from "react";
 import { customerList, suppliersList } from "../module/dummydata";
 import "../style/hdb.css";
-import { Header1, Header2, Header4, MyTable1 } from "./widget";
+import { MyTable1 } from "./widget_table";
+import {
+  Header1,
+  Header2,
+  Header4,
+  HeaderButtens1,
+  TitleFilter1,
+} from "./widget";
 
 const pTitles = ["Customers", "Suppliers"];
 const titles = {
@@ -54,11 +61,27 @@ export default class HomeParties extends Component {
     const { page, addPage } = state;
     const titleL = page === 0 ? "COUSTOMERS" : "SUPPLIERS";
 
+    const filterBody = {
+      searchPh: "Search a " + (page === 0 ? "customer" : "sippliers"),
+      noDate: true,
+    };
+    const filter = !addPage ? <TitleFilter1 props={filterBody} /> : null;
+    const bodyRBody = {
+      makeAd: () => setState({ addPage: true }),
+      title: page === 0 ? "+ New Customer" : "+ New Suppliers",
+      drowelList: null,
+    };
+    const bodyR = addPage ? null : <HeaderButtens1 props={bodyRBody} />;
+
     return (
       <React.StrictMode>
-        <Header1 title="PARTIES" bodyL={titleL} />
+        <Header1 title="PARTIES" bodyL={titleL} bodyR={bodyR} />
         <Header2 titles={pTitles} page={page} setState={setState} />
-        <Header4 title={titles.title[page]} desc={titles.desc[page]} />
+        <Header4
+          title={titles.title[page]}
+          desc={titles.desc[page]}
+          body={filter}
+        />
         <HomePartiesCoustomerTable state={state} setState={setState} />
         <HomePartiesSuppliersTable state={state} setState={setState} />
         <HomePartiesCoustomerForm state={state} setState={setState} />

@@ -97,7 +97,7 @@ export default class HomeScreen extends Component {
                   </div>
                   <div className="hmBk">{ic.title}</div>
                 </div>
-                {k === 2 || k === 12 ? <div className="hmBi_a" /> : null}
+                {k === 2 || k === 11 ? <div className="hmBi_a" /> : null}
               </React.StrictMode>
             ))}
           </div>

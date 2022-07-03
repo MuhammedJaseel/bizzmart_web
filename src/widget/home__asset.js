@@ -1,6 +1,7 @@
 import React, { Component, StrictMode } from "react";
 import { assetList } from "../module/dummydata";
-import { Header1, Header2, Header4, MyTable1 } from "./widget";
+import { MyTable1 } from "./widget_table";
+import { Header1, Header2, Header4 } from "./widget";
 
 const title = "Asset List";
 const desc = "Shows all the team members recorded against your business";

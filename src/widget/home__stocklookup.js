@@ -1,6 +1,7 @@
 import React, { Component, StrictMode } from "react";
 import { productList } from "../module/dummydata";
-import { Header1, Header2, Header4, MyTable1 } from "./widget";
+import { MyTable1 } from "./widget_table";
+import { Header1, Header2, Header4 } from "./widget";
 
 const title = "Stock Lookup";
 const desc = "Shows stock positions across all the connected branches";
