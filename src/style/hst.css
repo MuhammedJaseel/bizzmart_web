@@ -11,13 +11,13 @@
   margin: 0vw 3vw;
 }
 .hstAb {
-  font-weight: bold;
-  font-size: 1.16vw;
+  font-weight: 500;
+  font-size: 1.44vw;
   margin: 0vw 0.4vw;
   margin-top: 2vw;
 }
 .hstAc {
-  font-size: 0.88vw;
+  font-size: 0.97vw;
   border-bottom: 0.06vw solid #b3c3de;
   padding: 0.2vw 0vw;
   margin: 0vw 0.4vw;
@@ -36,10 +36,10 @@
   background-color: #2d4c861f;
 }
 .hstAe {
-  font-size: 0.9vw;
+  font-size: 0.91vw;
   color: #2d4c86;
-  font-weight: bold;
+  font-weight: 500;
 }
 .hstAf {
-  font-size: 0.7vw;
+  font-size: 0.66vw;
 }

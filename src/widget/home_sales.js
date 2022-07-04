@@ -1,14 +1,9 @@
 import React, { Component } from "react";
 import { estimateList, invoiceList } from "../module/dummydata";
-import { MyTable1 } from "./widget_table";
-import {
-  Header1,
-  Header2,
-  Header4,
-  HeaderButtens1,
-  MyForm1,
-  TitleFilter1,
-} from "./widget";
+import { MyTable1, MyTableCounter1 } from "./widget_table";
+import { Header1, Header2, Header4 } from "./widget";
+import { HeaderButtens1, TitleFilter1 } from "./widget";
+import { MyForm1 } from "./widget_form";
 import "../style/hsl.css";
 
 const pTitles = ["Sales Invoices", "Sales Estimates"];
@@ -62,12 +57,11 @@ export default class HomeSales extends Component {
     const state = this.state;
     const setState = (v) => this.setState(v);
     const { page, addPage } = state;
-    const filterBody = {
-      searchPh: "Search an Invoices",
-    };
+
+    const filterBody = { searchPh: "Search an Invoices" };
     const filter = !addPage ? <TitleFilter1 props={filterBody} /> : null;
     const bodyRBody = {
-      makeAd: () => setState({ addPage: true }),
+      makeAdd: () => setState({ addPage: true }),
       title: page === 0 ? "+ New Invoice" : "+ New Estmates",
       drowelList: [
         { title: "Add New Invoice", fun: () => alert() },
@@ -117,6 +111,7 @@ function HomeSalesInvoicesTable({ state, setState }) {
   return (
     <React.StrictMode>
       <MyTable1 widths={widths} heads={heads0} body={body} />
+      <MyTableCounter1 props={{ total: 100 }} />
     </React.StrictMode>
   );
 }
@@ -142,6 +137,7 @@ function HomeSalesEstimatesTable({ state, setState }) {
   return (
     <React.StrictMode>
       <MyTable1 widths={widths} heads={heads1} body={body} />
+      <MyTableCounter1 props={{ total: 100 }} />
     </React.StrictMode>
   );
 }

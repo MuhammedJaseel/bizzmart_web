@@ -1,11 +1,11 @@
 import React from "react";
 import bizzMartLogo from "../asset/bizzmart_logo.png";
-import "../style/zcm.css";
+import "../style/zc.css";
 
 export function LoadingScreen1() {
   return (
-    <div className="zcmE">
-      <img alt="img" className="zcmEa" src={bizzMartLogo} />
+    <div className="zcE">
+      <img alt="img" className="zcEa" src={bizzMartLogo} />
     </div>
   );
 }

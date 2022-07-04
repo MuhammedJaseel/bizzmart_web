@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { teamMembers, teamPartners } from "../module/dummydata";
-import { MyTable1 } from "./widget_table";
+import { MyTable1, MyTableCounter1 } from "./widget_table";
 import {
   Header1,
   Header2,
@@ -120,6 +120,7 @@ function HomeTeamMembersTable({ state, setState }) {
   return (
     <React.StrictMode>
       <MyTable1 widths={widths} heads={heads0} body={body} />
+      <MyTableCounter1 props={{ total: 100 }} />
     </React.StrictMode>
   );
 }
@@ -145,6 +146,7 @@ function HomeTeamPartnersTable({ state, setState }) {
   return (
     <React.StrictMode>
       <MyTable1 widths={widths} heads={heads1} body={body} />
+      <MyTableCounter1 props={{ total: 100 }} />
     </React.StrictMode>
   );
 }

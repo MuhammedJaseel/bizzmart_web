@@ -1,7 +1,7 @@
 import React, { StrictMode, useState } from "react";
 import { fullMonths, makeCalenderDigits } from "../module/widget";
 import { shortDays, typeDates } from "../module/widget";
-import "../style/zcm.css";
+import "../style/zc.css";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -12,9 +12,9 @@ import "../style/zcm.css";
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 export function Header1({ title, bodyL, bodyR, onclick }) {
   return (
-    <div className="zcmA">
-      <div className="zcmAa">
-        <div className="zcmAb" onClick={onclick}>
+    <div className="zcA">
+      <div className="zcAa">
+        <div className="zcAb" onClick={onclick}>
           {title}
           {bodyL !== undefined ? " >" : null}&nbsp;
         </div>
@@ -27,15 +27,15 @@ export function Header1({ title, bodyL, bodyR, onclick }) {
 
 export function Header2({ titles, page, setState }) {
   return (
-    <div className="zcmB">
+    <div className="zcB">
       {titles.map((it, k) => (
         <div
-          className="zcmBa"
+          className="zcBa"
           key={k}
           onClick={() => setState({ page: k, addPage: false })}
         >
-          <div className={page === k ? "zcmBb_" : "zcmBb"}>{it}</div>
-          <div className={page === k ? "zcmBc" : "zcmBc_"}></div>
+          <div className={page === k ? "zcBb_" : "zcBb"}>{it}</div>
+          <div className={page === k ? "zcBc" : "zcBc_"}></div>
         </div>
       ))}
     </div>
@@ -44,18 +44,16 @@ export function Header2({ titles, page, setState }) {
 
 export function Header3({ titles, page, setState }) {
   return (
-    <div className="zcmC">
+    <div className="zcC">
       {titles.map((it, k) => (
-        <div className="zcmCa" key={k} onClick={() => setState({ page: k })}>
-          <div className="zcmCb">
-            <div className={page === k ? "zcmCc_" : "zcmCc"}>{it.title}</div>
+        <div className="zcCa" key={k} onClick={() => setState({ page: k })}>
+          <div className="zcCb">
+            <div className={page === k ? "zcCc_" : "zcCc"}>{it.title}</div>
             {it.count !== 0 ? (
-              <div className={k === 5 ? "zcmCd zcmCd-r" : "zcmCd"}>
-                {it.count}
-              </div>
+              <div className={k === 5 ? "zcCd zcCd-r" : "zcCd"}>{it.count}</div>
             ) : null}
           </div>
-          <div className={page === k ? "zcmCe" : "zcmCe_"}></div>
+          <div className={page === k ? "zcCe" : "zcCe_"}></div>
         </div>
       ))}
     </div>
@@ -65,10 +63,10 @@ export function Header3({ titles, page, setState }) {
 export function Header4({ title, desc, body }) {
   return (
     <StrictMode>
-      <div className="zcmDa">{title}</div>
-      <div className="zcmDb">
-        <div className="zcmDc">{desc}</div>
-        <div className="zcmDd">{body}</div>
+      <div className="zcDa">{title}</div>
+      <div className="zcDb">
+        <div className="zcDc">{desc}</div>
+        <div className="zcDd">{body}</div>
       </div>
     </StrictMode>
   );
@@ -82,23 +80,23 @@ export function Header4({ title, desc, body }) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 export function TitleTable1({ data, setPage }) {
   return (
-    <div className="zcmI">
+    <div className="zcI">
       {data.map((item, j) => (
         <div key={j}>
           {item.map((item1, k) => (
             <StrictMode key={k}>
-              <div className="zcmIa">
-                <div className="zcmIaA">{item1.t}</div>
-                <div className="zcmIaB">{item1.t1}</div>
+              <div className="zcIa">
+                <div className="zcIaA">{item1.t}</div>
+                <div className="zcIaB">{item1.t1}</div>
               </div>
               {item1.data.map((it, k) => (
-                <div className="zcmIc" key={k} onClick={() => setPage(it)}>
-                  <div className="zcmIc_">
-                    <div className="zcmIcA">
-                      <div className="zcmIcB">{it.t}</div>
-                      <div className="zcmIcC">{it.d}</div>
+                <div className="zcIc" key={k} onClick={() => setPage(it)}>
+                  <div className="zcIc_">
+                    <div className="zcIcA">
+                      <div className="zcIcB">{it.t}</div>
+                      <div className="zcIcC">{it.d}</div>
                     </div>
-                    <div className="zcmIcD">{it.d1}</div>
+                    <div className="zcIcD">{it.d1}</div>
                   </div>
                 </div>
               ))}
@@ -283,97 +281,6 @@ export function HeaderButtens1({ props }) {
               {it.title}
             </div>
           ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////           FORMS            ///////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-export function MyForm1() {
-  return (
-    <div className="zmcQ">
-      <div className="zmcQa">
-        <div className="zmcQaA">
-          <div className="zmcQaAa">
-            <div className="zmcQaAaA">Customer*</div>
-            <select className="zmcQaAaB">
-              <option>Name</option>
-            </select>
-          </div>
-          <div className="zmcQaAa">
-            <div className="zmcQaAaA">Invoice Date*</div>
-            <div className="zmcQaAaC"></div>
-          </div>
-        </div>
-        <div className="zmcQaB">
-          <div className="zmcQaBa">Address</div>
-          <div className="zmcQaBb">
-            Jack Dorsea, 102A, Jami’a Street, New Delhi 12, India. GST:
-            AAA456AE3423AZ Phone: 974 523 6674
-          </div>
-        </div>
-      </div>
-      <div className="zmcQb">
-        <div className="zmcQbA">
-          <div className="zmcQbAa"></div>
-          <div className="zmcQbAb">Product / Service</div>
-          <div className="zmcQbAc">Qty</div>
-          <div className="zmcQbAd">Price / Rate</div>
-          <div className="zmcQbAe">Discount</div>
-          <div className="zmcQbAf">Tax Slab</div>
-          <div className="zmcQbAg">Tax Amount</div>
-          <div className="zmcQbAh">Total</div>
-        </div>
-        {[1, 1, 1, 1].map(() => (
-          <div className="zmcQbB">
-            <div className="zmcQbBa"></div>
-            <select className="zmcQbBb">
-              <option>APPLE iPHONE 13 PRO/128GB/BLACK</option>
-            </select>
-            <input className="zmcQbBc" />
-            <input className="zmcQbBd" />
-            <input className="zmcQbBe" />
-            <select className="zmcQbBf">
-              <option>Tax Slab</option>
-            </select>
-            <div className="zmcQbBg">Tax Amount</div>
-            <div className="zmcQbBh">Total</div>
-          </div>
-        ))}
-      </div>
-      <div className="zmcQc">
-        <div className="zmcQcA">
-          <div className="zmcQcAa">Delivery Address</div>
-          <textarea className="zmcQcAb" placeholder="Address" />
-          <div className="zmcQcAa">Invoice Note</div>
-          <textarea
-            className="zmcQcAc"
-            placeholder="Enter invoice terms / notes here"
-          />
-        </div>
-        <div className="zmcQcB">
-          <div className="zmcQcBa">
-            <div>Discount</div>
-            <input className="zmcQcBb" placeholder="0.0" />
-          </div>
-          <div className="zmcQcBa">
-            <div>Subtotal</div>
-            <div>4,685.00</div>
-          </div>
-          <div className="zmcQcBa">
-            <div>Tax</div>
-            <div>0.00</div>
-          </div>
-          <div className="zmcQcBc">
-            <div>Total</div>
-            <div>4,685.00</div>
-          </div>
         </div>
       </div>
     </div>

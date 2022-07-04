@@ -1,8 +1,15 @@
 import React, { Component } from "react";
 import { purchaseList, purchaseOrder } from "../module/dummydata";
 import "../style/hpr.css";
-import { MyTable1 } from "./widget_table";
-import { Header1, Header2, Header4, HeaderButtens1, TitleFilter1 } from "./widget";
+import { MyTable1, MyTableCounter1 } from "./widget_table";
+import {
+  Header1,
+  Header2,
+  Header4,
+  HeaderButtens1,
+  TitleFilter1,
+} from "./widget";
+import { MyForm1 } from "./widget_form";
 
 const pTitles = ["Purchase List", "Purchase Order"];
 const desc = [
@@ -29,6 +36,7 @@ export default class HomePurchase extends Component {
       page: 0,
       error: null,
       loading: false,
+      addPage: false,
       // /////////////////////////////
       allPurchaseList: [],
       allPurchaseOrder: [],
@@ -52,7 +60,7 @@ export default class HomePurchase extends Component {
     };
     const filter = !addPage ? <TitleFilter1 props={filterBody} /> : null;
     const bodyRBody = {
-      makeAd: () => setState({ addPage: true }),
+      makeAdd: () => setState({ addPage: true }),
       title: page === 0 ? "+ New Purchase" : "+ New Purchase Order",
       drowelList: [
         { title: "Add Purchase", fun: () => alert() },
@@ -64,22 +72,19 @@ export default class HomePurchase extends Component {
     return (
       <React.StrictMode>
         <Header1 title="Purchase" bodyR={addPage ? null : bodyR} />
-        <Header2
-          titles={pTitles}
-          page={page}
-          setState={setState}
-          body={filter}
-        />
-        <Header4 title={pTitles[page]} desc={desc[page]} />
+        <Header2 titles={pTitles} page={page} setState={setState} />
+        <Header4 title={pTitles[page]} desc={desc[page]} body={filter} />
         <HomePurchaseListTable state={state} setState={setState} />
         <HomePurchaseOrderTable state={state} setState={setState} />
+        <HomePurchaseListForm state={state} setState={setState} />
+        <HomePurchaseOrderForm state={state} setState={setState} />
       </React.StrictMode>
     );
   }
 }
 
 function HomePurchaseListTable({ state, setState }) {
-  const { page, allPurchaseList } = state;
+  const { page, allPurchaseList, addPage } = state;
 
   const widths = [4, 12, 12, 24, 12, 12, 12, 8];
   const body = [];
@@ -97,15 +102,16 @@ function HomePurchaseListTable({ state, setState }) {
         { data: it.status },
       ]);
     }
-  if (page !== 0) return null;
+  if (page !== 0 || addPage) return null;
   return (
     <React.StrictMode>
       <MyTable1 widths={widths} heads={heads0} body={body} />
+      <MyTableCounter1 props={{ total: 100 }} />
     </React.StrictMode>
   );
 }
 function HomePurchaseOrderTable({ state, setState }) {
-  const { page, allPurchaseOrder } = state;
+  const { page, allPurchaseOrder, addPage } = state;
 
   const widths = [4, 15, 15, 35, 15, 8];
   const body = [];
@@ -121,10 +127,31 @@ function HomePurchaseOrderTable({ state, setState }) {
         { data: it.action, type: 2 },
       ]);
     }
-  if (page !== 1) return null;
+  if (page !== 1 || addPage) return null;
   return (
     <React.StrictMode>
       <MyTable1 widths={widths} heads={heads1} body={body} />
+      <MyTableCounter1 props={{ total: 100 }} />
+    </React.StrictMode>
+  );
+}
+
+function HomePurchaseListForm({ state, setState }) {
+  const { page, addPage } = state;
+  if (page !== 0 || !addPage) return null;
+  return (
+    <React.StrictMode>
+      <MyForm1 />
+    </React.StrictMode>
+  );
+}
+
+function HomePurchaseOrderForm({ state, setState }) {
+  const { page, addPage } = state;
+  if (page !== 1 || !addPage) return null;
+  return (
+    <React.StrictMode>
+      <MyForm1 />
     </React.StrictMode>
   );
 }

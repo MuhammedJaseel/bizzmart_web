@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { expenseList } from "../module/dummydata";
-import { MyTable1 } from "./widget_table";
+import { MyTable1, MyTableCounter1 } from "./widget_table";
 import {
   Header1,
   Header2,
@@ -75,6 +75,7 @@ export default class HomeExpense extends Component {
         <Header2 titles={pTitles} page={0} setState={setState} />
         <Header4 title={"Expenses List"} desc={desc} body={filter} />
         <MyTable1 widths={widths} heads={heads} body={body} />
+        <MyTableCounter1 props={{ total: 100 }} />
       </React.StrictMode>
     );
   }
