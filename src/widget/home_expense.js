@@ -9,6 +9,7 @@ import {
   TitleFilter1,
 } from "./widget";
 import "../style/hdb.css";
+import { MyForm1 } from "./widget_form";
 
 const pTitles = ["Expense Enteries"];
 const desc =
@@ -47,36 +48,56 @@ export default class HomeExpense extends Component {
     };
     const filter = !addPage ? <TitleFilter1 props={filterBody} /> : null;
     const bodyRBody = {
-      makeAd: () => setState({ addPage: true }),
+      makeAdd: () => setState({ addPage: true }),
       title: "+ New Expense",
       drowelList: [],
     };
     const bodyR = <HeaderButtens1 props={bodyRBody} />;
-
-    const widths = [4, 10, 10, 20, 20, 15, 10];
-    const body = [];
-    if (allExpense !== null)
-      for (let i = 0; i < allExpense.length; i++) {
-        const it = allExpense[i];
-        body.push([
-          { data: it.image, data2: it.expenseCategory, type: 1 },
-          { data: it.invoice, type: 2 },
-          { data: it.date },
-          { data: it.expenseCategory, data2: it.type, type: 2 },
-          { data: it.exenseDetails },
-          { data: it.paidFrom },
-          { data: it.amount },
-        ]);
-      }
 
     return (
       <React.StrictMode>
         <Header1 title="EXPENSES > EXPENSES LIST" bodyR={bodyR} />
         <Header2 titles={pTitles} page={0} setState={setState} />
         <Header4 title={"Expenses List"} desc={desc} body={filter} />
-        <MyTable1 widths={widths} heads={heads} body={body} />
-        <MyTableCounter1 props={{ total: 100 }} />
+        <HomeExpenceTable state={state} setState={setState} />
+        <HomeExpenceForm state={state} setState={setState} />
       </React.StrictMode>
     );
   }
+}
+
+function HomeExpenceTable({ state, setState }) {
+  const { addPage, allExpense } = state;
+
+  const widths = [4, 10, 10, 20, 20, 15, 10];
+  const body = [];
+  if (allExpense !== null)
+    for (let i = 0; i < allExpense.length; i++) {
+      const it = allExpense[i];
+      body.push([
+        { data: it.image, data2: it.expenseCategory, type: 1 },
+        { data: it.invoice, type: 2 },
+        { data: it.date },
+        { data: it.expenseCategory, data2: it.type, type: 2 },
+        { data: it.exenseDetails },
+        { data: it.paidFrom },
+        { data: it.amount },
+      ]);
+    }
+  if (addPage) return null;
+  return (
+    <React.StrictMode>
+      <MyTable1 widths={widths} heads={heads} body={body} />
+      <MyTableCounter1 props={{ total: 100 }} />
+    </React.StrictMode>
+  );
+}
+function HomeExpenceForm({ state, setState }) {
+  const { addPage } = state;
+  if (!addPage) return null;
+  return (
+    <React.StrictMode>
+      <MyForm1 />
+    </React.StrictMode>
+  );
 }
