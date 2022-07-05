@@ -9,6 +9,7 @@ import {
   HeaderButtens1,
   TitleFilter1,
 } from "./widget";
+import { DrawerForm1 } from "./widget_form";
 
 const pTitles = ["Customers", "Suppliers"];
 const titles = {
@@ -67,7 +68,7 @@ export default class HomeParties extends Component {
     };
     const filter = !addPage ? <TitleFilter1 props={filterBody} /> : null;
     const bodyRBody = {
-      makeAd: () => setState({ addPage: true }),
+      makeAdd: () => setState({ addPage: true }),
       title: page === 0 ? "+ New Customer" : "+ New Suppliers",
       drowelList: null,
     };
@@ -111,7 +112,6 @@ function HomePartiesCoustomerTable({ state, setState }) {
         { data: it.balance },
       ]);
     }
-  if (page !== 0 || addPage) return null;
   return (
     <React.StrictMode>
       <MyTable1 widths={widths} heads={heads0} body={body} />
@@ -137,7 +137,6 @@ function HomePartiesSuppliersTable({ state, setState }) {
         { data: it.turnover },
       ]);
     }
-  if (page !== 1 || addPage) return null;
   return (
     <React.StrictMode>
       <MyTable1 widths={widths} heads={heads1} body={body} />
@@ -148,11 +147,18 @@ function HomePartiesSuppliersTable({ state, setState }) {
 
 function HomePartiesCoustomerForm({ state, setState }) {
   const { page, addPage } = state;
-  if (page !== 0 || !addPage) return null;
-  return <React.StrictMode></React.StrictMode>;
+  const body = {
+    show: page === 0 && addPage,
+    close: () => setState({ addPage: false }),
+  };
+  return <DrawerForm1 props={body} />;
 }
+
 function HomePartiesSuppliersForm({ state, setState }) {
   const { page, addPage } = state;
-  if (page !== 1 || !addPage) return null;
-  return <React.StrictMode></React.StrictMode>;
+  const body = {
+    show: page === 1 && addPage,
+    close: () => setState({ addPage: false }),
+  };
+  return <DrawerForm1 props={body} />;
 }

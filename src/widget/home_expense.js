@@ -1,15 +1,10 @@
 import React, { Component } from "react";
 import { expenseList } from "../module/dummydata";
 import { MyTable1, MyTableCounter1 } from "./widget_table";
-import {
-  Header1,
-  Header2,
-  Header4,
-  HeaderButtens1,
-  TitleFilter1,
-} from "./widget";
-import "../style/hdb.css";
+import { HeaderButtens1, TitleFilter1 } from "./widget";
+import { Header1, Header2, Header4 } from "./widget";
 import { MyForm1 } from "./widget_form";
+import "../style/hdb.css";
 
 const pTitles = ["Expense Enteries"];
 const desc =
@@ -95,9 +90,5 @@ function HomeExpenceTable({ state, setState }) {
 function HomeExpenceForm({ state, setState }) {
   const { addPage } = state;
   if (!addPage) return null;
-  return (
-    <React.StrictMode>
-      <MyForm1 />
-    </React.StrictMode>
-  );
+  return <MyForm1 />;
 }

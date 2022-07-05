@@ -5,6 +5,7 @@ import { Header1, Header2, Header4 } from "./widget";
 import { HeaderButtens1, TitleFilter1 } from "./widget";
 import { MyForm1 } from "./widget_form";
 import "../style/hsl.css";
+import DrawerView1 from "./widget_view";
 
 const pTitles = ["Sales Invoices", "Sales Estimates"];
 const titles = {
@@ -46,6 +47,7 @@ export default class HomeSales extends Component {
       // /////////////////////////////
       allInvoice: [],
       allEstimate: [],
+      invoice: null,
     };
   }
 
@@ -83,6 +85,7 @@ export default class HomeSales extends Component {
         <HomeSalesEstimatesTable state={state} setState={setState} />
         <HomeSalesInvoicesForm state={state} setState={setState} />
         <HomeSalesEstimatesForm state={state} setState={setState} />
+        <DrawerView1 state={state} setState={setState} />
       </React.StrictMode>
     );
   }
@@ -107,10 +110,11 @@ function HomeSalesInvoicesTable({ state, setState }) {
         { data: it.status },
       ]);
     }
+  const onclick = (v) => setState({ invoice: v });
   if (page !== 0 || addPage) return null;
   return (
     <React.StrictMode>
-      <MyTable1 widths={widths} heads={heads0} body={body} />
+      <MyTable1 widths={widths} heads={heads0} body={body} onclick={onclick} />
       <MyTableCounter1 props={{ total: 100 }} />
     </React.StrictMode>
   );

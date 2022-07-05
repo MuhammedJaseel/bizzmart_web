@@ -1,0 +1,392 @@
+/*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+/*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+/*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+/*///////////////////////////////////////////////        FORM 1        ////////////////////////////////////////////////*/
+/*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+/*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+/*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+.zfB {
+  margin: 0.5vw 1vw;
+}
+.zfBa {
+  border: 0.07vw solid #ced0d3;
+  border-radius: 0.16vw;
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1vw;
+}
+.zfBaA {
+  display: flex;
+}
+.zfBaAa {
+  margin-right: 0.9vw;
+}
+.zfBaAaA {
+  font-size: 0.88vw;
+  font-weight: bold;
+  padding-bottom: 0.15vw;
+}
+.zfBaAaB {
+  width: 16.25vw;
+  height: 1.63vw;
+  padding: 0vw 0.5vw;
+  border: 0.07vw solid #ced0d3;
+  border-radius: 0.25vw;
+  background-image: url(../asset/ic_drop_2.svg);
+  background-position: right;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.zfBaAaB:focus {
+  outline: none;
+}
+.zfBaAaB option {
+  background-color: white !important;
+  color: red;
+}
+.zfBaAaC {
+  width: 10vw;
+  height: 1.5vw;
+  border: 0.07vw solid #ced0d3;
+  border-radius: 0.25vw;
+  background-image: url(../asset/ic_calender2.svg);
+  background-position: right;
+  background-size: 1.63vw;
+  background-repeat: no-repeat;
+}
+.zfBaB {
+  width: 12.5vw;
+  color: #3d424e;
+}
+.zfBaBa {
+  font-weight: bold;
+  font-size: 0.88vw;
+}
+.zfBaBb {
+  font-size: 0.8vw;
+}
+.zfBb {
+  border: 0.07vw solid #707070;
+  margin-top: 0.7vw;
+  border-radius: 0.32vw;
+}
+.zfBbA {
+  background-color: #707070;
+  font-size: 0.88vw;
+  color: white;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  border-top-left-radius: 0.22vw;
+  border-top-right-radius: 0.22vw;
+}
+.zfBbAa {
+  width: 2.8%;
+}
+.zfBbAb {
+  padding: 0.68vw;
+  border-left: 0.07vw solid #ced0d3;
+  width: calc(54% - 1.36vw);
+}
+.zfBbAc {
+  padding: 0.68vw;
+  border-left: 0.07vw solid #ced0d3;
+  width: calc(6% - 1.36vw);
+}
+.zfBbAd {
+  padding: 0.68vw;
+  border-left: 0.07vw solid #ced0d3;
+  width: calc(8% - 1.36vw);
+}
+.zfBbAe {
+  padding: 0.68vw;
+  border-left: 0.07vw solid #ced0d3;
+  width: calc(7% - 1.36vw);
+}
+.zfBbAf {
+  padding: 0.68vw;
+  border-left: 0.07vw solid #ced0d3;
+  width: calc(8% - 1.36vw);
+}
+.zfBbAg {
+  border-left: 0.07vw solid #ced0d3;
+  width: calc(7% - 1.36vw);
+  padding: 0.68vw;
+}
+.zfBbAh {
+  border-left: 0.07vw solid #ced0d3;
+  width: calc(7% - 1.36vw);
+  padding: 0.68vw;
+}
+.zfBbB {
+  display: flex;
+  font-size: 0.88vw;
+  background-color: white;
+}
+.zfBbB:nth-of-type(odd) {
+  background-color: white;
+}
+.zfBbB:last-child {
+  border-bottom-left-radius: 0.22vw;
+  border-bottom-right-radius: 0.22vw;
+  filter: opacity(50%);
+}
+.zfBbBa {
+  min-width: 2.8%;
+  background-image: url(../asset/ic_close.svg);
+  background-position: center;
+  background-size: 40%;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+.zfBbB:last-child .zfBbBa {
+  visibility: hidden;
+}
+.zfBbBb {
+  min-width: calc(54% - 0.4vw);
+  margin: 0.2vw;
+  padding: 0vw 0.5vw;
+  height: 2vw;
+  background-image: url(../asset/ic_drop_2.svg);
+  background-position: right;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: white;
+}
+.zfBbBc {
+  min-width: calc(6% - 1.5vw);
+  margin: 0.2vw;
+  height: 1.86vw;
+  background-color: white;
+}
+.zfBbBd {
+  min-width: calc(8% - 1.5vw);
+  margin: 0.2vw;
+  height: 1.86vw;
+  background-color: white;
+}
+.zfBbBe {
+  min-width: calc(7% - 1.5vw);
+  margin: 0.2vw;
+  height: 1.86vw;
+  background-color: white;
+}
+.zfBbBf {
+  min-width: calc(8% - 0.4vw);
+  margin: 0.2vw;
+  padding: 0vw 0.5vw;
+  height: 2vw;
+  background-image: url(../asset/ic_drop_2.svg);
+  background-position: right;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: white;
+}
+.zfBbBg {
+  min-width: calc(7% - 0.4vw);
+  margin: 0.2vw;
+  display: flex;
+  align-items: center;
+}
+.zfBbBh {
+  min-width: calc(7% - 0.4vw);
+  margin: 0.2vw;
+  display: flex;
+  align-items: center;
+}
+.zfBc {
+  border: 0.07vw solid #ced0d3;
+  border-radius: 0.16vw;
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  padding: 1vw;
+  margin-top: 1vw;
+}
+.zfBcA {
+  color: #3d424e;
+}
+.zfBcAa {
+  font-size: 0.8vw;
+  font-weight: 500;
+  color: #3d424e;
+  padding-bottom: 0.38vw;
+}
+.zfBcAb {
+  width: 34.38vw;
+  height: 5vw;
+  margin-bottom: 1vw;
+}
+.zfBcAc {
+  width: 34.38vw;
+  height: 3vw;
+}
+.zfBcB {
+  width: 30vw;
+}
+.zfBcBa {
+  font-size: 0.8vw;
+  font-weight: 500;
+  padding-bottom: 1vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.zfBcBb {
+  width: 5vw;
+  height: 1.5vw;
+  text-align: right;
+}
+.zfBcBc {
+  font-size: 1vw;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+/* ////////////////////////////////////////////////////////////////////////////////////////////////// */
+/* ////////////////////////////////////////////////////////////////////////////////////////////////// */
+/* ////////////////////////////////////////////////////////////////////////////////////////////////// */
+/* ///////////////////////////////////           DROWER 1           ///////////////////////////////// */
+/* ////////////////////////////////////////////////////////////////////////////////////////////////// */
+/* ////////////////////////////////////////////////////////////////////////////////////////////////// */
+/* ////////////////////////////////////////////////////////////////////////////////////////////////// */
+.zfDa {
+  background-color: #0000001e;
+  position: fixed;
+  top: 0vw;
+  bottom: 0vw;
+  left: 0vw;
+  right: 0vw;
+}
+.zfDa_ {
+  display: none;
+}
+.zfDb,
+.zfDb_ {
+  transition: 0.3s;
+  width: 45vw;
+  position: fixed;
+  top: 0vw;
+  right: 0vw;
+  bottom: 0vw;
+  background-color: white;
+}
+.zfDb_ {
+  transition: 0.8s;
+  right: -45vw;
+}
+/* ////////////////////////////////////////////////////////////////////////////////////////////////// */
+/* ////////////////////////////////////////////////////////////////////////////////////////////////// */
+/* ////////////////////////////////////////////////////////////////////////////////////////////////// */
+/* ///////////////////////////////////        DROWER VIEW 1         ///////////////////////////////// */
+/* ////////////////////////////////////////////////////////////////////////////////////////////////// */
+/* ////////////////////////////////////////////////////////////////////////////////////////////////// */
+/* ////////////////////////////////////////////////////////////////////////////////////////////////// */
+/* ///////////////////////////////////           HEADER             ///////////////////////////////// */
+.zfEa {
+  padding: 0.8vw;
+  border-bottom: 0.05vw solid #dcdbdb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.zfEaA {
+  color: #31363f;
+  font-size: 1.13vw;
+  font-weight: bold;
+}
+.zfEaB {
+  width: 2vw;
+  height: 2vw;
+  border-radius: 50%;
+  background-image: url(../asset/ic_close.svg);
+  background-size: 1.2vw 1.2vw;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.zfEaB:hover {
+  background-color: #00000003;
+  cursor: pointer;
+}
+/* ///////////////////////////////////            BODY              ///////////////////////////////// */
+.zfEb {
+  height: calc(100vh - 6.5vw);
+  display: flex;
+}
+/* ///////////////////////////////////          COLUMN 1            ///////////////////////////////// */
+.zfEbA {
+  overflow: auto;
+  height: 100%;
+  width: 17vw;
+  border-right: 0.05vw solid #dcdbdb;
+}
+.zfEbAa {
+  margin: 1vw;
+  height: 8vw;
+}
+.zfEbAb,
+.zfEbAb_ {
+  color: #31363f;
+  font-weight: 500;
+  font-size: 0.8vw;
+  padding: 0.3vw 20%;
+  cursor: pointer;
+}
+.zfEbAb_ {
+  background-color: #c6d5fb;
+  padding: 0.3vw 15%;
+}
+/* ///////////////////////////////////          COLUMN 2            ///////////////////////////////// */
+.zfEbB {
+  overflow: auto;
+  height: 100%;
+  width: 28vw;
+}
+.zfEbBa {
+  font-size: 0.88vw;
+  font-weight: 500;
+  padding: 1vw;
+  background-color: #eeeeee;
+  color: #31363f;
+}
+.zfEbBb {
+  padding: 0.5vw 1vw;
+  padding-bottom: 1vw;
+}
+.zfEbBbA {
+  font-size: 0.8vw;
+  color: #31363f;
+  padding-bottom: 0.18vw;
+  padding-top: 1vw;
+}
+.zfEbBbB {
+  width: calc(100% - 1vw);
+  height: 1.56vw;
+}
+/* ///////////////////////////////////         FOOTER           ///////////////////////////////// */
+.zfEd {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.6vw 1vw;
+  border-top: 0.05vw solid #dcdbdb;
+}
+.zfEdA {
+  margin-right: 0.3vw;
+  color: white;
+  font-size: 0.88vw;
+  font-weight: 500;
+  background-color: #5b7abe;
+  padding: 0.3vw 2.5vw;
+  border-radius: 0.2vw;
+}
+.zfEdB {
+  color: white;
+  font-size: 0.88vw;
+  font-weight: 500;
+  background-color: #2d4c86;
+  padding: 0.3vw 2.5vw;
+  border-radius: 0.2vw;
+}

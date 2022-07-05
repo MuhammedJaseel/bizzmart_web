@@ -1,6 +1,6 @@
 import React from "react";
 import { Header1, Header3 } from "./widget";
-import "../style/hon.css";
+import "../style/hjc.css";
 
 const pTitles = [
   { title: "New", count: 2 },
@@ -30,7 +30,129 @@ export default class HomeJobcard extends React.Component {
       <React.StrictMode>
         <Header1 title="Job card" bodyR={titleBR} />
         <Header3 titles={titles} page={page} setState={setState} />
+        <HomeJobCardBody state={state} setState={setState} />
       </React.StrictMode>
     );
   }
+}
+
+function HomeJobCardBody({ state, setState }) {
+  return (
+    <div className="hjcA">
+      <div className="hjcAa">
+        <div className="hjcAaA">
+          <div className="hjcAaAa" />
+          <div>
+            <div className="hjcAaAb">New Job Cards</div>
+            <div className="hjcAaAc">2 New</div>
+          </div>
+        </div>
+        <div className="hjcAaB">
+          {[1, 1, 1, 1].map(() => (
+            <div className="hjcAaBa">
+              <div className="hjcAaBaA" />
+              <div className="hjcAaBaB">
+                <div className="hjcAaBaBa">RPA22-234</div>
+                <div>
+                  <div className="hjcAaBaBb">Amalkiran P</div>
+                  <div className="hjcAaBaBc">Gold Member</div>
+                </div>
+                <div className="hjcAaBaBd">9745552299</div>
+              </div>
+              <div className="hjcAaBaC">
+                <div className="hjcAaBaBd">18 APR 2022</div>
+                <div>
+                  <div className="hjcAaBaBc">Deliver by</div>
+                  <div className="hjcAaBaBd">27 APR 2022</div>
+                </div>
+              </div>
+              <div className="hjcAaBaD" />
+              <div className="hjcAaBaE">
+                <div>
+                  <div className="hjcAaBaBd">iPhone 13 Pro 512GB Black</div>
+                  <div className="hjcAaBaBc">Battery Replacement</div>
+                </div>
+                <div>
+                  <div className="hjcAaBaBc">Condition</div>
+                  <div className="hjcAaBaBd">Dead</div>
+                </div>
+              </div>
+              <div className="hjcAaBaF">
+                <div className="hjcAaBaFa">+1</div>
+              </div>
+              <div className="hjcAaBaD" />
+              <div className="hjcAaBaG">
+                <div>
+                  <div className="hjcAaBaBc">Estimated Charge</div>
+                  <div className="hjcAaBaBd">INR 5,800.00</div>
+                </div>
+                <div>
+                  <div className="hjcAaBaBc">Paid Amount</div>
+                  <div className="hjcAaBaBd">INR 1,000.00</div>
+                </div>
+              </div>
+              <div className="hjcAaBaH"></div>
+              <div className="hjcAaBaI"></div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="hjcAb">
+        <div className="hjcAbA">
+          <div>
+            <div className="hjcAbAa">Job Card Details</div>
+            <div className="hjcAbAb">RPA22-234</div>
+            <div className="hjcAbAc">Technision oedjjnjn</div>
+          </div>
+          <div className="hjcAbAd">
+            <div className="hjcAbAdA" />
+            <div className="hjcAbAdB" />
+            <div className="hjcAbAdC" />
+          </div>
+          <div className="hjcAbAe">
+            <div className="hjcAbAeA">New</div>
+            <div className="hjcAbAeA">In Process</div>
+            <div className="hjcAbAeA">On Hold</div>
+            <div className="hjcAbAeA">Processed</div>
+            <div className="hjcAbAeA">Ready</div>
+          </div>
+          <div className="hjcAbAf">ITEMS</div>
+          {[1, 1, 1].map(() => (
+            <div className="hjcAbAg">
+              <div className="hjcAbAgA">iPhone 13 Pro / 256GB / Black</div>
+              <div className="hjcAbAgB">
+                <div className="hjcAbAgBa">IMEI/SN</div>
+                <div className="hjcAbAgBb">123456789876543</div>
+              </div>
+              <div className="hjcAbAgC">
+                <div>Job Type</div>
+                <div>Risk</div>
+              </div>
+              <div className="hjcAbAgD">
+                <div>Battery Replacement</div>
+                <div>Normal</div>
+              </div>
+              <div className="hjcAbAgE">
+                handset in dead condition and seems due to battery drained
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="hjcAbB">
+          <div className="hjcAbBa">
+            <div className="hjcAbBaA">
+              <div className="hjcAbBaAa">Customer</div>
+              <div className="hjcAbBaAb">GOLD MEMBER</div>
+            </div>
+            <div className="hjcAbBaB">Amalkiran P</div>
+          </div>
+          <div className="hjcAbBb">Select Technician</div>
+          <select className="hjcAbBc">
+            <option>Select Technician</option>
+          </select>
+          <div className="hjcAbBd">IN PROCESS</div>
+        </div>
+      </div>
+    </div>
+  );
 }

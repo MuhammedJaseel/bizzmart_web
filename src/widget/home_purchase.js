@@ -1,15 +1,10 @@
 import React, { Component } from "react";
 import { purchaseList, purchaseOrder } from "../module/dummydata";
-import "../style/hpr.css";
 import { MyTable1, MyTableCounter1 } from "./widget_table";
-import {
-  Header1,
-  Header2,
-  Header4,
-  HeaderButtens1,
-  TitleFilter1,
-} from "./widget";
+import { Header1, Header2, Header4 } from "./widget";
+import { HeaderButtens1, TitleFilter1 } from "./widget";
 import { MyForm1 } from "./widget_form";
+import "../style/hpr.css";
 
 const pTitles = ["Purchase List", "Purchase Order"];
 const desc = [

@@ -1,4 +1,4 @@
-import React, { StrictMode, useState } from "react";  
+import React, { StrictMode, useState } from "react";
 import "../style/zc1.css";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -8,7 +8,7 @@ import "../style/zc1.css";
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-export function MyTable1({ widths, heads, body }) {
+export function MyTable1({ widths, heads, body, onclick }) {
   const st = [];
   for (let i = 0; i < widths.length; i++) st.push({ width: widths[i] + "%" });
 
@@ -26,7 +26,7 @@ export function MyTable1({ widths, heads, body }) {
       </div>
       <div className="zc1Ab">
         {body.map((it, k) => (
-          <div key={k} className="zc1AbA">
+          <div key={k} className="zc1AbA" onClick={(it) => onclick(it)}>
             {it.map((it2, j) => (
               <div
                 key={j}
