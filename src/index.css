@@ -22,7 +22,6 @@
   src: url(./asset/font/Mic32NewRounded/Bold.ttf);
   font-weight: bold;
 }
-
 body {
   margin: 0;
   font-family: Mic32NewRounded;
@@ -30,27 +29,25 @@ body {
   -moz-osx-font-smoothing: grayscale;
   scrollbar-width: thin;
 }
-
 ::-webkit-scrollbar {
   width: 3px;
 }
-
 ::-webkit-scrollbar-thumb {
   background: rgb(214, 214, 214);
   border-radius: 1ex;
   box-shadow: 1px 0px 0px #fff;
 }
-
 ::-webkit-scrollbar-corner {
   background: #fff;
 }
-
 input {
   font-family: Mic32NewRounded;
-  border: 0.07vw solid #ced0d3;
+  border: none;
   border-radius: 0.25vw;
   font-size: 0.8vw;
-  padding: 0vw 0.5vw;
+  padding: 0vw 0.43vw;
+  box-shadow: inset 0 0 0 0.07vw #ced0d3;
+  box-sizing: border-box;
 }
 select {
   font-family: Mic32NewRounded;
@@ -59,6 +56,11 @@ select {
   border: 0.07vw solid #ced0d3;
   border-radius: 0.25vw;
   font-size: 0.8vw;
+  padding: 0vw 0.5vw;
+  background-image: url(./asset/ic_drop.svg);
+  background-repeat: no-repeat;
+  background-position: right;
+  background-size: contain;
 }
 textarea {
   font-family: Mic32NewRounded;
@@ -67,33 +69,38 @@ textarea {
   font-size: 0.8vw;
   padding: 0.3vw 0.5vw;
 }
-
 textarea:focus {
   outline: none;
-  border: 0.07vw solid #2d4c86;
+  border: 0.12vw solid #2d4c86;
 }
 input:focus {
   outline: none;
-  border: 0.07vw solid #2d4c86;
+  box-shadow: inset 0 0 0 0.12vw #2d4c86;
 }
 select:focus {
   outline: none;
-  border: 0.07vw solid #2d4c86;
+  border: 0.12vw solid #2d4c86;
+}
+input.err {
+  box-shadow: inset 0 0 0 0.12vw #ce4d24;
+}
+select.err {
+  border: 0.12vw solid #ce4d24;
+}
+div.err {
+  color: #ce4d24;
 }
 button {
   font-family: Mic32NewRounded;
   border: none;
 }
-
 :root {
   --primart_blue: #2d4c86;
 }
-
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-
 .gblINet {
   border: none;
 }

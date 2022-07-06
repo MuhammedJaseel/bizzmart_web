@@ -259,8 +259,12 @@ export function HeaderButtens1({ props }) {
   const [isDrower, setIsDrower] = useState(false);
   return (
     <div className="zmcN">
-      <div className="zmcNa" onClick={onDownload} />
-      <div className="zmcNb" onClick={onShare} />
+      {onDownload !== undefined ? (
+        <div className="zmcNa" onClick={onDownload} />
+      ) : null}
+      {onShare !== undefined ? (
+        <div className="zmcNb" onClick={onShare} />
+      ) : null}
       <div className="zmcNc">
         <div className="zmcNcA" onClick={makeAdd}>
           {title}
