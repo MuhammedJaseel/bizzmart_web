@@ -147,3 +147,101 @@
   background-color: #2d4c86;
   color: white;
 }
+/*////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////         PAYMENT CARD         ///////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+.zc1D-body {
+  transition: 0.4s;
+  padding: 1vw;
+  width: 100%;
+}
+.zc1D {
+  transition: 0.4s;
+  width: 100%;
+  height: 10vw;
+  background-color: white;
+  border: 0.05vw solid #707070;
+  border-radius: 0.2vw;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+}
+.zc1D-body:hover {
+  transition: 0.2s;
+  padding: 0.5vw;
+}
+.zc1D-body:hover .zc1D {
+  transition: 0.2s;
+  width: 100%;
+  height: 11vw;
+}
+.zc1Da {
+  padding: 0.5vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.zc1DaA {
+  color: #2d4c86;
+  font-weight: bold;
+  font-size: 1.13vw;
+}
+.zc1DaB {
+  width: 1.56vw;
+  height: 1.56vw;
+  background-image: url(../asset/ic_rs.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.zc1Db {
+  transition: 0.4s;
+  color: #3e424e;
+  font-size: 0.88vw;
+  padding-bottom: 0.4vw;
+}
+.zc1Dc {
+  font-size: 0.95vw;
+  font-weight: bold;
+  color: #3e424e;
+  padding-bottom: 0.2vw;
+}
+.zc1Dd {
+  transition: 0.4s;
+  font-size: 0.69vw;
+  color: #3e424e;
+  padding-bottom: 1.8vw;
+}
+.zc1De {
+  background-color: #ebeced;
+  padding: 0.2vw;
+  padding-left: 0.6vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.zc1DeA {
+  font-size: 0.95vw;
+  color: #3e424e;
+}
+.zc1DeB {
+  display: flex;
+}
+.zc1DeC,
+.zc1DeD {
+  width: 1.56vw;
+  height: 1.56vw;
+  background-image: url(../asset/ic_bin.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  margin-right: 0.4vw;
+}
+.zc1DeD {
+  background-image: url(../asset/ic_edit1.svg);
+}

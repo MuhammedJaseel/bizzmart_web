@@ -25,7 +25,9 @@ export function Header1({ title, bodyL, bodyR, onclick }) {
   );
 }
 
-export function Header2({ titles, page, setState }) {
+export function Header2({ hidden, titles, page, setState }) {
+  if (page === undefined) page = 0;
+  if (hidden) return null;
   return (
     <div className="zcB">
       {titles.map((it, k) => (
@@ -96,12 +98,15 @@ export function TitleTable1({ data, setPage }) {
                       <div className="zcIcB">{it.t}</div>
                       <div className="zcIcC">{it.d}</div>
                     </div>
-                    <div className="zcIcD">{it.d1}</div>
+                    <div className="zcIcD">
+                      {it.d1}
+                      {/* <div className="zcIcDa">s</div> */}
+                    </div>
                   </div>
                 </div>
               ))}
             </StrictMode>
-          ))}{" "}
+          ))}
         </div>
       ))}
     </div>
@@ -109,7 +114,7 @@ export function TitleTable1({ data, setPage }) {
 }
 
 export function TitleFilter1({ props }) {
-  const { searchPh, noDate } = props;
+  const { searchPh, noDate, onlyDate } = props;
   const [isCalender, setIsCalender] = useState(false);
   const [value, setValue] = useState(0);
   const [selected, setSelected] = useState([10, 20]);
@@ -121,27 +126,29 @@ export function TitleFilter1({ props }) {
   const year_ = month === 0 ? year - 1 : year;
   const add = (v) => setValue(parseInt(value) + v);
   return (
-    <div className="zmcK">
-      <input className="zmcKa" placeholder={searchPh} />
-      <div className="zmcKb">SHOWING:</div>
-      <select className="zmcKc">
-        <option>Hallow</option>
-      </select>
+    <div className="zcK">
+      {onlyDate ? null : <input className="zcKa" placeholder={searchPh} />}
+      {onlyDate ? null : <div className="zcKb">SHOWING:</div>}
+      {onlyDate ? null : (
+        <select className="zcKc">
+          <option>Hallow</option>
+        </select>
+      )}
       {noDate ? null : (
         <StrictMode>
-          <div className="zmcKd">17 Feb 2022 to 28 Feb 2022</div>
-          <div className="zmcKe">
-            <div className="zmcKeA" onClick={() => setIsCalender(!isCalender)}>
+          <div className="zcKd">17 Feb 2022 to 28 Feb 2022</div>
+          <div className="zcKe">
+            <div className="zcKeA" onClick={() => setIsCalender(!isCalender)}>
               Today
             </div>
             <div
-              className={isCalender ? "zmcKeB_" : "zmcKeB"}
+              className={isCalender ? "zcKeB_" : "zcKeB"}
               onClick={() => setIsCalender(!isCalender)}
             />
-            <div className={isCalender ? "zmcKeC_" : "zmcKeC"}>
-              <div className="zmcKeCa">
-                <div className="zmcKeCb">
-                  <div className="zmcKeCc">
+            <div className={isCalender ? "zcKeC_" : "zcKeC"}>
+              <div className="zcKeCa">
+                <div className="zcKeCb">
+                  <div className="zcKeCc">
                     <FilterCalender1
                       v={0}
                       y={year_}
@@ -159,13 +166,13 @@ export function TitleFilter1({ props }) {
                       setSelected={setSelected}
                     />
                   </div>
-                  <div className="zmcKeCd">Update</div>
+                  <div className="zcKeCd">Update</div>
                 </div>
-                <div className="zmcKeCe">
+                <div className="zcKeCe">
                   {typeDates.map((it, k) => (
                     <div
                       key={k}
-                      className="zmcKeCf"
+                      className="zcKeCf"
                       onClick={() => setSelected(it.fun)}
                     >
                       {it.title}
@@ -186,18 +193,18 @@ function FilterCalender1({ v, y, m, add, selected, setSelected }) {
   let dropper = null;
   console.log(selected);
   return (
-    <div className="zmcL">
-      <div className="zmcL_">
-        <div className="zmcLa">
-          <div className="zmcLb" onClick={() => add(-1)} />
-          <div className="zmcLc">
+    <div className="zcL">
+      <div className="zcL_">
+        <div className="zcLa">
+          <div className="zcLb" onClick={() => add(-1)} />
+          <div className="zcLc">
             {fullMonths[m]} {y}
           </div>
-          <div className="zmcLd" onClick={() => add(1)} />
+          <div className="zcLd" onClick={() => add(1)} />
         </div>
-        <div className="zmcLe">
+        <div className="zcLe">
           {shortDays.map((it, k) => (
-            <div key={k} className="zmcLf">
+            <div key={k} className="zcLf">
               {it}
             </div>
           ))}
@@ -258,33 +265,68 @@ export function HeaderButtens1({ props }) {
   const { makeAdd, title, drowelList, onShare, onDownload } = props;
   const [isDrower, setIsDrower] = useState(false);
   return (
-    <div className="zmcN">
+    <div className="zcN">
       {onDownload !== undefined ? (
-        <div className="zmcNa" onClick={onDownload} />
+        <div className="zcNa" onClick={onDownload} />
       ) : null}
       {onShare !== undefined ? (
-        <div className="zmcNb" onClick={onShare} />
+        <div className="zcNb" onClick={onShare} />
       ) : null}
-      <div className="zmcNc">
-        <div className="zmcNcA" onClick={makeAdd}>
+      <div className="zcNc">
+        <div
+          className="zcNcA"
+          onClick={() =>
+            makeAdd === undefined ? setIsDrower(true) : makeAdd()
+          }
+        >
           {title}
         </div>
         {drowelList !== null ? (
-          <div className="zmcNcB" onClick={() => setIsDrower(!isDrower)} />
+          <div className="zcNcB" onClick={() => setIsDrower(!isDrower)} />
         ) : null}
         <div
           onClick={() => setIsDrower(!isDrower)}
-          className={isDrower ? "zmcNcD_" : "zmcNcD"}
+          className={isDrower ? "zcNcD_" : "zcNcD"}
         />
         <div
-          className={isDrower ? "zmcNcC_" : "zmcNcC"}
+          className={isDrower ? "zcNcC_" : "zcNcC"}
           onClick={() => setIsDrower(!isDrower)}
         >
           {drowelList?.map((it, k) => (
-            <div className="zmcNcE" onClick={it.fun}>
+            <div className="zcNcE" onClick={it.fun}>
               {it.title}
             </div>
           ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////         PAYMENT CARD         ///////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+export function PaymentCard1({ props }) {
+  const {} = props;
+  return (
+    <div className="zc1D-body">
+      <div className="zc1D">
+        <div className="zc1Da">
+          <div className="zc1DaA">Cash in hand</div>
+          <div className="zc1DaB" />
+        </div>
+        <div className="zc1Db">Balance</div>
+        <div className="zc1Dc">INR 123,556.00</div>
+        <div className="zc1Dd">Last entry: Today</div>
+        <div className="zc1De">
+          <div className="zc1DeA">Cash Account</div>
+          <div className="zc1DeB">
+            <div className="zc1DeC" />
+            <div className="zc1DeD" />
+          </div>
         </div>
       </div>
     </div>

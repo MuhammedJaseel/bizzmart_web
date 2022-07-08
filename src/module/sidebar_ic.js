@@ -95,7 +95,7 @@ const sidebarIc = [
     title: "Job card",
     icon: icJob,
     iconW: icJobW,
-    path: "jobard",
+    path: "jobcard",
     widget: HomeJobcard,
   },
   {

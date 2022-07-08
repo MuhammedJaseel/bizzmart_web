@@ -281,6 +281,10 @@
   background-color: #2d4c8615;
   border-bottom-left-radius: 0.22vw;
   border-bottom-right-radius: 0.22vw;
+  display: flex;
+  justify-content: space-between;
+}
+.zcIcDa {
 }
 /* /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 /* /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
@@ -289,17 +293,16 @@
 /* /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 /* /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 /* /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
-.zmcK {
+.zcK {
   display: flex;
   align-items: center;
 }
-.zmcKa {
+.zcKa {
   border-radius: 0.28vw;
   width: 15vw;
   height: 1.8vw;
   padding-left: 0.5vw;
   padding-right: 2vw;
-  border: 0.05vw solid #b3c3de;
   font-size: 0.66vw;
   background-image: url(../asset/ic_search.svg);
   background-repeat: no-repeat;
@@ -309,16 +312,16 @@
   padding-left: 0.5vw;
   padding-right: 2vw;
 }
-.zmcKa:focus {
+.zcKa:focus {
   outline: none˝;
   border: 0.05vw solid #2d4c86;
 }
-.zmcKb {
+.zcKb {
   padding-right: 0.28vw;
   padding-left: 0.91vw;
   font-size: 0.66vw;
 }
-.zmcKc {
+.zcKc {
   border-radius: 0.28vw;
   height: 1.8vw;
   width: 7.11vw;
@@ -332,11 +335,11 @@
   padding-left: 0.5vw;
   padding-right: 2vw;
 }
-.zmcKc:focus {
+.zcKc:focus {
   outline: none˝;
   border: 0.05vw solid #2d4c86;
 }
-.zmcKd {
+.zcKd {
   border-radius: 0.28vw;
   height: 1.4vw;
   width: 13vw;
@@ -353,10 +356,10 @@
   background-size: 1.16vw;
   background-position: 11.7vw;
 }
-.zmcKe {
+.zcKe {
   position: relative;
 }
-.zmcKeA {
+.zcKeA {
   border-radius: 0.28vw;
   height: 1.4vw;
   width: 8vw;
@@ -373,10 +376,10 @@
   background-size: 0.6vw;
   background-position: 8vw;
 }
-.zmcKeB {
+.zcKeB {
   display: none;
 }
-.zmcKeB_ {
+.zcKeB_ {
   position: fixed;
   top: 0vw;
   left: 0vw;
@@ -384,10 +387,10 @@
   bottom: 0vw;
 }
 /*/////////////////////////////////////////////  HEADER CALENDER BODY  //////////////////////////////////////////////*/
-.zmcKeC {
+.zcKeC {
   display: none;
 }
-.zmcKeC_ {
+.zcKeC_ {
   position: absolute;
   right: 0vw;
   width: 45vw;
@@ -397,21 +400,21 @@
   box-shadow: 0vw 0vw 0.5vw #0000002c;
   border-radius: 0.2vw;
 }
-.zmcKeCa {
+.zcKeCa {
   display: flex;
   justify-content: flex-end;
 }
-.zmcKeCb {
+.zcKeCb {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   box-shadow: 0.5vw 0vw 0.5vw #00000013;
   margin-right: 0.5vw;
 }
-.zmcKeCc {
+.zcKeCc {
   display: flex;
 }
-.zmcKeCd {
+.zcKeCd {
   padding: 0.28vw 1.25vw;
   background-color: #2d4c86;
   color: white;
@@ -421,13 +424,13 @@
   margin-right: 2vw;
   cursor: pointer;
 }
-.zmcKeCe {
+.zcKeCe {
   padding: 0.2vw;
   font-weight: 500;
   color: #1c1e22;
   font-size: 0.7vw;
 }
-.zmcKeCf {
+.zcKeCf {
   transition: 500ms;
   width: 6vw;
   border-radius: 0.28vw;
@@ -435,7 +438,7 @@
   margin: 0.2vw;
   padding: 0.31vw 0.94vw;
 }
-.zmcKeCf:hover {
+.zcKeCf:hover {
   transition: 100ms;
   background-color: #6a77993f;
 }
@@ -447,17 +450,17 @@
 /*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 /*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
-.zmcL {
+.zcL {
   margin: 1.5vw 2vw;
   margin-left: 0vw;
 }
-.zmcLa {
+.zcLa {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 14.7vw;
 }
-.zmcLb {
+.zcLb {
   height: 1vw;
   width: 1vw;
   border-radius: 50%;
@@ -467,15 +470,15 @@
   background-size: 0.3vw;
   cursor: pointer;
 }
-.zmcLb:hover {
+.zcLb:hover {
   background-color: #00012013;
 }
-.zmcLc {
+.zcLc {
   font-size: 0.88vw;
   color: #1c1e22;
   font-weight: bold;
 }
-.zmcLd {
+.zcLd {
   height: 1vw;
   width: 1vw;
   border-radius: 50%;
@@ -485,10 +488,10 @@
   background-size: 0.3vw;
   cursor: pointer;
 }
-.zmcLd:hover {
+.zcLd:hover {
   background-color: #00012013;
 }
-.zmcLe {
+.zcLe {
   font-size: 0.7vw;
   color: #1c1e22;
   display: flex;
@@ -497,7 +500,7 @@
   border-bottom: 0.05vw solid #cfd2d8;
   margin-bottom: 0.5vw;
 }
-.zmcLf {
+.zcLf {
   width: 2.1vw;
   text-align: center;
 }
@@ -532,11 +535,11 @@
 /*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 /*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 /*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
-.zmcN {
+.zcN {
   display: flex;
   align-items: center;
 }
-.zmcNa {
+.zcNa {
   height: 1.56vw;
   width: 1.56vw;
   background-image: url(../asset/ic_download.svg);
@@ -544,7 +547,7 @@
   background-size: contain;
   cursor: pointer;
 }
-.zmcNb {
+.zcNb {
   height: 1.56vw;
   width: 1.56vw;
   height: 1.56vw;
@@ -555,14 +558,14 @@
   margin-left: 0.38vw;
   cursor: pointer;
 }
-.zmcNc {
+.zcNc {
   margin-left: 0.38vw;
   height: 1.46vw;
   display: flex;
   position: relative;
   cursor: pointer;
 }
-.zmcNcA {
+.zcNcA {
   height: 1.06vw;
   padding: 0.2vw 0.6vw;
   min-width: 6vw;
@@ -573,20 +576,20 @@
   border-top-left-radius: 0.2vw;
   border-bottom-left-radius: 0.2vw;
 }
-.zmcNcB {
+.zcNcB {
   height: 1.46vw;
   width: 1.46vw;
   background-image: url(../asset/ic_drop_1.svg);
   background-repeat: no-repeat;
   background-size: contain;
 }
-.zmcNcC {
+.zcNcC {
   transition: height 0.1s;
   width: 0vw;
   height: 0vw;
   overflow: hidden;
 }
-.zmcNcC_ {
+.zcNcC_ {
   transition: height 0.2s;
   position: absolute;
   background-color: white;
@@ -595,21 +598,21 @@
   box-shadow: 0vw 0vw 0.5vw #0000002c;
   padding-bottom: 0.2vw;
 }
-.zmcNcD {
+.zcNcD {
   display: none;
 }
-.zmcNcD_ {
+.zcNcD_ {
   position: fixed;
   top: 0vw;
   left: 0vw;
   right: 0vw;
   bottom: 0vw;
 }
-.zmcNcE {
+.zcNcE {
   padding: 0.25vw 0vw;
   padding-left: 1vw;
   font-size: 0.7vw;
 }
-.zmcNcE:hover {
+.zcNcE:hover {
   background-color: #11000120;
 }
