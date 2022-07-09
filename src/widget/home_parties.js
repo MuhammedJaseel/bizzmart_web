@@ -10,6 +10,7 @@ import {
   TitleFilter1,
 } from "./widget";
 import { DrawerForm1 } from "./widget_form";
+import { DrowerView2 } from "./widget_view";
 
 const pTitles = ["Customers", "Suppliers"];
 const titles = {
@@ -49,6 +50,7 @@ export default class HomeParties extends Component {
       page: 0,
       addPage: false,
       allCustomer: [],
+      customer: null,
       allSupplier: [],
     };
   }
@@ -59,7 +61,7 @@ export default class HomeParties extends Component {
   render() {
     const state = this.state;
     const setState = (v) => this.setState(v);
-    const { page, addPage } = state;
+    const { page, addPage, customer } = state;
     const titleL = page === 0 ? "COUSTOMERS" : "SUPPLIERS";
 
     const filterBody = {
@@ -87,6 +89,10 @@ export default class HomeParties extends Component {
         <HomePartiesSuppliersTable state={state} setState={setState} />
         <HomePartiesCoustomerForm state={state} setState={setState} />
         <HomePartiesSuppliersForm state={state} setState={setState} />
+        <DrowerView2
+          show={customer !== null}
+          close={() => setState({ customer: null })}
+        />
       </React.StrictMode>
     );
   }
@@ -94,6 +100,8 @@ export default class HomeParties extends Component {
 
 function HomePartiesCoustomerTable({ state, setState }) {
   const { page, addPage, allCustomer } = state;
+
+  const onclick = (v) => setState({ customer: v });
 
   const widths = [4, 18, 9, 9, 10, 15, 8, 8, 6];
   const body = [];
@@ -114,7 +122,7 @@ function HomePartiesCoustomerTable({ state, setState }) {
     }
   return (
     <React.StrictMode>
-      <MyTable1 widths={widths} heads={heads0} body={body} />
+      <MyTable1 widths={widths} heads={heads0} body={body} onclick={onclick} />
       <MyTableCounter1 props={{ total: 100 }} />
     </React.StrictMode>
   );

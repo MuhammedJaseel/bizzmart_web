@@ -207,11 +207,36 @@ export function AddingFormLayout({ title, desc, children }) {
     </div>
   );
 }
+export function AddingFormLayout1({ title, desc, ic }) {
+  return (
+    <AddingFormLayout title={title} desc={desc}>
+      <div className="zfH">
+        <input className="zfHa" placeholder="Name" />
+        <div className="zfHb">
+          <div
+            className="zfHbA"
+            style={{ backgroundImage: `url(${ic})` }}
+          />
+          <div className="zfHbB">
+            <div className="zfHbBa">UPLOAD EXCEL FILE</div>
+            <div className="zfHbBb">
+              Drop or click here to upload excel file here
+            </div>
+          </div>
+        </div>
+        <div className="zfHc">
+          <div className="zfHcA"></div>
+          <div className="zfHcB">Download sample template</div>
+        </div>
+      </div>
+    </AddingFormLayout>
+  );
+}
 export function AddingForm1({ title, children }) {
   return (
-    <div className="zfH">
-      <div className="zfHa">{title}</div>
-      <div className="zfHb">{children}</div>
+    <div className="zfJ">
+      <div className="zfJa">{title}</div>
+      <div className="zfJb">{children}</div>
     </div>
   );
 }

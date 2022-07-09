@@ -57,24 +57,24 @@ function HomeJobCardBody({ state, setState }) {
                   <div className="hjcAaBaBb">Amalkiran P</div>
                   <div className="hjcAaBaBc">Gold Member</div>
                 </div>
-                <div className="hjcAaBaBd">9745552299</div>
+                <div>9745552299</div>
               </div>
               <div className="hjcAaBaC">
-                <div className="hjcAaBaBd">18 APR 2022</div>
+                <div>18 APR 2022</div>
                 <div>
                   <div className="hjcAaBaBc">Deliver by</div>
-                  <div className="hjcAaBaBd">27 APR 2022</div>
+                  <div>27 APR 2022</div>
                 </div>
               </div>
               <div className="hjcAaBaD" />
               <div className="hjcAaBaE">
                 <div>
-                  <div className="hjcAaBaBd">iPhone 13 Pro 512GB Black</div>
+                  <div>iPhone 13 Pro 512GB Black</div>
                   <div className="hjcAaBaBc">Battery Replacement</div>
                 </div>
                 <div>
                   <div className="hjcAaBaBc">Condition</div>
-                  <div className="hjcAaBaBd">Dead</div>
+                  <div>Dead</div>
                 </div>
               </div>
               <div className="hjcAaBaF">
@@ -84,11 +84,11 @@ function HomeJobCardBody({ state, setState }) {
               <div className="hjcAaBaG">
                 <div>
                   <div className="hjcAaBaBc">Estimated Charge</div>
-                  <div className="hjcAaBaBd">INR 5,800.00</div>
+                  <div>INR 5,800.00</div>
                 </div>
                 <div>
                   <div className="hjcAaBaBc">Paid Amount</div>
-                  <div className="hjcAaBaBd">INR 1,000.00</div>
+                  <div>INR 1,000.00</div>
                 </div>
               </div>
               <div className="hjcAaBaH"></div>
@@ -99,25 +99,27 @@ function HomeJobCardBody({ state, setState }) {
       </div>
       <div className="hjcAb">
         <div className="hjcAbA">
-          <div>
-            <div className="hjcAbAa">Job Card Details</div>
-            <div className="hjcAbAb">RPA22-234</div>
-            <div className="hjcAbAc">Technision oedjjnjn</div>
-          </div>
-          <div className="hjcAbAd">
-            <div className="hjcAbAdA" />
-            <div className="hjcAbAdB" />
-            <div className="hjcAbAdC" />
+          <div className="hjcAbAa">
+            <div>
+              <div className="hjcAbAaB">Job Card Details</div>
+              <div className="hjcAbAaC">RPA22-234</div>
+              <div className="hjcAbAaD">Technision oedjjnjn</div>
+            </div>
+            <div className="hjcAbAd">
+              <div className="hjcAbAdA" />
+              <div className="hjcAbAdB" />
+              <div className="hjcAbAdC" />
+            </div>
           </div>
           <div className="hjcAbAe">
-            <div className="hjcAbAeA">New</div>
-            <div className="hjcAbAeA">In Process</div>
-            <div className="hjcAbAeA">On Hold</div>
-            <div className="hjcAbAeA">Processed</div>
             <div className="hjcAbAeA">Ready</div>
+            <div className="hjcAbAeA">Processed</div>
+            <div className="hjcAbAeA">On Hold</div>
+            <div className="hjcAbAeA">In Process</div>
+            <div className="hjcAbAeA">New</div>
           </div>
           <div className="hjcAbAf">ITEMS</div>
-          {[1, 1, 1].map(() => (
+          {[1, 1,1,1,1,1, 1].map(() => (
             <div className="hjcAbAg">
               <div className="hjcAbAgA">iPhone 13 Pro / 256GB / Black</div>
               <div className="hjcAbAgB">

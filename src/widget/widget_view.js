@@ -9,19 +9,27 @@ import "../style/zv.css";
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function DrawerLayout1({ show, body }) {
+function DrawerLayout1({ show, children }) {
   return (
     <StrictMode>
       <div className={show ? "zvAa" : "zvAa_"}></div>
-      <div className={show ? "zvAb" : "zvAb_"}>{body}</div>
+      <div className={show ? "zvAb" : "zvAb_"}>{children}</div>
+    </StrictMode>
+  );
+}
+function DrawerLayout2({ show, children }) {
+  return (
+    <StrictMode>
+      <div className={show ? "zvAa" : "zvAa_"}></div>
+      <div className={show ? "zvAb1" : "zvAb_1"}>{children}</div>
     </StrictMode>
   );
 }
 
 export default function DrawerView1({ state, setState }) {
   const { invoice } = state;
-  const body = (
-    <StrictMode>
+  return (
+    <DrawerLayout1 show={invoice !== null}>
       <div className="zvBa">
         <div className="zvBaA">
           <div className="zvBaAa">INV22-0653</div>
@@ -125,7 +133,64 @@ export default function DrawerView1({ state, setState }) {
         </div>
         <div className="zvBfB">OK</div>
       </div>
-    </StrictMode>
+    </DrawerLayout1>
   );
-  return <DrawerLayout1 body={body} show={invoice !== null} />;
+}
+
+export function DrowerView2({ show ,close }) {
+  return (
+    <DrawerLayout2 show={show}>
+      <div className="zvDa">
+        <div className="zvDaA">Sunder Pitch</div>
+        <div className="zvDaB" onClick={close} />
+      </div>
+      <div className="zvDb">
+        <div className="zvDbA">
+          <div className="zvDbAa"></div>
+        </div>
+        <div className="zvDbB">SILVER MEMBER</div>
+        <div className="zvDbC">
+          <div className="zvDbCa">
+            <div className="zvDbCaA" />
+            <div className="zvDbCaB">32</div>
+            <div className="zvDbCaC">Invoices</div>
+          </div>
+          <div />
+          <div className="zvDbCa">
+            <div className="zvDbCaA1" />
+            <div className="zvDbCaB">32</div>
+            <div className="zvDbCaC">Invoices</div>
+          </div>
+        </div>
+        <div className="zvDbD">
+          <div className="zvDbDa">EDIT CUSTOMER</div>
+          <div className="zvDbDb">INVOICES</div>
+          <div className="zvDbDb">STATEMENT</div>
+          <div className="zvDbDb">RECORD PAYMENT</div>
+        </div>
+        <div className="zvDbE">BASIC INFORMATION</div>
+        <div className="zvDbF">
+          <div className="zvDbFa">Full name *</div>
+          <input className="zvDbFb" />
+          <div className="zvDbFa">Loyalty Tier</div>
+          <select className="zvDbFb">
+            <option>GOLD</option>
+          </select>
+          <div className="zvDbFa">Lead Channel</div>
+          <input className="zvDbFb" />
+        </div>
+        <div className="zvDbE">CONTACT INFORMATION</div>
+        <div className="zvDbF">
+          <div className="zvDbFa">Mobile Number *</div>
+          <input className="zvDbFb" />
+          <div className="zvDbFa">Email Address</div>
+          <input className="zvDbFb" />
+        </div>
+      </div>
+      <div className="zvDc">
+        <div className="zvDcA">CANCAL</div>
+        <div className="zvDcB">SAVE</div>
+      </div>
+    </DrawerLayout2>
+  );
 }

@@ -1,8 +1,13 @@
 import React, { Component, StrictMode } from "react";
 import { allSettings } from "../module/home_settings";
 import { Header1, Header2, PaymentCard1 } from "./widget";
+import {
+  AddingForm1,
+  AddingFormLayout,
+  AddingFormLayout1,
+} from "./widget_form";
+import icXl from "../asset/ic_xl.svg";
 import "../style/hst.css";
-import { AddingForm1, AddingFormLayout } from "./widget_form";
 
 const pTitles = ["All Settings"];
 
@@ -171,6 +176,7 @@ function HomeSettingsBody2({ state, setState }) {
     </div>
   );
 }
+
 function HomeSettingsBody3({ state, setState }) {
   const { page } = state;
   const title = "CASH & BANK ACCOUNTS";
@@ -179,14 +185,16 @@ function HomeSettingsBody3({ state, setState }) {
   if (page?.path !== "uploadItems") return null;
   return (
     <div className="hstD">
-      <AddingFormLayout title={title} desc={desc}></AddingFormLayout>
-      <AddingFormLayout title={title} desc={desc}></AddingFormLayout>
+      <AddingFormLayout1 title={title} desc={desc} ic={icXl} />
+      <AddingFormLayout1 title={title} desc={desc} ic={icXl} />
+      <AddingFormLayout1 title={title} desc={desc} ic={icXl} />
+      <AddingFormLayout1 title={title} desc={desc} ic={icXl} />
     </div>
   );
 }
 function HomeSettingsBody4({ state, setState }) {
   const { page } = state;
-  const title = "CASH & BANK ACCOUNTS";
+  const title = "STORE PRESENCE";
   const desc =
     "Email sender address, You can select logged in users email or any email address of your choice";
   if (page?.path !== "onlineStoreSetting") return null;
@@ -194,10 +202,31 @@ function HomeSettingsBody4({ state, setState }) {
     <div className="hstD">
       <AddingFormLayout title={title} desc={desc}>
         <AddingForm1 title="GST Number">
-          <input className="hstDa" placeholder="Name" />
+          <select className="hstDa">
+            <option>Dissabled</option>
+          </select>
+        </AddingForm1>
+        <AddingForm1 title="Store Cover Image">
+          <img
+            className="hstDb"
+            src="https://lp-cms-production.imgix.net/2019-06/9483508eeee2b78a7356a15ed9c337a1-bengaluru-bangalore.jpg"
+          />
         </AddingForm1>
       </AddingFormLayout>
-      <AddingFormLayout title={title} desc={desc}></AddingFormLayout>
+      <AddingFormLayout title={title} desc={desc}>
+        <AddingForm1 title="GST Number">
+          <select className="hstDa">
+            <option>Dissabled</option>
+          </select>
+        </AddingForm1>
+      </AddingFormLayout>
+      <AddingFormLayout title={title} desc={desc}>
+        <AddingForm1 title="GST Number">
+          <select className="hstDa">
+            <option>Dissabled</option>
+          </select>
+        </AddingForm1>
+      </AddingFormLayout>
     </div>
   );
 }
