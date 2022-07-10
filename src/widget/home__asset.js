@@ -15,7 +15,16 @@ const heads = [
   "Cost",
   "Book value",
 ];
-const widths = [4, 20, 15, 10, 15, 10, 10, 10];
+const widths = [
+  { width: 4 },
+  { width: 20 },
+  { width: 15 },
+  { width: 10 },
+  { width: 15 },
+  { width: 10 },
+  { width: 10 },
+  { width: 10 },
+];
 
 export default class HomeInAsset extends Component {
   constructor(props) {

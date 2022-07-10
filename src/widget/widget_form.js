@@ -8,6 +8,11 @@ import "../style/zf.css";
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 export function MyForm1() {
+  const typeSaves = [
+    { title: "Save Invoice", fun: null },
+    { title: "Save & Add New", fun: null },
+    { title: "Save & Payment", fun: null },
+  ];
   const dummyProduct = {
     name: "",
     qty: "1",
@@ -18,6 +23,7 @@ export function MyForm1() {
     total: "0.0",
   };
   let [items, setItems] = useState([dummyProduct]);
+  const [isDrower, setIsDrower] = useState(false);
   return (
     <div className="zfB">
       <div className="zfBa">
@@ -30,6 +36,10 @@ export function MyForm1() {
           </div>
           <div className="zfBaAa">
             <div className="zfBaAaA">Invoice Date*</div>
+            <div className="zfBaAaC"></div>
+          </div>
+          <div className="zfBaAa">
+            <div className="zfBaAaA">Due Date*</div>
             <div className="zfBaAaC"></div>
           </div>
         </div>
@@ -97,7 +107,7 @@ export function MyForm1() {
         <div className="zfBcB">
           <div className="zfBcBa">
             <div>Discount</div>
-            <input className="zfBcBb" placeholder="0.0" />
+            <input type="number" className="zfBcBb" placeholder="0.0" />
           </div>
           <div className="zfBcBa">
             <div>Subtotal</div>
@@ -112,6 +122,29 @@ export function MyForm1() {
             <div>4,685.00</div>
           </div>
         </div>
+      </div>
+      <div className="zfBd">
+        <div className="zfBdA">
+          <div className="zfBdAa">SAVE</div>
+          {typeSaves !== null ? (
+            <div className="zfBdAb" onClick={() => setIsDrower(!isDrower)} />
+          ) : null}
+          <div
+            onClick={() => setIsDrower(!isDrower)}
+            className={isDrower ? "zfBdAd_" : "zfBdAd"}
+          />
+          <div
+            className={isDrower ? "zfBdAc_" : "zfBdAc"}
+            onClick={() => setIsDrower(!isDrower)}
+          >
+            {typeSaves?.map((it, k) => (
+              <div className="zfBdAe" onClick={it.fun}>
+                {it.title}
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="zfBdB">CANCEL</div>
       </div>
     </div>
   );
@@ -213,10 +246,7 @@ export function AddingFormLayout1({ title, desc, ic }) {
       <div className="zfH">
         <input className="zfHa" placeholder="Name" />
         <div className="zfHb">
-          <div
-            className="zfHbA"
-            style={{ backgroundImage: `url(${ic})` }}
-          />
+          <div className="zfHbA" style={{ backgroundImage: `url(${ic})` }} />
           <div className="zfHbB">
             <div className="zfHbBa">UPLOAD EXCEL FILE</div>
             <div className="zfHbBb">

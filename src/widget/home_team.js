@@ -1,13 +1,8 @@
 import React, { Component } from "react";
 import { teamMembers, teamPartners } from "../module/dummydata";
 import { MyTable1, MyTableCounter1 } from "./widget_table";
-import {
-  Header1,
-  Header2,
-  Header4,
-  HeaderButtens1,
-  TitleFilter1,
-} from "./widget";
+import { Header1, Header2, Header4 } from "./widget";
+import { HeaderButtens1, TitleFilter1 } from "./widget";
 import "../style/hdb.css";
 
 const pTitles = ["Team Members", "Partners"];
@@ -39,6 +34,8 @@ const heads1 = [
   "Status",
   "Actions",
 ];
+
+const statDot = (v) => <div className={"hprA_" + v} />;
 
 export default class HomeTeam extends Component {
   constructor() {
@@ -100,7 +97,16 @@ export default class HomeTeam extends Component {
 function HomeTeamMembersTable({ state, setState }) {
   const { page, addPage, allTeamMember } = state;
 
-  const widths = [4, 22, 12, 12, 12, 15, 10, 8];
+  const widths = [
+    { width: 4 },
+    { width: 22 },
+    { width: 12 },
+    { width: 12 },
+    { width: 12 },
+    { width: 15 },
+    { width: 10 },
+    { width: 8 },
+  ];
   const body = [];
   if (allTeamMember !== null)
     for (let i = 0; i < allTeamMember.length; i++) {
@@ -112,8 +118,11 @@ function HomeTeamMembersTable({ state, setState }) {
         { data: it.joiningDate },
         { data: it.phoneNumber },
         { data: it.email },
-        { data: it.systemUser },
-        { data: it.status, type: 2 },
+        { data: [statDot(it.systemUser === "NO" ? "r" : "g"), it.systemUser] },
+        {
+          data: [statDot(it.status === "ACTIVE" ? "g" : "r"), it.status],
+          type: 2,
+        },
       ]);
     }
   if (page !== 0 || addPage) return null;
@@ -127,7 +136,15 @@ function HomeTeamMembersTable({ state, setState }) {
 function HomeTeamPartnersTable({ state, setState }) {
   const { page, addPage, allTeamPartner } = state;
 
-  const widths = [4, 25, 12, 12, 20, 12, 12];
+  const widths = [
+    { width: 4 },
+    { width: 25 },
+    { width: 15 },
+    { width: 15 },
+    { width: 20 },
+    { width: 18 },
+    { width: 8 },
+  ];
   const body = [];
   if (allTeamPartner !== null)
     for (let i = 0; i < allTeamPartner.length; i++) {
@@ -138,7 +155,10 @@ function HomeTeamPartnersTable({ state, setState }) {
         { data: it.joiningDate },
         { data: it.phoneNumber },
         { data: it.email },
-        { data: it.status, type: 2 },
+        {
+          data: [statDot(it.status === "ACTIVE" ? "g" : "r"), it.status],
+          type: 2,
+        },
         { data: it.actions },
       ]);
     }

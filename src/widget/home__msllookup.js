@@ -15,7 +15,16 @@ const heads = [
   "Stock",
   "Difference",
 ];
-const widths = [4, 25, 15, 15, 10, 10, 10, 10];
+const widths = [
+  { width: 4 },
+  { width: 25 },
+  { width: 15 },
+  { width: 15 },
+  { width: 10 },
+  { width: 10 },
+  { width: 10 },
+  { width: 10 },
+];
 
 export default class HomeInMslLookup extends Component {
   constructor() {

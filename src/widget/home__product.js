@@ -18,7 +18,19 @@ const heads = [
   "Stock",
   "MSL",
 ];
-const widths = [4, 20, 9, 11, 8, 8, 9, 9, 9, 7, 4];
+const widths = [
+  { width: 4 },
+  { width: 20 },
+  { width: 9 },
+  { width: 11 },
+  { width: 8 },
+  { width: 8 },
+  { width: 9 },
+  { width: 9 },
+  { width: 9 },
+  { width: 7 },
+  { width: 4 },
+];
 
 export default class HomeInProduct extends Component {
   constructor() {

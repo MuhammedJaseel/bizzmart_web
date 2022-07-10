@@ -16,7 +16,17 @@ const heads = [
   "Amount",
   "Status",
 ];
-const widths = [1, 12, 12, 12, 12, 12, 12, 12, 8];
+const widths = [
+  { width: 1 },
+  { width: 12 },
+  { width: 12 },
+  { width: 12 },
+  { width: 12 },
+  { width: 12 },
+  { width: 12 },
+  { width: 12 },
+  { width: 8 },
+];
 
 export default class HomeInStockTransfer extends Component {
   constructor() {

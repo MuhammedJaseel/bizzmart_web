@@ -14,7 +14,15 @@ const heads = [
   "Stock (Primary)",
   "Stock (Secondary)",
 ];
-const widths = [4, 25, 20, 20, 10, 10, 8];
+const widths = [
+  { width: 4 },
+  { width: 25 },
+  { width: 20 },
+  { width: 20 },
+  { width: 10 },
+  { width: 10 },
+  { width: 8 },
+];
 
 export default class HomeInStockLookup extends Component {
   constructor() {

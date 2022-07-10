@@ -64,7 +64,15 @@ export default class HomeExpense extends Component {
 function HomeExpenceTable({ state, setState }) {
   const { addPage, allExpense } = state;
 
-  const widths = [4, 10, 10, 20, 20, 15, 10];
+  const widths = [
+    { width: 4 },
+    { width: 10 },
+    { width: 10 },
+    { width: 20 },
+    { width: 24 },
+    { width: 10 },
+    { width: 10, right: true },
+  ];
   const body = [];
   if (allExpense !== null)
     for (let i = 0; i < allExpense.length; i++) {

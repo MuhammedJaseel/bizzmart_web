@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, StrictMode } from "react";
 import { customerList, suppliersList } from "../module/dummydata";
 import "../style/hdb.css";
 import { MyTable1, MyTableCounter1 } from "./widget_table";
@@ -43,6 +43,8 @@ const heads1 = [
   "Turnover",
 ];
 
+const statDot = (v) => <div className={"hprA_" + v} />;
+
 export default class HomeParties extends Component {
   constructor() {
     super();
@@ -54,7 +56,6 @@ export default class HomeParties extends Component {
       allSupplier: [],
     };
   }
-
   componentDidMount() {
     this.setState({ allCustomer: customerList, allSupplier: suppliersList });
   }
@@ -103,7 +104,17 @@ function HomePartiesCoustomerTable({ state, setState }) {
 
   const onclick = (v) => setState({ customer: v });
 
-  const widths = [4, 18, 9, 9, 10, 15, 8, 8, 6];
+  const widths = [
+    { width: 4 },
+    { width: 18 },
+    { width: 9 },
+    { width: 9 },
+    { width: 10 },
+    { width: 20 },
+    { width: 8 },
+    { width: 6, right: true },
+    { width: 6, right: true },
+  ];
   const body = [];
   if (allCustomer !== null)
     for (let i = 0; i < allCustomer.length; i++) {
@@ -111,15 +122,16 @@ function HomePartiesCoustomerTable({ state, setState }) {
       body.push([
         { data: it.image, data2: it.customerName, type: 1 },
         { data: it.customerName },
-        { data: it.loyaltyTire, type: 2 },
-        { data: it.status, type: 2 },
+        { data: [statDot("y"), it.loyaltyTire], type: 2 },
+        { data: [statDot("g"), it.status], type: 2 },
         { data: it.phoneNumber },
         { data: it.email },
         { data: it.lastSean },
-        { data: it.turnover },
-        { data: it.balance },
+        { data: it.turnover, data2: it.turnover, type: 2 },
+        { data: it.balance, data2: it.balance, type: 2 },
       ]);
     }
+  if (page === 1) return null;
   return (
     <React.StrictMode>
       <MyTable1 widths={widths} heads={heads0} body={body} onclick={onclick} />
@@ -130,7 +142,15 @@ function HomePartiesCoustomerTable({ state, setState }) {
 function HomePartiesSuppliersTable({ state, setState }) {
   const { page, addPage, allSupplier } = state;
 
-  const widths = [4, 25, 12, 12, 22, 12, 6];
+  const widths = [
+    { width: 4 },
+    { width: 25 },
+    { width: 12 },
+    { width: 12 },
+    { width: 22 },
+    { width: 12 },
+    { width: 6 },
+  ];
   const body = [];
   if (allSupplier !== null)
     for (let i = 0; i < allSupplier.length; i++) {
@@ -138,13 +158,14 @@ function HomePartiesSuppliersTable({ state, setState }) {
       body.push([
         { data: it.image, data2: it.supplierName, type: 1 },
         { data: it.supplierName },
-        { data: it.status, type: 2 },
+        { data: [statDot("g"), it.status], type: 2 },
         { data: it.phoneNumber },
         { data: it.email },
         { data: it.lastSean },
         { data: it.turnover },
       ]);
     }
+  if (page === 0) return null;
   return (
     <React.StrictMode>
       <MyTable1 widths={widths} heads={heads1} body={body} />

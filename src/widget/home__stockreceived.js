@@ -14,7 +14,15 @@ const heads = [
   "Count",
   "Amount",
 ];
-const widths = [1, 16, 16, 16, 16, 16, 10];
+const widths = [
+  { width: 1 },
+  { width: 16 },
+  { width: 16 },
+  { width: 16 },
+  { width: 16 },
+  { width: 16 },
+  { width: 10 },
+];
 
 export default class HomeInStockReceived extends Component {
   constructor() {

@@ -306,15 +306,11 @@
   font-size: 0.66vw;
   background-image: url(../asset/ic_search.svg);
   background-repeat: no-repeat;
-  background-size: 0.6vw;
-  background-position: 16.3vw;
+  background-size: 0.8vw;
+  background-position: calc(100% - 0.6vw);
   padding: 0vw;
   padding-left: 0.5vw;
   padding-right: 2vw;
-}
-.zcKa:focus {
-  outline: none˝;
-  border: 0.05vw solid #2d4c86;
 }
 .zcKb {
   padding-right: 0.28vw;
@@ -334,10 +330,6 @@
   background-position: 5.8vw;
   padding-left: 0.5vw;
   padding-right: 2vw;
-}
-.zcKc:focus {
-  outline: none˝;
-  border: 0.05vw solid #2d4c86;
 }
 .zcKd {
   border-radius: 0.28vw;

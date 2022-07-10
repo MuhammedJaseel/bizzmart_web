@@ -15,7 +15,16 @@ const heads = [
   "Amount",
   "Status",
 ];
-const widths = [1, 15, 15, 15, 15, 15, 15, 8];
+const widths = [
+  { width: 1 },
+  { width: 15 },
+  { width: 15 },
+  { width: 15 },
+  { width: 15 },
+  { width: 15 },
+  { width: 15 },
+  { width: 8 },
+];
 
 export default class HomeInStockIssue extends Component {
   constructor() {

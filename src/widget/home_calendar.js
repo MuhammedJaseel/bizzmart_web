@@ -1,23 +1,56 @@
 import React, { Component } from "react";
 import { Header1, Header2, Header4 } from "./widget";
-import "../style/hcl.css";
 import { calender } from "../module/dummydata";
+import "../style/hcl.css";
 
 export default class HomeCalender extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      day: null,
-      today: "5-07-2020",
-    };
+    this.state = { day: null, today: "5-07-2020" };
   }
+
+  current = false;
 
   render() {
     const state = this.state;
     const setState = (v) => this.setState(v);
+    const { today } = state;
     const days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
-    const { today } = state;
+    const getByEachDay = () => {
+      const stack = [];
+      for (let i = 0; i < calender.length; i++) {
+        const it = calender[i];
+        if (it.date.split("-")[0] === "1") this.current = !this.current;
+        stack.push(
+          <div className="hclFd" key={i} onClick={() => setState({ day: it })}>
+            <div className="hclFe">
+              <div
+                className={
+                  it.date === today
+                    ? "hclFf_"
+                    : this.current
+                    ? "hclFf"
+                    : "hclFf_dis"
+                }
+              >
+                {it.date.split("-")[0]}
+              </div>
+            </div>
+            <div className="hclFg">
+              {it.events.map((e, j) => (
+                <div key={j} className="hclFh">
+                  <div className="hclFi">{e.title}</div>
+                  <div>{e.count}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      }
+
+      return stack;
+    };
 
     return (
       <React.StrictMode>
@@ -42,29 +75,7 @@ export default class HomeCalender extends Component {
                 </div>
               ))}
             </div>
-            <div className="hclFc">
-              {calender.map((it, k) => (
-                <div
-                  className="hclFd"
-                  key={k}
-                  onClick={() => setState({ day: it })}
-                >
-                  <div className="hclFe">
-                    <div className={it.date === today ? "hclFf_" : "hclFf"}>
-                      {it.date.split("-")[0]}
-                    </div>
-                  </div>
-                  <div className="hclFg">
-                    {it.events.map((e, j) => (
-                      <div key={j} className="hclFh">
-                        <div className="hclFi">{e.title}</div>
-                        <div>{e.count}</div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
+            <div className="hclFc">{getByEachDay()}</div>
           </div>
         </div>
         <HomeCalenderDetailsPop state={state} setState={setState} />

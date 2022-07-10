@@ -3,3 +3,23 @@
 /* ///////////////////////////////         BODY        //////////////////////////// */
 /* //////////////////////////////////////////////////////////////////////////////// */
 /* //////////////////////////////////////////////////////////////////////////////// */
+.hprA_y,
+.hprA_g,
+.hprA_r,
+.hprA_o {
+  width: 0.6vw;
+  height: 0.6vw;
+  margin-right: 0.2vw;
+  border-radius: 50%;
+  display: inline-block;
+  background-color: #F5B73F;
+}
+.hprA_g {
+  background-color: #48B183;
+}
+.hprA_r {
+  background-color: #FF0000;
+}
+.hprA_o {
+  background-color: #FA8411;
+}

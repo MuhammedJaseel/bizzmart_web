@@ -81,7 +81,16 @@ export default class HomePurchase extends Component {
 function HomePurchaseListTable({ state, setState }) {
   const { page, allPurchaseList, addPage } = state;
 
-  const widths = [4, 12, 12, 24, 12, 12, 12, 8];
+  const widths = [
+    { width: 4 },
+    { width: 12 },
+    { width: 12 },
+    { width: 22 },
+    { width: 10 },
+    { width: 12, right: true },
+    { width: 12, right: true },
+    { width: 5 },
+  ];
   const body = [];
   if (allPurchaseList !== null)
     for (let i = 0; i < allPurchaseList.length; i++) {
@@ -108,7 +117,14 @@ function HomePurchaseListTable({ state, setState }) {
 function HomePurchaseOrderTable({ state, setState }) {
   const { page, allPurchaseOrder, addPage } = state;
 
-  const widths = [4, 15, 15, 35, 15, 8];
+  const widths = [
+    { width: 4 },
+    { width: 8 },
+    { width: 8 },
+    { width: 35 },
+    { width: 15, right: true },
+    { width: 5 },
+  ];
   const body = [];
   if (allPurchaseOrder !== null)
     for (let i = 0; i < allPurchaseOrder.length; i++) {

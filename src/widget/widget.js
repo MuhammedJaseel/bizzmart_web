@@ -18,7 +18,7 @@ export function Header1({ title, bodyL, bodyR, onclick }) {
           {title}
           {bodyL !== undefined ? " >" : null}&nbsp;
         </div>
-        {bodyL}
+        {bodyL?.toUpperCase()}
       </div>
       {bodyR}
     </div>

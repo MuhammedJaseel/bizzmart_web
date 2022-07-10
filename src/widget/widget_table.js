@@ -10,7 +10,12 @@ import "../style/zc1.css";
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 export function MyTable1({ widths, heads, body, onclick }) {
   const st = [];
-  for (let i = 0; i < widths.length; i++) st.push({ width: widths[i] + "%" });
+  for (let i = 0; i < widths.length; i++)
+    st.push({
+      width: widths[i].width + "%",
+      textAlign: widths[i].right ? "right" : "left",
+      paddingRight: widths[i].right ? "2vw" : "0",
+    });
 
   if (widths.length !== heads.length) return <>Heading leagth different</>;
   if (body.length > 0)
