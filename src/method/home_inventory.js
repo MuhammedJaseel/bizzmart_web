@@ -15,7 +15,7 @@ export async function getProduct(state, setState) {
       if (res.data.statusCode === 700) {
         window.localStorage.setItem("bearer_token", "");
         window.localStorage.setItem("session_id", "");
-        window.location.href = "/login";
+        state.setScreen("/login");
       }
       if (res.data.statusCode === 200 || res.data.statusCode === 210)
         setState({ product: res.data.data });
@@ -38,7 +38,7 @@ export async function getProducts(state, setState) {
       if (res.data.statusCode === 700) {
         window.localStorage.setItem("bearer_token", "");
         window.localStorage.setItem("session_id", "");
-        window.location.href = "/login";
+        state.setScreen("/login");
       }
       if (res.data.statusCode === 200 || res.data.statusCode === 210) {
         setState({

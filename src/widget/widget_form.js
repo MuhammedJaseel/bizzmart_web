@@ -36,11 +36,11 @@ export function MyForm1() {
           </div>
           <div className="zfBaAa">
             <div className="zfBaAaA">Invoice Date*</div>
-            <div className="zfBaAaC"></div>
+            <input type="date" className="zfBaAaC" />
           </div>
           <div className="zfBaAa">
             <div className="zfBaAaA">Due Date*</div>
-            <div className="zfBaAaC"></div>
+            <input type="date" className="zfBaAaC" />
           </div>
         </div>
         <div className="zfBaB">

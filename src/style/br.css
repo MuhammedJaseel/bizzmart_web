@@ -1,130 +1,183 @@
-.br_a {
+.brA {
   background-color: #f5f6f9;
   height: 100vh;
   width: 100vw;
 }
-.br_b {
+.brB {
   background-color: #2d4c86;
-  height: 50px;
+  height: 3.44vw;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0px 1%;
+  padding-left: 1vw;
 }
-.br_c {
+.brC {
   display: flex;
 }
-.br_d {
+.brD {
   display: flex;
 }
-/* .br_e{} */
-.br_f {
+.brE {
+  width: 1.19vw;
+  height: 1.19vw;
+  margin-right: 0.4vw;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url(../asset/bizzmart_logo2.png);
+}
+.brF {
+  font-size: 1.13vw;
   font-weight: bold;
   color: white;
 }
-.br_g {
-  display: flex;
-}
-/* .br_h{} */
-.br_i {
+.brG {
   margin-left: 3vw;
   color: white;
+  width: 10vw;
+  border: none;
+  background-color: #2d4c86;
+  background-image: none;
 }
-.br_j {
+.brJ {
   display: flex;
+  align-items: center;
 }
-.br_o {
-  padding: 10px 1%;
-  border-bottom: 0.5px solid #e2e2e2;
+.brO {
+  padding: 1vw;
+  border-bottom: 0.1vw solid #dddddd;
   font-weight: bold;
   background-color: white;
+  font-size: 1.3vw;
 }
-.br_p {
-  padding: 10px 1%;
-  border-bottom: 0.5px solid #e2e2e2;
+.brP {
+  padding: 0.5vw 1vw;
+  border-bottom: 0.1vw solid #dddddd;
   display: flex;
 }
-.br_s {
-  padding: 2%;
+.brQ {
+  width: 10vw;
+}
+.brR {
+  width: 10vw;
+  margin-left: 1vw;
+  background-image: url(../asset/ic_search.svg);
+  background-position: 94%;
+  background-size: 0.8vw;
+  background-repeat: no-repeat;
+  padding-right: 0.6vw;
+  margin-right: 0.6vw;
+}
+.brS {
+  padding: 1vw;
   overflow: auto;
 }
-.br_t {
+.brT {
   display: flex;
-  font-size: 12px;
+  color: #242629;
+  font-size: 0.8vw;
   font-weight: bold;
-  min-width: 1000px;
-  padding: 5px;
+  padding: 0.2vw;
 }
-.br_u {
+.brU {
   display: flex;
-  width: 35%;
+  width: 38%;
+  background-image: url(../asset/ic_arrow_up.svg);
+  background-position: left;
+  background-size: 0.3vw;
+  background-repeat: no-repeat;
+  padding-left: 0.6vw;
 }
-.br_w {
+.brW {
   width: 7%;
 }
-.br_x {
+.brX {
   width: 12%;
 }
-.br_y {
+.brY {
   width: 10%;
 }
-.br_z {
+.brZ {
+  width: 15%;
+}
+.brAa {
   width: 10%;
 }
-.br_aa {
-  width: 10%;
-}
-.br_ab {
+.brAb {
   display: flex;
-  font-size: 12px;
+  color: #242629;
+  font-size: 0.8vw;
   font-weight: 500;
-  margin-bottom: 10px;
+  margin-bottom: 0.5vw;
   background-color: white;
-  padding: 5px;
+  padding: 0.3vw 0;
   align-items: center;
-  border-radius: 3px;
-  border: 0.5px solid #e2e2e2;
+  border-radius: 0.25vw;
+  border: 0.1vw solid #eaeaea;
 }
-.br_ad {
-  width: 40px;
-  height: 40px;
-  border-radius: 5px;
-  margin-right: 5px;
+.brAc {
+  background-image: none;
+  padding-left: 0.7vw;
 }
-.br_ae {
+.brAd {
+  width: 2.2vw;
+  height: 2.2vw;
+  border-radius: 0.2vw;
+  margin-right: 0.4vw;
+}
+.brAe {
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
-.br_af {
+.brAf {
   font-weight: bold;
-  margin-bottom: 2px;
+  margin-bottom: 0.08vw;
+  font-weight: 500;
 }
-.br_ag {
+.brAg {
   font-weight: bold;
-  font-size: 8px;
+  font-size: 0.06vw;
   color: #9fa3af;
+  font-weight: 500;
 }
-.br_ao {
+.brAm {
+  color: #2d4c86;
+  background-image: url(../asset/ic_arrow_r.svg);
+  background-position: right;
+  background-size: 0.5vw;
+  background-repeat: no-repeat;
+  padding-right: 0.6vw;
+  margin-right: 0.6vw;
+  text-align: left;
+  cursor: pointer;
+}
+.brAo {
   display: flex;
   justify-content: center;
+  font-weight: 500;
 }
-.br_ap {
+.brAp {
   background-color: #2d4c86;
-  padding: 6px;
-  border-radius: 4px;
+  padding: 0.4vw 0.5vw;
+  border-radius: 0.3vw;
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
-.br_aq {
-  width: 14px;
-  height: 14px;
+.brAq {
+  width: 1vw;
+  height: 1vw;
   border-radius: 50%;
   background-color: white;
+  background-image: url(../asset/ic_+.svg);
+  background-position: center;
+  background-size: 70%;
+  background-repeat: no-repeat;
 }
-.br_ar {
+.brAr {
   color: white;
-  font-size: 10px;
+  font-size: 0.8vw;
   font-weight: bold;
-  padding: 0px 8px;
+  padding: 0 0.5vw;
 }

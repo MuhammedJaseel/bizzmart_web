@@ -2,76 +2,86 @@ import React, { Component } from "react";
 import "../style/br.css";
 
 export default class BranchScreen extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      setScreen: this.props.setScreen,
+    };
+  }
   render() {
+    const { setScreen } = this.state;
     return (
-      <div className="br_a">
-        <div className="br_b">
-          <div className="br_c">
-            <div className="br_d">
-              <img className="br_e" />
-              <div className="br_f">bizzWorks</div>
+      <div className="brA">
+        <div className="brB">
+          <div className="brC">
+            <div className="brD">
+              <div className="brE" />
+              <div className="brF">bizzWorks</div>
             </div>
-            <div className="br_g">
-              <img className="br_h" />
-              <div className="br_i">My Business</div>
-            </div>
+            <select className="brG">
+              <option>My Business</option>
+            </select>
           </div>
-          <div className="br_j">
-            <img className="br_k" alt="logo" />
-            <img className="br_l" alt="logo" />
-            <div className="br_m">Help</div>
-            <div className="br_n"></div>
+          <div className="brJ">
+            <div className="hmAaJ"></div>
+            <div className="hmAaM">
+              <div className="hmAaO">Help</div>
+            </div>
+            <div className="hmAaQ">
+              <img
+                alt="ic"
+                className="hmAaR"
+                src="https://shotkit.com/wp-content/uploads/2021/06/cool-profile-pic-matheus-ferrero.jpeg"
+                // src={window.localStorage.getItem("profile_pic")}
+              />
+            </div>
           </div>
         </div>
-        <div className="br_o">My Branches</div>
-        <div className="br_p">
-          <select className="br_q"></select>
-          <select className="br_r"></select>
+        <div className="brO">My Branches</div>
+        <div className="brP">
+          <select className="brQ">
+            <option>Show: All Branches</option>
+          </select>
+          <input className="brR" placeholder="Search Branch" />
         </div>
 
-        <div className="br_s">
-          <div className="br_t">
-            <div className="br_u">
-              <img className="br_v" alt="logo" />
-              BUSSNESS & BRANCH
-            </div>
-            <div className="br_w">STATUS</div>
-            <div className="br_x">LAST LOGIN</div>
-            <div className="br_y">ONLINE STORE</div>
-            <div className="br_z">PLAN</div>
-            <div className="br_aa">VALID TILL</div>
+        <div className="brS">
+          <div className="brT">
+            <div className="brU">BUSSNESS & BRANCH</div>
+            <div className="brW">STATUS</div>
+            <div className="brX">LAST LOGIN</div>
+            <div className="brY">ONLINE STORE</div>
+            <div className="brZ">PLAN</div>
+            <div className="brAa">VALID TILL</div>
           </div>
           {[1, 1].map((v, k) => (
-            <div key={k} className="br_ab">
-              <div className="br_u br_ac">
+            <div key={k} className="brAb">
+              <div className="brU brAc">
                 <img
-                  className="br_ad"
+                  className="brAd"
                   src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/shopping-logo-icon-template-design-95efa314ac0a8841eaf2f864f61b1ee7_screen.jpg?ts=1604166712"
                   alt="LOgo"
                 />
-                <div className="br_ae">
-                  <div className="br_af">Sharma Mobile world</div>
-                  <div className="br_ag">Phoenix Mall, Mumbai</div>
+                <div className="brAe">
+                  <div className="brAf">Sharma Mobile world</div>
+                  <div className="brAg">Phoenix Mall, Mumbai</div>
                 </div>
               </div>
-              <div className="br_w br_ah">OPEN</div>
-              <div className="br_x br_ai">2 Feb 2022, 09:30:14</div>
-              <div className="br_y br_aj">LIVE</div>
-              <div className="br_z br_ak">BLOSSOM</div>
-              <div className="br_aa br_al">2 Feb 2022, 09:30:14</div>
-              <div className="br_am">
+              <div className="brW brAh">OPEN</div>
+              <div className="brX brAi">2 Feb 2022, 09:30:14</div>
+              <div className="brY brAj">LIVE</div>
+              <div className="brZ brAk">BLOSSOM</div>
+              <div className="brAa brAl">2 Feb 2022, 09:30:14</div>
+              <div className="brAm" onClick={() => setScreen("/dashboard")}>
                 VIEW STORE
-                <img className="br_an" alt="icon" />˝
               </div>
             </div>
           ))}
         </div>
-        <div className="br_ao">
-          <div className="br_ap">
-            <div className="br_aq">
-              <img />
-            </div>
-            <div  className="br_ar">Add Branch</div>
+        <div className="brAo">
+          <div className="brAp">
+            <div className="brAq" />
+            <div className="brAr">Add Branch</div>
           </div>
         </div>
       </div>

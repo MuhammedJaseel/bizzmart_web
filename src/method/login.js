@@ -55,7 +55,7 @@ export async function branchLogin(props, e) {
         window.localStorage.setItem("session_id", res.data.data.session_id);
         window.localStorage.setItem("profile_pic", res.data.data.image);
         window.localStorage.setItem("user_name", res.data.data.phone);
-        window.location.href = "/dashboard";
+        props.state.setScreen("/dashboard");
       } else if (res.data.statusCode === 801) {
         force_login = 1;
         const error = `Warning : You are already logged in somewhere, Click login again if you want a force login.`;

@@ -1,19 +1,20 @@
-import React, { Component } from "react";
+import React, { Component, StrictMode } from "react";
 import bizzMartLogo2 from "../asset/bizzmart_logo2.png";
 import sidebarIc from "../module/sidebar_ic";
 import icBack from "../asset/icon/ic_back.png";
-import icPlus from "../asset/icon/ic_plus.png";
-import icarrow1 from "../asset/icon/ic_arrow1.png";
-import icHelp from "../asset/icon/ic_help.png";
-import icNoti from "../asset/icon/ic_noti.png";
 import "../style/hm.css";
+import { quickButtons } from "../module/home";
 
 export default class HomeScreen extends Component {
-  constructor() {
-    super();
-    this.state = { selectedDash: 0 };
+  constructor(props) {
+    super(props);
+    this.state = {
+      setScreen: props.setScreen,
+      selectedDash: 0,
+      isNoti: false,
+      isQuickPop: false,
+    };
   }
-
   componentDidMount() {
     const path = window.location.pathname.split("/")[2];
     for (let i = 0; i < sidebarIc.length; i++)
@@ -21,8 +22,12 @@ export default class HomeScreen extends Component {
   }
 
   render() {
-    const { selectedDash } = this.state;
+    const state = this.state;
+    const setState = (v) => this.setState(v);
+
+    const { selectedDash, setScreen, isQuickPop } = state;
     const SubWidget = sidebarIc[selectedDash].widget;
+
     return (
       <React.StrictMode>
         <div className="hmA">
@@ -37,16 +42,43 @@ export default class HomeScreen extends Component {
               </div>
             </div>
             <div className="hmAaG">
-              <div className="hmAaH">
-                <img alt="ic" className="hmAaI" src={icPlus} />
+              <div
+                className="hmAaH"
+                onClick={() => setState({ isQuickPop: !isQuickPop })}
+              >
+                {isQuickPop ? (
+                  <StrictMode>
+                    <div className="hmAaH_" />
+                    <div className="hmAaHa">
+                      {quickButtons.map((it, k) => (
+                        <StrictMode key={k}>
+                          <div className="hmAaHaA">{it.title}</div>
+                          <div className="hmAaHaB">
+                            {it.data.map((it2, k1) => (
+                              <div
+                                key={k}
+                                className="hmAaHaBa"
+                                onClick={() => {
+                                  setScreen(it2.path);
+                                  setState({ selectedDash: 3 });
+                                }}
+                              >
+                                {it2.title}
+                              </div>
+                            ))}
+                          </div>
+                        </StrictMode>
+                      ))}
+                    </div>
+                  </StrictMode>
+                ) : null}
               </div>
-              <div className="hmAaJ">
-                <img alt="ic" className="hmAaK" src={icNoti} />
-              </div>
+              <div
+                className="hmAaJ"
+                onClick={() => setState({ isNoti: true })}
+              />
               <div className="hmAaM">
-                <img alt="ic" className="hmAaN" src={icHelp} />
                 <div className="hmAaO">Help</div>
-                <img alt="ic" className="hmAaP" src={icarrow1} />
               </div>
               <div className="hmAaQ">
                 <img
@@ -55,7 +87,6 @@ export default class HomeScreen extends Component {
                   src="https://shotkit.com/wp-content/uploads/2021/06/cool-profile-pic-matheus-ferrero.jpeg"
                   // src={window.localStorage.getItem("profile_pic")}
                 />
-                <img alt="ic" className="hmAaP" src={icarrow1} />
               </div>
             </div>
           </div>
@@ -80,7 +111,7 @@ export default class HomeScreen extends Component {
                 <div
                   className={selectedDash === k ? "hmBi_" : "hmBi"}
                   onClick={() => {
-                    this.setState({ selectedDash: k });
+                    setState({ selectedDash: k });
                     window.history.replaceState(
                       "home",
                       "Home",
@@ -101,12 +132,47 @@ export default class HomeScreen extends Component {
               </React.StrictMode>
             ))}
           </div>
-          <div className="hmBl">
+          <div className="hmBl" onClick={() => setScreen("/branches")}>
             <img alt="ic" src={icBack} className="hmBm" />
             <div className="hmBn">All Branches</div>
           </div>
         </div>
+        <HomeNotificationPopup state={state} setState={setState} />
       </React.StrictMode>
     );
   }
+}
+
+function HomeNotificationPopup({ state, setState }) {
+  const { isNoti } = state;
+  return (
+    <StrictMode>
+      <div className={isNoti ? "hmC" : "hmC_"} />
+      <div className={isNoti ? "hmCa" : "hmCa_"}>
+        <div
+          className={isNoti ? "hmCa_x" : ""}
+          onClick={() => setState({ isNoti: false })}
+        />
+        {[1, 1, 1].map(() => (
+          <StrictMode>
+            <div className="hmCb">
+              <div className="hmCbA">PAYMENT DUE</div>
+            </div>
+            {[1, 1, 1].map(() => (
+              <div className="hmCc">
+                <div className="hmCcA" />
+                <div className="hmCcB">
+                  <div className="hmCcBa">Rahul Commerce</div>
+                  <div className="hmCcBb">
+                    Cheque #1235 for 125,500.00 is due today
+                  </div>
+                </div>
+                <div className="hmCcC">12 MAY</div>
+              </div>
+            ))}
+          </StrictMode>
+        ))}
+      </div>
+    </StrictMode>
+  );
 }

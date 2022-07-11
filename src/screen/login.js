@@ -6,9 +6,10 @@ import { getLoginPageData, hosLogin } from "../method/login";
 import { LoadingScreen1 } from "../widget/warnings";
 
 export default class LoginScreen extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
+      setScreen: props.setScreen,
       pageloading: true,
       loading: false,
       error: null,

@@ -191,7 +191,6 @@ export function TitleFilter1({ props }) {
 function FilterCalender1({ v, y, m, add, selected, setSelected }) {
   let dragger = null;
   let dropper = null;
-  console.log(selected);
   return (
     <div className="zcL">
       <div className="zcL_">

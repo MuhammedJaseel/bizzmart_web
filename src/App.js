@@ -1,19 +1,27 @@
-import React from "react";
+import React, { StrictMode, useState } from "react";
 import BranchScreen from "./screen/branch";
 import HomeScreen from "./screen/home";
 import LoginScreen from "./screen/login";
 
 export default function App() {
-  const path = window.location.pathname.split("/")[1];
-  if (path === "login") return <LoginScreen />;
-  if (path === "branches") return <BranchScreen />;
-  if (path === "dashboard") return <HomeScreen />;
+  const [path, setPath] = useState(
+    window.location.pathname.split("?")[0].split("/")[1]
+  );
+  const setScreen = (v) => {
+    setPath(v.split("?")[0].split("/")[1]);
+    window.history.replaceState("HOME", "HOME", v);
+  };
+  if (path === "login") return <LoginScreen setScreen={setScreen} />;
+  if (path === "branches") return <BranchScreen setScreen={setScreen} />;
+  if (path === "dashboard") return  <HomeScreen setScreen={setScreen} />;
   if (path === "cal") return <Cal />;
-  return <HomeScreen />;
+  window.history.replaceState("HOME", "HOME", "dashboard");
+  setPath("/dashboard");
+  return <StrictMode>Hallow, its 404</StrictMode>;
 }
 
 // git add .
-// git commit -m "cloner"
+// git commit -m "Ui finel tuchup started"
 // git push origin main
 
 function Cal() {
