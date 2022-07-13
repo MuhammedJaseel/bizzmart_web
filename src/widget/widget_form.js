@@ -270,3 +270,13 @@ export function AddingForm1({ title, children }) {
     </div>
   );
 }
+export function AddingForm2({ children }) {
+  return <div className="zfK">{children}</div>;
+}
+export function FormSwitch({ value, onTap }) {
+  return (
+    <div className={value ? "zfL" : "zfL_"} onClick={onTap}>
+      <div className="zfLa" />
+    </div>
+  );
+}

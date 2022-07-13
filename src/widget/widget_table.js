@@ -8,7 +8,7 @@ import "../style/zc1.css";
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-export function MyTable1({ widths, heads, body, onclick }) {
+export function MyTable1({ widths, heads, body, onclick, lg }) {
   const st = [];
   for (let i = 0; i < widths.length; i++)
     st.push({
@@ -29,7 +29,7 @@ export function MyTable1({ widths, heads, body, onclick }) {
           </div>
         ))}
       </div>
-      <div className="zc1Ab">
+      <div className={lg ? "zc1Ab_lg" : "zc1Ab"}>
         {body.map((it, k) => (
           <div key={k} className="zc1AbA" onClick={(it) => onclick(it)}>
             {it.map((it2, j) => (
@@ -119,8 +119,9 @@ export function MyTableCounter1({ props }) {
         >
           Previous
         </div>
-        {numbers.map((i) => (
+        {numbers.map((i, k) => (
           <div
+            key={k}
             onClick={() => (typeof i === "number" ? setSel(i) : null)}
             className={i === sel ? "zc1BbB zc1BbB_" : "zc1BbB"}
           >

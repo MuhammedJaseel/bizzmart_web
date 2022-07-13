@@ -153,13 +153,13 @@ function HomeNotificationPopup({ state, setState }) {
           className={isNoti ? "hmCa_x" : ""}
           onClick={() => setState({ isNoti: false })}
         />
-        {[1, 1, 1].map(() => (
-          <StrictMode>
+        {[1, 1, 1].map((it, k) => (
+          <StrictMode key={k}>
             <div className="hmCb">
               <div className="hmCbA">PAYMENT DUE</div>
             </div>
-            {[1, 1, 1].map(() => (
-              <div className="hmCc">
+            {[1, 1, 1].map((it1, k1) => (
+              <div className="hmCc" key={k1}>
                 <div className="hmCcA" />
                 <div className="hmCcB">
                   <div className="hmCcBa">Rahul Commerce</div>

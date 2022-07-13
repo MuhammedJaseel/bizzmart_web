@@ -273,7 +273,7 @@ export function HeaderButtens1({ props }) {
       ) : null}
       <div className="zcNc">
         <div
-          className="zcNcA"
+          className={drowelList === null ? "zcNcA_" : "zcNcA"}
           onClick={() =>
             makeAdd === undefined ? setIsDrower(true) : makeAdd()
           }

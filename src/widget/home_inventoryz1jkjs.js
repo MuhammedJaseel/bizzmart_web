@@ -1,6 +1,5 @@
 import React from "react";
 import { Header1 } from "./widget";
-import "../style/hin.css";
 import icDownload from "../asset/icon/ic_download.png";
 import icShare from "../asset/icon/ic_share.png";
 import icArrow2 from "../asset/icon/ic_arrow2.png";
@@ -8,6 +7,7 @@ import { getCategoryList } from "../method/home_inventory";
 import { getProducts } from "../method/home_inventory";
 import { InventoryAddModifirePopup, SuccesPopup } from "./popups";
 import { AddProdect, ProdectList } from "./home_inventory1";
+import "../style/hin.css";
 
 export default class HomeInventory extends React.Component {
   constructor() {

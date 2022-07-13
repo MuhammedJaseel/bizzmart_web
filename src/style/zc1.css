@@ -22,13 +22,17 @@
   font-size: 0.86vw;
   color: #123347;
 }
-.zc1Ab {
+.zc1Ab,
+.zc1Ab_lg {
   height: calc(100vh - 21vw);
   background-color: white;
   overflow: auto;
   border-radius: 0.47vw;
   font-size: 0.8vw;
   font-weight: 500;
+}
+.zc1Ab_lg {
+  height: calc(100vh - 18vw);
 }
 .zc1AbA {
   padding: 0vw 0.5vw;

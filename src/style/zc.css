@@ -557,7 +557,8 @@
   position: relative;
   cursor: pointer;
 }
-.zcNcA {
+.zcNcA,
+.zcNcA_ {
   height: 1.06vw;
   padding: 0.2vw 0.6vw;
   min-width: 6vw;
@@ -567,6 +568,9 @@
   background-color: #2d4c86;
   border-top-left-radius: 0.2vw;
   border-bottom-left-radius: 0.2vw;
+}
+.zcNcA_ {
+  border-radius: 0.2vw;
 }
 .zcNcB {
   height: 1.46vw;

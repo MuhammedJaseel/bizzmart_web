@@ -1,15 +1,27 @@
-import React from "react";
-import { Header1, TitleTable1 } from "./widget";
+import { StrictMode, Component } from "react";
 import { inventoryPages } from "../module/home_inventory";
+import { assetList, productList, stockIssue } from "../module/dummydata";
+import HomeInventoryTables from "./home_inventory1";
+import HomeInventoryForms from "./home_inventory2";
 import "../style/hin.css";
 
-export default class HomeInventory extends React.Component {
+export default class HomeInventory extends Component {
   constructor() {
     super();
     this.state = {
       loading: true,
       error: null,
       page: null,
+      addPage: false,
+      // DATA ///////////////////////////////////////////////////////////////////////\
+      allProduct: [],
+      allAsset: [],
+      allIssue: [],
+      setPage: (v) => {
+        this.setState({ page: v.path === undefined ? null : v });
+        const url = `/dashboard/inventory/${v.path || ""}`;
+        window.history.replaceState("home", "home", url);
+      },
     };
   }
 
@@ -21,7 +33,7 @@ export default class HomeInventory extends React.Component {
       for (let j = 0; j < inventoryPages[0].length; j++)
         for (let i = 0; i < inventoryPages[0][j].data.length; i++) {
           if (inventoryPages[0][j].data[i].path === path) {
-            this.setState({ page: inventoryPages[0][j].data[i].widget });
+            this.setState({ page: inventoryPages[0][j].data[i] });
             done = true;
             break;
           }
@@ -30,41 +42,23 @@ export default class HomeInventory extends React.Component {
         for (let j = 0; j < inventoryPages[1].length; j++)
           for (let i = 0; i < inventoryPages[1][j].data.length; i++) {
             if (inventoryPages[1][j].data[i].path === path) {
-              this.setState({ page: inventoryPages[1][j].data[i].widget });
+              this.setState({ page: inventoryPages[1][j].data[i] });
               break;
             }
           }
+      this.setState({ allAsset: assetList, allProduct: productList });
+      this.setState({ allIssue: stockIssue });
     } else this.setState({ page: null });
   }
-
-  setPage = (v) => {
-    this.setState({ page: v.widget });
-    window.history.replaceState(
-      "home",
-      "home",
-      "/dashboard/inventory/" + v.path
-    );
-  };
 
   render() {
     const setState = (v) => this.setState(v);
     const state = this.state;
-    const { page } = this.state;
-    const Page = page;
-    if (page === null)
-      return (
-        <React.StrictMode>
-          <Header1 title="INVENTORY > INVENTORY LANDING" />
-          <TitleTable1 data={inventoryPages} setPage={this.setPage} />
-        </React.StrictMode>
-      );
     return (
-      <Page
-        back={() => {
-          setState({ page: null });
-          window.history.replaceState("home", "home", "/dashboard/inventory");
-        }}
-      />
+      <StrictMode>
+        <HomeInventoryTables state={state} setState={setState} />
+        <HomeInventoryForms state={state} setState={setState} />
+      </StrictMode>
     );
   }
 }

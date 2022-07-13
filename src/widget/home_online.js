@@ -25,16 +25,9 @@ export default class HomeOnline extends React.Component {
     const setState = (v) => this.setState(v);
     const { page, titles } = state;
 
-    const titleBL = (
-      <div className="hinB" onClick={() => this.setState({ addpage: false })}>
-        &nbsp; PRODUCRS LIST
-      </div>
-    );
-    const titleBR = "";
-    const hTitle = <React.StrictMode>ONLINE {">"} </React.StrictMode>;
     return (
       <React.StrictMode>
-        <Header1 title={hTitle} bodyL={titleBL} bodyR={titleBR} />
+        <Header1 title={"ONLINE"} bodyL={"PRODUCRS LIST"}  />
         <Header3 titles={pTitles} page={page} setState={setState} />
         <div className="honB">
           <div className="honBa">

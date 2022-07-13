@@ -451,7 +451,7 @@
 /*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 /*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 .zfG {
-  padding: 1vw 2vw;
+  padding: 1vw 1vw;
 }
 .zfGa {
   font-size: 0.94vw;
@@ -476,11 +476,6 @@
 }
 .zfGcB {
   width: 60%;
-}
-.zfJ {
-  display: flex;
-  justify-content: space-between;
-  margin: 0.8vw 0;
 }
 
 /* /////////////////////////////////////             ASSET INPUT             /////////////////////////////////////// */
@@ -553,15 +548,60 @@
   color: #515151;
 }
 /* /////////////////////////////////////             //////////////            /////////////////////////////////////// */
+.zfJ {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.6vw;
+}
 .zfJa {
   width: 25%;
   font-size: 0.75vw;
   font-weight: 500;
   color: #3d424e;
-  margin-top: 0.5vw;
+  margin-top: 0.4vw;
   text-align: right;
 }
 .zfJb {
   width: 70%;
   margin-right: 3%;
+}
+/* /////////////////////////////////////             //////////////            /////////////////////////////////////// */
+.zfK {
+  padding-left: 27%;
+  width: 70%;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.69vw;
+  font-weight: 500;
+  color: #3d424e;
+  margin-bottom: 0.2vw;
+}
+.zfK sb {
+  color: #707070;
+  font-size: 0.6vw;
+  margin-left: 0.2vw;
+}
+/* /////////////////////////////////////             //////////////            /////////////////////////////////////// */
+.zfL,
+.zfL_ {
+  cursor: pointer;
+  width: 3vw;
+  height: 1.8vw;
+  border-radius: 1.8vw;
+  display: flex;
+  align-items: center;
+  padding: 0.15vw;
+  margin-right: 0.18vw;
+  justify-content: flex-end;
+  background-color: #2d4c86;
+}
+.zfL_ {
+  justify-content: flex-start;
+  background-color: #abadaf;
+}
+.zfLa {
+  width: 1.63vw;
+  height: 1.63vw;
+  border-radius: 1.63vw;
+  background-color: white;
 }
