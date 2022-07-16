@@ -162,5 +162,5 @@ function HomeSalesInvoicesForm({ state, setState }) {
 }
 function HomeSalesEstimatesForm({ state, setState }) {
   if (state.page !== 1 || !state.addPage) return null;
-  return <MyForm1 />;
+  return <MyForm1 props={{}} />;
 }
