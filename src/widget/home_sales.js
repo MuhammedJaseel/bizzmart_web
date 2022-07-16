@@ -11,8 +11,8 @@ const pTitles = ["Sales Invoices", "Sales Estimates"];
 const titS = {
   tit: [`Invoice List`, `Estimate List`],
   desc: [
-    `Shows all the recorded sales invoices against the selected date range`,
-    `Shows all the recorded estimate against the selected date range`,
+    `Shows all the recorded sales invoices against the selected date range.`,
+    `Shows all the recorded estimate against the selected date range.`,
   ],
 };
 const heads0 = [
