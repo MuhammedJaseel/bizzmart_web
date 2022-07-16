@@ -158,7 +158,7 @@ function HomeSalesEstimatesTable({ state, setState }) {
 
 function HomeSalesInvoicesForm({ state, setState }) {
   if (state.page !== 0 || !state.addPage) return null;
-  return <MyForm1 />;
+  return <MyForm1 props={{}} />;
 }
 function HomeSalesEstimatesForm({ state, setState }) {
   if (state.page !== 1 || !state.addPage) return null;
