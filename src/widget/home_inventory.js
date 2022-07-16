@@ -4,6 +4,7 @@ import { assetList, productList, stockIssue } from "../module/dummydata";
 import HomeInventoryTables from "./home_inventory1";
 import HomeInventoryForms from "./home_inventory2";
 import "../style/hin.css";
+import HomeInventoryPopups from "./home_inventory3";
 
 export default class HomeInventory extends Component {
   constructor() {
@@ -13,6 +14,7 @@ export default class HomeInventory extends Component {
       error: null,
       page: null,
       addPage: false,
+      popup: null,
       // DATA ///////////////////////////////////////////////////////////////////////\
       allProduct: [],
       allAsset: [],
@@ -58,6 +60,7 @@ export default class HomeInventory extends Component {
       <StrictMode>
         <HomeInventoryTables state={state} setState={setState} />
         <HomeInventoryForms state={state} setState={setState} />
+        <HomeInventoryPopups state={state} setState={setState} />
       </StrictMode>
     );
   }

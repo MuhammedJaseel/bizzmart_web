@@ -1,0 +1,143 @@
+/* ///////////////////////////////////////////////////////////////////////////////////////////////////////// */
+/* ///////////////////////////////////////////////////////////////////////////////////////////////////////// */
+/* ///////////////////////////////////////////////////////////////////////////////////////////////////////// */
+/* //////////////////////////////////         WIDGET POPUP LAYOUT          ///////////////////////////////// */
+/* ///////////////////////////////////////////////////////////////////////////////////////////////////////// */
+/* ///////////////////////////////////////////////////////////////////////////////////////////////////////// */
+/* ///////////////////////////////////////////////////////////////////////////////////////////////////////// */
+.zpA {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #0000002f;
+}
+.zpAa {
+  width: 60vw;
+  background-color: white;
+  border-radius: 0.22vw;
+  box-shadow: 0vw 0vw 0.4vw #0000002f;
+}
+.zpAb {
+  padding: 0.5vw 1vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 0.04vw solid #707070;
+}
+.zpAbA {
+  color: #123347;
+  font-size: 1.5vw;
+  font-weight: 500;
+}
+.zpAbB {
+  width: 2vw;
+  height: 2vw;
+  border-radius: 50%;
+  background-image: url(../asset/ic_close.svg);
+  background-size: 1.2vw 1.2vw;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.zpAbB:hover {
+  background-color: #00000010;
+  cursor: pointer;
+}
+.zpAc {
+  padding: 0.5vw 1vw;
+  color: #123347;
+  font-size: 0.88vw;
+}
+.zpAd {
+  padding: 0.5vw 1vw;
+  margin-top: 1.5vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 0.04vw solid #707070;
+}
+.zpAdA {
+  border: 0.04vw solid #ce4d24;
+  color: #ce4d24;
+  background-color: #f9d7d4;
+  padding: 0.3vw;
+  padding-left: 3vw;
+  font-size: 0.88vw;
+  border-radius: 0.2vw;
+  width: 7vw;
+  background-image: url(../asset/ic_warning.svg);
+  background-size: 1vw 1vw;
+  background-position: 1vw 0.3vw;
+  background-repeat: no-repeat;
+}
+.zpAdB {
+  display: flex;
+}
+.zpAdBa,
+.zpAdBb {
+  width: 6vw;
+  font-size: 0.88vw;
+  color: #2d4c86;
+  background-color: #c6d5fb;
+  padding: 0.4vw;
+  text-align: center;
+  border-radius: 0.2vw;
+  font-weight: 500;
+  cursor: pointer;
+}
+.zpAdBb {
+  color: white;
+  background-color: #2d4c86;
+  margin-left: 0.5vw;
+}
+.zpAdBa:hover,
+.zpAdBb:hover {
+  filter: brightness(0.9);
+}
+/* ///////////////////////////////////////////////////////////////////////////////////////////////////////// */
+/* ///////////////////////////////////////////////////////////////////////////////////////////////////////// */
+/* ///////////////////////////////////////////////////////////////////////////////////////////////////////// */
+/* ////////////////////////////////////           WIDGET POPUP 1          ////////////////////////////////// */
+/* ///////////////////////////////////////////////////////////////////////////////////////////////////////// */
+/* ///////////////////////////////////////////////////////////////////////////////////////////////////////// */
+/* ///////////////////////////////////////////////////////////////////////////////////////////////////////// */
+.zpAc {
+  padding: 1vw;
+  padding-bottom: 0vw;
+  display: flex;
+  justify-content: space-between;
+}
+.zpAcA {
+  width: 48%;
+}
+.zpAcAa {
+  font-size: 0.88vw;
+  font-weight: 500;
+  color: #2d4c86;
+  padding-bottom: 0.2vw;
+}
+.zpAcAb {
+  width: 100%;
+  height: 1.94vw;
+}
+.zpAcB {
+  width: 23%;
+}
+.zpAcBa {
+  font-size: 0.88vw;
+  font-weight: 500;
+  color: #2d4c86;
+  padding-bottom: 0.2vw;
+}
+.zpAcBb {
+  width: 100%;
+  height: 1.94vw;
+}
+.zpAcBc {
+  width: calc(100% - 1vw);
+  height: 1.8vw;
+}

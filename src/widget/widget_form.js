@@ -7,7 +7,8 @@ import "../style/zf.css";
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-export function MyForm1() {
+export function MyForm1({ props }) {
+  const { noHeader } = props;
   const typeSaves = [
     { title: "Save Invoice", fun: null },
     { title: "Save & Add New", fun: null },
@@ -26,31 +27,33 @@ export function MyForm1() {
   const [isDrower, setIsDrower] = useState(false);
   return (
     <div className="zfB">
-      <div className="zfBa">
-        <div className="zfBaA">
-          <div className="zfBaAa">
-            <div className="zfBaAaA">Customer*</div>
-            <select className="zfBaAaB">
-              <option>Name</option>
-            </select>
+      {noHeader ? null : (
+        <div className="zfBa">
+          <div className="zfBaA">
+            <div className="zfBaAa">
+              <div className="zfBaAaA">Customer*</div>
+              <select className="zfBaAaB">
+                <option>Name</option>
+              </select>
+            </div>
+            <div className="zfBaAa">
+              <div className="zfBaAaA">Invoice Date*</div>
+              <input type="date" className="zfBaAaC" />
+            </div>
+            <div className="zfBaAa">
+              <div className="zfBaAaA">Due Date*</div>
+              <input type="date" className="zfBaAaC" />
+            </div>
           </div>
-          <div className="zfBaAa">
-            <div className="zfBaAaA">Invoice Date*</div>
-            <input type="date" className="zfBaAaC" />
-          </div>
-          <div className="zfBaAa">
-            <div className="zfBaAaA">Due Date*</div>
-            <input type="date" className="zfBaAaC" />
+          <div className="zfBaB">
+            <div className="zfBaBa">Address</div>
+            <div className="zfBaBb">
+              Jack Dorsea, 102A, Jami’a Street, New Delhi 12, India. GST:
+              AAA456AE3423AZ Phone: 974 523 6674
+            </div>
           </div>
         </div>
-        <div className="zfBaB">
-          <div className="zfBaBa">Address</div>
-          <div className="zfBaBb">
-            Jack Dorsea, 102A, Jami’a Street, New Delhi 12, India. GST:
-            AAA456AE3423AZ Phone: 974 523 6674
-          </div>
-        </div>
-      </div>
+      )}
       <div className="zfBb">
         <div className="zfBbA">
           <div className="zfBbAa" />

@@ -1,5 +1,5 @@
 import React, { StrictMode } from "react";
-import { inventoryPages } from "../module/home_inventory";
+import { inventoryPages, inventoryPopupsData } from "../module/home_inventory";
 import { Header1, Header4, HeaderButtens1, TitleTable1 } from "./widget";
 import { MyTable1, MyTableCounter1 } from "./widget_table";
 
@@ -89,7 +89,27 @@ function ServiceTable({ state, setState }) {
   );
 }
 function AssetTable({ state, setState }) {
-  const { allAsset, page } = state;
+  const { allAsset, page, setPage } = state;
+  const title = "INVENTORY";
+  const bodyRBody = {
+    makeAdd: () => setState({ addPage: true }),
+    title: "+ New Asset",
+    drowelList: [
+      {
+        title: "Asset Transfer",
+        fun: () => setState({ popup: inventoryPopupsData[0] }),
+      },
+      {
+        title: "Asset Writeoff",
+        fun: () => setState({ popup: inventoryPopupsData[1] }),
+      },
+      { title: "Asset Purchase", fun: () => alert() },
+    ],
+    onShare: null,
+    onDownload: null,
+  };
+  const bodyR = <HeaderButtens1 props={bodyRBody} />;
+
   const body = [];
   if (allAsset !== null)
     for (let i = 0; i < allAsset.length; i++) {
@@ -108,6 +128,7 @@ function AssetTable({ state, setState }) {
   if (page?.path !== "asset") return null;
   return (
     <StrictMode>
+      <Header1 title={title} bodyL={page.t2} onclick={setPage} bodyR={bodyR} />
       <Header4 title={page?.title} desc={page?.desc} />
       <MyTable1 lg widths={page.widths} heads={page.heads} body={body} />
       <MyTableCounter1 props={{ total: 50 }} />

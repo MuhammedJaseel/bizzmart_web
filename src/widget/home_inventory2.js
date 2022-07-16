@@ -5,6 +5,7 @@ import {
   AddingForm2,
   AddingFormLayout,
   FormSwitch,
+  MyForm1,
 } from "./widget_form";
 
 export default function HomeInventoryForms({ state, setState }) {
@@ -12,13 +13,13 @@ export default function HomeInventoryForms({ state, setState }) {
   return (
     <StrictMode>
       <ProductForm state={state} setState={setState} />
+      <AssetForm state={state} setState={setState} />
     </StrictMode>
   );
 }
 
 function ProductForm({ state, setState }) {
   const { page, setPage } = state;
-
   const t1 = "GENERAL DETAILS";
   const d1 = (
     <StrictMode>
@@ -237,5 +238,24 @@ export function SelectButton({ dis, type, setType }) {
         </div>
       </div>
     </div>
+  );
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////        ASSET ADDING FORM        ////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function AssetForm({ state, setState }) {
+  const { page, setPage } = state;
+  if (page?.path !== "asset") return null;
+  return (
+    <StrictMode>
+      <Header1 title="INVENTORY" bodyL={page?.title1} onclick={setPage} />
+      <Header4 title={page?.title1} desc={page?.desc1} />
+      <MyForm1 props={{ noHeader: true }} />
+    </StrictMode>
   );
 }

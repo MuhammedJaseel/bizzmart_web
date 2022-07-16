@@ -366,3 +366,13 @@ export const inventoryPages = [
     },
   ],
 ];
+export const inventoryPopupsData = [
+  {
+    title: "Transfer an Asset",
+    desc: "Record the transfer of assets between your branches",
+  },
+  {
+    title: "Writeoff an Asset",
+    desc: "Write off assets you own againest any reason",
+  },
+];
