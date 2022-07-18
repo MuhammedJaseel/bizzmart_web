@@ -1,10 +1,10 @@
 import React, { StrictMode } from "react";
-import { inventoryPages, inventoryPopupsData } from "../module/home_inventory";
+import { inventoryFormData, inventoryPages } from "../module/home_inventory";
+import { inventoryPopupsData } from "../module/home_inventory";
 import { Header1, Header4, HeaderButtens1, TitleTable1 } from "./widget";
 import { MyTable1, MyTableCounter1 } from "./widget_table";
 
 export default function HomeInventoryTables({ state, setState }) {
-  if (state.addPage) return null;
   return (
     <StrictMode>
       <InventoryLanding state={state} setState={setState} />
@@ -32,7 +32,7 @@ function InventoryLanding({ state, setState }) {
   if (page !== null) return null;
   return (
     <StrictMode>
-      <Header1 title="INVENTORY" bodyL="INVENTORY LANDING" onclick={setPage} />
+      <Header1 title="INVENTORY" bodyL="INVENTORY LANDING" onTap={setPage} />
       <TitleTable1 data={inventoryPages} setPage={setPage} />
     </StrictMode>
   );
@@ -42,7 +42,48 @@ function ProductTable({ state, setState }) {
   const { allProduct, page, setPage } = state;
   const title = "INVENTORY";
   const bodyRBody = {
-    makeAdd: () => setState({ addPage: true }),
+    makeAdd: () =>
+      setPage(inventoryFormData.filter((k) => k.path === "addProdect")[0]),
+    title: "+ New Product",
+    drowelList: null,
+    onShare: null,
+    onDownload: null,
+  };
+  const bodyR = <HeaderButtens1 props={bodyRBody} />;
+  const body = [];
+  if (allProduct !== null)
+    for (let i = 0; i < allProduct.length; i++) {
+      const it = allProduct[i];
+      body.push([
+        { data: it.image, data2: it.name, type: 1 },
+        { data: it.name, data2: it.product_type, type: 2 },
+        { data: it.code, type: 2 },
+        { data: it.categoryName },
+        { data: it.type },
+        { data: it.cost },
+        { data: it.selling, type: 2 },
+        { data: it.mrp },
+        { data: it.tax },
+        { data: it.stock },
+        { data: it.msl },
+      ]);
+    }
+  if (page?.path !== "prodect") return null;
+  return (
+    <StrictMode>
+      <Header1 title={title} bodyL={page.title} onTap={setPage} bodyR={bodyR} />
+      <Header4 title={page?.title} desc={page?.desc} />
+      <MyTable1 lg widths={page.widths} heads={page.heads} body={body} />
+      <MyTableCounter1 props={{ total: 50 }} />
+    </StrictMode>
+  );
+}
+function ServiceTable({ state, setState }) {
+  const { allProduct, page, setPage } = state;
+  const title = "INVENTORY";
+  const bodyRBody = {
+    makeAdd: () =>
+      setPage(inventoryFormData.filter((k) => k.path === "addService")[0]),
     title: "+ New Product",
     drowelList: null,
     onShare: null,
@@ -68,22 +109,12 @@ function ProductTable({ state, setState }) {
         { data: it.msl },
       ]);
     }
-  if (page?.path !== "prodect") return null;
-  return (
-    <StrictMode>
-      <Header1 title={title} bodyL={page.t2} onclick={setPage} bodyR={bodyR} />
-      <Header4 title={page?.title} desc={page?.desc} />
-      <MyTable1 lg widths={page.widths} heads={page.heads} body={body} />
-      <MyTableCounter1 props={{ total: 50 }} />
-    </StrictMode>
-  );
-}
-function ServiceTable({ state, setState }) {
-  const { page } = state;
   if (page?.path !== "service") return null;
   return (
     <StrictMode>
+      <Header1 title={title} bodyL={page.t2} onTap={setPage} bodyR={bodyR} />
       <Header4 title={page?.title} desc={page?.desc} />
+      <MyTable1 lg widths={page.widths} heads={page.heads} body={body} />
       <MyTableCounter1 props={{ total: 50 }} />
     </StrictMode>
   );
@@ -92,7 +123,8 @@ function AssetTable({ state, setState }) {
   const { allAsset, page, setPage } = state;
   const title = "INVENTORY";
   const bodyRBody = {
-    makeAdd: () => setState({ addPage: true }),
+    makeAdd: () =>
+      setPage(inventoryFormData.filter((k) => k.path === "addAsset")[0]),
     title: "+ New Asset",
     drowelList: [
       {
@@ -128,7 +160,7 @@ function AssetTable({ state, setState }) {
   if (page?.path !== "asset") return null;
   return (
     <StrictMode>
-      <Header1 title={title} bodyL={page.t2} onclick={setPage} bodyR={bodyR} />
+      <Header1 title={title} bodyL={page.t2} onTap={setPage} bodyR={bodyR} />
       <Header4 title={page?.title} desc={page?.desc} />
       <MyTable1 lg widths={page.widths} heads={page.heads} body={body} />
       <MyTableCounter1 props={{ total: 50 }} />

@@ -1,18 +1,20 @@
-import React, { Component } from "react";
-import bizzMartLogo from "../asset/bizzmart_logo.png";
-import "../style/ln.css";
+import React, { Component, StrictMode } from "react";
 import { branchFind, branchLogin } from "../method/login";
 import { getLoginPageData, hosLogin } from "../method/login";
 import { LoadingScreen1 } from "../widget/warnings";
+import bizzMartLogo from "../asset/bizzmart_logo.png";
+import "../style/ln.css";
 
 export default class LoginScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      // SCREEN DATA ///////////////////////////////
       setScreen: props.setScreen,
       pageloading: true,
       loading: false,
       error: null,
+      // DATA STORE ///////////////////////////////
       pageData: {},
       logintype: "branch",
       logintitle: "bizzSmart ERP",
@@ -23,24 +25,30 @@ export default class LoginScreen extends Component {
   }
 
   componentDidMount() {
-    getLoginPageData(this);
+    const state = this.state;
+    const setState = (v) => this.setState(v);
+    getLoginPageData(state, setState);
   }
 
   onNext = (e) => {
     e.preventDefault();
-    if (this.state.loading) return;
-    const { logintype } = this.state;
-    if (logintype === "branch") branchFind(this, e);
-    else if (logintype === "branchlogin") branchLogin(this, e);
-    else if (logintype === "hoslogin") hosLogin(this, e);
+    const state = this.state;
+    const setState = (v) => this.setState(v);
+    if (state.loading) return;
+    const { logintype } = state;
+    if (logintype === "branch") branchFind(e, state, setState);
+    else if (logintype === "branchlogin") branchLogin(e, state, setState);
+    else if (logintype === "hoslogin") hosLogin(e, state, setState);
   };
 
   render() {
-    const { pageloading, loading, error, pageData, logintype } = this.state;
-    const { logintitle, forgetState } = this.state;
+    const state = this.state;
+    const setState = (v) => this.setState(v);
+    const { error, loading } = state;
+    const { pageloading, pageData, logintype, logintitle, forgetState } = state;
     if (pageloading) return <LoadingScreen1 />;
     return (
-      <React.StrictMode>
+      <StrictMode>
         <img className="lnA" alt="img" src={pageData.url} />
         {/* <div className="lnC" /> */}
         <div className="lnB">
@@ -80,7 +88,7 @@ export default class LoginScreen extends Component {
               <button
                 className="lnBbL"
                 type="submit"
-                style={loading ? { backgroundColor: "#21306087" } : null}
+                style={loading ? { backgroundColor: "#21306087" } : {}}
               >
                 {logintype === "branch" ? "NEXT" : "LOGIN"}
               </button>
@@ -107,19 +115,19 @@ export default class LoginScreen extends Component {
                   placeholder="Enter your registered mobile number"
                 />
                 {forgetState === 2 ? (
-                  <React.StrictMode>
+                  <StrictMode>
                     <div className="lnBbJ">OTP</div>
                     <input
                       id="br_li_username"
                       className="lnBbK"
                       placeholder="Enter OTP"
                     />
-                  </React.StrictMode>
+                  </StrictMode>
                 ) : null}
                 <button
                   className="lnBbL"
                   type="submit"
-                  style={loading ? { backgroundColor: "#21306087" } : null}
+                  style={loading ? { backgroundColor: "#21306087" } : {}}
                 >
                   {forgetState === 1 ? "SEND OTP" : "VERIFY & PROCEED"}
                 </button>
@@ -130,7 +138,7 @@ export default class LoginScreen extends Component {
             </div>
           </div>
         ) : null}
-      </React.StrictMode>
+      </StrictMode>
     );
   }
 }

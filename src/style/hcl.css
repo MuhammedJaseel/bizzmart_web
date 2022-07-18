@@ -139,25 +139,28 @@
 /* //////////////////////////       POPUP      /////////////////////// */
 /* /////////////////////////////////////////////////////////////////// */
 /* /////////////////////////////////////////////////////////////////// */
-.hclG {
-  display: none;
+.hclG,
+.hclG_ {
+  right: -100vw;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 100vw;
+  background-color: transparent;
 }
 .hclG_ {
-  position: fixed;
-  top: 0vw;
-  left: 0vw;
-  right: 0vw;
-  bottom: 0vw;
-  background-color: #00000041;
+  transition: background-color 1s;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.2);
 }
 .hclGa {
   transition: 0.5s;
-  right: -45vw;
+  right: -100vw;
   position: fixed;
   top: 0vw;
   bottom: 0vw;
   width: 45vw;
-  background-color: white;
+  background-color: transparent;
 }
 .hclGa_ {
   transition: 0.5s;

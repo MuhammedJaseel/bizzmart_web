@@ -1,91 +1,40 @@
-import axios from "axios";
-import { baseApi } from "../module/api_int";
+import {  getHttp, postHttp } from "../module/api_int";
 import { getTodayType1 } from "../module/simple";
-
-const headers = {
-  Authorization: "Bearer " + window.localStorage.getItem("bearer_token"),
-  sessionId: window.localStorage.getItem("session_id"),
-};
 
 export async function getProduct(state, setState) {
   const { product } = state;
-  await axios
-    .get(baseApi + "getProduct/" + product.id, { headers })
-    .then((res) => {
-      if (res.data.statusCode === 700) {
-        window.localStorage.setItem("bearer_token", "");
-        window.localStorage.setItem("session_id", "");
-        state.setScreen("/login");
-      }
-      if (res.data.statusCode === 200 || res.data.statusCode === 210)
-        setState({ product: res.data.data });
-    })
-    .catch((e) => console.log(e));
+  await getHttp(`getProduct/${product.id}`)
+    .then((res) => setState({ product: res.data }))
+    .then((error) => setState({ error }));
   setState({ loading: false });
   return;
 }
 
 export async function getProducts(state, setState) {
   const { prodectMaxCount, productPage } = state;
-  const body = {
-    branch_id: window.localStorage.getItem("branch_id"),
-    page_number: productPage,
-    limit: prodectMaxCount,
-  };
-  await axios
-    .post(baseApi + "products", body, { headers })
-    .then((res) => {
-      if (res.data.statusCode === 700) {
-        window.localStorage.setItem("bearer_token", "");
-        window.localStorage.setItem("session_id", "");
-        state.setScreen("/login");
-      }
-      if (res.data.statusCode === 200 || res.data.statusCode === 210) {
-        setState({
-          allProduct: res.data.data,
-          totelProduct: res.data.page.totalCount,
-        });
-      }
-    })
-    .catch((e) => console.log(e));
+  const body = { page_number: productPage, limit: prodectMaxCount };
+  await postHttp("products", body)
+    .then((res) =>
+      setState({ allProduct: res.data, totelProduct: res.page.totalCount })
+    )
+    .then((error) => setState({ error }));
   setState({ loading: false });
   return;
 }
 
 export async function getCategoryList(state, setState) {
-  var getCat = axios.post(
-    baseApi + "categoryLists",
-    { branch_id: window.localStorage.getItem("branch_id") },
-    { headers }
-  );
-  var getUnit = axios.post(
-    baseApi + "unitLists",
-    { branch_id: window.localStorage.getItem("branch_id") },
-    { headers }
-  );
-  var getKot = axios.post(
-    baseApi + "KOTLists",
-    { branch_id: window.localStorage.getItem("branch_id") },
-    { headers }
-  );
-  var getTax = axios.post(
-    baseApi + "taxLists",
-    { branch_id: window.localStorage.getItem("branch_id") },
-    { headers }
-  );
-
+  var getCat = postHttp("categoryLists", {});
+  var getUnit = postHttp("unitLists", {});
+  var getKot = postHttp("KOTLists", {});
+  var getTax = postHttp("taxLists", {});
   await Promise.all([getCat, getUnit, getKot, getTax])
     .then((res) => {
-      if (res[0].data.statusCode === 200 || res[0].data.statusCode === 210)
-        setState({ allCategoty: res[0].data.data });
-      if (res[1].data.statusCode === 200)
-        setState({ allUnits: res[1].data.data });
-      if (res[2].data.statusCode === 200)
-        setState({ allKot: res[2].data.data });
-      if (res[3].data.statusCode === 200)
-        setState({ allTax: res[3].data.data });
+      setState({ allCategoty: res[0].data.data });
+      setState({ allUnits: res[1].data.data });
+      setState({ allKot: res[2].data.data });
+      setState({ allTax: res[3].data.data });
     })
-    .catch(() => setState({ error: "Not Fount" }));
+    .catch((error) => setState({ error }));
 }
 
 export async function addInventory(e, state, setState, type, unit) {
@@ -132,7 +81,6 @@ export async function addInventory(e, state, setState, type, unit) {
     costTaxAmount = purchasePrice * (proTax / 100);
     costWithTax = costPrice + costTaxAmount;
   }
-
   formData.append("branch_id", window.localStorage.getItem("branch_id"));
   formData.append("product_name", data.product_name.value);
   // MISSING Select product type
@@ -170,28 +118,21 @@ export async function addInventory(e, state, setState, type, unit) {
   for (let i = 0; i < e.target.pro_imgs.files.length; i++)
     formData.append("image[]", e.target.pro_imgs.files[i], "[PROXY]");
 
-  await axios
-    .post(baseApi + "productStore", formData, { headers })
-    .then(async (res) => {
-      console.log(res.data);
-      if (res.data.statusCode === 200) {
-        await getProduct(state, setState);
-        setState({
-          succesPop: {
-            type: 0,
-            msg: "Product added successfully",
-            subMsg: "Updated Successfully",
-          },
-          addpage: false,
-        });
-      } else
-        setState({
-          succesPop: { type: 1, msg: "Oop's", subMsg: res.data.message },
-        });
-    })
-    .catch((e) =>
-      setState({ succesPop: { type: 2, msg: "Not Adedd", subMsg: "Error" } })
-    );
+  await postHttp("productStore", formData)
+    .then((res) =>
+    {
+      await getProduct(state, setState);
+      setState({
+        succesPop: {
+          type: 0,
+          msg: "Product added successfully",
+          subMsg: "Updated Successfully",
+        },
+        addpage: false,
+      });
+    }
+    )
+    .then((error) => setState({      succesPop: { type: 1, msg: "Oop's", subMsg: error }    }));
 }
 
 // formData.append("branch_id", "178");

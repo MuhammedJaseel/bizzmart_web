@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, StrictMode } from "react";
 import { Header1, Header2, Header4 } from "./widget";
 import { calender } from "../module/dummydata";
 import "../style/hcl.css";
@@ -16,7 +16,6 @@ export default class HomeCalender extends Component {
     const setState = (v) => this.setState(v);
     const { today } = state;
     const days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
-
     const getByEachDay = () => {
       const stack = [];
       for (let i = 0; i < calender.length; i++) {
@@ -48,22 +47,20 @@ export default class HomeCalender extends Component {
           </div>
         );
       }
-
       return stack;
     };
-
     return (
-      <React.StrictMode>
+      <StrictMode>
         <Header1 title="CALENDAR" />
         <Header2 titles={["Calendar"]} page={0} />
         <Header4
           title="5th July, Tuesday"
           desc="Shows all the recorded purchase enteries the selected date range"
           body={
-            <React.StrictMode>
+            <StrictMode>
               <div className="hclEc" />
               <div className="hclEd" />
-            </React.StrictMode>
+            </StrictMode>
           }
         />
         <div className="hclF">
@@ -79,7 +76,7 @@ export default class HomeCalender extends Component {
           </div>
         </div>
         <HomeCalenderDetailsPop state={state} setState={setState} />
-      </React.StrictMode>
+      </StrictMode>
     );
   }
 }
@@ -87,11 +84,11 @@ export default class HomeCalender extends Component {
 function HomeCalenderDetailsPop({ state, setState }) {
   const { day } = state;
   return (
-    <React.StrictMode>
+    <StrictMode>
       <div className={day === null ? "hclG" : "hclG_"} />
       <div className={day === null ? "hclGa" : "hclGa_"}>
         {day !== null ? (
-          <React.StrictMode>
+          <StrictMode>
             <div className="hclGaA">
               <div className="hclGaAa">5th July, Tuesday</div>
               <div
@@ -169,9 +166,9 @@ function HomeCalenderDetailsPop({ state, setState }) {
             <div className="hclGaC">
               <div className="hclGaCa">OK</div>
             </div>
-          </React.StrictMode>
+          </StrictMode>
         ) : null}
       </div>
-    </React.StrictMode>
+    </StrictMode>
   );
 }

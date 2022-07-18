@@ -13,7 +13,7 @@ export default function App() {
   };
   if (path === "login") return <LoginScreen setScreen={setScreen} />;
   if (path === "branches") return <BranchScreen setScreen={setScreen} />;
-  if (path === "dashboard") return  <HomeScreen setScreen={setScreen} />;
+  if (path === "dashboard") return <HomeScreen setScreen={setScreen} />;
   if (path === "cal") return <Cal />;
   window.history.replaceState("HOME", "HOME", "dashboard");
   setPath("/dashboard");

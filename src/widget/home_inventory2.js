@@ -1,25 +1,20 @@
 import React, { StrictMode } from "react";
 import { Header1, Header4 } from "./widget";
-import {
-  AddingForm1,
-  AddingForm2,
-  AddingFormLayout,
-  FormSwitch,
-  MyForm1,
-} from "./widget_form";
+import { AddingForm1, AddingForm2 } from "./widget_form";
+import { AddingFormLayout, FormSwitch, MyForm1 } from "./widget_form";
 
 export default function HomeInventoryForms({ state, setState }) {
-  if (!state.addPage) return null;
   return (
     <StrictMode>
       <ProductForm state={state} setState={setState} />
+      <ServiceForm state={state} setState={setState} />
       <AssetForm state={state} setState={setState} />
     </StrictMode>
   );
 }
 
 function ProductForm({ state, setState }) {
-  const { page, setPage } = state;
+  const { page, setPage, product } = state;
   const t1 = "GENERAL DETAILS";
   const d1 = (
     <StrictMode>
@@ -40,12 +35,12 @@ function ProductForm({ state, setState }) {
     </StrictMode>
   );
 
-  if (page?.path !== "prodect") return null;
+  if (page?.path !== "addProdect") return null;
   return (
     <StrictMode>
-      <Header1 title="INVENTORY" bodyL={page?.title1} onclick={setPage} />
+      <Header1 title="INVENTORY" bodyL={page.title} onTap={setPage} />
       <div className="hinD">
-        <Header4 title={page?.title1} desc={page?.desc1} />
+        <Header4 title={page?.title} desc={page?.desc} />
         <AddingFormLayout title={t1} desc={d1}>
           <AddingForm1 title="Product name *">
             <input
@@ -101,7 +96,9 @@ function ProductForm({ state, setState }) {
           <AddingForm1 title="Sell online">
             <FormSwitch value />
           </AddingForm1>
-          <AddingForm1 title="Upload images">Image Picker</AddingForm1>
+          <AddingForm1 title="Upload images">
+            <ImagePicker state={state} setState={setState} />
+          </AddingForm1>
           <AddingForm1 title="Select production station">
             <select className="hinDa"></select>
           </AddingForm1>
@@ -109,82 +106,181 @@ function ProductForm({ state, setState }) {
         {/*///////////////////////////////////////////////////////////////////////////////////////////////*/}
         <AddingFormLayout title={t1} desc={d1}>
           <AddingForm1 title="Product type*">
-            <SelectButton edit type={0} setType={() => null} />
+            <SelectButton
+              edit
+              type={product.type}
+              setType={(v) => setState({ product: { ...product, type: v } })}
+            />
           </AddingForm1>
-          <AddingForm2>
-            <div className="hinDaB">
-              SKU<sb>will be auto generated once left blank</sb>
-            </div>
-            <div className="hinDaB">
-              EAN<sb>will be used for integrations</sb>
-            </div>
-            <div className="hinDaB" />
-          </AddingForm2>
-          <AddingForm1 title="Product barcode (SKU)">
-            <div className="hinDa">
-              <input
-                className="hinDaB"
-                placeholder="Only uppercase letters and numbers"
-              />
-              <input className="hinDaB" placeholder="Only numeric characters" />
-              <div className="hinDaB" />
-            </div>
-          </AddingForm1>
-          <AddingForm2>
-            <div className="hinDaB">Supplier / Cost* </div>
-            <div className="hinDaB">Purchase unit </div>
-            <div className="hinDaB" />
-          </AddingForm2>
-          <AddingForm1 title="Purchase info *">
-            <div className="hinDa">
-              <input
-                className="hinDaB"
-                placeholder="Enter cost / purchase price"
-              />
-              <select className="hinDaB"></select>
-              <div className="hinDaB" />
-            </div>
-          </AddingForm1>
-          <AddingForm2>
-            <div className="hinDaB">
-              MRP *<sb>Maximum Retail Price</sb>
-            </div>
-            <div className="hinDaB">
-              RRP<sb>Recommended Retail Price</sb>
-            </div>
-            <div className="hinDaB">Online price</div>
-          </AddingForm2>
-          <AddingForm1 title="Selling info *">
-            <div className="hinDa">
-              <input className="hinDaB" placeholder="Enter MRP" />
-              <input className="hinDaB" placeholder="Enter selling price" />
-              <input className="hinDaB" placeholder="Enter online price" />
-            </div>
-          </AddingForm1>
-          <AddingForm2>
-            <div className="hinDaB">
-              Stock <sb>Available stock in primary selling unit</sb>
-            </div>
-            <div className="hinDaB" />
-            <div className="hinDaB" />
-          </AddingForm2>
-          <AddingForm1 title="Stock info *">
-            <div className="hinDa">
-              <input className="hinDaB" defaultValue="0.00" type="number" />
-              <input
-                className="hinDaB"
-                placeholder="Enter minimum stock level"
-              />
-              <div className="hinDaB" />
-            </div>
-          </AddingForm1>
+          {product.type === 0 ? (
+            <StrictMode>
+              <AddingForm2>
+                <div className="hinDaB">
+                  SKU<sb>will be auto generated once left blank</sb>
+                </div>
+                <div className="hinDaB">
+                  EAN<sb>will be used for integrations</sb>
+                </div>
+                <div className="hinDaB" />
+              </AddingForm2>
+              <AddingForm1 title="Product barcode (SKU)">
+                <div className="hinDa">
+                  <input
+                    className="hinDaB"
+                    placeholder="Only uppercase letters and numbers"
+                  />
+                  <input
+                    className="hinDaB"
+                    placeholder="Only numeric characters"
+                  />
+                  <div className="hinDaB" />
+                </div>
+              </AddingForm1>
+              <AddingForm2>
+                <div className="hinDaB">Supplier / Cost* </div>
+                <div className="hinDaB">Purchase unit </div>
+                <div className="hinDaB" />
+              </AddingForm2>
+              <AddingForm1 title="Purchase info *">
+                <div className="hinDa">
+                  <input
+                    className="hinDaB"
+                    placeholder="Enter cost / purchase price"
+                  />
+                  <select className="hinDaB"></select>
+                  <div className="hinDaB" />
+                </div>
+              </AddingForm1>
+              <AddingForm2>
+                <div className="hinDaB">
+                  MRP *<sb>Maximum Retail Price</sb>
+                </div>
+                <div className="hinDaB">
+                  RRP<sb>Recommended Retail Price</sb>
+                </div>
+                <div className="hinDaB">Online price</div>
+              </AddingForm2>
+              <AddingForm1 title="Selling info *">
+                <div className="hinDa">
+                  <input className="hinDaB" placeholder="Enter MRP" />
+                  <input className="hinDaB" placeholder="Enter selling price" />
+                  <input className="hinDaB" placeholder="Enter online price" />
+                </div>
+              </AddingForm1>
+              <AddingForm2>
+                <div className="hinDaB">
+                  Stock <sb>Available stock in primary selling unit</sb>
+                </div>
+                <div className="hinDaB" />
+                <div className="hinDaB" />
+              </AddingForm2>
+              <AddingForm1 title="Stock info *">
+                <div className="hinDa">
+                  <input className="hinDaB" defaultValue="0.00" type="number" />
+                  <input
+                    className="hinDaB"
+                    placeholder="Enter minimum stock level"
+                  />
+                  <div className="hinDaB" />
+                </div>
+              </AddingForm1>
+            </StrictMode>
+          ) : null}
+          {product.type === 1 ? (
+            <StrictMode>
+              <AddingForm2>
+                <div className="hinDaB">
+                  Single Selectable* <sb>e.g. Colour, Size etc. </sb>
+                </div>
+              </AddingForm2>
+              <AddingForm1 title="Variant attribute 01*">
+                <div className="hinDa">
+                  <input
+                    className="hinDaB"
+                    placeholder="Enter attribute title"
+                  />
+                  <input
+                    className="hinDaB"
+                    placeholder="Enter values separate by comma and press enter"
+                  />
+                  <div className="hinDaB" />
+                </div>
+              </AddingForm1>
+              <AddingForm2>
+                <div className="hinDaB">
+                  Single Selectable <sb>e.g. Colour, Size etc. </sb>
+                </div>
+              </AddingForm2>
+              <AddingForm1 title="Variant attribute 02*">
+                <div className="hinDa">
+                  <input
+                    className="hinDaB"
+                    placeholder="Enter attribute title"
+                  />
+                  <input
+                    className="hinDaB"
+                    placeholder="Enter values separate by comma and press enter"
+                  />
+                  <div className="hinDaB" />
+                </div>
+              </AddingForm1>
+            </StrictMode>
+          ) : null}
+          {product.type === 2 ? (
+            <StrictMode>
+              <AddingForm1 title="Default Products*"></AddingForm1>
+            </StrictMode>
+          ) : null}
         </AddingFormLayout>
       </div>
     </StrictMode>
   );
 }
 
-export function SelectButton({ dis, type, setType }) {
+function ImagePicker({ state, setState }) {
+  const images = [
+    "url(https://bobbyhadz.com/images/blog/javascript-update-all-values-in-object/banner.webp)",
+    "url(https://bobbyhadz.com/images/blog/javascript-update-all-values-in-object/banner.webp)",
+    "url(https://bobbyhadz.com/images/blog/javascript-update-all-values-in-object/banner.webp)",
+    "url(https://bobbyhadz.com/images/blog/javascript-update-all-values-in-object/banner.webp)",
+    "url(https://cdn.sstatic.net/Img/teams/teams-illo-free-sidebar-promo.svg?v=47faa659a05e)",
+    "url(https://bobbyhadz.com/images/blog/javascript-update-all-values-in-object/banner.webp)",
+  ];
+  return (
+    <div className="hinDd">
+      <div className="hinDdA">
+        {images.map((it, k) => (
+          <div
+            key={k}
+            className={k === 0 ? "hinDdAa_pr" : "hinDdAa"}
+            style={{ backgroundImage: it }}
+            draggable
+          >
+            <div className="hinDdAaA">
+              <div className="hinDdAaAa" />
+            </div>
+            <div className="hinDdAaB">
+              Drag to
+              <br />
+              reorder
+            </div>
+            <div />
+          </div>
+        ))}
+      </div>
+      <div className="hinDdB"></div>
+      <div className="hinDdC">
+        <div className="hinDdCa">
+          <div className="hinDdCaA">DRAG</div>&nbsp;images here or&nbsp;
+          <div className="hinDdCaA"> BROWSE</div>&nbsp;to upload
+        </div>
+        <div className="hinDdCb">CLEAR</div>
+      </div>
+    </div>
+  );
+}
+
+function SelectButton({ dis, type, setType }) {
   return (
     <div className="hinDc">
       <div
@@ -248,13 +344,32 @@ export function SelectButton({ dis, type, setType }) {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function AssetForm({ state, setState }) {
+function ServiceForm({ state, setState }) {
   const { page, setPage } = state;
-  if (page?.path !== "asset") return null;
+  if (page?.path !== "addService") return null;
   return (
     <StrictMode>
-      <Header1 title="INVENTORY" bodyL={page?.title1} onclick={setPage} />
-      <Header4 title={page?.title1} desc={page?.desc1} />
+      <Header1 title="INVENTORY" bodyL={page.title} onTap={setPage} />
+      <Header4 title={page.title} desc={page.desc} />
+      <MyForm1 props={{ noHeader: true }} />
+    </StrictMode>
+  );
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////        ASSET ADDING FORM        ////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function AssetForm({ state, setState }) {
+  const { page, setPage } = state;
+  if (page?.path !== "addAsset") return null;
+  return (
+    <StrictMode>
+      <Header1 title="INVENTORY" bodyL={page.title} onTap={setPage} />
+      <Header4 title={page.title} desc={page.desc} />
       <MyForm1 props={{ noHeader: true }} />
     </StrictMode>
   );

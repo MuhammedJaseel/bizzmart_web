@@ -18,16 +18,12 @@ export const inventoryPages = [
       t1: "Add and manage the products and services you're dealing with",
       data: [
         {
+          path: "prodect",
           t: "Add Products >",
           d: "What products are you providing?",
           d1: "Add all the products your business offering to its customers",
-          path: "prodect",
-          t2: "Prodect Managment",
           title: "Product List",
           desc: "Shows all the team members recorded against your business",
-          title1: "New Product",
-          desc1:
-            "Add and view prodect for selling across all your linked bizzMart channel",
           heads: [
             null,
             "Product Name",
@@ -60,6 +56,32 @@ export const inventoryPages = [
           d: "What services are you providing?",
           d1: "Add all the services your business offering to its customers",
           path: "service",
+          heads: [
+            null,
+            "Product Name",
+            "Code",
+            "Category",
+            "Type",
+            "Cost",
+            "Selling",
+            "MRP",
+            "Tax",
+            "Stock",
+            "MSL",
+          ],
+          widths: [
+            { width: 4 },
+            { width: 20 },
+            { width: 9 },
+            { width: 11 },
+            { width: 8 },
+            { width: 8 },
+            { width: 9 },
+            { width: 9 },
+            { width: 9 },
+            { width: 7 },
+            { width: 4 },
+          ],
         },
         {
           t: "Add Assets >",
@@ -366,6 +388,25 @@ export const inventoryPages = [
     },
   ],
 ];
+
+export const inventoryFormData = [
+  {
+    path: "addProdect",
+    title: "New Product",
+    desc: "Add and view prodect for selling across all your linked bizzMart channel",
+  },
+  {
+    path: "addService",
+    title: "New Service",
+    desc: "Add and view service for selling across all your linked bizzMart channel",
+  },
+  {
+    path: "addAsset",
+    title: "Add Existiong Asset",
+    desc: "Add existing assets alreay owned by your business",
+  },
+];
+
 export const inventoryPopupsData = [
   {
     title: "Transfer an Asset",
@@ -376,3 +417,46 @@ export const inventoryPopupsData = [
     desc: "Write off assets you own againest any reason",
   },
 ];
+
+export const inventoryStateData = {
+  product: {
+    branch_id: "",
+    type: 0,
+    // BASIC //////////////////////////////////////////////////////////
+    branch_id: "",
+    product_name: "",
+    category_id: "",
+    product_description: "",
+    is_service: "",
+    primary_unit: "",
+    secondry_unit: "",
+    enable_unit_conversion: "",
+    conversion: "",
+    selling_tax: "",
+    cost_tax: "",
+    online_tax: "",
+    tax_inclusion: "",
+    hsncode: "",
+    is_online: "",
+    product_kot: "",
+    product_type: "",
+    bar_code: "",
+    purchase_price: "",
+    stock_unit: "",
+    cost_price: "",
+    cost_with_tax: "",
+    cost_tax_amount: "",
+    selling_price: "",
+    online_price: "",
+    mrp: "",
+    opening_stock: "",
+    stock_date: "",
+    stock_price: "",
+    min_stock_level: "",
+    product_modifier: "",
+    image: [],
+    // STANDARD PRODUCT ///////////////////////////////////////////////
+    // VARIANTS PRODUCT ///////////////////////////////////////////////
+    // COMPOSITE PRODUCT //////////////////////////////////////////////
+  },
+};

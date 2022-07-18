@@ -1,9 +1,9 @@
 import React, { Component, StrictMode } from "react";
+import { quickButtons } from "../module/home";
 import bizzMartLogo2 from "../asset/bizzmart_logo2.png";
 import sidebarIc from "../module/sidebar_ic";
 import icBack from "../asset/icon/ic_back.png";
 import "../style/hm.css";
-import { quickButtons } from "../module/home";
 
 export default class HomeScreen extends Component {
   constructor(props) {
@@ -24,17 +24,15 @@ export default class HomeScreen extends Component {
   render() {
     const state = this.state;
     const setState = (v) => this.setState(v);
-
     const { selectedDash, setScreen, isQuickPop } = state;
     const SubWidget = sidebarIc[selectedDash].widget;
-
     return (
       <React.StrictMode>
         <div className="hmA">
           <div className="hmAa">
             <div className="hmAaA">
               <div className="hmAaB">
-                <div className="hmAaC"></div>
+                <div className="hmAaC" />
               </div>
               <div className="hmAaD">
                 <div className="hmAaE">Sharma Mobiile World</div>
@@ -111,6 +109,7 @@ export default class HomeScreen extends Component {
                 <div
                   className={selectedDash === k ? "hmBi_" : "hmBi"}
                   onClick={() => {
+                    if (selectedDash === k) return;
                     setState({ selectedDash: k });
                     window.history.replaceState(
                       "home",
