@@ -4,6 +4,7 @@ import bizzMartLogo2 from "../asset/bizzmart_logo2.png";
 import sidebarIc from "../module/sidebar_ic";
 import icBack from "../asset/icon/ic_back.png";
 import "../style/hm.css";
+import { WidgetSuccesPopup } from "../widget/widget_popup";
 
 export default class HomeScreen extends Component {
   constructor(props) {
@@ -13,6 +14,12 @@ export default class HomeScreen extends Component {
       selectedDash: 0,
       isNoti: false,
       isQuickPop: false,
+      msgSucces: {},
+      succesPop: (v) => {
+        v.close = this.setState({ msgSucces: {} });
+        this.setState({ msgSucces: v });
+        setTimeout(() => this.setState({ msgSucces: {} }), 3000);
+      },
     };
   }
   componentDidMount() {
@@ -24,7 +31,7 @@ export default class HomeScreen extends Component {
   render() {
     const state = this.state;
     const setState = (v) => this.setState(v);
-    const { selectedDash, setScreen, isQuickPop } = state;
+    const { selectedDash, setScreen, isQuickPop, msgSucces, succesPop } = state;
     const SubWidget = sidebarIc[selectedDash].widget;
     return (
       <React.StrictMode>
@@ -88,7 +95,7 @@ export default class HomeScreen extends Component {
               </div>
             </div>
           </div>
-          <SubWidget />
+          <SubWidget succesPop={succesPop} />
         </div>
         <div className="hmB">
           <div>
@@ -137,6 +144,7 @@ export default class HomeScreen extends Component {
           </div>
         </div>
         <HomeNotificationPopup state={state} setState={setState} />
+        <WidgetSuccesPopup props={msgSucces} />
       </React.StrictMode>
     );
   }

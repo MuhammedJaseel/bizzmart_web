@@ -23,8 +23,14 @@
 }
 .zftAb {
   display: flex;
+  align-items: center;
 }
 .zftAbA {
+  font-size: 0.8vw;
+  color: #ff8f8f;
+  margin: 0 1vw;
+}
+.zftAbB {
   height: 1.94vw;
   width: 6.34vw;
   background-color: #c6d5fb;
@@ -34,8 +40,10 @@
   font-size: 0.94vw;
   border-radius: 0.19vw;
   font-weight: 500;
+  cursor: pointer;
 }
-.zftAbB {
+.zftAbC,
+.zftAbC_ {
   height: 1.94vw;
   width: 6.34vw;
   background-color: #2d4c86;
@@ -48,10 +56,14 @@
   margin: 0px 10px;
   font-weight: 500;
   border: none;
-}
-.zftAbA:hover {
-  box-shadow: 0.05vw 0.05vw 0.15vw #00000053;
+  cursor: pointer;
 }
 .zftAbB:hover {
   box-shadow: 0.05vw 0.05vw 0.15vw #00000053;
+}
+.zftAbC:hover {
+  box-shadow: 0.05vw 0.05vw 0.15vw #00000053;
+}
+.zftAbC_ {
+  background-color: #2d4c86b4;
 }

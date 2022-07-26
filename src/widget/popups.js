@@ -96,30 +96,6 @@ export function InventoryAddModifirePopup({ setState, state }) {
   );
 }
 
-export function SuccesPopup({ msg, setState }) {
-  var msg_ = "";
-  var subMsg = "";
-  var style = {};
-  if (msg != null) {
-    msg_ = msg.msg;
-    subMsg = msg.subMsg;
-    if (msg.type === 1) style = { background: "#CC962A" };
-    else if (msg.type === 2) style = { background: "#D10707" };
-  }
-  return (
-    <div className={msg === null ? "popCa" : "popCa_"} style={style}>
-      <div className="popCb">
-        <div className="popCc" onClick={() => setState({ succesPop: null })} />
-      </div>
-      <div className="popCd">
-        <div className="popCe" />
-        <div className="popCf">
-          <div className="popCg">{msg_}</div>
-          <div className="popCh">{subMsg}</div>
-        </div>
-      </div>
-    </div>
-  );
-}
+
 // Product added successfully
 // Updated Successfully

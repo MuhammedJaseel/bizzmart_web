@@ -4,6 +4,7 @@ import { MyTable1, MyTableCounter1 } from "./widget_table";
 import { Header1, Header2, Header4 } from "./widget";
 import { HeaderButtens1, TitleFilter1 } from "./widget";
 import "../style/hdb.css";
+import { getAllMembers, getAllPartners } from "../method/home_team";
 
 const pTitles = ["Team Members", "Partners"];
 const titles = {
@@ -48,7 +49,10 @@ export default class HomeTeam extends Component {
   }
 
   componentDidMount() {
-    this.setState({ allTeamMember: teamMembers, allTeamPartner: teamPartners });
+    const state = this.state;
+    const setState = (v) => this.setState(v);
+    getAllMembers(state, setState);
+    getAllPartners(state, setState);
   }
   render() {
     const state = this.state;
@@ -153,7 +157,7 @@ function HomeTeamPartnersTable({ state, setState }) {
         { data: it.image, data2: it.name, type: 1 },
         { data: it.name },
         { data: it.joiningDate },
-        { data: it.phoneNumber },
+        { data: it.phone },
         { data: it.email },
         {
           data: [statDot(it.status === "ACTIVE" ? "g" : "r"), it.status],

@@ -7,7 +7,6 @@ import { MyTable1, MyTableCounter1 } from "./widget_table";
 export default function HomeInventoryTables({ state, setState }) {
   return (
     <StrictMode>
-      <InventoryLanding state={state} setState={setState} />
       <ProductTable state={state} setState={setState} />
       <ServiceTable state={state} setState={setState} />
       <AssetTable state={state} setState={setState} />
@@ -27,16 +26,7 @@ export default function HomeInventoryTables({ state, setState }) {
   );
 }
 
-function InventoryLanding({ state, setState }) {
-  const { page, setPage } = state;
-  if (page !== null) return null;
-  return (
-    <StrictMode>
-      <Header1 title="INVENTORY" bodyL="INVENTORY LANDING" onTap={setPage} />
-      <TitleTable1 data={inventoryPages} setPage={setPage} />
-    </StrictMode>
-  );
-}
+
 
 function ProductTable({ state, setState }) {
   const { allProduct, page, setPage } = state;

@@ -11,6 +11,11 @@ import {
 } from "./widget";
 import { DrawerForm1 } from "./widget_form";
 import { DrowerView2 } from "./widget_view";
+import {
+  getAllCustomers,
+  getAllSuppliers,
+  postCustomer,
+} from "../method/home_parties";
 
 const pTitles = ["Customers", "Suppliers"];
 const titles = {
@@ -57,7 +62,10 @@ export default class HomeParties extends Component {
     };
   }
   componentDidMount() {
-    this.setState({ allCustomer: customerList, allSupplier: suppliersList });
+    const state = this.state;
+    const setState = (v) => this.setState(v);
+    getAllCustomers(state, setState);
+    getAllSuppliers(state, setState);
   }
   render() {
     const state = this.state;
@@ -120,15 +128,15 @@ function HomePartiesCoustomerTable({ state, setState }) {
     for (let i = 0; i < allCustomer.length; i++) {
       const it = allCustomer[i];
       body.push([
-        { data: it.image, data2: it.customerName, type: 1 },
-        { data: it.customerName },
+        { data: it.image, data2: it.name, type: 1 },
+        { data: it.name },
         { data: [statDot("y"), it.loyaltyTire], type: 2 },
         { data: [statDot("g"), it.status], type: 2 },
-        { data: it.phoneNumber },
+        { data: it.phone },
         { data: it.email },
-        { data: it.lastSean },
-        { data: it.turnover, data2: it.turnover, type: 2 },
-        { data: it.balance, data2: it.balance, type: 2 },
+        { data: it.last_seen_date },
+        { data: it.credit_limit, data2: it.turnover, type: 2 },
+        { data: it.opening_balance, data2: it.balance, type: 2 },
       ]);
     }
   if (page === 1) return null;
@@ -156,13 +164,13 @@ function HomePartiesSuppliersTable({ state, setState }) {
     for (let i = 0; i < allSupplier.length; i++) {
       const it = allSupplier[i];
       body.push([
-        { data: it.image, data2: it.supplierName, type: 1 },
-        { data: it.supplierName },
+        { data: it.image, data2: it.name, type: 1 },
+        { data: it.name },
         { data: [statDot("g"), it.status], type: 2 },
-        { data: it.phoneNumber },
+        { data: it.phone },
         { data: it.email },
-        { data: it.lastSean },
-        { data: it.turnover },
+        { data: it.last_seen_date },
+        { data: it.total_invoice_amount },
       ]);
     }
   if (page === 0) return null;
@@ -176,11 +184,17 @@ function HomePartiesSuppliersTable({ state, setState }) {
 
 function HomePartiesCoustomerForm({ state, setState }) {
   const { page, addPage } = state;
+  var custmer = {};
   const body = {
     show: page === 0 && addPage,
     close: () => setState({ addPage: false }),
+    submit: () => postCustomer(custmer, state, setState),
   };
-  return <DrawerForm1 props={body} />;
+  return (
+    <form onChange={(e) => (custmer[e.target.id] = e.target.value)}>
+      <DrawerForm1 props={body} />
+    </form>
+  );
 }
 
 function HomePartiesSuppliersForm({ state, setState }) {

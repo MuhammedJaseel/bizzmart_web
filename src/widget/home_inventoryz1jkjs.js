@@ -43,6 +43,7 @@ export default class HomeInventory extends React.Component {
       allVariantList: [],
 
       succesPop: null,
+      
     };
   }
 

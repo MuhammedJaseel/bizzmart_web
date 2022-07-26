@@ -379,6 +379,10 @@
 .zfEbAa {
   margin: 1vw;
   height: 8vw;
+  background-image: url(../asset/ic_profile.svg);
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 .zfEbAb,
 .zfEbAb_ {

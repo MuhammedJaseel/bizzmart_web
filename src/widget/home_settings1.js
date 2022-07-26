@@ -7,12 +7,13 @@ import icXl from "../asset/ic_xl.svg";
 import {
   bussinessSettingsValidator,
   postBusinessDay,
+  postBussinessSettings,
 } from "../method/home_settings";
 import "../style/hst.css";
 import WidgetFooterSubmit from "./widget_footer";
 
 export function HomeSettingsBussinessSettings({ state, setState }) {
-  const { page, bussinessSettings } = state;
+  const { page, setPage, bussinessSettings, loading, error } = state;
 
   const body = "GENERAL SETTINGS";
   const bodyL = "BUSINESS & GST SETTINGS";
@@ -223,7 +224,14 @@ export function HomeSettingsBussinessSettings({ state, setState }) {
             </div>
           </AddingForm1>
         </AddingFormLayout>
-        <WidgetFooterSubmit />
+        <WidgetFooterSubmit
+          props={{
+            onTap: () => postBussinessSettings(state, setState),
+            onCancel: () => setPage(null),
+            loading,
+            error,
+          }}
+        />
       </div>
     </form>
   );
@@ -288,7 +296,19 @@ function BussinessSettingsDaysMarker({ state, setState }) {
           APPLY
         </div>
         &nbsp; &nbsp; &nbsp;
-        <div className="hstDcAa">APPLY FOR ALL DAYS</div>
+        <div
+          className="hstDcAa"
+          onClick={() =>
+            postBusinessDay({
+              flag: 2,
+              day: "",
+              from: days[selected].from,
+              to: days[selected].to,
+            })
+          }
+        >
+          APPLY FOR ALL DAYS
+        </div>
       </div>
     </div>
   );

@@ -141,3 +141,66 @@
   width: calc(100% - 1vw);
   height: 1.8vw;
 }
+
+/* ///////////////////////////////////////////////////////////////////////////// */
+/* ///////////////////////////////////////////////////////////////////////////// */
+/* ///////////////////////////////////////////////////////////////////////////// */
+/* //////////////////////////       SUCCES POPUP       ///////////////////////// */
+/* ///////////////////////////////////////////////////////////////////////////// */
+/* ///////////////////////////////////////////////////////////////////////////// */
+/* ///////////////////////////////////////////////////////////////////////////// */
+
+.zpCa,
+.zpCa_ {
+  transition: 0.5s;
+  right: -27.5vw;
+  position: fixed;
+  top: 3.09vw;
+  width: 25vw;
+  height: 5vw;
+  padding: 0.5vw;
+  border-radius: 0.78vw;
+  background-color: #039003;
+  color: white;
+}
+.zpCa_ {
+  transition: 0.5s;
+  right: 2.5vw;
+}
+.zpCb {
+  display: flex;
+  justify-content: flex-end;
+}
+.zpCc {
+  width: 1.5vw;
+  height: 1.5vw;
+  background-image: url(../asset/icon/ic_close_w.png);
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+.zpCd {
+  display: flex;
+  align-items: flex-start;
+}
+.zpCe {
+  width: 3vw;
+  height: 3vw;
+  margin: 0vw 1vw;
+  background-image: url(../asset/icon/eye1.png);
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.zpCf {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.zpCg {
+  font-size: 1.2vw;
+}
+.zpCh {
+  font-size: 0.8vw;
+}

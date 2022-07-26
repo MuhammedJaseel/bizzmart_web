@@ -43,9 +43,9 @@ export const postHttp = async (path, body) => {
       }
       if (res.data.statusCode === 200 || res.data.statusCode === 210)
         return Promise.resolve(res.data);
-      return Promise.reject(res.data.message);
+      return Promise.reject(new Error(res.data.message));
     })
-    .catch((e) => Promise.reject("Error on loading"));
+    .catch((e) => Promise.reject(e?.message));
 };
 
 export const putHttp = () => {};

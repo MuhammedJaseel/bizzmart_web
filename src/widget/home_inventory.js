@@ -7,6 +7,7 @@ import HomeInventoryTables from "./home_inventory1";
 import HomeInventoryForms from "./home_inventory2";
 import HomeInventoryPopups from "./home_inventory3";
 import "../style/hin.css";
+import { Header1, TitleTable1 } from "./widget";
 
 export default class HomeInventory extends Component {
   constructor() {
@@ -74,10 +75,22 @@ export default class HomeInventory extends Component {
     const state = this.state;
     return (
       <StrictMode>
+        <InventoryLanding state={state} setState={setState} />
         <HomeInventoryTables state={state} setState={setState} />
         <HomeInventoryForms state={state} setState={setState} />
         <HomeInventoryPopups state={state} setState={setState} />
       </StrictMode>
     );
   }
+}
+
+function InventoryLanding({ state, setState }) {
+  const { page, setPage } = state;
+  if (page !== null) return null;
+  return (
+    <StrictMode>
+      <Header1 title="INVENTORY" bodyL="INVENTORY LANDING" onTap={setPage} />
+      <TitleTable1 data={inventoryPages} setPage={setPage} />
+    </StrictMode>
+  );
 }

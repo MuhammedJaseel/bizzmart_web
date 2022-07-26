@@ -66,3 +66,26 @@ export function WidgetPopUp1({ props }) {
     </div>
   );
 }
+
+export function WidgetSuccesPopup({ props }) {
+  const { active, title, desc, type, close } = props;
+
+  var style = {};
+  if (type === "warning") style = { background: "#CC962A" };
+  else if (type === "error") style = { background: "#D10707" };
+
+  return (
+    <div className={active ? "zpCa_" : "zpCa"} style={style}>
+      <div className="zpCb">
+        <div className="zpCc" onClick={close} />
+      </div>
+      <div className="zpCd">
+        <div className="zpCe" />
+        <div className="zpCf">
+          <div className="zpCg">{title}</div>
+          <div className="zpCh">{desc}</div>
+        </div>
+      </div>
+    </div>
+  );
+}

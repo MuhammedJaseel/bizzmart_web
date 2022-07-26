@@ -168,7 +168,8 @@ function DrawerLayout1({ show, body }) {
   );
 }
 export function DrawerForm1({ props }) {
-  const { show, close } = props;
+  const { show, close, submit } = props;
+  const [selected, setSelected] = useState(0);
   const body = (
     <StrictMode>
       <div className="zfEa">
@@ -177,48 +178,110 @@ export function DrawerForm1({ props }) {
       </div>
       <div className="zfEb">
         <div className="zfEbA">
-          <div className="zfEbAa"></div>
-          <div className="zfEbAb_">Basic information</div>
-          <div className="zfEbAb">Contact information</div>
-          <div className="zfEbAb">Financial Information</div>
-          <div className="zfEbAb">Delivery Information</div>
+          <div className="zfEbAa" />
+          <div className={selected === 0 ? "zfEbAb_" : "zfEbAb"}>
+            Basic information
+          </div>
+          <div className={selected === 1 ? "zfEbAb_" : "zfEbAb"}>
+            Contact information
+          </div>
+          <div className={selected === 2 ? "zfEbAb_" : "zfEbAb"}>
+            Financial Information
+          </div>
+          <div className={selected === 3 ? "zfEbAb_" : "zfEbAb"}>
+            Delivery Information
+          </div>
         </div>
         <div className="zfEbB">
           <div className="zfEbBa">BASIC INFORMATION</div>
           <div className="zfEbBb">
             <div className="zfEbBbA">Full name *</div>
-            <input className="zfEbBbB" />
+            <input
+              className="zfEbBbB"
+              onFocus={() => setSelected(0)}
+              placeholder="Enter customer full name"
+              id="name"
+            />
             <div className="zfEbBbA">Loyalty Tier</div>
-            <input className="zfEbBbB" />
+            <select
+              className="zfEbBbB"
+              onFocus={() => setSelected(0)}
+              id="loyality_tier"
+            >
+              <option value="SILVER">SILVER</option>
+            </select>
             <div className="zfEbBbA">Lead Channel</div>
-            <input className="zfEbBbB" />
+            <input
+              className="zfEbBbB"
+              onFocus={() => setSelected(0)}
+              placeholder="Walk-In"
+              id="name"
+              /** @todo: right your todo comment here **/
+              /** @todo: right your todo comment here **/
+              /** @todo: right your todo comment here **/
+              /** @todo: right your todo comment here **/
+              /** @todo: right your todo comment here **/
+              /** @todo: right your todo comment here **/
+              /** @todo: right your todo comment here **/
+              /** @todo: right your todo comment here **/
+            />
           </div>
           <div className="zfEbBa">CONTACT INFORMATION</div>
           <div className="zfEbBb">
             <div className="zfEbBbA">Mobile Number *</div>
-            <input className="zfEbBbB" />
+            <input
+              className="zfEbBbB"
+              onFocus={() => setSelected(1)}
+              placeholder="95xxxxxx63"
+              id="phone"
+            />
             <div className="zfEbBbA">Email Address</div>
-            <input className="zfEbBbB" />
+            <input
+              className="zfEbBbB"
+              onFocus={() => setSelected(1)}
+              placeholder="test@example.com"
+              id="email"
+            />
           </div>
           <div className="zfEbBa">FINANCIAL INFORMATION</div>
           <div className="zfEbBb">
             <div className="zfEbBbA">Mobile Number *</div>
-            <input className="zfEbBbB" />
+            <input
+              className="zfEbBbB"
+              onFocus={() => setSelected(2)}
+              id="name"
+            />
             <div className="zfEbBbA">Email Address</div>
-            <input className="zfEbBbB" />
+            <input
+              className="zfEbBbB"
+              onFocus={() => setSelected(2)}
+              id="name"
+            />
           </div>
           <div className="zfEbBa">ADDRESS INFORMATION</div>
           <div className="zfEbBb">
             <div className="zfEbBbA">Mobile Number *</div>
-            <input className="zfEbBbB" />
+            <input
+              className="zfEbBbB"
+              onFocus={() => setSelected(3)}
+              id="name"
+            />
             <div className="zfEbBbA">Email Address</div>
-            <input className="zfEbBbB" />
+            <textarea
+              className="zfEbBbB"
+              onFocus={() => setSelected(3)}
+              id="address"
+            />
           </div>
         </div>
       </div>
       <div className="zfEd">
-        <div className="zfEdA">CANCEL</div>
-        <div className="zfEdB">SAVE</div>
+        <div className="zfEdA" onClick={close}>
+          CANCEL
+        </div>
+        <div className="zfEdB" onClick={submit}>
+          SAVE
+        </div>
       </div>
     </StrictMode>
   );
