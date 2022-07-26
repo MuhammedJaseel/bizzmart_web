@@ -28,7 +28,7 @@ export default class HomeInventory extends React.Component {
       allUnits: [],
       allKot: [],
       allTax: [],
-      //type1 ///////////
+      // type1 ///////////
       modifirePop: false,
       allModifire: [],
       allStations: [],

@@ -171,3 +171,5 @@ export const allSettings = [
     ],
   },
 ];
+
+export const allTimeZone = ["Channai", "Asia/Kolkata", "Mumbail"];

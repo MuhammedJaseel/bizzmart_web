@@ -393,6 +393,7 @@ export const inventoryFormData = [
   {
     path: "addProdect",
     title: "New Product",
+    editTitle: "New Product",
     desc: "Add and view prodect for selling across all your linked bizzMart channel",
   },
   {
@@ -427,7 +428,7 @@ export const inventoryStateData = {
     product_name: "",
     category_id: "",
     product_description: "",
-    is_service: "",
+    is_service: 0,
     primary_unit: "",
     secondry_unit: "",
     enable_unit_conversion: "",

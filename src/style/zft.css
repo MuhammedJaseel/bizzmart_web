@@ -1,0 +1,57 @@
+/* //////////////// */
+.zftA {
+  padding: 0vw 0.97vw;
+  height: 3.8vw;
+  background-color: #f3f6f6;
+  border-top: 0.03vw solid #c2bebe;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.zftAa {
+  height: 1.94vw;
+  width: 8.31vw;
+  background-color: #ff8f8f;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.94vw;
+  border-radius: 0.19vw;
+  font-weight: 500;
+  color: white;
+  cursor: pointer;
+}
+.zftAb {
+  display: flex;
+}
+.zftAbA {
+  height: 1.94vw;
+  width: 6.34vw;
+  background-color: #c6d5fb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.94vw;
+  border-radius: 0.19vw;
+  font-weight: 500;
+}
+.zftAbB {
+  height: 1.94vw;
+  width: 6.34vw;
+  background-color: #2d4c86;
+  color: white;
+  border-radius: 0.19vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.94vw;
+  margin: 0px 10px;
+  font-weight: 500;
+  border: none;
+}
+.zftAbA:hover {
+  box-shadow: 0.05vw 0.05vw 0.15vw #00000053;
+}
+.zftAbB:hover {
+  box-shadow: 0.05vw 0.05vw 0.15vw #00000053;
+}

@@ -2,6 +2,7 @@ import { StrictMode, Component } from "react";
 import { inventoryFormData, inventoryPages } from "../module/home_inventory";
 import { inventoryStateData } from "../module/home_inventory";
 import { assetList, productList, stockIssue } from "../module/dummydata";
+import { getCategoryList, getProducts } from "../method/home_inventory";
 import HomeInventoryTables from "./home_inventory1";
 import HomeInventoryForms from "./home_inventory2";
 import HomeInventoryPopups from "./home_inventory3";
@@ -20,7 +21,12 @@ export default class HomeInventory extends Component {
       allProduct: [],
       allAsset: [],
       allIssue: [],
+      allCategoty: [],
+      allUnits: [],
+      allKot: [],
+      allTax: [],
       product: inventoryStateData.product,
+      isEdit: true,
       // FUNCTION ///////////////////////////////////////////////////////////////////
       setPage: (v) => {
         this.setState({ page: v.path === undefined ? null : v });
@@ -30,6 +36,10 @@ export default class HomeInventory extends Component {
     };
   }
   componentDidMount() {
+    const setState = (v) => this.setState(v);
+    const state = this.state;
+    getProducts(state, setState);
+    getCategoryList(state, setState);
     this.setState({ allAsset: assetList, allProduct: productList });
     this.setState({ allIssue: stockIssue });
     let path = window.location.pathname.split("/");

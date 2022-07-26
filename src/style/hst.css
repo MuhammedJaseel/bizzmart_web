@@ -57,6 +57,11 @@
 .hstDa {
   width: 100%;
 }
+.hstDa_ {
+  font-size: 0.7vw;
+  margin-top: 0.01vw;
+  margin-left: 0.1vw;
+}
 .hstDb {
   width: 70%;
   height: 12vw;
@@ -66,3 +71,51 @@
   border-radius: 0.5vw;
   box-shadow: 0 0 0.3vw #0000001a;
 }
+.hstDc {
+  background-color: #d8dfe9;
+  padding: 0.7vw;
+  border: 0.01vw solid #52555a;
+  border-radius: 0.2vw;
+}
+/* --START--This is for opening time and date marking */
+.hstDcA {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.hstDcAa,
+.hstDcAa_ {
+  background-color: #2d4c86;
+  font-size: 0.9vw;
+  font-weight: bold;
+  color: white;
+  padding: 0.3vw 1.3vw;
+  border-radius: 0.2vw;
+  border: 0.01vw solid #52555a;
+  cursor: pointer;
+}
+.hstDcAa_ {
+  background-color: white;
+  color: black;
+}
+.hstDcAa__ {
+  border: 0.2vw solid rgb(0, 137, 216);
+}
+.hstDcB {
+  font-size: 0.8vw;
+  font-weight: 500;
+  display: flex;
+  width: 14vw;
+  justify-content: space-between;
+  margin-top: 1vw;
+}
+.hstDcC {
+  display: flex;
+  align-items: center;
+  margin-top: 0.5vw;
+}
+.hstDcCa {
+  width: 7vw;
+  margin-right: 2vw;
+}
+/* --END-- */

@@ -25,7 +25,7 @@ export const getHttp = async (path, prams) => {
       }
       if (res.data.statusCode === 200 || res.data.statusCode === 210)
         return Promise.resolve(res.data);
-      else return Promise.reject(res.data.message);
+      return Promise.reject(res.data.message);
     })
     .catch((e) => Promise.reject("Error on loading"));
 };
@@ -43,7 +43,7 @@ export const postHttp = async (path, body) => {
       }
       if (res.data.statusCode === 200 || res.data.statusCode === 210)
         return Promise.resolve(res.data);
-      else return Promise.reject(res.data.message);
+      return Promise.reject(res.data.message);
     })
     .catch((e) => Promise.reject("Error on loading"));
 };

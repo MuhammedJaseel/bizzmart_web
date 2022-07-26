@@ -1,11 +1,11 @@
-import {  getHttp, postHttp } from "../module/api_int";
+import { getHttp, postHttp } from "../module/api_int";
 import { getTodayType1 } from "../module/simple";
 
 export async function getProduct(state, setState) {
   const { product } = state;
   await getHttp(`getProduct/${product.id}`)
     .then((res) => setState({ product: res.data }))
-    .then((error) => setState({ error }));
+    .catch((error) => setState({ error }));
   setState({ loading: false });
   return;
 }
@@ -14,10 +14,10 @@ export async function getProducts(state, setState) {
   const { prodectMaxCount, productPage } = state;
   const body = { page_number: productPage, limit: prodectMaxCount };
   await postHttp("products", body)
-    .then((res) =>
-      setState({ allProduct: res.data, totelProduct: res.page.totalCount })
-    )
-    .then((error) => setState({ error }));
+    .then((res) => {
+      setState({ allProduct: res.data, totelProduct: res.page.totalCount });
+    })
+    .catch((error) => setState({ error }));
   setState({ loading: false });
   return;
 }
@@ -29,10 +29,10 @@ export async function getCategoryList(state, setState) {
   var getTax = postHttp("taxLists", {});
   await Promise.all([getCat, getUnit, getKot, getTax])
     .then((res) => {
-      setState({ allCategoty: res[0].data.data });
-      setState({ allUnits: res[1].data.data });
-      setState({ allKot: res[2].data.data });
-      setState({ allTax: res[3].data.data });
+      setState({ allCategoty: res[0].data });
+      setState({ allUnits: res[1].data });
+      setState({ allKot: res[2].data });
+      setState({ allTax: res[3].data });
     })
     .catch((error) => setState({ error }));
 }
@@ -119,8 +119,7 @@ export async function addInventory(e, state, setState, type, unit) {
     formData.append("image[]", e.target.pro_imgs.files[i], "[PROXY]");
 
   await postHttp("productStore", formData)
-    .then((res) =>
-    {
+    .then(async (res) => {
       await getProduct(state, setState);
       setState({
         succesPop: {
@@ -130,9 +129,10 @@ export async function addInventory(e, state, setState, type, unit) {
         },
         addpage: false,
       });
-    }
-    )
-    .then((error) => setState({      succesPop: { type: 1, msg: "Oop's", subMsg: error }    }));
+    })
+    .then((error) =>
+      setState({ succesPop: { type: 1, msg: "Oop's", subMsg: error } })
+    );
 }
 
 // formData.append("branch_id", "178");

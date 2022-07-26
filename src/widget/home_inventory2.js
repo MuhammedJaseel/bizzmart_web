@@ -1,4 +1,5 @@
 import React, { StrictMode } from "react";
+import { prodectTypes } from "../module/home_inventory";
 import { Header1, Header4 } from "./widget";
 import { AddingForm1, AddingForm2 } from "./widget_form";
 import { AddingFormLayout, FormSwitch, MyForm1 } from "./widget_form";
@@ -14,7 +15,7 @@ export default function HomeInventoryForms({ state, setState }) {
 }
 
 function ProductForm({ state, setState }) {
-  const { page, setPage, product } = state;
+  const { page, setPage, product, isEdit } = state;
   const t1 = "GENERAL DETAILS";
   const d1 = (
     <StrictMode>
@@ -37,15 +38,32 @@ function ProductForm({ state, setState }) {
 
   if (page?.path !== "addProdect") return null;
   return (
-    <StrictMode>
+    <form
+      onChange={(e) => {
+        const prop = e.target.id;
+        const value = e.target.value;
+        product[prop] = value;
+        setState({ product });
+        console.log(product);
+      }}
+      onSubmit={(e) => {
+        e.preventDefault();
+        console.log(product);
+      }}
+    >
       <Header1 title="INVENTORY" bodyL={page.title} onTap={setPage} />
       <div className="hinD">
-        <Header4 title={page?.title} desc={page?.desc} />
+        <Header4
+          title={isEdit ? page?.editTitle : page?.title}
+          desc={page?.desc}
+        />
         <AddingFormLayout title={t1} desc={d1}>
           <AddingForm1 title="Product name *">
             <input
               className="hinDa"
               placeholder="Enter a name for your product"
+              id="product_name"
+              defaultValue={product.product_name}
             />
           </AddingForm1>
           <AddingForm2>
@@ -54,7 +72,14 @@ function ProductForm({ state, setState }) {
           </AddingForm2>
           <AddingForm1 title="Business Legal Name">
             <div className="hinDa">
-              <select className="hinDaA"></select>
+              <select className="hinDaA">
+                <option hidden> Select prodect type</option>
+                {prodectTypes.map((it, k) => (
+                  <option key={k} value={it.id}>
+                    {it.name}
+                  </option>
+                ))}
+              </select>
               <select className="hinDaA"></select>
             </div>
           </AddingForm1>
@@ -62,10 +87,18 @@ function ProductForm({ state, setState }) {
             <textarea
               className="hinDa"
               placeholder="Enter a brief description for your product, this will be shown on all the linked selling channels for your customers."
+              id="product_description"
+              defaultValue={product.product_description}
             />
           </AddingForm1>
           <AddingForm1 title="Manage stock">
-            <FormSwitch value />
+            <FormSwitch
+              value={product.is_service === 1}
+              onTap={() => {
+                product.is_service = product.is_service === 1 ? 0 : 1;
+                setState({ product });
+              }}
+            />
           </AddingForm1>
           <AddingForm2>
             <div className="hinDaB">Selling unit *</div>
@@ -90,11 +123,22 @@ function ProductForm({ state, setState }) {
             <div className="hinDa">
               <select className="hinDaB"></select>
               <select className="hinDaB"></select>
-              <input className="hinDaB" placeholder="Only numeric characters" />
+              <input
+                className="hinDaB"
+                placeholder="Only numeric characters"
+                id="hsncode"
+                defaultValue={product.hsncode}
+              />
             </div>
           </AddingForm1>
           <AddingForm1 title="Sell online">
-            <FormSwitch value />
+            <FormSwitch
+              value={product.is_online === 1}
+              onTap={() => {
+                product.is_online = product.is_online === 1 ? 0 : 1;
+                setState({ product });
+              }}
+            />
           </AddingForm1>
           <AddingForm1 title="Upload images">
             <ImagePicker state={state} setState={setState} />
@@ -232,8 +276,17 @@ function ProductForm({ state, setState }) {
             </StrictMode>
           ) : null}
         </AddingFormLayout>
+        <div className="hinDb">
+          {isEdit ? <div className="hinDbA">DELETE PRODECT</div> : <div />}
+          <div className="hinDbB">
+            <div className="hinDbBa">CANCEL</div>
+            <button type="submit" className="hinDbBb">
+              SAVE
+            </button>
+          </div>
+        </div>
       </div>
-    </StrictMode>
+    </form>
   );
 }
 
