@@ -1,21 +1,12 @@
-import React, { Component, StrictMode } from "react";
-import { customerList, suppliersList } from "../module/dummydata";
-import "../style/hdb.css";
+import React, { Component } from "react";
 import { MyTable1, MyTableCounter1 } from "./widget_table";
-import {
-  Header1,
-  Header2,
-  Header4,
-  HeaderButtens1,
-  TitleFilter1,
-} from "./widget";
+import { Header1, Header2, Header4 } from "./widget";
+import { HeaderButtens1, TitleFilter1 } from "./widget";
 import { DrawerForm1 } from "./widget_form";
 import { DrowerView2 } from "./widget_view";
-import {
-  getAllCustomers,
-  getAllSuppliers,
-  postCustomer,
-} from "../method/home_parties";
+import { getAllCustomers, getAllSuppliers } from "../method/home_parties";
+import { postCustomer } from "../method/home_parties";
+import "../style/hdb.css";
 
 const pTitles = ["Customers", "Suppliers"];
 const titles = {
@@ -57,8 +48,11 @@ export default class HomeParties extends Component {
       page: 0,
       addPage: false,
       allCustomer: [],
+      customerPaging: {},
       customer: null,
+      addCustomer: {},
       allSupplier: [],
+      supplierPaging: {},
     };
   }
   componentDidMount() {
@@ -108,7 +102,7 @@ export default class HomeParties extends Component {
 }
 
 function HomePartiesCoustomerTable({ state, setState }) {
-  const { page, addPage, allCustomer } = state;
+  const { page, customerPaging, allCustomer } = state;
 
   const onclick = (v) => setState({ customer: v });
 
@@ -143,12 +137,12 @@ function HomePartiesCoustomerTable({ state, setState }) {
   return (
     <React.StrictMode>
       <MyTable1 widths={widths} heads={heads0} body={body} onclick={onclick} />
-      <MyTableCounter1 props={{ total: 100 }} />
+      <MyTableCounter1 props={{ total: customerPaging.totalCount }} />
     </React.StrictMode>
   );
 }
 function HomePartiesSuppliersTable({ state, setState }) {
-  const { page, addPage, allSupplier } = state;
+  const { page, supplierPaging, allSupplier } = state;
 
   const widths = [
     { width: 4 },
@@ -177,21 +171,22 @@ function HomePartiesSuppliersTable({ state, setState }) {
   return (
     <React.StrictMode>
       <MyTable1 widths={widths} heads={heads1} body={body} />
-      <MyTableCounter1 props={{ total: 100 }} />
+      <MyTableCounter1 props={{ total: supplierPaging.totalCount }} />
     </React.StrictMode>
   );
 }
 
 function HomePartiesCoustomerForm({ state, setState }) {
-  const { page, addPage } = state;
-  var custmer = {};
+  const { loading, error, page, addPage, addCustomer } = state;
   const body = {
     show: page === 0 && addPage,
     close: () => setState({ addPage: false }),
-    submit: () => postCustomer(custmer, state, setState),
+    submit: () => postCustomer(addCustomer, state, setState),
+    loading,
+    error,
   };
   return (
-    <form onChange={(e) => (custmer[e.target.id] = e.target.value)}>
+    <form onChange={(e) => (addCustomer[e.target.id] = e.target.value)}>
       <DrawerForm1 props={body} />
     </form>
   );
