@@ -410,7 +410,7 @@
   color: #31363f;
 }
 .zfEbBb {
-  padding: 0.5vw 1vw;
+  padding: 0 1vw;
   padding-bottom: 1vw;
 }
 .zfEbBbA {
@@ -452,6 +452,17 @@
   background-color: #48b183;
   border-radius: 1.5vw;
 }
+.zfEbBbBc {
+  width: 85%;
+  font-size: 0.68vw;
+  font-weight: 500;
+  margin-top: 0.3vw;
+}
+.zfEbBbBcA {
+  margin-top: 0.1vw;
+  font-size: 0.55vw;
+  color: #727374;
+}
 /* ///////////////////////////////////         FOOTER           ///////////////////////////////// */
 .zfEd {
   display: flex;
@@ -472,7 +483,9 @@
   font-size: 0.88vw;
   font-weight: 500;
   background-color: #5b7abe;
-  padding: 0.3vw 2.5vw;
+  padding: 0.5vw 0;
+  width: 6vw;
+  text-align: center;
   border-radius: 0.2vw;
   cursor: pointer;
 }
@@ -482,7 +495,9 @@
   font-size: 0.88vw;
   font-weight: 500;
   background-color: #2d4c86;
-  padding: 0.3vw 2.5vw;
+  padding: 0.5vw 0;
+  width: 6vw;
+  text-align: center;
   border-radius: 0.2vw;
   cursor: pointer;
 }

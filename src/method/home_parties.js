@@ -12,18 +12,39 @@ export async function getAllSuppliers(state, setState) {
 }
 
 export async function postCustomer(body, state, setState) {
-  const { loading } = state;
+  const { loading, succesPop } = state;
   if (loading) return;
-
-  console.log(body);
-
   body.image = null;
-
   setState({ loading: true, error: null });
   await postHttp("addCustomer", body)
     .then(async (res) => {
       await getAllCustomers(state, setState);
       setState({ addPage: false, addCustomer: {} });
+      succesPop({
+        active: true,
+        title: "Succesfully Added",
+        desc: "The customer has been succesfully Added",
+      });
+    })
+    .catch((error) => setState({ error }));
+  setState({ loading: false });
+}
+
+export async function postSuplier(body, state, setState) {
+  const { loading, succesPop } = state;
+  if (loading) return;
+  body.image = null;
+  console.log(body);
+  setState({ loading: true, error: null });
+  await postHttp("addSupplier", body)
+    .then(async (res) => {
+      await getAllSuppliers(state, setState);
+      setState({ addPage: false, addSupplier: {} });
+      succesPop({
+        active: true,
+        title: "Succesfully Added",
+        desc: "The supplier has been succesfully Added",
+      });
     })
     .catch((error) => setState({ error }));
   setState({ loading: false });

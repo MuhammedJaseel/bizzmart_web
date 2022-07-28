@@ -1,0 +1,17 @@
+.htmA {
+  width: 100%;
+}
+.htmB {
+  background-color: #e2eafd;
+  border-radius: 0.2vw;
+  font-size: 0.88vw;
+  color: #2d4c86;
+  padding: 1vw;
+  padding-top: 0.5vw;
+}
+.htmBa {
+  padding-top: 0.4vw;
+  font-size: 1.6vw;
+  color: #708aba;
+  font-weight: bold;
+}

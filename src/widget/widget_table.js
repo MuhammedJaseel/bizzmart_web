@@ -31,7 +31,7 @@ export function MyTable1({ widths, heads, body, onclick, lg }) {
       </div>
       <div className={lg ? "zc1Ab_lg" : "zc1Ab"}>
         {body.map((it, k) => (
-          <div key={k} className="zc1AbA" onClick={(it) => onclick(it)}>
+          <div key={k} className="zc1AbA" onClick={() => onclick(k)}>
             {it.map((it2, j) => (
               <div
                 key={j}

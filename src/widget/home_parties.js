@@ -5,54 +5,34 @@ import { HeaderButtens1, TitleFilter1 } from "./widget";
 import { DrawerForm1 } from "./widget_form";
 import { DrowerView2 } from "./widget_view";
 import { getAllCustomers, getAllSuppliers } from "../method/home_parties";
+import { postSuplier } from "../method/home_parties";
 import { postCustomer } from "../method/home_parties";
+import { partiesHeads0, partiesHeads1 } from "../module/home_parties";
+import { partiesTitles, patriesPageTitles } from "../module/home_parties";
 import "../style/hdb.css";
 
-const pTitles = ["Customers", "Suppliers"];
-const titles = {
-  title: [`Customers List`, `Suppliers List`],
-  titleAdd: [`Customers List`, `Suppliers List`],
-  desc: [
-    `Shows all the custmer recorded against your business`,
-    `Shows all the suppliers recorded against your business`,
-  ],
-};
-
-const heads0 = [
-  null,
-  "Custmer Name",
-  "Loyalty Tire",
-  "Status",
-  "Phone Number",
-  "Email",
-  "Last Seen",
-  "Turnover",
-  "Balance",
-];
-const heads1 = [
-  null,
-  "Supplier Name",
-  "Status",
-  "Phone Number",
-  "Email",
-  "Last Seen",
-  "Turnover",
-];
+const pTitles = patriesPageTitles;
+const titles = partiesTitles;
+const heads0 = partiesHeads0;
+const heads1 = partiesHeads1;
 
 const statDot = (v) => <div className={"hprA_" + v} />;
 
 export default class HomeParties extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       page: 0,
       addPage: false,
       allCustomer: [],
-      customerPaging: {},
-      customer: null,
-      addCustomer: {},
       allSupplier: [],
+      customerPaging: {},
       supplierPaging: {},
+      customer: null,
+      supplier: null,
+      addCustomer: {},
+      addSupplier: {},
+      succesPop: props.succesPop,
     };
   }
   componentDidMount() {
@@ -179,11 +159,13 @@ function HomePartiesSuppliersTable({ state, setState }) {
 function HomePartiesCoustomerForm({ state, setState }) {
   const { loading, error, page, addPage, addCustomer } = state;
   const body = {
+    title: "New customer",
     show: page === 0 && addPage,
     close: () => setState({ addPage: false }),
     submit: () => postCustomer(addCustomer, state, setState),
     loading,
     error,
+    type: "customer",
   };
   return (
     <form onChange={(e) => (addCustomer[e.target.id] = e.target.value)}>
@@ -193,10 +175,19 @@ function HomePartiesCoustomerForm({ state, setState }) {
 }
 
 function HomePartiesSuppliersForm({ state, setState }) {
-  const { page, addPage } = state;
+  const { loading, error, page, addPage, addSupplier } = state;
   const body = {
+    title: "New suppliers",
     show: page === 1 && addPage,
     close: () => setState({ addPage: false }),
+    submit: () => postSuplier(addSupplier, state, setState),
+    loading,
+    error,
+    type: "supplier",
   };
-  return <DrawerForm1 props={body} />;
+  return (
+    <form onChange={(e) => (addSupplier[e.target.id] = e.target.value)}>
+      <DrawerForm1 props={body} />
+    </form>
+  );
 }
