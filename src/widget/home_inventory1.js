@@ -1,7 +1,7 @@
 import React, { StrictMode } from "react";
-import { inventoryFormData, inventoryPages } from "../module/home_inventory";
+import { inventoryFormData } from "../module/home_inventory";
 import { inventoryPopupsData } from "../module/home_inventory";
-import { Header1, Header4, HeaderButtens1, TitleTable1 } from "./widget";
+import { Header1, Header4, HeaderButtens1 } from "./widget";
 import { MyTable1, MyTableCounter1 } from "./widget_table";
 
 export default function HomeInventoryTables({ state, setState }) {
@@ -26,14 +26,16 @@ export default function HomeInventoryTables({ state, setState }) {
   );
 }
 
-
-
 function ProductTable({ state, setState }) {
-  const { allProduct, page, setPage } = state;
+  const { allProduct, page, setPage, product } = state;
   const title = "INVENTORY";
   const bodyRBody = {
-    makeAdd: () =>
-      setPage(inventoryFormData.filter((k) => k.path === "addProdect")[0]),
+    makeAdd: () => {
+      setPage(inventoryFormData.filter((k) => k.path === "addProdect")[0]);
+      product.type = 1;
+      product.is_service = 0;
+      setState({ product });
+    },
     title: "+ New Product",
     drowelList: null,
     onShare: null,
@@ -44,6 +46,7 @@ function ProductTable({ state, setState }) {
   if (allProduct !== null)
     for (let i = 0; i < allProduct.length; i++) {
       const it = allProduct[i];
+      // if (it.is_service === 0)
       body.push([
         { data: it.image, data2: it.name, type: 1 },
         { data: it.name, data2: it.product_type, type: 2 },
@@ -52,10 +55,10 @@ function ProductTable({ state, setState }) {
         { data: it.type },
         { data: it.cost },
         { data: it.selling, type: 2 },
-        { data: it.mrp },
+        { data: it.MRP },
         { data: it.tax },
         { data: it.stock },
-        { data: it.msl },
+        { data: it.MSL },
       ]);
     }
   if (page?.path !== "prodect") return null;
@@ -69,12 +72,16 @@ function ProductTable({ state, setState }) {
   );
 }
 function ServiceTable({ state, setState }) {
-  const { allProduct, page, setPage } = state;
+  const { allProduct, page, setPage, product } = state;
   const title = "INVENTORY";
   const bodyRBody = {
-    makeAdd: () =>
-      setPage(inventoryFormData.filter((k) => k.path === "addService")[0]),
-    title: "+ New Product",
+    makeAdd: () => {
+      setPage(inventoryFormData.filter((k) => k.path === "addService")[0]);
+      product.type = 2;
+      product.is_service = 1;
+      setState({ product });
+    },
+    title: "+ New Service",
     drowelList: null,
     onShare: null,
     onDownload: null,
@@ -85,18 +92,19 @@ function ServiceTable({ state, setState }) {
   if (allProduct !== null)
     for (let i = 0; i < allProduct.length; i++) {
       const it = allProduct[i];
+      // if (it.is_service === 1)
       body.push([
         { data: it.image, data2: it.name, type: 1 },
         { data: it.name, data2: it.product_type, type: 2 },
         { data: it.code, type: 2 },
-        { data: it.categoryName },
+        { data: it.category_name },
         { data: it.type },
         { data: it.cost },
         { data: it.selling, type: 2 },
-        { data: it.mrp },
+        { data: it.MRP },
         { data: it.tax },
         { data: it.stock },
-        { data: it.msl },
+        { data: it.MSL },
       ]);
     }
   if (page?.path !== "service") return null;

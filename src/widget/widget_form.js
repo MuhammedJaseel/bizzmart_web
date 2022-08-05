@@ -277,7 +277,7 @@ export function DrawerForm1({ props }) {
                   id="name"
                 />
                 <div className="zfEbBbA">Nickname / Contact Person</div>
-                <select
+                <input
                   className="zfEbBbB"
                   onFocus={() => setSelected(0)}
                   placeholder="Supplier contact person name"

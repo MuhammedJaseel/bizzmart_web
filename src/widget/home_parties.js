@@ -72,10 +72,7 @@ export default class HomeParties extends Component {
         <HomePartiesSuppliersTable state={state} setState={setState} />
         <HomePartiesCoustomerForm state={state} setState={setState} />
         <HomePartiesSuppliersForm state={state} setState={setState} />
-        <DrowerView2
-          show={customer !== null}
-          close={() => setState({ customer: null })}
-        />
+        <HomePartiesCoustomerEditForm state={state} setState={setState} />
       </React.StrictMode>
     );
   }
@@ -84,7 +81,7 @@ export default class HomeParties extends Component {
 function HomePartiesCoustomerTable({ state, setState }) {
   const { page, customerPaging, allCustomer } = state;
 
-  const onclick = (v) => setState({ customer: v });
+  const onclick = (v) => setState({ customer: allCustomer[v] });
 
   const widths = [
     { width: 4 },
@@ -160,7 +157,7 @@ function HomePartiesCoustomerForm({ state, setState }) {
   const { loading, error, page, addPage, addCustomer } = state;
   const body = {
     title: "New customer",
-    show: page === 0 && addPage,
+    item: page === 0 && addPage,
     close: () => setState({ addPage: false }),
     submit: () => postCustomer(addCustomer, state, setState),
     loading,
@@ -189,5 +186,19 @@ function HomePartiesSuppliersForm({ state, setState }) {
     <form onChange={(e) => (addSupplier[e.target.id] = e.target.value)}>
       <DrawerForm1 props={body} />
     </form>
+  );
+}
+
+function HomePartiesCoustomerEditForm({ state, setState }) {
+  const { loading, error, page, customer } = state;
+  const body = {
+    show: customer !== null,
+    item: customer,
+    close: () => setState({ customer: null }),
+  };
+  return (
+    // <form onChange={(e) => (addCustomer[e.target.id] = e.target.value)}>
+    <DrowerView2 props={body} />
+    // </form>
   );
 }

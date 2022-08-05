@@ -1,4 +1,4 @@
-import { StrictMode } from "react";
+import { StrictMode, useState } from "react";
 import "../style/zv.css";
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -137,55 +137,87 @@ export default function DrawerView1({ state, setState }) {
   );
 }
 
-export function DrowerView2({ show ,close }) {
+export function DrowerView2({ props }) {
+  const { show, close, item } = props;
+  const [page, setPage] = useState(0);
+  console.log(item);
   return (
     <DrawerLayout2 show={show}>
       <div className="zvDa">
-        <div className="zvDaA">Sunder Pitch</div>
+        <div className="zvDaA">{item?.name}</div>
         <div className="zvDaB" onClick={close} />
       </div>
       <div className="zvDb">
         <div className="zvDbA">
-          <div className="zvDbAa"></div>
+          <div
+            className="zvDbAa"
+            style={{ backgroundImage: `url(${item?.image})` }}
+          />
         </div>
         <div className="zvDbB">SILVER MEMBER</div>
         <div className="zvDbC">
           <div className="zvDbCa">
             <div className="zvDbCaA" />
-            <div className="zvDbCaB">32</div>
+            <div className="zvDbCaB">{item?.invoice_count}</div>
             <div className="zvDbCaC">Invoices</div>
           </div>
           <div />
           <div className="zvDbCa">
             <div className="zvDbCaA1" />
-            <div className="zvDbCaB">32</div>
-            <div className="zvDbCaC">Invoices</div>
+            <div className="zvDbCaB">{item?.opening_balance}</div>
+            <div className="zvDbCaC">Balance</div>
           </div>
         </div>
         <div className="zvDbD">
-          <div className="zvDbDa">EDIT CUSTOMER</div>
-          <div className="zvDbDb">INVOICES</div>
-          <div className="zvDbDb">STATEMENT</div>
-          <div className="zvDbDb">RECORD PAYMENT</div>
+          <div
+            className={page === 0 ? "zvDbDa" : "zvDbDb"}
+            onClick={() => setPage(0)}
+          >
+            EDIT CUSTOMER
+          </div>
+          <div
+            className={page === 1 ? "zvDbDa" : "zvDbDb"}
+            onClick={() => setPage(1)}
+          >
+            INVOICES
+          </div>
+          <div
+            className={page === 2 ? "zvDbDa" : "zvDbDb"}
+            onClick={() => setPage(2)}
+          >
+            STATEMENT
+          </div>
+          <div
+            className={page === 3 ? "zvDbDa" : "zvDbDb"}
+            onClick={() => setPage(3)}
+          >
+            RECORD PAYMENT
+          </div>
         </div>
-        <div className="zvDbE">BASIC INFORMATION</div>
-        <div className="zvDbF">
-          <div className="zvDbFa">Full name *</div>
-          <input className="zvDbFb" />
-          <div className="zvDbFa">Loyalty Tier</div>
-          <select className="zvDbFb">
-            <option>GOLD</option>
-          </select>
-          <div className="zvDbFa">Lead Channel</div>
-          <input className="zvDbFb" />
-        </div>
-        <div className="zvDbE">CONTACT INFORMATION</div>
-        <div className="zvDbF">
-          <div className="zvDbFa">Mobile Number *</div>
-          <input className="zvDbFb" />
-          <div className="zvDbFa">Email Address</div>
-          <input className="zvDbFb" />
-        </div>
+        {item !== null && page === 0 ? (
+          <StrictMode>
+            <div className="zvDbE">BASIC INFORMATION</div>
+            <div className="zvDbF">
+              <div className="zvDbFa">Full name *</div>
+              <input className="zvDbFb" defaultValue={item.name} />
+              <div className="zvDbFa" defaultValue={item.loyalty_tire}>
+                Loyalty Tier
+              </div>
+              <select className="zvDbFb">
+                <option>GOLD</option>
+              </select>
+              <div className="zvDbFa">Lead Channel</div>
+              <input className="zvDbFb" />
+            </div>
+            <div className="zvDbE">CONTACT INFORMATION</div>
+            <div className="zvDbF">
+              <div className="zvDbFa">Mobile Number *</div>
+              <input className="zvDbFb" defaultValue={item.phone} />
+              <div className="zvDbFa">Email Address</div>
+              <input className="zvDbFb" defaultValue={item.email} />
+            </div>
+          </StrictMode>
+        ) : null}
       </div>
       <div className="zvDc">
         <div className="zvDcA">CANCAL</div>

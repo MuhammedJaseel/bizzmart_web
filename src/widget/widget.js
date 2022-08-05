@@ -308,20 +308,22 @@ export function HeaderButtens1({ props }) {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-export function PaymentCard1({ props }) {
-  const {} = props;
+export function PaymentCard1({ props, onTap }) {
+  const { account_balance, account_display_name, account_type } = props;
+  const { last_entry_date } = props;
+  const st = { "background-image": `url(${props.image})` };
   return (
     <div className="zc1D-body">
-      <div className="zc1D">
+      <div className="zc1D" onClick={onTap}>
         <div className="zc1Da">
-          <div className="zc1DaA">Cash in hand</div>
-          <div className="zc1DaB" />
+          <div className="zc1DaA">{account_display_name}</div>
+          <div className="zc1DaB" style={st} />
         </div>
         <div className="zc1Db">Balance</div>
-        <div className="zc1Dc">INR 123,556.00</div>
-        <div className="zc1Dd">Last entry: Today</div>
+        <div className="zc1Dc">INR {account_balance}</div>
+        <div className="zc1Dd">Last entry: {last_entry_date}</div>
         <div className="zc1De">
-          <div className="zc1DeA">Cash Account</div>
+          <div className="zc1DeA">{account_type}</div>
           <div className="zc1DeB">
             <div className="zc1DeC" />
             <div className="zc1DeD" />

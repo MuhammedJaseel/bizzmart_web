@@ -1,13 +1,12 @@
 import { StrictMode, Component } from "react";
 import { inventoryFormData, inventoryPages } from "../module/home_inventory";
 import { inventoryStateData } from "../module/home_inventory";
-import { assetList, productList, stockIssue } from "../module/dummydata";
 import { getCategoryList, getProducts } from "../method/home_inventory";
+import { Header1, TitleTable1 } from "./widget";
 import HomeInventoryTables from "./home_inventory1";
 import HomeInventoryForms from "./home_inventory2";
 import HomeInventoryPopups from "./home_inventory3";
 import "../style/hin.css";
-import { Header1, TitleTable1 } from "./widget";
 
 export default class HomeInventory extends Component {
   constructor() {
@@ -28,6 +27,7 @@ export default class HomeInventory extends Component {
       allTax: [],
       product: inventoryStateData.product,
       isEdit: true,
+      isAddProdectPop: false,
       // FUNCTION ///////////////////////////////////////////////////////////////////
       setPage: (v) => {
         this.setState({ page: v.path === undefined ? null : v });
@@ -39,10 +39,9 @@ export default class HomeInventory extends Component {
   componentDidMount() {
     const setState = (v) => this.setState(v);
     const state = this.state;
+    const { product } = state;
     getProducts(state, setState);
     getCategoryList(state, setState);
-    this.setState({ allAsset: assetList, allProduct: productList });
-    this.setState({ allIssue: stockIssue });
     let path = window.location.pathname.split("/");
     let done = false;
     if (path.length > 3) {
@@ -66,6 +65,8 @@ export default class HomeInventory extends Component {
         for (let i = 0; i < inventoryFormData.length; i++)
           if (inventoryFormData[i].path === path) {
             this.setState({ page: inventoryFormData[i] });
+            if (inventoryFormData[i].path === "addService")
+              setState({ product: { product, type: 2, is_service: 1 } });
             break;
           }
     } else this.setState({ page: null });

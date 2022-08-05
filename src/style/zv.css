@@ -401,6 +401,8 @@
   width: 10vw;
   border-radius: 50%;
   background-color: #00000013;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 .zvDbB {
   font-size: 1.2vw;

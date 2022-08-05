@@ -1,14 +1,9 @@
 export const prodectTypes = [
-  { name: "Stock", id: "Stock" },
-  { name: "Raw Material", id: "Raw Material" },
-  { name: "Ingredient", id: "Ingredient" },
-  { name: "Operational Item", id: "Operational Item" },
-  { name: "Consumabl", id: "Consumabl" },
-];
-
-export const taxTypes = [
-  { name: "Inclusive", id: "Inclusive" },
-  { name: "Exclusive", id: "Exclusive" },
+  "Stock",
+  "Raw Material",
+  "Ingredient",
+  "Operational Item",
+  "Consumabl",
 ];
 
 export const inventoryPages = [
@@ -56,6 +51,8 @@ export const inventoryPages = [
           d: "What services are you providing?",
           d1: "Add all the services your business offering to its customers",
           path: "service",
+          title: "Service List",
+          desc: "Shows all the team members recorded against your business",
           heads: [
             null,
             "Product Name",
@@ -393,12 +390,13 @@ export const inventoryFormData = [
   {
     path: "addProdect",
     title: "New Product",
-    editTitle: "New Product",
+    editTitle: "Edit Product",
     desc: "Add and view prodect for selling across all your linked bizzMart channel",
   },
   {
     path: "addService",
     title: "New Service",
+    editTitle: "Edit Service",
     desc: "Add and view service for selling across all your linked bizzMart channel",
   },
   {
@@ -421,27 +419,39 @@ export const inventoryPopupsData = [
 
 export const inventoryStateData = {
   product: {
-    branch_id: "",
-    type: 0,
+    isUseSecondryUnit: false,
+    inventoryTable: [],
+    attribute1: "",
+    attribute2: "",
+    attributeName1: "",
+    attributeName2: "",
+    isAttribute1: false,
+    isAttribute2: false,
+    isAttributeName1: false,
+    isAttributeName2: false,
+    isPrimary: false,
+
     // BASIC //////////////////////////////////////////////////////////
-    branch_id: "",
+    type: 1,
+    is_service: 0,
     product_name: "",
     category_id: "",
     product_description: "",
-    is_service: 0,
+    manage_stock: 0,
     primary_unit: "",
     secondry_unit: "",
-    enable_unit_conversion: "",
+    enable_unit_conversion: false,
     conversion: "",
     selling_tax: "",
     cost_tax: "",
     online_tax: "",
     tax_inclusion: "",
     hsncode: "",
-    is_online: "",
-    product_kot: "",
+    is_online: 0,
+    product_kot: [],
     product_type: "",
     bar_code: "",
+    ean: "", //NOT CONFIRMED
     purchase_price: "",
     stock_unit: "",
     cost_price: "",
@@ -458,6 +468,10 @@ export const inventoryStateData = {
     image: [],
     // STANDARD PRODUCT ///////////////////////////////////////////////
     // VARIANTS PRODUCT ///////////////////////////////////////////////
+    variant_attribute: [],
+    variant_products: [],
+    selectable: "",
+    classification: [],
     // COMPOSITE PRODUCT //////////////////////////////////////////////
   },
 };

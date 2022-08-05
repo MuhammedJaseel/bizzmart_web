@@ -112,3 +112,6 @@ input::-webkit-inner-spin-button {
 .gblINet:focus {
   outline: none;
 }
+.iamHidden {
+  visibility: hidden;
+}
