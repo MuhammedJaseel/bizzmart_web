@@ -9,8 +9,9 @@ import "../style/zp.css";
 //////////////////////////////////////////////////////////////////////////////////////////////
 export function WidgetPopUp1({ props, children }) {
   const { close, title, desc, btnTitle, submit, error, loading } = props;
+  const { onChnage } = props;
   return (
-    <div className="zpA">
+    <form className="zpA" onChange={onChnage}>
       <div className="zpAa">
         <div className="zpAb">
           <div className="zpAbA">{title}</div>
@@ -30,7 +31,7 @@ export function WidgetPopUp1({ props, children }) {
           </div>
         </div>
       </div>
-    </div>
+    </form>
   );
 }
 export function WidgetPopUp1Body({ children }) {
@@ -41,6 +42,17 @@ export function WidgetPopUp1In1({ children, title }) {
     <div className="zpAg">
       <div className="zpAgA">{title}</div>
       {children}
+    </div>
+  );
+}
+export function WidgetPopUp1In2({ children, title1, title2 }) {
+  return (
+    <div className="zpAh">
+      <div className="zpAhA">
+        <div className="zpAhAa zpAgA">{title1}</div>
+        <div className="zpAhAa zpAgA">{title2}</div>
+      </div>
+      <div className="zpAhB">{children}</div>
     </div>
   );
 }

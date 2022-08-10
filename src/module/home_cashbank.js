@@ -30,3 +30,17 @@ export const homeCashbankPopupTitles = [
     desc: "Record a cashflow out transaction from your cash or bank account to a contact.",
   },
 ];
+
+export const accountStructure = {
+  account_type: "Bank Account",
+  // BANK ACCOUNT
+  bank_name: "",
+  bank_id: 5,
+  aggregator_id: null,
+  branch: "",
+  account_name: "",
+  account_number: "",
+  ifsc_code: "",
+  account_display_name: "",
+  account_balance: "",
+};
