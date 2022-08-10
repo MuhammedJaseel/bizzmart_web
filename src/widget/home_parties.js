@@ -110,16 +110,25 @@ function HomePartiesCoustomerTable({ state, setState }) {
         { data: it.opening_balance, data2: it.balance, type: 2 },
       ]);
     }
+  const counterProps = {
+    total: customerPaging.totalCount,
+    onTap: (v) => {
+      customerPaging.page_number = v;
+      getAllCustomers(state, setState);
+    },
+  };
   if (page === 1) return null;
   return (
     <React.StrictMode>
       <MyTable1 widths={widths} heads={heads0} body={body} onclick={onclick} />
-      <MyTableCounter1 props={{ total: customerPaging.totalCount }} />
+      <MyTableCounter1 props={counterProps} />
     </React.StrictMode>
   );
 }
 function HomePartiesSuppliersTable({ state, setState }) {
   const { page, supplierPaging, allSupplier } = state;
+
+  const onclick = (v) => setState({ customer: allSupplier[v] });
 
   const widths = [
     { width: 4 },
@@ -144,11 +153,20 @@ function HomePartiesSuppliersTable({ state, setState }) {
         { data: it.total_invoice_amount },
       ]);
     }
+
+  const counterProps = {
+    total: supplierPaging.totalCount,
+    onTap: (v) => {
+      supplierPaging.page_number = v;
+      getAllSuppliers(state, setState);
+    },
+  };
+
   if (page === 0) return null;
   return (
     <React.StrictMode>
-      <MyTable1 widths={widths} heads={heads1} body={body} />
-      <MyTableCounter1 props={{ total: supplierPaging.totalCount }} />
+      <MyTable1 widths={widths} heads={heads1} body={body} onclick={onclick} />
+      <MyTableCounter1 props={counterProps} />
     </React.StrictMode>
   );
 }
@@ -157,7 +175,7 @@ function HomePartiesCoustomerForm({ state, setState }) {
   const { loading, error, page, addPage, addCustomer } = state;
   const body = {
     title: "New customer",
-    item: page === 0 && addPage,
+    show: page === 0 && addPage,
     close: () => setState({ addPage: false }),
     submit: () => postCustomer(addCustomer, state, setState),
     loading,
@@ -190,15 +208,21 @@ function HomePartiesSuppliersForm({ state, setState }) {
 }
 
 function HomePartiesCoustomerEditForm({ state, setState }) {
-  const { loading, error, page, customer } = state;
+  const { customer } = state;
   const body = {
     show: customer !== null,
     item: customer,
     close: () => setState({ customer: null }),
   };
   return (
-    // <form onChange={(e) => (addCustomer[e.target.id] = e.target.value)}>
-    <DrowerView2 props={body} />
-    // </form>
+    <form
+      onChange={(e) => (customer[e.target.id] = e.target.value)}
+      onSubmit={(e) => {
+        e.preventDefault();
+        console.log(customer);
+      }}
+    >
+      <DrowerView2 props={body} />
+    </form>
   );
 }

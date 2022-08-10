@@ -40,17 +40,7 @@ export const allSettings = [
         path: "",
       },
       {
-        title: "Thermal Form Settings",
-        desc: "Manage your business details here, you can customize informations showing to your customers on the invoices and other documents.",
-        path: "",
-      },
-      {
         title: "Document Prefix",
-        desc: "Manage your business details here, you can customize informations showing to your customers on the invoices and other documents.",
-        path: "",
-      },
-      {
-        title: "Printer Settings",
         desc: "Manage your business details here, you can customize informations showing to your customers on the invoices and other documents.",
         path: "",
       },
@@ -80,11 +70,6 @@ export const allSettings = [
         desc: "Manage your business details here, you can customize informations showing to your customers on the voices and other documents",
         path: "",
       },
-      {
-        title: "Language",
-        desc: "Manage your business, delala noro, you con customize informations showing to your customers on the invoices and other documents",
-        path: "",
-      },
     ],
   },
   {
@@ -98,11 +83,6 @@ export const allSettings = [
       },
       {
         title: "Roles & Rights",
-        desc: "Manage your business dealss here, you can customize informations showing to your customers on the invoices and other documents",
-        path: "",
-      },
-      {
-        title: "KPI Settings",
         desc: "Manage your business dealss here, you can customize informations showing to your customers on the invoices and other documents",
         path: "",
       },
@@ -123,19 +103,14 @@ export const allSettings = [
         path: "",
       },
       {
-        title: "Asset Categories",
-        desc: "Manage your business details here, you ran customize informations showing to your customers on that invoices and other documents.",
-        path: "",
-      },
-      {
-        title: "Banks & Aggregators",
-        desc: "Manage your business details here, you ran customize informations showing to your customers on that invoices and other documents.",
-        path: "",
-      },
-      {
         title: "Sales Taxes",
         desc: "Manage your business details here, you ran customize informations showing to your customers on that invoices and other documents.",
         path: "",
+      },
+      {
+        title: "Productions Stations",
+        desc: "Manage your business details here, you ran customize informations showing to your customers on that invoices and other documents.",
+        path: "prodectionStations",
       },
     ],
   },
@@ -144,22 +119,12 @@ export const allSettings = [
     desc: "Configure other financial and fiscal year settings for your business here",
     data: [
       {
-        title: "Fixed Assets",
-        desc: "Manage your business details here, you can customize informations showing for your customers on the invoices and other documents.",
-        path: "",
-      },
-      {
-        title: "Recurring Expenses",
+        title: "Assets & Recurring Expenses",
         desc: "Manage your business details here, you can customize informations showing for your customers on the invoices and other documents.",
         path: "",
       },
       {
         title: "Equity & Earnings",
-        desc: "Manage your business details here, you can customize informations showing for your customers on the invoices and other documents.",
-        path: "",
-      },
-      {
-        title: "Fiscal year & Accounting Settings",
         desc: "Manage your business details here, you can customize informations showing for your customers on the invoices and other documents.",
         path: "",
       },

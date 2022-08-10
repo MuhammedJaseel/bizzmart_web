@@ -74,7 +74,7 @@ export function MyTable1({ widths, heads, body, onclick, lg }) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 export function MyTableCounter1({ props }) {
-  const { total, onClick } = props;
+  const { total, onTap } = props;
   const [sel, setSel] = useState(1);
   const [limit, setLimit] = useState(10);
 
@@ -115,22 +115,37 @@ export function MyTableCounter1({ props }) {
       <div className="zc1Bb">
         <div
           className={sel === 1 ? "zc1BbA_" : "zc1BbA"}
-          onClick={() => (sel !== 1 ? setSel(sel - 1) : null)}
+          onClick={() => {
+            if (sel !== 1) {
+              setSel(sel - 1);
+              onTap(sel - 1);
+            }
+          }}
         >
           Previous
         </div>
         {numbers.map((i, k) => (
           <div
             key={k}
-            onClick={() => (typeof i === "number" ? setSel(i) : null)}
+            onClick={() => {
+              if (typeof i === "number") {
+                setSel(i);
+                onTap(i);
+              }
+            }}
             className={i === sel ? "zc1BbB zc1BbB_" : "zc1BbB"}
           >
-            {i}
+            {typeof i === "number" ? parseInt(i) : i}
           </div>
         ))}
         <div
           className={sel === n ? "zc1BbA_" : "zc1BbA"}
-          onClick={() => (sel !== n ? setSel(sel + 1) : null)}
+          onClick={() => {
+            if (sel !== n) {
+              setSel(sel + 1);
+              onTap(sel + 1);
+            }
+          }}
         >
           Next
         </div>

@@ -12,7 +12,7 @@ const popTit = homeCashbankPopupTitles;
 export default class HomeCashbank extends Component {
   constructor(props) {
     super(props);
-    this.state = { page: 0, popup: null, allAcounts: [] };
+    this.state = { page: 0, popup: null, allAccounts: [] };
   }
 
   componentDidMount() {
@@ -51,11 +51,11 @@ export default class HomeCashbank extends Component {
 }
 
 function HomeCashBankBody({ state, setState }) {
-  const { page, allAcounts } = state;
+  const { page, allAccounts } = state;
   if (page !== 0) return null;
   return (
     <div className="hcbB">
-      {allAcounts.map((it, k) => (
+      {allAccounts.map((it, k) => (
         <div className="hcbBa" key={k}>
           <PaymentCard1 props={it} onTap={() => alert()} />
         </div>

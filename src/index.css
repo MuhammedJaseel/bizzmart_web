@@ -101,6 +101,9 @@ button {
 }
 :root {
   --primart_blue: #2d4c86;
+  --dark_blue: #123347;
+  --light_blue: #b3b3e2;
+  --gray_blue: #ddddeb;
 }
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;

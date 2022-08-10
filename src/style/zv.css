@@ -483,8 +483,15 @@
   padding-top: 1vw;
 }
 .zvDbFb {
-  width: calc(100% - 1vw);
+  width: calc(100%);
   height: 1.56vw;
+}
+.zvDbFc {
+  display: flex;
+  justify-content: space-between;
+}
+.zvDbFd {
+  width: 48%;
 }
 /* ///////////////////////////////////           FOOTER             ///////////////////////////////// */
 .zvDc {
@@ -494,4 +501,21 @@
   align-items: center;
   padding: 0 1vw;
   border-top: 0.06vw solid #cecece;
+}
+.zvDcA,
+.zvDcB {
+  width: 4vw;
+  color: var(--primart_blue);
+  background-color: var(--gray_blue);
+  padding: 0.4vw 1vw;
+  border-radius: 0.25vw;
+  text-align: center;
+  cursor: pointer;
+  font-size: 0.8vw;
+  font-weight: 500;
+}
+.zvDcB {
+  color: white;
+  background-color: var(--primart_blue);
+  margin-left: 0.6vw;
 }

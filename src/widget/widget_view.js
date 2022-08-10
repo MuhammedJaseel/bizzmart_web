@@ -216,12 +216,60 @@ export function DrowerView2({ props }) {
               <div className="zvDbFa">Email Address</div>
               <input className="zvDbFb" defaultValue={item.email} />
             </div>
+            <div className="zvDbE">FINANCIAL INFORMATION</div>
+            <div className="zvDbF">
+              <div className="zvDbFc">
+                <div className="zvDbFd">
+                  <div className="zvDbFa">Credit Limit</div>
+                  <input className="zvDbFb" defaultValue={item.credit_limit} />
+                </div>
+                <div className="zvDbFd">
+                  <div className="zvDbFa">Credit Period</div>
+                  <input className="zvDbFb" defaultValue={item.credit_period} />
+                </div>
+              </div>
+              <div className="zvDbFc">
+                <div className="zvDbFd">
+                  <div className="zvDbFa">GST Number</div>
+                  <input className="zvDbFb" defaultValue={item.gst_number} />
+                </div>
+                <div className="zvDbFd">
+                  <div className="zvDbFa">Place of Supplay</div>
+                  <select className="zvDbFb">
+                    <option hidden>Select</option>
+                    <option value="Karnataka">Karnataka</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div className="zvDbE">ADDRESS INFORMATION</div>
+            <div className="zvDbF">
+              <div className="zvDbFa">Full Address</div>
+              <textarea className="zvDbFb" defaultValue={item.address} />
+              <div className="zvDbFc">
+                <div className="zvDbFd">
+                  <div className="zvDbFa">PIN Code</div>
+                  <input className="zvDbFb" defaultValue={item.phone} />
+                </div>
+                <div className="zvDbFd">
+                  <div className="zvDbFa">State</div>
+                  <select className="zvDbFb">
+                    <option hidden>Select</option>
+                    <option value="Karnataka">Karnataka</option>
+                  </select>
+                </div>
+              </div>
+            </div>
           </StrictMode>
         ) : null}
       </div>
       <div className="zvDc">
-        <div className="zvDcA">CANCAL</div>
-        <div className="zvDcB">SAVE</div>
+        <div className="zvDcA" onClick={close}>
+          CANCAL
+        </div>
+        <button type="submit" className="zvDcB">
+          SAVE
+        </button>
       </div>
     </DrawerLayout2>
   );

@@ -1,7 +1,13 @@
 import { postHttp } from "../module/api_int";
 
 export async function getAllCustomers(state, setState) {
-  await postHttp("getCustomers", {}).then((res) => {
+  var customerPaging = state.customerPaging;
+  const body = {
+    page_number: customerPaging.page_number,
+    limit: customerPaging.limit,
+  };
+  await postHttp("getCustomers", body).then((res) => {
+    customerPaging.totalCount = res.page.totalCount;
     setState({ allCustomer: res.data, customerPaging: res.page });
   });
 }

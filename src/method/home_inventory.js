@@ -11,11 +11,11 @@ export async function getProduct(state, setState) {
 }
 
 export async function getProducts(state, setState) {
-  const { prodectMaxCount, productPage } = state;
-  const body = { page_number: productPage, limit: prodectMaxCount };
-  await postHttp("products", body)
+  const { productPaging } = state;
+
+  await postHttp("products", productPaging)
     .then((res) => {
-      setState({ allProduct: res.data, totelProduct: res.page.totalCount });
+      setState({ allProduct: res.data, productPaging: res.page });
     })
     .catch((error) => setState({ error }));
   setState({ loading: false });

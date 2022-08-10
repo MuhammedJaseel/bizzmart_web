@@ -314,41 +314,28 @@ function BussinessSettingsDaysMarker({ state, setState }) {
   );
 }
 
-export function HomeSettingsBody2({ state, setState }) {
-  const { page } = state;
+export function HomeSettingsCashAndBank({ state, setState }) {
+  const { page, allAccounts } = state;
   const title = "CASH & BANK ACCOUNTS";
   const desc =
     "Email sender address, You can select logged in users email or any email address of your choice";
   if (page?.path !== "paymentBank") return null;
+  console.log(allAccounts);
   return (
     <div className="hstD">
       <AddingFormLayout title={title} desc={desc}>
-        <AddingForm1>
-          <PaymentCard1 props={{}} />
-        </AddingForm1>
-        <AddingForm1>
-          <PaymentCard1 props={{}} />
-        </AddingForm1>
-        <AddingForm1>
-          <PaymentCard1 props={{}} />
-        </AddingForm1>
-        <AddingForm1>
-          <PaymentCard1 props={{}} />
-        </AddingForm1>
+        {allAccounts.map((it, k) => (
+          <AddingForm1 key={k}>
+            <PaymentCard1 props={it} />
+          </AddingForm1>
+        ))}
       </AddingFormLayout>
       <AddingFormLayout title={title} desc={desc}>
-        <AddingForm1>
-          <PaymentCard1 props={{}} />
-        </AddingForm1>
-        <AddingForm1>
-          <PaymentCard1 props={{}} />
-        </AddingForm1>
-        <AddingForm1>
-          <PaymentCard1 props={{}} />
-        </AddingForm1>
-        <AddingForm1>
-          <PaymentCard1 props={{}} />
-        </AddingForm1>
+        {allAccounts.map((it, k) => (
+          <AddingForm1 key={k}>
+            <PaymentCard1 props={it} />
+          </AddingForm1>
+        ))}
       </AddingFormLayout>
     </div>
   );

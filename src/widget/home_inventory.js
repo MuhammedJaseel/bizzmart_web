@@ -26,6 +26,7 @@ export default class HomeInventory extends Component {
       allKot: [],
       allTax: [],
       product: inventoryStateData.product,
+      productPaging: {},
       isEdit: true,
       isAddProdectPop: false,
       // FUNCTION ///////////////////////////////////////////////////////////////////

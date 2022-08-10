@@ -1,4 +1,5 @@
 import React, { StrictMode } from "react";
+import { getProducts } from "../method/home_inventory";
 import { inventoryFormData } from "../module/home_inventory";
 import { inventoryPopupsData } from "../module/home_inventory";
 import { Header1, Header4, HeaderButtens1 } from "./widget";
@@ -27,7 +28,7 @@ export default function HomeInventoryTables({ state, setState }) {
 }
 
 function ProductTable({ state, setState }) {
-  const { allProduct, page, setPage, product } = state;
+  const { allProduct, page, setPage, product, productPaging } = state;
   const title = "INVENTORY";
   const bodyRBody = {
     makeAdd: () => {
@@ -46,7 +47,6 @@ function ProductTable({ state, setState }) {
   if (allProduct !== null)
     for (let i = 0; i < allProduct.length; i++) {
       const it = allProduct[i];
-      // if (it.is_service === 0)
       body.push([
         { data: it.image, data2: it.name, type: 1 },
         { data: it.name, data2: it.product_type, type: 2 },
@@ -61,13 +61,22 @@ function ProductTable({ state, setState }) {
         { data: it.MSL },
       ]);
     }
+
+  const counterProps = {
+    total: productPaging.totalCount,
+    onTap: (v) => {
+      productPaging.page_number = v;
+      getProducts(state, setState);
+    },
+  };
+
   if (page?.path !== "prodect") return null;
   return (
     <StrictMode>
       <Header1 title={title} bodyL={page.title} onTap={setPage} bodyR={bodyR} />
       <Header4 title={page?.title} desc={page?.desc} />
       <MyTable1 lg widths={page.widths} heads={page.heads} body={body} />
-      <MyTableCounter1 props={{ total: 50 }} />
+      <MyTableCounter1 props={counterProps} />
     </StrictMode>
   );
 }

@@ -1,14 +1,13 @@
 import React, { Component, StrictMode } from "react";
 import { allSettings } from "../module/home_settings";
 import { Header1 } from "./widget";
-import { getBussinessSettings } from "../method/home_settings";
+import { getBussinessSettings, getKots } from "../method/home_settings";
 import "../style/hst.css";
-import {
-  HomeSettingsBody2,
-  HomeSettingsBody3,
-  HomeSettingsBody4,
-  HomeSettingsBussinessSettings,
-} from "./home_settings1";
+import { HomeSettingsCashAndBank } from "./home_settings1";
+import { HomeSettingsBussinessSettings } from "./home_settings1";
+import { HomeSettingsBody3, HomeSettingsBody4 } from "./home_settings1";
+import { getAllCashandBank } from "../method/home_cashbank";
+import { HomeSettingsProdectionStations } from "./home_settings5";
 
 export default class HomeSettings extends Component {
   constructor(props) {
@@ -19,6 +18,10 @@ export default class HomeSettings extends Component {
       page: null,
       // STORAGE ////////////////////////////////////
       bussinessSettings: {},
+      allAccounts: [],
+      allKot: [],
+      addKot: [],
+      deleteKot: [],
       // FUNCTION ///////////////////////////////////////////////////////////////////
       succesPop: props.succesPop,
       setPage: (v) => {
@@ -33,7 +36,6 @@ export default class HomeSettings extends Component {
   componentDidMount() {
     const state = this.state;
     const setState = (v) => this.setState(v);
-    getBussinessSettings(state, setState);
     let path = window.location.pathname.split("/");
     if (path.length > 3) {
       path = path[3];
@@ -44,6 +46,9 @@ export default class HomeSettings extends Component {
             break;
           }
     } else this.setState({ page: null });
+    getBussinessSettings(state, setState);
+    getAllCashandBank(state, setState);
+    getKots(state, setState);
   }
 
   render() {
@@ -53,9 +58,10 @@ export default class HomeSettings extends Component {
       <StrictMode>
         <HomeSettingsLanding state={state} setState={setState} />
         <HomeSettingsBussinessSettings state={state} setState={setState} />
-        <HomeSettingsBody2 state={state} setState={setState} />
+        <HomeSettingsCashAndBank state={state} setState={setState} />
         <HomeSettingsBody3 state={state} setState={setState} />
         <HomeSettingsBody4 state={state} setState={setState} />
+        <HomeSettingsProdectionStations state={state} setState={setState} />
       </StrictMode>
     );
   }

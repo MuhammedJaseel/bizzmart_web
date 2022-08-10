@@ -1,11 +1,5 @@
 import { postHttp } from "../module/api_int";
 
-export async function getBussinessSettings(state, setState) {
-  await postHttp("businessSettings", {}).then((res) => {
-    setState({ bussinessSettings: res.data });
-  });
-}
-
 ///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
@@ -13,6 +7,12 @@ export async function getBussinessSettings(state, setState) {
 ///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
+export async function getBussinessSettings(state, setState) {
+  await postHttp("businessSettings", {}).then((res) => {
+    setState({ bussinessSettings: res.data });
+  });
+}
+
 export function bussinessSettingsValidator(e, state, setState) {
   const { bussinessSettings } = state;
   bussinessSettings[e.target.id] = e.target.value;
@@ -45,4 +45,33 @@ export async function postBussinessSettings(state, setState) {
       });
     });
   setState({ loading: false });
+}
+
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+////////////////////////    BUSSINESS SETTINGS    /////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+export async function getKots(state, setState) {
+  await postHttp("getKOT", {}).then((res) => {
+    setState({ allKot: res.data });
+  });
+}
+export async function submitKots(state, setState) {
+  const { deleteKot, addKot } = state;
+  var error = null;
+  setState({ loading: true });
+  if (addKot.length !== 0)
+    await postHttp("addKOT", { title: addKot }).catch((e) => (error = e));
+  for (let i = 0; i < deleteKot.length; i++)
+    await postHttp("deleteKOT", { kot_id: deleteKot[i] }).catch(
+      (e) => (error = e)
+    );
+  if (error === null) {
+    await getKots(state, setState);
+    setState({ deleteKot: [], addKot: [] });
+  }
+  setState({ loading: false, error });
 }
