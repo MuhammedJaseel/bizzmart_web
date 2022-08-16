@@ -3,3 +3,45 @@
 /* ///////////////////////////////         BODY        //////////////////////////// */
 /* //////////////////////////////////////////////////////////////////////////////// */
 /* //////////////////////////////////////////////////////////////////////////////// */
+.hdb {
+  padding: 1vw;
+  height: calc(100vh - 11vw);
+  overflow: auto;
+}
+.hdbA {
+  display: flex;
+  justify-content: space-between;
+}
+.hdbAa {
+  width: 67.5%;
+}
+.hdbAaA {
+  display: flex;
+  justify-content: space-between;
+}
+.hdbAaA_ {
+  width: 24.5%;
+  height: 6vw;
+  border-radius: 0.5vw;
+  background-color: white;
+}
+.hdbAaB {
+  display: flex;
+  justify-content: space-between;
+}
+.hdbAaBa {
+  width: 75%;
+  height: 8vw;
+  background-color: white;
+}
+.hdbAaBb {
+  width: 24.5%;
+  height: 8vw;
+  background-color: white;
+}
+.hdbAb {
+  width: 32%;
+  height: 6vw;
+  border-radius: 0.5vw;
+  background-color: white;
+}

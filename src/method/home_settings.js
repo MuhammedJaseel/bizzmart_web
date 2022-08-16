@@ -50,14 +50,19 @@ export async function postBussinessSettings(state, setState) {
 ///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
-////////////////////////    BUSSINESS SETTINGS    /////////////////////////////////
+////////////////////////    MASTERDATA SETTINGS    ////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
-export async function getKots(state, setState) {
-  await postHttp("getKOT", {}).then((res) => {
-    setState({ allKot: res.data });
-  });
+export async function getMasterData(state, setState) {
+  var getCat = postHttp("categoryLists", {});
+  var getKot = postHttp("getKOT", {});
+  await Promise.all([getCat, getKot])
+    .then((res) => {
+      setState({ allCategory: res[0].data });
+      setState({ allKot: res[1].data });
+    })
+    .catch((error) => setState({ error }));
 }
 export async function submitKots(state, setState) {
   const { deleteKot, addKot } = state;
@@ -70,7 +75,7 @@ export async function submitKots(state, setState) {
       (e) => (error = e)
     );
   if (error === null) {
-    await getKots(state, setState);
+    await getMasterData(state, setState);
     setState({ deleteKot: [], addKot: [] });
   }
   setState({ loading: false, error });

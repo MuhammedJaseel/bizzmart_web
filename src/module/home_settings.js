@@ -95,17 +95,17 @@ export const allSettings = [
       {
         title: "Expense Categories",
         desc: "Manage your business details here, you ran customize informations showing to your customers on that invoices and other documents.",
-        path: "",
+        path: "expenceCategories",
       },
       {
         title: "Product Categories",
         desc: "Manage your business details here, you ran customize informations showing to your customers on that invoices and other documents.",
-        path: "",
+        path: "productCategories",
       },
       {
         title: "Sales Taxes",
         desc: "Manage your business details here, you ran customize informations showing to your customers on that invoices and other documents.",
-        path: "",
+        path: "salesTaxes",
       },
       {
         title: "Productions Stations",

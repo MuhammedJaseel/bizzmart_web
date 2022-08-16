@@ -1,13 +1,16 @@
 import React, { Component, StrictMode } from "react";
 import { allSettings } from "../module/home_settings";
 import { Header1 } from "./widget";
-import { getBussinessSettings, getKots } from "../method/home_settings";
-import "../style/hst.css";
-import { HomeSettingsCashAndBank } from "./home_settings1";
-import { HomeSettingsBussinessSettings } from "./home_settings1";
+import { getBussinessSettings, getMasterData } from "../method/home_settings";
+import { HomeSettings1CashAndBank } from "./home_settings1";
+import { HomeSettings1BussinessSettings } from "./home_settings1";
 import { HomeSettingsBody3, HomeSettingsBody4 } from "./home_settings1";
 import { getAllCashandBank } from "../method/home_cashbank";
-import { HomeSettingsProdectionStations } from "./home_settings5";
+import { HomeSettings5ExpenseCategory } from "./home_settings5";
+import { HomeSettings5ProdectionStations } from "./home_settings5";
+import { HomeSettings5ProductCategory } from "./home_settings5";
+import { HomeSettings5SalesTaxes } from "./home_settings5";
+import "../style/hst.css";
 
 export default class HomeSettings extends Component {
   constructor(props) {
@@ -19,9 +22,14 @@ export default class HomeSettings extends Component {
       // STORAGE ////////////////////////////////////
       bussinessSettings: {},
       allAccounts: [],
+      // ////////////////////
       allKot: [],
       addKot: [],
       deleteKot: [],
+      // ////////////////////
+      allCategory: [],
+      addCategory: [],
+      deleteCategory: [],
       // FUNCTION ///////////////////////////////////////////////////////////////////
       succesPop: props.succesPop,
       setPage: (v) => {
@@ -48,7 +56,7 @@ export default class HomeSettings extends Component {
     } else this.setState({ page: null });
     getBussinessSettings(state, setState);
     getAllCashandBank(state, setState);
-    getKots(state, setState);
+    getMasterData(state, setState);
   }
 
   render() {
@@ -57,11 +65,14 @@ export default class HomeSettings extends Component {
     return (
       <StrictMode>
         <HomeSettingsLanding state={state} setState={setState} />
-        <HomeSettingsBussinessSettings state={state} setState={setState} />
-        <HomeSettingsCashAndBank state={state} setState={setState} />
+        <HomeSettings1BussinessSettings state={state} setState={setState} />
+        <HomeSettings1CashAndBank state={state} setState={setState} />
         <HomeSettingsBody3 state={state} setState={setState} />
         <HomeSettingsBody4 state={state} setState={setState} />
-        <HomeSettingsProdectionStations state={state} setState={setState} />
+        <HomeSettings5ExpenseCategory state={state} setState={setState} />
+        <HomeSettings5ProductCategory state={state} setState={setState} />
+        <HomeSettings5SalesTaxes state={state} setState={setState} />
+        <HomeSettings5ProdectionStations state={state} setState={setState} />
       </StrictMode>
     );
   }

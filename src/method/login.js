@@ -40,7 +40,8 @@ export async function branchLogin(e, state, setState) {
         const error = `Warning : You are already logged in somewhere, Click login again if you want a force login.`;
         setState({ error });
       } else {
-        console.log(  res.data.api_token);
+        // console.log(res.data.api_token);
+        // console.log(res.data.session_id);
         window.localStorage.setItem("bearerToken", res.data.api_token);
         window.localStorage.setItem("sessionId", res.data.session_id);
         window.localStorage.setItem("profilePic", res.data.image);

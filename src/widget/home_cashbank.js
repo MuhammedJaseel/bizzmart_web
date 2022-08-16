@@ -4,7 +4,7 @@ import { accountStructure, homeCashbankTitles } from "../module/home_cashbank";
 import { homeCashbankPopupTitles } from "../module/home_cashbank";
 import { WidgetPopUp1, WidgetPopUp1Body } from "./widget_popup";
 import { WidgetPopUp1In1, WidgetPopUp1In2 } from "./widget_popup";
-import { getAllCashandBank } from "../method/home_cashbank";
+import { addCashandBank, getAllCashandBank } from "../method/home_cashbank";
 import "../style/hcb.css";
 
 const tit = homeCashbankTitles;
@@ -18,6 +18,7 @@ export default class HomeCashbank extends Component {
       popup: null,
       error: null,
       allAccounts: [],
+      allBanks: [],
       addAccount: accountStructure,
     };
   }
@@ -83,17 +84,22 @@ function ChequeList({ state, setState }) {
 }
 
 function PopUpLayout({ state, setState }) {
-  const { popup, error, addAccount } = state;
+  const { loading, popup, error, addAccount, allBanks } = state;
   if (popup === null) return null;
   const popupProps1 = {
     close: () => setState({ popup: null }),
     title: popTit[popup]?.title,
     desc: popTit[popup]?.desc,
     error,
+    loading,
     onChnage: (e) => {
-      addAccount[e.target.id] = e.target.value;
+      if (e.target.id === "account_display_name") {
+        addAccount.account_display_name = JSON.parse(e.target.value).name;
+        addAccount.bank_id = JSON.parse(e.target.value).id;
+      } else addAccount[e.target.id] = e.target.value;
       setState({ addAccount });
     },
+    submit: () => addCashandBank(state, setState),
   };
 
   var type = 0;
@@ -149,6 +155,9 @@ function PopUpLayout({ state, setState }) {
             <WidgetPopUp1In1 title="Select Bank*">
               <select className="hcbAa" id="account_display_name">
                 <option>Select your bank</option>
+                {allBanks.map((it, k) => (
+                  <option value={JSON.stringify(it)}>{it.name}</option>
+                ))}
               </select>
             </WidgetPopUp1In1>
             <WidgetPopUp1In1 title="Account Number*">

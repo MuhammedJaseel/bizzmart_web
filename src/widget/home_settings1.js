@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { allTimeZone } from "../module/home_settings";
-import { Header1, PaymentCard1 } from "./widget";
-import { AddingForm1, AddingFormLayout } from "./widget_form";
+import { Header1, PaymentButton1, PaymentCard1 } from "./widget";
+import { AddingForm1, AddingFormLayout, FormSwitch } from "./widget_form";
 import { AddingFormLayout1 } from "./widget_form";
 import icXl from "../asset/ic_xl.svg";
 import {
@@ -12,7 +12,7 @@ import {
 import "../style/hst.css";
 import WidgetFooterSubmit from "./widget_footer";
 
-export function HomeSettingsBussinessSettings({ state, setState }) {
+export function HomeSettings1BussinessSettings({ state, setState }) {
   const { page, setPage, bussinessSettings, loading, error } = state;
 
   const body = "GENERAL SETTINGS";
@@ -259,32 +259,37 @@ function BussinessSettingsDaysMarker({ state, setState }) {
               (it.flag === 1 ? "hstDcAa" : "hstDcAa_") +
               (selected === k ? " hstDcAa__" : "")
             }
-            onClick={() => {
-              if (k === selected) {
-                let newArr = [...days];
-                newArr[k].flag = it.flag === 1 ? 0 : 1;
-                setDays(newArr);
-              } else setSelected(k);
-            }}
+            onClick={() => setSelected(k)}
           >
             {it.tit}
           </div>
         ))}
       </div>
       <div className="hstDcB">
-        Opening Time*<div>Closing Time*</div>
+        Open &nbsp;&nbsp;&nbsp;{" "}
+        <FormSwitch
+          value={days[selected].flag === 1}
+          onTap={() => {
+            let newArr = [...days];
+            newArr[selected].flag = days[selected].flag === 1 ? 0 : 1;
+            setDays(newArr);
+          }}
+        />
       </div>
       <div className="hstDcC">
+        Opening Time*<div>Closing Time*</div>
+      </div>
+      <div className="hstDcD">
         <input
           type="time"
-          className="hstDcCa"
+          className="hstDcDa"
           disabled={days[selected].flag === 0}
           onChange={(e) => (days[selected].from = e.target.value)}
           value={days[selected].from}
         />
         <input
           type="time"
-          className="hstDcCa"
+          className="hstDcDa"
           disabled={days[selected].flag === 0}
           onChange={(e) => (days[selected].to = e.target.value)}
           value={days[selected].to}
@@ -314,7 +319,7 @@ function BussinessSettingsDaysMarker({ state, setState }) {
   );
 }
 
-export function HomeSettingsCashAndBank({ state, setState }) {
+export function HomeSettings1CashAndBank({ state, setState }) {
   const { page, allAccounts } = state;
   const title = "CASH & BANK ACCOUNTS";
   const desc =
@@ -329,6 +334,9 @@ export function HomeSettingsCashAndBank({ state, setState }) {
             <PaymentCard1 props={it} />
           </AddingForm1>
         ))}
+        <AddingForm1>
+          <PaymentButton1 />
+        </AddingForm1>
       </AddingFormLayout>
       <AddingFormLayout title={title} desc={desc}>
         {allAccounts.map((it, k) => (

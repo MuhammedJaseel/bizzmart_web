@@ -35,7 +35,7 @@ export const accountStructure = {
   account_type: "Bank Account",
   // BANK ACCOUNT
   bank_name: "",
-  bank_id: 5,
+  bank_id: null,
   aggregator_id: null,
   branch: "",
   account_name: "",
