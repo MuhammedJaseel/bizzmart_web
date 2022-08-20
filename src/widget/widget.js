@@ -308,10 +308,11 @@ export function HeaderButtens1({ props }) {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-export function PaymentCard1({ props, onTap }) {
-  const { account_balance, account_display_name, account_type } = props;
+export function PaymentCard1({ props, onTap, isPayment, onEdit, onDelete }) {
+  const { account_balance, account_display_name, account_type, account_name } =
+    props;
   const { last_entry_date } = props;
-  const st = { "background-image": `url(${props.image})` };
+  const st = { backgroundImage: `url(${props.image})` };
   return (
     <div className="zc1D-body">
       <div className="zc1D" onClick={onTap}>
@@ -319,14 +320,18 @@ export function PaymentCard1({ props, onTap }) {
           <div className="zc1DaA">{account_display_name}</div>
           <div className="zc1DaB" style={st} />
         </div>
-        <div className="zc1Db">Balance</div>
-        <div className="zc1Dc">INR {account_balance}</div>
-        <div className="zc1Dd">Last entry: {last_entry_date}</div>
+        {!isPayment ? <div className="zc1Db">Balance</div> : null}
+        <div className="zc1Dc">
+          {!isPayment ? "INR" + account_balance : account_name}
+        </div>
+        {!isPayment ? (
+          <div className="zc1Dd">Last entry: {last_entry_date}</div>
+        ) : null}
         <div className="zc1De">
           <div className="zc1DeA">{account_type}</div>
           <div className="zc1DeB">
-            <div className="zc1DeC" />
-            <div className="zc1DeD" />
+            <div className="zc1DeC" onClick={onDelete} />
+            <div className="zc1DeD" onClick={onEdit} />
           </div>
         </div>
       </div>
@@ -343,5 +348,10 @@ export function PaymentCard1({ props, onTap }) {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 export function PaymentButton1({ props }) {
   const { title, onTap } = props;
-  return <div className=""></div>;
+  return (
+    <div className="zc1E" onClick={onTap}>
+      <div className="zc1Ea">+</div>
+      <div className="zc1Eb">{title}</div>
+    </div>
+  );
 }

@@ -450,8 +450,10 @@ export const inventoryStateData = {
     is_online: 0,
     product_kot: [],
     product_type: "",
+    image: [],
+    // STANDARD PRODUCT ///////////////////////////////////////////////
     bar_code: "",
-    ean: "", //NOT CONFIRMED
+    ean: "",
     purchase_price: "",
     stock_unit: "",
     cost_price: "",
@@ -464,14 +466,15 @@ export const inventoryStateData = {
     stock_date: "",
     stock_price: "",
     min_stock_level: "",
-    product_modifier: "",
-    image: [],
-    // STANDARD PRODUCT ///////////////////////////////////////////////
+    product_modifier: "", //TODO
     // VARIANTS PRODUCT ///////////////////////////////////////////////
     variant_attribute: [],
     variant_products: [],
     selectable: "",
     classification: [],
     // COMPOSITE PRODUCT //////////////////////////////////////////////
+    product_modifier: [],
+    default_composites: [],
+    selectable_composites: [],
   },
 };

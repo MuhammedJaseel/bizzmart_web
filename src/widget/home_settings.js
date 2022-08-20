@@ -1,7 +1,12 @@
 import React, { Component, StrictMode } from "react";
-import { allSettings } from "../module/home_settings";
+import { addPaymentDummy, allSettings } from "../module/home_settings";
 import { Header1 } from "./widget";
-import { getBussinessSettings, getMasterData } from "../method/home_settings";
+import {
+  getAllPayments,
+  getBussinessSettings,
+  getMasterData,
+} from "../method/home_settings";
+import { HomeSettings1AddPaymentPopup } from "./home_settings1";
 import { HomeSettings1CashAndBank } from "./home_settings1";
 import { HomeSettings1BussinessSettings } from "./home_settings1";
 import { HomeSettingsBody3, HomeSettingsBody4 } from "./home_settings1";
@@ -11,6 +16,9 @@ import { HomeSettings5ProdectionStations } from "./home_settings5";
 import { HomeSettings5ProductCategory } from "./home_settings5";
 import { HomeSettings5SalesTaxes } from "./home_settings5";
 import "../style/hst.css";
+import { AccountAddPopUpLayout } from "./home_cashbank";
+import { accountStructure } from "../module/home_cashbank";
+import { WidgetConfirmPopup } from "./widget_popup";
 
 export default class HomeSettings extends Component {
   constructor(props) {
@@ -19,18 +27,23 @@ export default class HomeSettings extends Component {
       loading: false,
       error: null,
       page: null,
-      // STORAGE ////////////////////////////////////
+      // STORAGE ///////////////////////////////////////////////////
       bussinessSettings: {},
       allAccounts: [],
-      // ////////////////////
+      allPayments: [],
+      addAccountPopup: null,
+      addAccount: accountStructure,
+      addPayment: addPaymentDummy,
+      addPaymentConfirmPop: null,
+      // ////////////////////////////////////////////////////////////
       allKot: [],
       addKot: [],
       deleteKot: [],
-      // ////////////////////
+      // ////////////////////////////////////////////////////////////
       allCategory: [],
       addCategory: [],
       deleteCategory: [],
-      // FUNCTION ///////////////////////////////////////////////////////////////////
+      // FUNCTION ///////////////////////////////////////////////////
       succesPop: props.succesPop,
       setPage: (v) => {
         this.setState({ page: v, error: null });
@@ -57,6 +70,7 @@ export default class HomeSettings extends Component {
     getBussinessSettings(state, setState);
     getAllCashandBank(state, setState);
     getMasterData(state, setState);
+    getAllPayments(state, setState);
   }
 
   render() {
@@ -64,7 +78,9 @@ export default class HomeSettings extends Component {
     const setState = (v) => this.setState(v);
     return (
       <StrictMode>
+        {/* LANDING PAGE */}
         <HomeSettingsLanding state={state} setState={setState} />
+        {/* FORM PAGE STARTS HERE */}
         <HomeSettings1BussinessSettings state={state} setState={setState} />
         <HomeSettings1CashAndBank state={state} setState={setState} />
         <HomeSettingsBody3 state={state} setState={setState} />
@@ -73,6 +89,10 @@ export default class HomeSettings extends Component {
         <HomeSettings5ProductCategory state={state} setState={setState} />
         <HomeSettings5SalesTaxes state={state} setState={setState} />
         <HomeSettings5ProdectionStations state={state} setState={setState} />
+        {/* POPUP STARTS */}
+        <AccountAddPopUpLayout state={state} setState={setState} />
+        <HomeSettings1AddPaymentPopup state={state} setState={setState} />
+        <WidgetConfirmPopup props={state.addPaymentConfirmPop} />
       </StrictMode>
     );
   }

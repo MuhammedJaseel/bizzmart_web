@@ -168,7 +168,8 @@ function DrawerLayout1({ show, body }) {
   );
 }
 export function DrawerForm1({ props }) {
-  const { show, close, submit, loading, error, title, type } = props;
+  const { show, close, submit, loading, error, title, type, addCustomer } =
+    props;
   const [selected, setSelected] = useState(0);
   const body = (
     <StrictMode>
@@ -249,6 +250,7 @@ export function DrawerForm1({ props }) {
                   onFocus={() => setSelected(0)}
                   placeholder="Enter customer full name"
                   id="name"
+                  defaultValue={addCustomer?.name}
                 />
                 <div className="zfEbBbA">Loyalty Tier</div>
                 <select
@@ -256,7 +258,9 @@ export function DrawerForm1({ props }) {
                   onFocus={() => setSelected(0)}
                   id="loyality_tier"
                 >
-                  <option value="SILVER">SILVER</option>
+                  <option value="Silver">Silver</option>
+                  <option value="Gold">Gold</option>
+                  <option value="Platinum">Platinum</option>
                 </select>
                 <div className="zfEbBbA">Lead Channel</div>
                 <input

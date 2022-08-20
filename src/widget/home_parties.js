@@ -176,7 +176,7 @@ function HomePartiesCoustomerForm({ state, setState }) {
   const body = {
     title: "New customer",
     show: page === 0 && addPage,
-    close: () => setState({ addPage: false }),
+    close: () => setState({ addPage: false, addCustomer: null }),
     submit: () => postCustomer(addCustomer, state, setState),
     loading,
     error,

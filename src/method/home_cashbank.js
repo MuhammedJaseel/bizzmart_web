@@ -14,7 +14,18 @@ export async function addCashandBank(state, setState) {
   await postHttp("addAccount", addAccount)
     .then(async () => {
       await getAllCashandBank(state, setState);
-      setState({ popup: null });
+      setState({ addAccountPopup: null });
+    })
+    .catch((error) => setState({ error }));
+  setState({ loading: false });
+}
+
+export async function deleteAccount(id, state, setState) {
+  setState({ loading: true, error: null });
+  await postHttp("deleteAccount", { account_id: id })
+    .then(async () => {
+      await getAllCashandBank(state, setState);
+      setState({ accountConfirmPop: null });
     })
     .catch((error) => setState({ error }));
   setState({ loading: false });

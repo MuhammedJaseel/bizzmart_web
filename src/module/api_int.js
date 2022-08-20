@@ -43,9 +43,9 @@ export const postHttp = async (path, body) => {
     .post(baseApi + path, body, header)
     .then((res) => {
       if (res.data.statusCode === 700 || res.data.statusCode === 500) {
-        // window.localStorage.setItem("bearerToken", "");
-        // window.localStorage.setItem("sessionId", "");
-        // window.location.href = "/login";
+        window.localStorage.setItem("bearerToken", "");
+        window.localStorage.setItem("sessionId", "");
+        window.location.href = "/login";
         Promise.reject(res.data.message);
       }
       if (res.data.statusCode === 200 || res.data.statusCode === 210)

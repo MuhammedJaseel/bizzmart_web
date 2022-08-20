@@ -142,20 +142,31 @@ export async function postInventoryProduct(state, setState) {
   formData.append("is_online", product.is_online);
   formData.append("product_kot", product.product_kot);
   formData.append("product_type", product.type);
-  formData.append("bar_code", product.bar_code);
-  // MISSING EAN
-  formData.append("purchase_price", purchasePrice);
-  formData.append("stock_unit", product.primary_unit);
-  formData.append("cost_price", costPrice);
-  formData.append("cost_with_tax", costWithTax);
-  formData.append("cost_tax_amount", costTaxAmount);
-  formData.append("selling_price", product.selling_price);
-  formData.append("online_price", product.online_price);
-  formData.append("mrp", product.mrp);
-  formData.append("opening_stock", product.opening_stock);
-  formData.append("stock_date", getTodayType1());
-  formData.append("stock_price", costPrice);
-  formData.append("min_stock_level", product.min_stock_level);
+  if (product.type === 1) {
+    formData.append("bar_code", product.bar_code);
+    formData.append("ean", product.ean);
+    formData.append("purchase_price", purchasePrice);
+    formData.append("stock_unit", product.primary_unit);
+    formData.append("cost_price", costPrice);
+    formData.append("cost_with_tax", costWithTax);
+    formData.append("cost_tax_amount", costTaxAmount);
+    formData.append("selling_price", product.selling_price);
+    formData.append("online_price", product.online_price);
+    formData.append("mrp", product.mrp);
+    formData.append("opening_stock", product.opening_stock);
+    formData.append("stock_date", getTodayType1());
+    formData.append("stock_price", costPrice);
+    formData.append("min_stock_level", product.min_stock_level);
+  }
+  if (product.type === 2) {
+    formData.append("variant_products", product.variant_products);
+    formData.append("variant_products", product.variant_attribute);
+    formData.append("variant_products", product.selectable);
+    formData.append("variant_products", product.classification);
+  }
+  if (product.type === 3) {
+    formData.append("min_stock_level", product.min_stock_level);
+  }
   // MISSING Apply category defaults
   // formData.append("product_modifier", allModifire);
   for (let i = 0; i < product.image.length; i++)
@@ -163,7 +174,7 @@ export async function postInventoryProduct(state, setState) {
 
   await postHttp("productStore", formData)
     .then(async (res) => {
-      await getProduct(state, setState);
+      await getProducts(state, setState);
       setState({
         succesPop: {
           type: 0,

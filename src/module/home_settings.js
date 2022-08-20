@@ -138,3 +138,10 @@ export const allSettings = [
 ];
 
 export const allTimeZone = ["Channai", "Asia/Kolkata", "Mumbail"];
+
+export const addPaymentDummy = {
+  name: "",
+  target_account_id: "",
+  type: "",
+  upi_id: "",
+};

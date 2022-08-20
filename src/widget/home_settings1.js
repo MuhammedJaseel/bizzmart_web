@@ -1,16 +1,23 @@
 import React, { useState } from "react";
-import { allTimeZone } from "../module/home_settings";
+import icXl from "../asset/ic_xl.svg";
+import WidgetFooterSubmit from "./widget_footer";
+import { addPaymentDummy, allTimeZone } from "../module/home_settings";
 import { Header1, PaymentButton1, PaymentCard1 } from "./widget";
 import { AddingForm1, AddingFormLayout, FormSwitch } from "./widget_form";
 import { AddingFormLayout1 } from "./widget_form";
-import icXl from "../asset/ic_xl.svg";
 import {
+  addPayments,
   bussinessSettingsValidator,
-  postBusinessDay,
-  postBussinessSettings,
+  deletePayments,
 } from "../method/home_settings";
+import { postBussinessSettings } from "../method/home_settings";
+import { postBusinessDay } from "../method/home_settings";
 import "../style/hst.css";
-import WidgetFooterSubmit from "./widget_footer";
+import {
+  WidgetPopUp1,
+  WidgetPopUp1In1,
+  WidgetPopUp2Body,
+} from "./widget_popup";
 
 export function HomeSettings1BussinessSettings({ state, setState }) {
   const { page, setPage, bussinessSettings, loading, error } = state;
@@ -319,34 +326,116 @@ function BussinessSettingsDaysMarker({ state, setState }) {
   );
 }
 
+// ////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////////////////////////
+// HOME CASH AND BANK//////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////////////////////////
 export function HomeSettings1CashAndBank({ state, setState }) {
-  const { page, allAccounts } = state;
-  const title = "CASH & BANK ACCOUNTS";
-  const desc =
-    "Email sender address, You can select logged in users email or any email address of your choice";
+  const { page, allAccounts, allPayments, error, loading } = state;
+  const desc = `Email sender address, You can select logged in users email or any email address of your choice`;
+  const desc1 = `Email sender address, You can select logged in users email or any email address of your choice`;
   if (page?.path !== "paymentBank") return null;
-  console.log(allAccounts);
   return (
     <div className="hstD">
-      <AddingFormLayout title={title} desc={desc}>
+      <AddingFormLayout title="CASH & BANK ACCOUNTS" desc={desc}>
         {allAccounts.map((it, k) => (
           <AddingForm1 key={k}>
             <PaymentCard1 props={it} />
           </AddingForm1>
         ))}
         <AddingForm1>
-          <PaymentButton1 />
+          <PaymentButton1
+            props={{
+              title: "Add a new account",
+              onTap: () => setState({ addAccountPopup: 0 }),
+            }}
+          />
         </AddingForm1>
       </AddingFormLayout>
-      <AddingFormLayout title={title} desc={desc}>
-        {allAccounts.map((it, k) => (
+      <AddingFormLayout title="PAYMENT METHODS" desc={desc1}>
+        {allPayments.map((it, k) => (
           <AddingForm1 key={k}>
-            <PaymentCard1 props={it} />
+            <PaymentCard1
+              props={it}
+              isPayment
+              onEdit={() => setState({ addPaymentPop: "Edit", addPayment: it })}
+              onDelete={() =>
+                setState({
+                  addPaymentConfirmPop: {
+                    desc: "Are you sure you want to delete this payment method",
+                    error,
+                    loading,
+                    onSubmit: () => deletePayments(it.id, state, setState),
+                    close: () => setState({ addPaymentConfirmPop: null }),
+                  },
+                })
+              }
+            />
           </AddingForm1>
         ))}
+        <AddingForm1>
+          <PaymentButton1
+            props={{
+              title: "Add a new payment method",
+              onTap: () =>
+                setState({
+                  addPaymentPop: "Add New",
+                  addPayment: addPaymentDummy,
+                }),
+            }}
+          />
+        </AddingForm1>
       </AddingFormLayout>
     </div>
   );
+}
+export function HomeSettings1AddPaymentPopup({ state, setState }) {
+  const { addPaymentPop, error, loading, addPayment, allAccounts } = state;
+  const popupProps1 = {
+    close: () => setState({ addPaymentPop: null, error: null }),
+    title: addPaymentPop + " Payment Method",
+    desc: addPaymentPop + " payment method to receive payments",
+    error,
+    loading,
+    onChnage: (e) => {
+      addPayment[e.target.id] = e.target.value;
+      setState({ addPayment });
+    },
+    submit: () => addPayments(state, setState),
+    small: true,
+  };
+  if (addPaymentPop === "Edit" || addPaymentPop === "Add New")
+    return (
+      <WidgetPopUp1 props={popupProps1}>
+        <WidgetPopUp2Body>
+          <WidgetPopUp1In1 title="Display Name">
+            <input
+              className="hcbAa"
+              defaultValue={addPayment.name}
+              id="name"
+              placeholder="Enter display name"
+            />
+          </WidgetPopUp1In1>
+          <WidgetPopUp1In1 title="Target Account">
+            <select
+              className="hcbAa"
+              id="target_account_id"
+              defaultValue={addPayment.target_account_id}
+            >
+              <option value="" hidden>
+                Select account
+              </option>
+              {allAccounts.map((it, k) => (
+                <option key={k} value={it.id}>
+                  {it.account_name}
+                </option>
+              ))}
+            </select>
+          </WidgetPopUp1In1>
+        </WidgetPopUp2Body>
+      </WidgetPopUp1>
+    );
 }
 
 export function HomeSettingsBody3({ state, setState }) {

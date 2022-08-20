@@ -80,3 +80,38 @@ export async function submitKots(state, setState) {
   }
   setState({ loading: false, error });
 }
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+////////////////////////       CASH AND BANK       ////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+export async function getAllPayments(state, setState) {
+  await postHttp("getPaymentMethod", {}).then((res) =>
+    setState({ allPayments: res.data })
+  );
+}
+export async function addPayments(state, setState) {
+  const { addPayment, addPaymentPop } = state;
+  const url =
+    addPaymentPop === "Edit" ? "updatePaymentMethod" : "addPaymentMethod";
+  setState({ loading: true, error: null });
+  await postHttp(url, addPayment)
+    .then(async () => {
+      await getAllPayments(state, setState);
+      setState({ addPaymentPop: null });
+    })
+    .catch((error) => setState({ error }));
+  setState({ loading: false });
+}
+export async function deletePayments(id, state, setState) {
+  setState({ loading: true, error: null });
+  await postHttp("deletePaymentMethod", { payment_method_id: id })
+    .then(async () => {
+      await getAllPayments(state, setState);
+      setState({ addPaymentConfirmPop: null });
+    })
+    .catch((error) => setState({ error }));
+  setState({ loading: false });
+}

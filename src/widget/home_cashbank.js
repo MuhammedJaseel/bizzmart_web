@@ -2,9 +2,17 @@ import React, { Component, StrictMode } from "react";
 import { Header1, Header4, HeaderButtens1, PaymentCard1 } from "./widget";
 import { accountStructure, homeCashbankTitles } from "../module/home_cashbank";
 import { homeCashbankPopupTitles } from "../module/home_cashbank";
-import { WidgetPopUp1, WidgetPopUp1Body } from "./widget_popup";
+import {
+  WidgetConfirmPopup,
+  WidgetPopUp1,
+  WidgetPopUp1Body,
+} from "./widget_popup";
 import { WidgetPopUp1In1, WidgetPopUp1In2 } from "./widget_popup";
-import { addCashandBank, getAllCashandBank } from "../method/home_cashbank";
+import {
+  addCashandBank,
+  deleteAccount,
+  getAllCashandBank,
+} from "../method/home_cashbank";
 import "../style/hcb.css";
 
 const tit = homeCashbankTitles;
@@ -15,11 +23,13 @@ export default class HomeCashbank extends Component {
     super(props);
     this.state = {
       page: 0,
-      popup: null,
+      loading: false,
+      addAccountPopup: null,
       error: null,
       allAccounts: [],
       allBanks: [],
       addAccount: accountStructure,
+      accountConfirmPop: null,
     };
   }
   componentDidMount() {
@@ -30,7 +40,7 @@ export default class HomeCashbank extends Component {
   render() {
     const state = this.state;
     const setState = (v) => this.setState(v);
-    const { page } = state;
+    const { page, accountConfirmPop } = state;
     const bodyRBody = {
       makeAdd: () => setState({ popup: 0 }),
       title: "+ New Account",
@@ -51,20 +61,37 @@ export default class HomeCashbank extends Component {
         <HomeCashBankBody state={state} setState={setState} />
         <BackacountList state={state} setState={setState} />
         <ChequeList state={state} setState={setState} />
-        <PopUpLayout state={state} setState={setState} />
+        <AccountAddPopUpLayout state={state} setState={setState} />
+        <WidgetConfirmPopup props={accountConfirmPop} />
       </StrictMode>
     );
   }
 }
 
 function HomeCashBankBody({ state, setState }) {
-  const { page, allAccounts } = state;
+  const { page, allAccounts, error, loading } = state;
   if (page !== 0) return null;
   return (
     <div className="hcbB">
       {allAccounts.map((it, k) => (
         <div className="hcbBa" key={k}>
-          <PaymentCard1 props={it} onTap={() => alert()} />
+          <PaymentCard1
+            props={it}
+            onTap={() => {}}
+            // onEdit={() => setState({ addPaymentPop: "Edit", addPayment: it })}
+            onDelete={() =>
+              setState({
+                accountConfirmPop: {
+                  desc: "Are you sure you want to delete this Account",
+                  error,
+                  loading,
+                  onSubmit: () => deleteAccount(it.id, state, setState),
+                  close: () =>
+                    setState({ accountConfirmPop: null, error: null }),
+                },
+              })
+            }
+          />
         </div>
       ))}
     </div>
@@ -83,13 +110,13 @@ function ChequeList({ state, setState }) {
   return <div className="">BackacountList</div>;
 }
 
-function PopUpLayout({ state, setState }) {
-  const { loading, popup, error, addAccount, allBanks } = state;
-  if (popup === null) return null;
+export function AccountAddPopUpLayout({ state, setState }) {
+  const { loading, addAccountPopup, error, addAccount, allBanks } = state;
+  if (addAccountPopup === null) return null;
   const popupProps1 = {
-    close: () => setState({ popup: null }),
-    title: popTit[popup]?.title,
-    desc: popTit[popup]?.desc,
+    close: () => setState({ addAccountPopup: null }),
+    title: popTit[addAccountPopup]?.title,
+    desc: popTit[addAccountPopup]?.desc,
     error,
     loading,
     onChnage: (e) => {

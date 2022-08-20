@@ -8,11 +8,11 @@ import "../style/zp.css";
 //////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////
 export function WidgetPopUp1({ props, children }) {
-  const { close, title, desc, btnTitle, submit, error, loading } = props;
+  const { close, title, desc, btnTitle, submit, error, loading, small } = props;
   const { onChnage } = props;
   return (
     <form className="zpA" onChange={onChnage}>
-      <div className="zpAa">
+      <div className={small ? "zpAa_" : "zpAa"}>
         <div className="zpAb">
           <div className="zpAbA">{title}</div>
           <div className="zpAbB" onClick={close} />
@@ -36,6 +36,9 @@ export function WidgetPopUp1({ props, children }) {
 }
 export function WidgetPopUp1Body({ children }) {
   return <div className="zpAf">{children}</div>;
+}
+export function WidgetPopUp2Body({ children }) {
+  return <div className="zpAf2">{children}</div>;
 }
 export function WidgetPopUp1In1({ children, title }) {
   return (
@@ -85,4 +88,29 @@ export function WidgetSuccesPopup({ props }) {
       </div>
     </div>
   );
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////    CONFIRM POPUP   /////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////
+export function WidgetConfirmPopup({ props }) {
+  if (props !== null)
+    return (
+      <WidgetPopUp1
+        props={{
+          title: "Confirm",
+          desc: props.desc,
+          small: true,
+          error: props.error,
+          loading: props.loading,
+          close: props.close,
+          btnTitle: "YES",
+          submit: props.onSubmit,
+        }}
+      />
+    );
 }

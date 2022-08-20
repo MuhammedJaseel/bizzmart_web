@@ -4,44 +4,309 @@
 /* //////////////////////////////////////////////////////////////////////////////// */
 /* //////////////////////////////////////////////////////////////////////////////// */
 .hdb {
-  padding: 1vw;
-  height: calc(100vh - 11vw);
+  padding: 0.8vw;
+  height: calc(100vh - 10.6vw);
   overflow: auto;
+  display: flex;
+  flex-flow: row wrap;
 }
 .hdbA {
-  display: flex;
-  justify-content: space-between;
+  width: 65%;
+  height: 100%;
 }
 .hdbAa {
-  width: 67.5%;
-}
-.hdbAaA {
   display: flex;
-  justify-content: space-between;
-}
-.hdbAaA_ {
-  width: 24.5%;
-  height: 6vw;
-  border-radius: 0.5vw;
-  background-color: white;
-}
-.hdbAaB {
-  display: flex;
-  justify-content: space-between;
-}
-.hdbAaBa {
-  width: 75%;
-  height: 8vw;
-  background-color: white;
-}
-.hdbAaBb {
-  width: 24.5%;
-  height: 8vw;
-  background-color: white;
 }
 .hdbAb {
-  width: 32%;
-  height: 6vw;
-  border-radius: 0.5vw;
+  height: 1vw;
+}
+.hdbB {
+  width: 35%;
+  height: 100%;
+}
+.hdbBa {
+  display: flex;
+}
+/* //////////////////////////////////////////////////////////////////////////////// */
+/* //////////////////////////////////////////////////////////////////////////////// */
+/* ///////////////////////////////        HDBG1        //////////////////////////// */
+/* //////////////////////////////////////////////////////////////////////////////// */
+/* //////////////////////////////////////////////////////////////////////////////// */
+.hdb_1 {
+  width: 25%;
+  height: 5vw;
   background-color: white;
+  border-radius: 0.63vw;
+  margin: 0.25vw;
+  display: flex;
+}
+.hdb_1A {
+  min-width: 3.4vw;
+  height: 3.4vw;
+  margin: 0.8vw 1.5vw;
+  margin-right: 0.5vw;
+  border-radius: 50%;
+  object-fit: contain;
+}
+.hdb_1B {
+  padding: 0.7vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  width: 100%;
+}
+.hdb_1Ba {
+  color: #888fa7;
+  font-size: 0.63vw;
+}
+.hdb_1Bb {
+  color: #0c1e5b;
+  font-weight: 500;
+  font-size: 1.2vw;
+  padding: 0.3vw 0;
+}
+.hdb_1Bc {
+  height: 0.4vw;
+  font-weight: 500;
+  font-size: 0.63vw;
+  color: #039003;
+  text-align: right;
+}
+/* //////////////////////////////////////////////////////////////////////////////// */
+/* //////////////////////////////////////////////////////////////////////////////// */
+/* ///////////////////////////////        HDBG2        //////////////////////////// */
+/* //////////////////////////////////////////////////////////////////////////////// */
+/* //////////////////////////////////////////////////////////////////////////////// */
+.hdb_2 {
+  width: 75%;
+  height: 16vw;
+  background-color: white;
+  border-radius: 0.63vw;
+  margin: 0.25vw;
+}
+/* //////////////////////////////////////////////////////////////////////////////// */
+/* //////////////////////////////////////////////////////////////////////////////// */
+/* ///////////////////////////////        HDBG3        //////////////////////////// */
+/* //////////////////////////////////////////////////////////////////////////////// */
+/* //////////////////////////////////////////////////////////////////////////////// */
+.hdb_3 {
+  width: 25%;
+  height: 16vw;
+  background-color: white;
+  border-radius: 0.63vw;
+  margin: 0.25vw;
+}
+/* //////////////////////////////////////////////////////////////////////////////// */
+/* //////////////////////////////////////////////////////////////////////////////// */
+/* ///////////////////////////////        HDBG4        //////////////////////////// */
+/* //////////////////////////////////////////////////////////////////////////////// */
+/* //////////////////////////////////////////////////////////////////////////////// */
+.hdb_4 {
+  height: 10vw;
+  background-color: white;
+  border-radius: 0.63vw;
+  margin: 0.25vw;
+}
+/* //////////////////////////////////////////////////////////////////////////////// */
+/* //////////////////////////////////////////////////////////////////////////////// */
+/* ///////////////////////////////        HDBG5        //////////////////////////// */
+/* //////////////////////////////////////////////////////////////////////////////// */
+/* //////////////////////////////////////////////////////////////////////////////// */
+.hdb_5 {
+  margin: 0.25vw;
+  width: 50%;
+}
+.hdb_5A {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  height: 1.5vw;
+  color: #2b2d30;
+  font-size: 1vw;
+  font-weight: 500;
+  padding: 0 0.6vw;
+  padding-bottom: 0.5vw;
+}
+.hdb_5Ab {
+  width: 0.69vw;
+  height: 0.69vw;
+  background-position: center;
+  background-image: url(../asset/ic_download2.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.hdb_5B {
+  background-color: white;
+  border-radius: 0.63vw;
+  height: 14.2vw;
+  padding: 0.4vw;
+  overflow: auto;
+}
+.hdb_5Ba {
+  display: flex;
+  align-items: center;
+  border-bottom: 0.08vw solid #eff3f9;
+}
+.hdb_5BaA {
+  min-height: 2vw;
+  min-width: 2vw;
+  border-radius: 50%;
+  background-color: #888fa73e;
+  margin: 0.5vw 1vw;
+}
+.hdb_5BaB {
+  color: #2d4c86;
+  font-weight: 500;
+  font-size: 0.81vw;
+  width: 100%;
+}
+.hdb_5BaC {
+  color: #039003;
+  font-size: 0.63vw;
+  background-color: #b9f6d8;
+  padding: 0.4vw 0;
+  text-align: center;
+  min-width: 5vw;
+  border-radius: 1vw;
+  margin-right: 1vw;
+}
+/* //////////////////////////////////////////////////////////////////////////////// */
+/* //////////////////////////////////////////////////////////////////////////////// */
+/* ///////////////////////////////        HDBG6        //////////////////////////// */
+/* //////////////////////////////////////////////////////////////////////////////// */
+/* //////////////////////////////////////////////////////////////////////////////// */
+.hdb_6 {
+  margin: 0.25vw;
+  width: 50%;
+}
+.hdb_6A {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  height: 1.5vw;
+  color: #2b2d30;
+  font-size: 1vw;
+  font-weight: 500;
+  padding: 0 0.6vw;
+  padding-bottom: 0.5vw;
+}
+.hdb_6Ab {
+  width: 0.69vw;
+  height: 0.69vw;
+  background-position: center;
+  background-image: url(../asset/ic_download2.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.hdb_6B {
+  height: 15vw;
+  overflow: auto;
+}
+.hdb_6Ba {
+  background-color: white;
+  border-radius: 0.63vw;
+  height: 2.72vw;
+  margin-bottom: 0.2vw;
+  display: flex;
+  align-items: center;
+  padding: 0 1.5vw;
+}
+.hdb_6BaA {
+  color: #2d4c86;
+  font-size: 0.81vw;
+  width: 50%;
+}
+.hdb_6BaB {
+  font-size: 0.78vw;
+  color: #54617a;
+  width: 50%;
+}
+.hdb_6BaC {
+  color: #f35d5d;
+  font-size: 0.94vw;
+  padding-right: 0.1vw;
+}
+.hdb_6BaD {
+  color: #f35d5d;
+  font-size: 0.63vw;
+}
+/* //////////////////////////////////////////////////////////////////////////////// */
+/* //////////////////////////////////////////////////////////////////////////////// */
+/* ///////////////////////////////        HDBG7        //////////////////////////// */
+/* //////////////////////////////////////////////////////////////////////////////// */
+/* //////////////////////////////////////////////////////////////////////////////// */
+.hdb_7 {
+  height: 5vw;
+  width: 100%;
+  background-color: white;
+  border-radius: 0.63vw;
+  margin: 0.25vw;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.hdb_7Aa {
+  font-size: 0.66vw;
+  margin-bottom: 0.3vw;
+}
+.hdb_7Ab {
+  color: #2b2d30;
+  font-size: 1.1vw;
+  font-weight: 500;
+}
+.hdb_7Ba {
+  font-size: 0.66vw;
+  margin-bottom: 0.3vw;
+  text-align: right;
+  width: 4vw;
+}
+.hdb_7Bb,
+.hdb_7Bb1,
+.hdb_7Bb2,
+.hdb_7Bb3 {
+  text-align: right;
+  color: #1c5484;
+  font-weight: 500;
+  font-size: 0.94vw;
+}
+.hdb_7Bb1 {
+  color: #cfbb04;
+}
+.hdb_7Bb2 {
+  color: #f28416e7;
+}
+.hdb_7Bb3 {
+  color: #039003e4;
+}
+.hdb_7C {
+  background-color: #6279a552;
+  width: 0.06vw;
+  height: 3vw;
+}
+/* //////////////////////////////////////////////////////////////////////////////// */
+/* //////////////////////////////////////////////////////////////////////////////// */
+/* ///////////////////////////////        HDBG8        //////////////////////////// */
+/* //////////////////////////////////////////////////////////////////////////////// */
+/* //////////////////////////////////////////////////////////////////////////////// */
+.hdb_8 {
+  width: 50%;
+  height: 12.7vw;
+  background-color: white;
+  border-radius: 0.63vw;
+  margin: 0.25vw;
+  display: flex;
+  padding: 0.8vw;
+}
+.hdb_8A {
+  font-size: 1vw;
+  font-weight: 500;
+  color: #2b2d30;
+}
+.hdb_8B {
+}
+.hdb_8C {
+}
+.hdb_8Ca {
+}
+.hdb_8Cb {
 }
