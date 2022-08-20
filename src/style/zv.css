@@ -532,6 +532,252 @@
 .zvDbFd {
   width: 48%;
 }
+/* This is for invoice */
+.zvDbHa {
+  background-color: #eeeeee;
+  display: flex;
+  align-items: center;
+  padding: 0.3vw 1vw;
+}
+.zvDbHaA {
+  border-radius: 0.3vw;
+  background-color: white;
+  border: 0.05vw solid #b3c3de;
+  padding: 0.5vw;
+  font-size: 0.9vw;
+  background-size: 1vw 1vw;
+  background-position: calc(100% - 1vw);
+  background-repeat: no-repeat;
+  background-image: url(../asset/ic_calender.svg);
+  color: #2d4c86;
+  font-weight: 500;
+  width: 100%;
+  margin-right: 0.8vw;
+}
+.zvDbHaB {
+  background-color: #2d4c86;
+  font-weight: 500;
+  color: white;
+  min-width: 8vw;
+  border-radius: 0.3vw;
+  background-size: 1vw 1vw;
+  background-position: calc(100% - 1vw);
+  background-repeat: no-repeat;
+  background-image: url(../asset/ic_arrow_d_2.svg);
+  padding: 0.5vw;
+  font-size: 0.9vw;
+}
+.zvDbHb {
+  font-size: 0.75vw;
+  font-weight: 500;
+  padding: 0.8vw 1.2vw;
+  padding-bottom: 0;
+}
+.zvDbHc {
+  margin: 0.2vw 1vw;
+  box-shadow: 0 0 0.75vw #00000021;
+  border-radius: 0.2vw;
+  display: flex;
+}
+.zvDbHcA {
+  width: 100%;
+  padding: 0.6vw 1vw;
+}
+.zvDbHcAa {
+  font-size: 0.88vw;
+  font-weight: 500;
+  margin-bottom: 1.1vw;
+}
+.zvDbHcAb {
+  color: #737984;
+  font-size: 0.75vw;
+}
+.zvDbHcB {
+  min-width: 6vw;
+  padding: 0.6vw;
+  background-color: #f5e3e0;
+  text-align: right;
+}
+.zvDbHcBa {
+  color: #737984;
+  font-size: 0.75vw;
+  margin-bottom: 1.1vw;
+}
+.zvDbHcBb {
+  font-size: 0.88vw;
+  font-weight: 500;
+  color: #d53434;
+}
+.zvDbHcC {
+  min-width: 6vw;
+  padding: 0.6vw;
+  background-color: #dff7df;
+  border-top-right-radius: 0.2vw;
+  border-bottom-right-radius: 0.2vw;
+  text-align: right;
+}
+.zvDbHcCa {
+  color: #737984;
+  font-size: 0.75vw;
+  margin-bottom: 1.1vw;
+}
+.zvDbHcCb {
+  font-size: 0.88vw;
+  font-weight: 500;
+  color: #499532;
+}
+/* This is for statment */
+.zvDbIa {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 0.4vw;
+  font-size: 0.75vw;
+  font-weight: 500;
+  background-color: #c6d5fb;
+}
+.zvDbIaA {
+  min-width: 18%;
+  max-width: 18%;
+}
+.zvDbIaB {
+  min-width: 18%;
+  max-width: 18%;
+  text-align: right;
+}
+.zvDbIb {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 0.8vw 0.4vw;
+  font-size: 0.75vw;
+}
+.zvDbIb:nth-child(even) {
+  background-color: #f3f6f6;
+}
+/* This is for record payment */
+.zvDbJa {
+  background-color: #f3f6f6;
+  border-radius: 0.5vw;
+  margin: 0.7vw;
+  padding: 0.8vw;
+}
+.zvDbJaA {
+  font-size: 0.88vw;
+  font-weight: bold;
+  text-align: end;
+}
+.zvDbJaB {
+  color: #358d21;
+  font-size: 0.7vw;
+  display: flex;
+  justify-content: flex-end;
+}
+.zvDbJaBa {
+  background-color: #dff7df;
+  border-radius: 0.2vw;
+  padding: 0.2vw 1vw;
+  margin: 0.1vw 0;
+}
+.zvDbJaC {
+  display: flex;
+  justify-content: space-between;
+}
+.zvDbJaCa {
+  width: 48%;
+  font-size: 0.8vw;
+  margin: 0.1vw 0;
+}
+.zvDbJaE {
+  font-size: 0.8vw;
+  margin-top: 0.5vw;
+  margin-bottom: 0.1vw;
+}
+.zvDbJaF {
+  width: 100%;
+}
+.zvDbJaH {
+  display: flex;
+}
+.zvDbJaHa,
+.zvDbJaHb {
+  background-color: #2d4c86;
+  color: #fff;
+  padding: 0.5vw 1.2vw;
+  margin: 0.3vw;
+  font-size: 0.7vw;
+  font-weight: 500;
+  border-radius: 0.2vw;
+  cursor: pointer;
+}
+.zvDbJaHb {
+  color: #2d4c86;
+  background-color: #fff;
+}
+.zvDbJb {
+  box-shadow: 0 0 0.75vw #00000021;
+  border-radius: 0.5vw;
+  margin: 0.7vw;
+  padding: 0.6vw 0.8vw;
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75vw;
+  color: #737984;
+  height: 3.5vw;
+}
+.zvDbJbA {
+  margin: 0.2vw 1vw;
+  min-width: 1.8vw;
+  height: 1.8vw;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url(../asset/ic_mark1.svg);
+}
+.zvDbJbB {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.zvDbJbBa {
+  color: #31363f;
+  font-size: 0.88vw;
+  font-weight: 500;
+}
+
+.zvDbJbC {
+  display: flex;
+  width: 30%;
+  align-items: flex-start;
+}
+.zvDbJbCa {
+  color: #ca2c38;
+  background-color: #f5e3e0;
+  padding: 0.1vw 1vw;
+  border-radius: 0.2vw;
+}
+.zvDbJbD {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.zvDbJbDb {
+  color: black;
+  font-weight: 500;
+  font-size: 0.88vw;
+}
+.zvDbJbE {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+.zvDbJbEa {
+  color: black;
+  font-weight: 500;
+  font-size: 0.88vw;
+}
 /* ///////////////////////////////////           FOOTER             ///////////////////////////////// */
 .zvDc {
   height: 3vw;

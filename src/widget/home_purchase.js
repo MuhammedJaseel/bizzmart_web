@@ -67,7 +67,7 @@ export default class HomePurchase extends Component {
     return (
       <React.StrictMode>
         <Header1 title="Purchase" bodyR={addPage ? null : bodyR} />
-        <Header2 titles={pTitles} page={page} setState={setState} />
+        <Header2 titles={pTitles} page={page} onTap={(k) => setState({ page: k, addPage: false })} />
         <Header4 title={pTitles[page]} desc={desc[page]} body={filter} />
         <HomePurchaseListTable state={state} setState={setState} />
         <HomePurchaseOrderTable state={state} setState={setState} />

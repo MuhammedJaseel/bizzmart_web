@@ -25,17 +25,13 @@ export function Header1({ title, bodyL, bodyR, onTap }) {
   );
 }
 
-export function Header2({ hidden, titles, page, setState }) {
+export function Header2({ hidden, titles, page, onTap }) {
   if (page === undefined) page = 0;
   if (hidden) return null;
   return (
     <div className="zcB">
       {titles.map((it, k) => (
-        <div
-          className="zcBa"
-          key={k}
-          onClick={() => setState({ page: k, addPage: false })}
-        >
+        <div className="zcBa" key={k} onClick={() => onTap(k)}>
           <div className={page === k ? "zcBb_" : "zcBb"}>{it}</div>
           <div className={page === k ? "zcBc" : "zcBc_"}></div>
         </div>

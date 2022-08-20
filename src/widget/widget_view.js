@@ -322,20 +322,125 @@ export function DrowerView2({ props }) {
             </div>
           </StrictMode>
         ) : null}
+        {item !== null && page === 1 ? (
+          <StrictMode>
+            <div className="zvDbHa">
+              <div className="zvDbHaA">01 Apr 2022 to 30 Apr 2022</div>
+              <div className="zvDbHaB">This Month</div>
+            </div>
+            {[1, 1, 1, 1, 1, 1, 1].map((it, k) => (
+              <StrictMode key={k}>
+                <div className="zvDbHb">30 April 2022</div>
+                <div className="zvDbHc">
+                  <div className="zvDbHcA">
+                    <div className="zvDbHcAa">2,47,800.00</div>
+                    <div className="zvDbHcAb">INV22-745</div>
+                  </div>
+                  <div className="zvDbHcB">
+                    <div className="zvDbHcBa">INV22-745</div>
+                    <div className="zvDbHcBb">INV22-745</div>
+                  </div>
+                  <div className="zvDbHcC">
+                    <div className="zvDbHcCa">INV22-745</div>
+                    <div className="zvDbHcCb">INV22-745</div>
+                  </div>
+                </div>
+              </StrictMode>
+            ))}
+          </StrictMode>
+        ) : null}
+        {item !== null && page === 2 ? (
+          <StrictMode>
+            <div className="zvDbHa">
+              <div className="zvDbHaA">01 Apr 2022 to 30 Apr 2022</div>
+              <div className="zvDbHaB">This Month</div>
+            </div>
+            <div className="zvDbIa">
+              <div className="zvDbIaA">Date</div>
+              <div className="zvDbIaA">Reference</div>
+              <div className="zvDbIaB">Amount</div>
+              <div className="zvDbIaB">Payment</div>
+              <div className="zvDbIaB">Balance</div>
+            </div>
+            {[1, 1, 1, 1].map((it, k) => (
+              <div className="zvDbIb" key={k}>
+                <div className="zvDbIaA">Date</div>
+                <div className="zvDbIaA">Reference</div>
+                <div className="zvDbIaB">Amount</div>
+                <div className="zvDbIaB">Payment</div>
+                <div className="zvDbIaB">Balance</div>
+              </div>
+            ))}
+          </StrictMode>
+        ) : null}
+        {item !== null && page === 3 ? (
+          <StrictMode>
+            <div className="zvDbJa">
+              <div className="zvDbJaA">3,55,500.00</div>
+              <div className="zvDbJaB">
+                <div className="zvDbJaBa">You will get</div>
+              </div>
+              <div className="zvDbJaC">
+                <div className="zvDbJaCa">Amount Received *</div>
+                <div className="zvDbJaCa">Balance Amount</div>
+              </div>
+              <div className="zvDbJaC">
+                <input className="zvDbJaCa" placeholder="0.00" type="number" />
+                <input className="zvDbJaCa" placeholder="0.00" type="number" />
+              </div>
+              <div className="zvDbJaE">Note</div>
+              <input
+                className="zvDbJaF"
+                placeholder="Enter a note against this transaction"
+              />
+              <div className="zvDbJaE">Payment Method *</div>
+              <div className="zvDbJaH">
+                <div className="zvDbJaHa">CASH</div>
+                <div className="zvDbJaHb">UPI</div>
+                <div className="zvDbJaHb">CARD</div>
+              </div>
+            </div>
+            {[1, 1, 1, 1].map((it, k) => (
+              <div key={k} className="zvDbJb">
+                <div className="zvDbJbA" />
+                <div className="zvDbJbB">
+                  <div className="zvDbJbBa">INV22-745</div>
+                  <div>12 Apr 2022</div>
+                  <div>2,92,700.00</div>
+                </div>
+                <div className="zvDbJbC">
+                  <div className="zvDbJbCa">30 Apr 2022</div>
+                </div>
+                <div className="zvDbJbD">
+                  <div>&nbsp;</div>
+                  <div>Received:</div>
+                  <div className="zvDbJbDb">Balance:</div>
+                </div>
+                <div className="zvDbJbE">
+                  <div className="zvDbJbEa">2,00,000.00</div>
+                  <div>2,00,000.00</div>
+                  <div className="zvDbJbEa">2,00,000.00</div>
+                </div>
+              </div>
+            ))}
+          </StrictMode>
+        ) : null}
       </div>
       <div className="zvDc">
         <div className="zvDcA">{error}</div>
-        <div
-          className="zvDcB"
-          onClick={() => {
-            close();
-            setImage(null);
-          }}
-        >
-          CANCAL
-        </div>
+        {page !== 1 ? (
+          <div
+            className="zvDcB"
+            onClick={() => {
+              close();
+              setImage(null);
+            }}
+          >
+            {page === 2 ? "DOWNLOAD" : "CANCAL"}
+          </div>
+        ) : null}
         <button type="submit" className={loading ? "zvDcC_" : "zvDcC"}>
-          SAVE
+          {page === 1 || page === 2 ? "OK" : "SAVE"}
         </button>
       </div>
     </DrawerLayout2>

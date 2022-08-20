@@ -1,16 +1,16 @@
 import React, { Component, StrictMode } from "react";
-import { Header1, Header4, HeaderButtens1, PaymentCard1 } from "./widget";
-import { accountStructure, homeCashbankTitles } from "../module/home_cashbank";
-import { homeCashbankPopupTitles } from "../module/home_cashbank";
-import { WidgetPopUp1, WidgetPopUp1Body } from "./widget_popup";
+import { Header1, Header2, Header4 } from "./widget";
+import { HeaderButtens1, PaymentCard1 } from "./widget";
+import { accountStructure } from "../module/home_cashbank";
 import { WidgetConfirmPopup } from "./widget_popup";
-import { WidgetPopUp1In1, WidgetPopUp1In2 } from "./widget_popup";
 import { getAllCashandBank } from "../method/home_cashbank";
-import { addCashandBank, deleteAccount } from "../method/home_cashbank";
+import { deleteAccount } from "../method/home_cashbank";
+import { MyTable1, MyTableCounter1 } from "./widget_table";
+import { AccountAddPopUpLayout } from "./home_cashbank1";
+import { FundTransferPopUpLayout } from "./home_cashbank1";
+import { ReciveMoneyPopUpLayout } from "./home_cashbank1";
+import { SpendMoneyPopUpLayout } from "./home_cashbank1";
 import "../style/hcb.css";
-
-const tit = homeCashbankTitles;
-const popTit = homeCashbankPopupTitles;
 
 export default class HomeCashbank extends Component {
   constructor(props) {
@@ -24,6 +24,14 @@ export default class HomeCashbank extends Component {
       allBanks: [],
       addAccount: accountStructure,
       accountConfirmPop: null,
+      account: null,
+      makePayment: null,
+      receiveMoney: null,
+      spendMoney: null,
+      allCheque: [],
+      historyPaging: {},
+      chequePaging: {},
+      chequePage: 0,
     };
   }
   componentDidMount() {
@@ -36,13 +44,13 @@ export default class HomeCashbank extends Component {
     const setState = (v) => this.setState(v);
     const { page, accountConfirmPop } = state;
     const bodyRBody = {
-      makeAdd: () => setState({ popup: 0 }),
+      makeAdd: () => setState({ addAccountPopup: 0 }),
       title: "+ New Account",
       drowelList: [
-        { title: "Add Account", fun: () => setState({ popUp: 0 }) },
-        { title: "Fund Transfer", fun: () => setState({ popUp: 1 }) },
-        { title: "Receive Money", fun: () => setState({ popUp: 2 }) },
-        { title: "Spend Money", fun: () => setState({ popUp: 3 }) },
+        { title: "Add Account", fun: () => setState({ addAccountPopup: 0 }) },
+        { title: "Fund Transfer", fun: () => setState({ makePayment: {} }) },
+        { title: "Receive Money", fun: () => setState({ receiveMoney: {} }) },
+        { title: "Spend Money", fun: () => setState({ spendMoney: {} }) },
         { title: "PDC Tracking", fun: () => setState({ page: 2 }) },
       ],
     };
@@ -50,12 +58,19 @@ export default class HomeCashbank extends Component {
 
     return (
       <StrictMode>
-        <Header1 title="CASH & BANK" bodyL="ACCOUNTS" bodyR={bodyR} />
-        <Header4 title={tit[page].title} desc={tit[page].desc} />
+        <Header1
+          title="CASH & BANK"
+          bodyL="ACCOUNTS"
+          bodyR={bodyR}
+          onTap={() => setState({ page: 0 })}
+        />
         <HomeCashBankBody state={state} setState={setState} />
-        <BackacountList state={state} setState={setState} />
+        <BankHistory state={state} setState={setState} />
         <ChequeList state={state} setState={setState} />
         <AccountAddPopUpLayout state={state} setState={setState} />
+        <FundTransferPopUpLayout state={state} setState={setState} />
+        <ReciveMoneyPopUpLayout state={state} setState={setState} />
+        <SpendMoneyPopUpLayout state={state} setState={setState} />
         <WidgetConfirmPopup props={accountConfirmPop} />
       </StrictMode>
     );
@@ -64,137 +79,158 @@ export default class HomeCashbank extends Component {
 
 function HomeCashBankBody({ state, setState }) {
   const { page, allAccounts, error, loading } = state;
+  const title = "Cash & Bank Accounts";
+  const desc =
+    "Add your bank accounts, cash and loan accounts. click to view all the recorded transactions on the respective accounts.";
+
   if (page !== 0) return null;
   return (
-    <div className="hcbB">
-      {allAccounts.map((it, k) => (
-        <div className="hcbBa" key={k}>
-          <PaymentCard1
-            props={it}
-            onTap={() => {}}
-            // onEdit={() => setState({ addPaymentPop: "Edit", addPayment: it })}
-            onDelete={() =>
-              setState({
-                accountConfirmPop: {
-                  desc: "Are you sure you want to delete this Account",
-                  error,
-                  loading,
-                  onSubmit: () => deleteAccount(it.id, state, setState),
-                  close: () =>
-                    setState({ accountConfirmPop: null, error: null }),
-                },
-              })
-            }
-          />
-        </div>
-      ))}
-    </div>
+    <StrictMode>
+      <Header4 title={title} desc={desc} />
+      <div className="hcbB">
+        {allAccounts.map((it, k) => (
+          <div className="hcbBa" key={k}>
+            <PaymentCard1
+              props={it}
+              onTap={() => setState({ account: it, page: 1 })}
+              onEdit={() => setState({ addPaymentPop: "Edit", addPayment: it })}
+              onDelete={() =>
+                setState({
+                  accountConfirmPop: {
+                    desc: "Are you sure you want to delete this Account",
+                    error,
+                    loading,
+                    onSubmit: () => deleteAccount(it.id, state, setState),
+                    close: () =>
+                      setState({ accountConfirmPop: null, error: null }),
+                  },
+                })
+              }
+            />
+          </div>
+        ))}
+      </div>
+    </StrictMode>
   );
 }
 
-function BackacountList({ state, setState }) {
-  const { page } = state;
+function BankHistory({ state, setState }) {
+  const { page, account, historyPaging } = state;
+
+  const heads = [
+    "Date",
+    "Type",
+    "Reference",
+    "Name",
+    "Received",
+    "Paid",
+    "Balance",
+  ];
+
+  const widths = [
+    { width: 10 },
+    { width: 15 },
+    { width: 15 },
+    { width: 10 },
+    { width: 10, right: true },
+    { width: 15, right: true },
+    { width: 15, right: true },
+  ];
+  const body = [];
+  if (account !== null)
+    if (account.history !== null)
+      // for (let i = 0; i < account.history.length; i++) {
+      for (let i = 0; i < 20; i++) {
+        // const it = account.history[i];
+        body.push([
+          { data: "it.date" },
+          { data: "it.name" },
+          { data: "it.reference" },
+          { data: "it.name" },
+          { data: "it.recevied" },
+          { data: "it.paid" },
+          { data: "it.balance" },
+        ]);
+      }
+  const counterProps = {
+    total: historyPaging.totalCount,
+    onTap: (v) => {
+      historyPaging.page_number = v;
+      // getAllCustomers(state, setState);TODO
+    },
+  };
   if (page !== 1) return null;
-  return <div className="">BackacountList</div>;
+  return (
+    <React.StrictMode>
+      <Header4 title={"tit[page].title"} desc={"tit[page].desc"} />
+      <MyTable1 widths={widths} heads={heads} body={body} />
+      <MyTableCounter1 props={counterProps} />
+    </React.StrictMode>
+  );
 }
 
 function ChequeList({ state, setState }) {
-  const { page } = state;
-  if (page !== 1) return null;
-  return <div className="">BackacountList</div>;
-}
+  const { page, allCheque, chequePaging, chequePage } = state;
+  const heads = [
+    null,
+    "Party Name",
+    "Due Date #",
+    "Bank Account",
+    "Phone Number",
+    "Transaction",
+    "Reference",
+    "Amount",
+    "Actions",
+  ];
 
-export function AccountAddPopUpLayout({ state, setState }) {
-  const { loading, addAccountPopup, error, addAccount, allBanks } = state;
-  if (addAccountPopup === null) return null;
-  const popupProps1 = {
-    close: () => setState({ addAccountPopup: null }),
-    title: popTit[addAccountPopup]?.title,
-    desc: popTit[addAccountPopup]?.desc,
-    error,
-    loading,
-    onChnage: (e) => {
-      if (e.target.id === "account_display_name") {
-        addAccount.account_display_name = JSON.parse(e.target.value).name;
-        addAccount.bank_id = JSON.parse(e.target.value).id;
-      } else addAccount[e.target.id] = e.target.value;
-      setState({ addAccount });
-    },
-    submit: () => addCashandBank(state, setState),
-  };
+  const title = "Cheque List";
+  const desc = "Shows all the cheques recorded and to be realized.";
 
-  var type = 0;
-  switch (addAccount.account_type) {
-    case "Bank Account":
-      type = 0;
-      break;
-    case "Cash Account":
-      type = 1;
-      break;
-    case "Loan Account":
-      type = 0;
-      break;
-    case "Aggregator Account":
-      type = 1;
-      break;
+  const widths = [
+    { width: 10 },
+    { width: 15 },
+    { width: 10 },
+    { width: 10 },
+    { width: 10 },
+    { width: 10 },
+    { width: 10 },
+    { width: 10, right: true },
+    { width: 10, right: true },
+  ];
+  const body = [];
+  // for (let i = 0; i < allCheque.length; i++) {
+  for (let i = 0; i < 20; i++) {
+    // const it = allCheque[i];
+    body.push([
+      { data: "it.date" },
+      { data: "it.name" },
+      { data: "it.reference" },
+      { data: "it.name" },
+      { data: "it.recevied" },
+      { data: "it.paid" },
+      { data: "it.balance" },
+      { data: "it.balance" },
+      { data: "it.balance" },
+    ]);
   }
-
+  const counterProps = {
+    total: chequePaging.totalCount,
+    onTap: (v) => {
+      chequePaging.page_number = v;
+      // getAllCustomers(state, setState);TODO
+    },
+  };
+  if (page !== 2) return null;
   return (
-    <WidgetPopUp1 props={popupProps1}>
-      <WidgetPopUp1Body>
-        <WidgetPopUp1In1 title="Account Type*">
-          <select className="hcbAa" id="account_type">
-            <option value="Bank Account">Bank Account</option>
-            <option value="Cash Account">Cash Account</option>
-            <option value="Loan Account">Loan Account</option>
-            <option value="Aggregator Account">Aggregator Account</option>
-          </select>
-        </WidgetPopUp1In1>
-        <WidgetPopUp1In1
-          title={type === 0 ? "Account Holder*" : "Account display name"}
-        >
-          <input
-            className="hcbAa"
-            id="account_name"
-            placeholder="Enter account holder name here"
-          />
-        </WidgetPopUp1In1>
-        {type === 0 ? (
-          <WidgetPopUp1In2 title1="Branch*" title2="IBAN/IFSC*">
-            <input className="hcbAb" placeholder="Enter branch" id="branch" />
-            <input
-              className="hcbAb"
-              placeholder="Enter IFSC/IBAN"
-              id="ifsc_code"
-            />
-          </WidgetPopUp1In2>
-        ) : null}
-      </WidgetPopUp1Body>
-      <WidgetPopUp1Body>
-        {type === 0 ? (
-          <StrictMode>
-            <WidgetPopUp1In1 title="Select Bank*">
-              <select className="hcbAa" id="account_display_name">
-                <option>Select your bank</option>
-                {allBanks.map((it, k) => (
-                  <option value={JSON.stringify(it)}>{it.name}</option>
-                ))}
-              </select>
-            </WidgetPopUp1In1>
-            <WidgetPopUp1In1 title="Account Number*">
-              <input
-                className="hcbAa"
-                placeholder="Enter account number here"
-                id="account_number"
-              />
-            </WidgetPopUp1In1>
-          </StrictMode>
-        ) : null}
-        <WidgetPopUp1In2 title1="Account Balance" title2="As On">
-          <input className="hcbAb" placeholder="0.00" id="account_balance" />
-          <input className="hcbAb" type="date" disabled />
-        </WidgetPopUp1In2>
-      </WidgetPopUp1Body>
-    </WidgetPopUp1>
+    <React.StrictMode>
+      <Header4 title={title} desc={desc} />
+      <Header2
+        titles={["All Cheques", "Outward", "Inward"]}
+        page={chequePage}
+        onTap={(k) => setState({ chequePage: k })}
+      />
+      <MyTable1 widths={widths} heads={heads} body={body} />
+      <MyTableCounter1 props={counterProps} />
+    </React.StrictMode>
   );
 }

@@ -12,7 +12,7 @@ import { HomeSettings5ExpenseCategory } from "./home_settings5";
 import { HomeSettings5ProdectionStations } from "./home_settings5";
 import { HomeSettings5ProductCategory } from "./home_settings5";
 import { HomeSettings5SalesTaxes } from "./home_settings5";
-import { AccountAddPopUpLayout } from "./home_cashbank";
+import { AccountAddPopUpLayout } from "./home_cashbank1";
 import { accountStructure } from "../module/home_cashbank";
 import { WidgetConfirmPopup } from "./widget_popup";
 import "../style/hst.css";

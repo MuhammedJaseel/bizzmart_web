@@ -70,7 +70,11 @@ function HomeReportLandingPage({ state, setState }) {
   if (viewPage !== null) return null;
   return (
     <StrictMode>
-      <Header2 titles={pTitles} page={page} setState={setState} />
+      <Header2
+        titles={pTitles}
+        page={page}
+        onTap={(k) => setState({ page: k, addPage: false })}
+      />
       <TitleTable1 data={reportPages[page]} setPage={setPage} />
     </StrictMode>
   );

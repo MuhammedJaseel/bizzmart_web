@@ -61,7 +61,11 @@ export default class HomeParties extends Component {
     return (
       <React.StrictMode>
         <Header1 title="PARTIES" bodyL={titleL} bodyR={bodyR} />
-        <Header2 titles={pTitles} page={page} setState={setState} />
+        <Header2
+          titles={pTitles}
+          page={page}
+          onTap={(k) => setState({ page: k, addPage: false })}
+        />
         <Header4
           title={titles.title[page]}
           desc={titles.desc[page]}

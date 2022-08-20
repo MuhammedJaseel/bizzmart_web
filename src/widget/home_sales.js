@@ -78,7 +78,7 @@ export default class HomeSales extends Component {
     return (
       <StrictMode>
         <Header1 title="SALES" bodyL={pTitles[page]} bodyR={bodyR} />
-        <Header2 titles={pTitles} page={page} setState={setState} />
+        <Header2 titles={pTitles} page={page} onTap={(k) => setState({ page: k, addPage: false })} />
         <Header4 title={titS.tit[page]} desc={titS.desc[page]} body={filter} />
         <HomeSalesInvoicesTable state={state} setState={setState} />
         <HomeSalesEstimatesTable state={state} setState={setState} />
