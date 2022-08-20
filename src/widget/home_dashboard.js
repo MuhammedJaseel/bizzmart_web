@@ -116,7 +116,7 @@ function HDBG6() {
       </div>
       <div className="hdb_6B">
         {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((it, k) => (
-          <div className="hdb_6Ba">
+          <div className="hdb_6Ba" key={k}>
             <div className="hdb_6BaA">I Phone 13 Pro Max 128GB</div>
             <div className="hdb_6BaB">Mobile Phones</div>
             <div className="hdb_6BaC">1</div>

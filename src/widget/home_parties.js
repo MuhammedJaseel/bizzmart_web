@@ -28,10 +28,8 @@ export default class HomeParties extends Component {
       allSupplier: [],
       customerPaging: {},
       supplierPaging: {},
-      customer: null,
-      supplier: null,
-      addCustomer: {},
-      addSupplier: {},
+      partie: null,
+      addParties: {},
       succesPop: props.succesPop,
     };
   }
@@ -44,7 +42,7 @@ export default class HomeParties extends Component {
   render() {
     const state = this.state;
     const setState = (v) => this.setState(v);
-    const { page, addPage, customer } = state;
+    const { page, addPage } = state;
     const titleL = page === 0 ? "COUSTOMERS" : "SUPPLIERS";
 
     const filterBody = {
@@ -53,7 +51,8 @@ export default class HomeParties extends Component {
     };
     const filter = !addPage ? <TitleFilter1 props={filterBody} /> : null;
     const bodyRBody = {
-      makeAdd: () => setState({ addPage: true }),
+      makeAdd: () =>
+        setState({ addPage: true, addCustomer: {}, addSupplier: {} }),
       title: page === 0 ? "+ New Customer" : "+ New Suppliers",
       drowelList: null,
     };
@@ -70,9 +69,8 @@ export default class HomeParties extends Component {
         />
         <HomePartiesCoustomerTable state={state} setState={setState} />
         <HomePartiesSuppliersTable state={state} setState={setState} />
-        <HomePartiesCoustomerForm state={state} setState={setState} />
-        <HomePartiesSuppliersForm state={state} setState={setState} />
-        <HomePartiesCoustomerEditForm state={state} setState={setState} />
+        <HomePartiesAddForm state={state} setState={setState} />
+        <HomePartiesEditForm state={state} setState={setState} />
       </React.StrictMode>
     );
   }
@@ -81,7 +79,7 @@ export default class HomeParties extends Component {
 function HomePartiesCoustomerTable({ state, setState }) {
   const { page, customerPaging, allCustomer } = state;
 
-  const onclick = (v) => setState({ customer: allCustomer[v] });
+  const onclick = (v) => setState({ partie: { ...allCustomer[v] } });
 
   const widths = [
     { width: 4 },
@@ -128,7 +126,7 @@ function HomePartiesCoustomerTable({ state, setState }) {
 function HomePartiesSuppliersTable({ state, setState }) {
   const { page, supplierPaging, allSupplier } = state;
 
-  const onclick = (v) => setState({ customer: allSupplier[v] });
+  const onclick = (v) => setState({ partie: { ...allSupplier[v] } });
 
   const widths = [
     { width: 4 },
@@ -146,7 +144,15 @@ function HomePartiesSuppliersTable({ state, setState }) {
       body.push([
         { data: it.image, data2: it.name, type: 1 },
         { data: it.name },
-        { data: [statDot("g"), it.status], type: 2 },
+        {
+          data: [
+            statDot(
+              it.status === "ACTIVE" ? "g" : it.status === "IDLE" ? "y" : "r"
+            ),
+            it.status,
+          ],
+          type: 2,
+        },
         { data: it.phone },
         { data: it.email },
         { data: it.last_seen_date },
@@ -171,55 +177,50 @@ function HomePartiesSuppliersTable({ state, setState }) {
   );
 }
 
-function HomePartiesCoustomerForm({ state, setState }) {
-  const { loading, error, page, addPage, addCustomer } = state;
+function HomePartiesAddForm({ state, setState }) {
+  const { loading, error, page, addPage, addParties } = state;
   const body = {
-    title: "New customer",
-    show: page === 0 && addPage,
-    close: () => setState({ addPage: false, addCustomer: null }),
-    submit: () => postCustomer(addCustomer, state, setState),
+    title: "New " + (page === 0 ? "customer" : "suppliers"),
+    show: addPage,
+    close: () => setState({ addPage: false, addParties: null }),
+    submit: () =>
+      page === 0 ? postCustomer(state, setState) : postSuplier(state, setState),
     loading,
     error,
-    type: "customer",
-  };
-  return (
-    <form onChange={(e) => (addCustomer[e.target.id] = e.target.value)}>
-      <DrawerForm1 props={body} />
-    </form>
-  );
-}
-
-function HomePartiesSuppliersForm({ state, setState }) {
-  const { loading, error, page, addPage, addSupplier } = state;
-  const body = {
-    title: "New suppliers",
-    show: page === 1 && addPage,
-    close: () => setState({ addPage: false }),
-    submit: () => postSuplier(addSupplier, state, setState),
-    loading,
-    error,
-    type: "supplier",
-  };
-  return (
-    <form onChange={(e) => (addSupplier[e.target.id] = e.target.value)}>
-      <DrawerForm1 props={body} />
-    </form>
-  );
-}
-
-function HomePartiesCoustomerEditForm({ state, setState }) {
-  const { customer } = state;
-  const body = {
-    show: customer !== null,
-    item: customer,
-    close: () => setState({ customer: null }),
+    type: page === 0 ? "customer" : "supplier",
+    setToPay: (v) => (addParties.isToPay = v),
   };
   return (
     <form
-      onChange={(e) => (customer[e.target.id] = e.target.value)}
+      onChange={(e) => {
+        if (e.target.id === "image") addParties.image = e.target.files[0];
+        else addParties[e.target.id] = e.target.value;
+      }}
+    >
+      <DrawerForm1 props={body} />
+    </form>
+  );
+}
+
+function HomePartiesEditForm({ state, setState }) {
+  const { partie, error, loading, page } = state;
+  const body = {
+    show: partie !== null,
+    item: partie,
+    error,
+    loading,
+    close: () => setState({ partie: null }),
+    type: page === 0 ? "customer" : "supplier",
+  };
+  return (
+    <form
+      onChange={(e) => {
+        if (e.target.id === "image") partie.image = e.target.files[0];
+        else partie[e.target.id] = e.target.value;
+      }}
       onSubmit={(e) => {
         e.preventDefault();
-        console.log(customer);
+        postSuplier(state, setState);
       }}
     >
       <DrowerView2 props={body} />

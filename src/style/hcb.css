@@ -7,13 +7,14 @@
 /* ///////////////////////////////////////////////////////////////////////////////////////////////////////// */
 .hcbB {
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
-  width: 80%;
-  margin: 0 10%;
+  margin: 0 16.5%;
+  overflow: auto;
+  height: calc(100vh - 12vw);
 }
 .hcbBa {
   display: flex;
+  
   width: 32vw;
 }
 .hcbAa {

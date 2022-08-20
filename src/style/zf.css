@@ -120,7 +120,7 @@
 }
 .zfBbBa {
   min-width: 2.8%;
-  background-image: url(../asset/ic_close.svg);
+  background-image: url(../asset/ic_bin2.svg);
   background-position: center;
   background-size: 40%;
   background-repeat: no-repeat;
@@ -377,12 +377,50 @@
   border-right: 0.05vw solid #dcdbdb;
 }
 .zfEbAa {
-  margin: 1vw;
+  margin: 1vw 4.4vw;
+  position: relative;
   height: 8vw;
+}
+.zfEbAaA {
+  position: absolute;
+  height: 8vw;
+  width: 8vw;
+  border-radius: 50%;
+  object-fit: contain;
+  background-color: #2d4c862a;
   background-image: url(../asset/ic_profile.svg);
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
+}
+.zfEbAaB {
+  top: 0;
+  left: 0;
+  position: absolute;
+  height: 8vw;
+  width: 8vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.zfEbAaBa {
+  transition: 0.5s;
+  height: 2vw;
+  width: 2vw;
+  background-image: url(../asset/ic_cam.svg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  filter: opacity(0);
+}
+.zfEbAaB:hover .zfEbAaBa {
+  transition: 0.2s;
+  height: 3vw;
+  width: 3vw;
+  filter: opacity(1);
+}
+.zfEbAaC {
+  display: none;
 }
 .zfEbAb,
 .zfEbAb_ {
@@ -442,7 +480,8 @@
   cursor: pointer;
 }
 .zfEbBbBbA,
-.zfEbBbBbA_ {
+.zfEbBbBbA_,
+.zfEbBbBbA__ {
   width: 50%;
   display: flex;
   align-items: center;
@@ -450,6 +489,10 @@
 }
 .zfEbBbBbA_ {
   background-color: #48b183;
+  border-radius: 1.5vw;
+}
+.zfEbBbBbA__ {
+  background-color: #8d2a29;
   border-radius: 1.5vw;
 }
 .zfEbBbBc {

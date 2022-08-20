@@ -56,6 +56,19 @@ function ProductForm({ state, setState }) {
       SKUs and their inventory levels.
     </StrictMode>
   );
+  const t4 = "MODIFIER SETTINGS";
+  const d4 = (
+    <StrictMode>
+      What all variants are you planning for this product? <br />
+      <br />
+      You can set product variants and sub classifications with SKU, Pricing and
+      listing details in this section.
+      <br />
+      <br />
+      Choose up to two variable attributes for your product to create and manage
+      SKUs and their inventory levels.
+    </StrictMode>
+  );
 
   const title = isEdit ? page?.editTitle : page?.title;
 
@@ -218,13 +231,17 @@ function ProductForm({ state, setState }) {
               </div>
             </AddingForm1>
             <AddingForm1 title="Sell online">
-              <FormSwitch
-                value={product.is_online === 1}
-                onTap={() => {
-                  product.is_online = product.is_online === 1 ? 0 : 1;
-                  setState({ product });
-                }}
-              />
+              <div className="hinDaG">
+                <FormSwitch
+                  value={product.is_online === 1}
+                  onTap={() => {
+                    product.is_online = product.is_online === 1 ? 0 : 1;
+                    setState({ product });
+                  }}
+                />
+                &nbsp; Make this product active and available for sale on all
+                linked online channels
+              </div>
             </AddingForm1>
             <AddingForm1 title="Upload images">
               <ImagePicker state={state} setState={setState} />
@@ -540,6 +557,23 @@ function ProductForm({ state, setState }) {
               <VariantProdectTable state={state} setState={setState} />
             </AddingFormLayout>
           ) : null}
+          {product.is_service === 0 ? (
+            <AddingFormLayout title={t4} desc={d4}>
+              <AddingForm1 title="Sell online">
+                <div className="hinDaG">
+                  <FormSwitch
+                    value={product.is_online === 1}
+                    onTap={() => {
+                      product.is_online = product.is_online === 1 ? 0 : 1;
+                      setState({ product });
+                    }}
+                  />
+                  &nbsp;Apply the modifiers saved against parent category
+                </div>
+              </AddingForm1>
+            </AddingFormLayout>
+          ) : null}
+
           <div className="hinDb">
             {isEdit ? <div className="hinDbA">DELETE PRODECT</div> : <div />}
             <div className="hinDbB">

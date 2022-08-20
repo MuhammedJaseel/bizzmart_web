@@ -1,4 +1,4 @@
-import { StrictMode, useState } from "react";
+import { StrictMode, useRef, useState } from "react";
 import "../style/zv.css";
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -138,21 +138,47 @@ export default function DrawerView1({ state, setState }) {
 }
 
 export function DrowerView2({ props }) {
-  const { show, close, item } = props;
+  const { show, close, item, error, loading, type } = props;
   const [page, setPage] = useState(0);
-  console.log(item);
+  const refForKey = useRef(null);
+  const [image, setImage] = useState(null);
+
   return (
     <DrawerLayout2 show={show}>
       <div className="zvDa">
         <div className="zvDaA">{item?.name}</div>
-        <div className="zvDaB" onClick={close} />
+        <div
+          className="zvDaB"
+          onClick={() => {
+            close();
+            setImage(null);
+          }}
+        />
       </div>
       <div className="zvDb">
         <div className="zvDbA">
           <div
             className="zvDbAa"
-            style={{ backgroundImage: `url(${item?.image})` }}
-          />
+            style={
+              item?.image !== ""
+                ? { backgroundImage: `url(${item?.image})` }
+                : {}
+            }
+          >
+            {image !== null ? (
+              <img className="zvDbAaA" src={URL.createObjectURL(image)} />
+            ) : null}
+            <div className="zvDbAaB" onClick={() => refForKey.current.click()}>
+              <div className="zvDbAaBa" />
+            </div>
+            <input
+              ref={refForKey}
+              type="file"
+              id="image"
+              className="zvDbAaC"
+              onChange={(e) => setImage(e.target.files[0])}
+            />
+          </div>
         </div>
         <div className="zvDbB">SILVER MEMBER</div>
         <div className="zvDbC">
@@ -199,39 +225,65 @@ export function DrowerView2({ props }) {
             <div className="zvDbE">BASIC INFORMATION</div>
             <div className="zvDbF">
               <div className="zvDbFa">Full name *</div>
-              <input className="zvDbFb" defaultValue={item.name} />
-              <div className="zvDbFa" defaultValue={item.loyalty_tire}>
-                Loyalty Tier
-              </div>
-              <select className="zvDbFb">
-                <option>GOLD</option>
+              <input className="zvDbFb" defaultValue={item.name} id="name" />
+              <div className="zvDbFa">Loyalty Tier</div>
+              <select
+                className="zvDbFb"
+                defaultValue={item.loyalty_tire}
+                id="loyalty_tire"
+              >
+                <option value="Silver">Silver</option>
+                <option value="Gold">Gold</option>
+                <option value="Platinum">Platinum</option>
               </select>
-              <div className="zvDbFa">Lead Channel</div>
-              <input className="zvDbFb" />
+              {type === "customer" ? (
+                <StrictMode>
+                  <div className="zvDbFa">Lead Channel</div>
+                  <input className="zvDbFb" />
+                </StrictMode>
+              ) : null}
             </div>
             <div className="zvDbE">CONTACT INFORMATION</div>
             <div className="zvDbF">
               <div className="zvDbFa">Mobile Number *</div>
-              <input className="zvDbFb" defaultValue={item.phone} />
+              <input className="zvDbFb" defaultValue={item.phone} id="phone" />
               <div className="zvDbFa">Email Address</div>
-              <input className="zvDbFb" defaultValue={item.email} />
+              <input className="zvDbFb" defaultValue={item.email} id="email" />
             </div>
             <div className="zvDbE">FINANCIAL INFORMATION</div>
             <div className="zvDbF">
               <div className="zvDbFc">
                 <div className="zvDbFd">
                   <div className="zvDbFa">Credit Limit</div>
-                  <input className="zvDbFb" defaultValue={item.credit_limit} />
+                  <div className="row">
+                    <input
+                      className="zvDbFb"
+                      defaultValue={item.credit_limit}
+                      id="credit_limit"
+                    />
+                    <div className="iamInputPrfix2">INR</div>
+                  </div>
                 </div>
                 <div className="zvDbFd">
                   <div className="zvDbFa">Credit Period</div>
-                  <input className="zvDbFb" defaultValue={item.credit_period} />
+                  <div className="row">
+                    <input
+                      className="zvDbFb"
+                      defaultValue={item.credit_period}
+                      id="credit_period"
+                    />
+                    <div className="iamInputPrfix2">INR</div>
+                  </div>
                 </div>
               </div>
               <div className="zvDbFc">
                 <div className="zvDbFd">
                   <div className="zvDbFa">GST Number</div>
-                  <input className="zvDbFb" defaultValue={item.gst_number} />
+                  <input
+                    className="zvDbFb"
+                    defaultValue={item.gst_number}
+                    id="gst_number"
+                  />
                 </div>
                 <div className="zvDbFd">
                   <div className="zvDbFa">Place of Supplay</div>
@@ -245,11 +297,19 @@ export function DrowerView2({ props }) {
             <div className="zvDbE">ADDRESS INFORMATION</div>
             <div className="zvDbF">
               <div className="zvDbFa">Full Address</div>
-              <textarea className="zvDbFb" defaultValue={item.address} />
+              <textarea
+                className="zvDbFb"
+                defaultValue={item.address}
+                id="address"
+              />
               <div className="zvDbFc">
                 <div className="zvDbFd">
                   <div className="zvDbFa">PIN Code</div>
-                  <input className="zvDbFb" defaultValue={item.phone} />
+                  <input
+                    className="zvDbFb"
+                    defaultValue={item.phone}
+                    id="phone"
+                  />
                 </div>
                 <div className="zvDbFd">
                   <div className="zvDbFa">State</div>
@@ -264,10 +324,17 @@ export function DrowerView2({ props }) {
         ) : null}
       </div>
       <div className="zvDc">
-        <div className="zvDcA" onClick={close}>
+        <div className="zvDcA">{error}</div>
+        <div
+          className="zvDcB"
+          onClick={() => {
+            close();
+            setImage(null);
+          }}
+        >
           CANCAL
         </div>
-        <button type="submit" className="zvDcB">
+        <button type="submit" className={loading ? "zvDcC_" : "zvDcC"}>
           SAVE
         </button>
       </div>

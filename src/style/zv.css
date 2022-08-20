@@ -403,6 +403,46 @@
   background-color: #00000013;
   background-size: cover;
   background-repeat: no-repeat;
+  position: relative;
+  background-image: url(../asset/ic_profile.svg);
+}
+.zvDbAaA {
+  position: absolute;
+  height: 10vw;
+  width: 10vw;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.zvDbAaB {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 10vw;
+  width: 10vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.zvDbAaBa {
+  transition: 0.5s;
+  height: 2vw;
+  width: 2vw;
+  background-image: url(../asset/ic_cam.svg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  filter: opacity(0);
+}
+.zvDbAaB:hover .zvDbAaBa {
+  transition: 0.2s;
+  height: 3vw;
+  width: 3vw;
+  filter: opacity(1);
+}
+.zvDbAaC {
+  display: none;
 }
 .zvDbB {
   font-size: 1.2vw;
@@ -483,8 +523,7 @@
   padding-top: 1vw;
 }
 .zvDbFb {
-  width: calc(100%);
-  height: 1.56vw;
+  width: 100%;
 }
 .zvDbFc {
   display: flex;
@@ -502,8 +541,15 @@
   padding: 0 1vw;
   border-top: 0.06vw solid #cecece;
 }
-.zvDcA,
-.zvDcB {
+.zvDcA {
+  font-size: 0.8vw;
+  color: tomato;
+  font-weight: 500;
+  margin: 0.3vw;
+}
+.zvDcB,
+.zvDcC,
+.zvDcC_ {
   width: 4vw;
   color: var(--primart_blue);
   background-color: var(--gray_blue);
@@ -514,8 +560,13 @@
   font-size: 0.8vw;
   font-weight: 500;
 }
-.zvDcB {
+.zvDcC {
   color: white;
   background-color: var(--primart_blue);
+  margin-left: 0.6vw;
+}
+.zvDcC_ {
+  color: white;
+  background-color: #615f5f;
   margin-left: 0.6vw;
 }

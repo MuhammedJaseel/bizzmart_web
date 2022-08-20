@@ -160,9 +160,9 @@ export async function postInventoryProduct(state, setState) {
   }
   if (product.type === 2) {
     formData.append("variant_products", product.variant_products);
-    formData.append("variant_products", product.variant_attribute);
-    formData.append("variant_products", product.selectable);
-    formData.append("variant_products", product.classification);
+    formData.append("variant_attribute", product.variant_attribute);
+    formData.append("selectable", product.selectable);
+    formData.append("classification", product.classification);
   }
   if (product.type === 3) {
     formData.append("min_stock_level", product.min_stock_level);

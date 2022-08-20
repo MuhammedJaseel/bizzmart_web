@@ -3,15 +3,21 @@ import { MyTable1, MyTableCounter1 } from "./widget_table";
 import { Header1, Header2, Header4 } from "./widget";
 import { HeaderButtens1, TitleFilter1 } from "./widget";
 import {
+  deletePartner,
   getAllMembers,
   getAllPartners,
   postMember,
   postPartner,
+  updatedPartner,
 } from "../method/home_team";
 import { teamHeads0, teamHeads1 } from "../module/home_team";
 import { teamPTitles, teamTitles } from "../module/home_team";
 import { DrawerForm1 } from "./widget_form";
-import { WidgetPopUp1, WidgetPopUp1Body } from "./widget_popup";
+import {
+  WidgetConfirmPopup,
+  WidgetPopUp1,
+  WidgetPopUp1Body,
+} from "./widget_popup";
 import { WidgetPopUp1In1 } from "./widget_popup";
 import "../style/htm.css";
 
@@ -37,6 +43,7 @@ export default class HomeTeam extends Component {
       addMember: {},
       addPartner: {},
       succesPop: props.succesPop,
+      deletePartnerConfirmPop: null,
     };
   }
 
@@ -85,6 +92,7 @@ export default class HomeTeam extends Component {
         <HomeTeamPartnersTable state={state} setState={setState} />
         <HomeTeamMembersForm state={state} setState={setState} />
         <HomeTeamPartnersForm state={state} setState={setState} />
+        <WidgetConfirmPopup props={state.deletePartnerConfirmPop} />
       </React.StrictMode>
     );
   }
@@ -130,7 +138,7 @@ function HomeTeamMembersTable({ state, setState }) {
   );
 }
 function HomeTeamPartnersTable({ state, setState }) {
-  const { page, allPartner } = state;
+  const { page, allPartner, error, loading } = state;
 
   const widths = [
     { width: 4 },
@@ -141,6 +149,28 @@ function HomeTeamPartnersTable({ state, setState }) {
     { width: 18 },
     { width: 8 },
   ];
+
+  const setStatClass = (it) => {
+    if (!loading && it.status === "ACTIVE") return "htmCa";
+    if (!loading && it.status === "PENDING") return "htmCc";
+    return "htmCb";
+  };
+  const onClickStatus = (it) => {
+    if (it.status !== "PENDING")
+      updatedPartner(it.status === "ACTIVE" ? 1 : 0, state, setState);
+  };
+
+  const onClickDelete = (it) =>
+    setState({
+      deletePartnerConfirmPop: {
+        error,
+        loading,
+        desc: "Are you sure you want to delate this Partner",
+        close: () => setState({ deletePartnerConfirmPop: null }),
+        onSubmit: () => deletePartner(it.id, state, setState),
+      },
+    });
+
   const body = [];
   if (allPartner !== null)
     for (let i = 0; i < allPartner.length; i++) {
@@ -152,10 +182,25 @@ function HomeTeamPartnersTable({ state, setState }) {
         { data: it.phone },
         { data: it.email },
         {
-          data: [statDot(it.status === "ACTIVE" ? "g" : "r"), it.status],
+          data: [
+            statDot(
+              it.status === "ACTIVE" ? "g" : it.status === "PENDING" ? "o" : "r"
+            ),
+            it.status,
+          ],
           type: 2,
         },
-        { data: it.actions },
+        {
+          data: (
+            <div className="htmC">
+              <div
+                className={setStatClass(it)}
+                onClick={() => onClickStatus(it)}
+              />
+              <div className="htmCd" onClick={() => onClickDelete(it)} />
+            </div>
+          ),
+        },
       ]);
     }
   if (page !== 1) return null;
@@ -165,8 +210,9 @@ function HomeTeamPartnersTable({ state, setState }) {
         widths={widths}
         heads={heads1}
         body={body}
-        onclick={(v) =>
-          setState({ isEdit: true, addPage: true, addPartner: allPartner[v] })
+        onclick={
+          (v) => {}
+          // setState({ isEdit: true, addPage: true, addPartner: allPartner[v] })
         }
       />
       <MyTableCounter1 props={{ total: 100 }} />

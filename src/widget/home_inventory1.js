@@ -1,6 +1,6 @@
 import React, { StrictMode } from "react";
 import { getProducts } from "../method/home_inventory";
-import { inventoryFormData } from "../module/home_inventory";
+import { inventoryFormData, inventoryStateData } from "../module/home_inventory";
 import { inventoryPopupsData } from "../module/home_inventory";
 import { Header1, Header4, HeaderButtens1 } from "./widget";
 import { MyTable1, MyTableCounter1 } from "./widget_table";
@@ -33,6 +33,7 @@ function ProductTable({ state, setState }) {
   const bodyRBody = {
     makeAdd: () => {
       setPage(inventoryFormData.filter((k) => k.path === "addProdect")[0]);
+      product = inventoryStateData.product;
       product.type = 1;
       product.is_service = 0;
       setState({ product });
@@ -86,6 +87,7 @@ function ServiceTable({ state, setState }) {
   const bodyRBody = {
     makeAdd: () => {
       setPage(inventoryFormData.filter((k) => k.path === "addService")[0]);
+      product = inventoryStateData.product;
       product.type = 2;
       product.is_service = 1;
       setState({ product });

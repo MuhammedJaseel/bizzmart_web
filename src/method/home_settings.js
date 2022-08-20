@@ -18,10 +18,26 @@ export function bussinessSettingsValidator(e, state, setState) {
   bussinessSettings[e.target.id] = e.target.value;
   setState({ bussinessSettings });
 }
-export function postBusinessDay(body) {
+export function postBusinessDay(body, state, setState, setAllDay) {
+  const { succesPop } = state;
   postHttp("updateBusinessDays", body)
-    .then((res) => console.log(res))
-    .catch((e) => console.log(e));
+    .then(async (res) => {
+      if (body.flag === 2) setAllDay(body.from, body.to, body.active_status);
+      await getBussinessSettings(state, setState);
+      succesPop({
+        active: true,
+        title: "Succesfully Updated days",
+        desc: "Your Business Settings is Succesfully Updated",
+      });
+    })
+    .catch((e) => {
+      succesPop({
+        active: true,
+        title: "Error On Updating",
+        desc: e,
+        type: "error",
+      });
+    });
 }
 export async function postBussinessSettings(state, setState) {
   const { bussinessSettings, succesPop } = state;

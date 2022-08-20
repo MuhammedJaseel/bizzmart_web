@@ -2,17 +2,11 @@ import React, { Component, StrictMode } from "react";
 import { Header1, Header4, HeaderButtens1, PaymentCard1 } from "./widget";
 import { accountStructure, homeCashbankTitles } from "../module/home_cashbank";
 import { homeCashbankPopupTitles } from "../module/home_cashbank";
-import {
-  WidgetConfirmPopup,
-  WidgetPopUp1,
-  WidgetPopUp1Body,
-} from "./widget_popup";
+import { WidgetPopUp1, WidgetPopUp1Body } from "./widget_popup";
+import { WidgetConfirmPopup } from "./widget_popup";
 import { WidgetPopUp1In1, WidgetPopUp1In2 } from "./widget_popup";
-import {
-  addCashandBank,
-  deleteAccount,
-  getAllCashandBank,
-} from "../method/home_cashbank";
+import { getAllCashandBank } from "../method/home_cashbank";
+import { addCashandBank, deleteAccount } from "../method/home_cashbank";
 import "../style/hcb.css";
 
 const tit = homeCashbankTitles;

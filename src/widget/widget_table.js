@@ -77,14 +77,9 @@ export function MyTableCounter1({ props }) {
   const { total, onTap } = props;
   const [sel, setSel] = useState(1);
   const [limit, setLimit] = useState(10);
-
   const n = total / limit;
-
   let numbers = [];
-  if (n < limit)
-    for (let i = 0; i < n; i++) {
-      numbers.push(i + 1);
-    }
+  if (n < limit) for (let i = 0; i < n; i++) numbers.push(i + 1);
   else if (sel > n - 2) numbers = [1, "...", n - 2, n - 1, n];
   else if (sel < n - 1 && sel > 3)
     numbers = [1, "...", sel - 1, sel, sel + 1, sel + 2, "...", n];

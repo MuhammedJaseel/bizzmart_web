@@ -5,19 +5,13 @@ import { addPaymentDummy, allTimeZone } from "../module/home_settings";
 import { Header1, PaymentButton1, PaymentCard1 } from "./widget";
 import { AddingForm1, AddingFormLayout, FormSwitch } from "./widget_form";
 import { AddingFormLayout1 } from "./widget_form";
-import {
-  addPayments,
-  bussinessSettingsValidator,
-  deletePayments,
-} from "../method/home_settings";
+import { addPayments, deletePayments } from "../method/home_settings";
+import { bussinessSettingsValidator } from "../method/home_settings";
 import { postBussinessSettings } from "../method/home_settings";
 import { postBusinessDay } from "../method/home_settings";
+import { WidgetPopUp2Body } from "./widget_popup";
+import { WidgetPopUp1, WidgetPopUp1In1 } from "./widget_popup";
 import "../style/hst.css";
-import {
-  WidgetPopUp1,
-  WidgetPopUp1In1,
-  WidgetPopUp2Body,
-} from "./widget_popup";
 
 export function HomeSettings1BussinessSettings({ state, setState }) {
   const { page, setPage, bussinessSettings, loading, error } = state;
@@ -78,6 +72,7 @@ export function HomeSettings1BussinessSettings({ state, setState }) {
               className="hstDa"
               placeholder="Name"
               id="country_name"
+              disabled
               defaultValue={bussinessSettings.country_name}
             />
             <div className="hstDa_">
@@ -110,6 +105,7 @@ export function HomeSettings1BussinessSettings({ state, setState }) {
             <input
               className="hstDa"
               placeholder="Name"
+              type="number"
               id="pin_code"
               defaultValue={bussinessSettings.pin_code}
             />
@@ -122,6 +118,8 @@ export function HomeSettings1BussinessSettings({ state, setState }) {
               className="hstDa"
               placeholder="94xxxxxx63"
               id="contact_number"
+              type="number"
+              disabled
               defaultValue={bussinessSettings.contact_number}
             />
           </AddingForm1>
@@ -130,6 +128,7 @@ export function HomeSettings1BussinessSettings({ state, setState }) {
               className="hstDa"
               placeholder="94xxxxxx63"
               id="sales_number"
+              type="number"
               defaultValue={bussinessSettings.sales_number}
             />
             <div className="hstDa_">
@@ -141,6 +140,7 @@ export function HomeSettings1BussinessSettings({ state, setState }) {
               className="hstDa"
               placeholder="94xxxxxx63"
               id="support_number"
+              type="number"
               defaultValue={bussinessSettings.support_number}
             />
             <div className="hstDa_">
@@ -152,6 +152,7 @@ export function HomeSettings1BussinessSettings({ state, setState }) {
               className="hstDa"
               placeholder="94xxxxxx63"
               id="whatsApp_number"
+              type="number"
               defaultValue={bussinessSettings.whatsApp_number}
             />
             <div className="hstDa_">
@@ -193,13 +194,14 @@ export function HomeSettings1BussinessSettings({ state, setState }) {
           </AddingForm1>
 
           <AddingForm1 title="Working Days*">
-            <BussinessSettingsDaysMarker />
+            <BussinessSettingsDaysMarker state={state} setState={setState} />
           </AddingForm1>
           <AddingForm1 title="Base Currency*">
             <input
               className="hstDa"
               placeholder="Name"
               id="currency"
+              disabled
               defaultValue={bussinessSettings.currency}
             />
           </AddingForm1>
@@ -208,6 +210,7 @@ export function HomeSettings1BussinessSettings({ state, setState }) {
               className="hstDa"
               placeholder="Name"
               id="industry_type"
+              disabled
               defaultValue={bussinessSettings.industry_type}
             />
           </AddingForm1>
@@ -245,16 +248,35 @@ export function HomeSettings1BussinessSettings({ state, setState }) {
 }
 
 function BussinessSettingsDaysMarker({ state, setState }) {
+  const { bussinessSettings } = state;
   const [selected, setSelected] = useState(0);
-  const [days, setDays] = useState([
-    { flag: 0, tit: "SUN", day: "Sunday", from: "09:00", to: "18:30" },
-    { flag: 0, tit: "MON", day: "Monday", from: "09:00", to: "18:30" },
-    { flag: 0, tit: "TUE", day: "Tuesday", from: "09:00", to: "18:30" },
-    { flag: 0, tit: "WED", day: "Wednesday", from: "09:00", to: "18:30" },
-    { flag: 0, tit: "THU", day: "Thursday", from: "09:00", to: "18:30" },
-    { flag: 0, tit: "FRI", day: "Friday", from: "09:00", to: "18:30" },
-    { flag: 0, tit: "SAT", day: "Saturday", from: "09:00", to: "18:30" },
-  ]);
+
+  var days_ = [];
+  for (let j = 0; j < bussinessSettings.days.length; j++) {
+    const day = bussinessSettings.days[j];
+    const tit = bussinessSettings.days[j].slice(0, 3).toUpperCase();
+    const from = "09:00";
+    const to = "18:30";
+    days_.push({ day, tit, flag: 1, active_status: 0, from, to });
+  }
+  for (let i = 0; i < days_.length; i++) {
+    for (let j = 0; j < bussinessSettings?.active_days?.length; j++)
+      if (bussinessSettings.active_days[j].day === days_[i].day) {
+        days_[i].from = bussinessSettings.active_days[j].opening;
+        days_[i].to = bussinessSettings.active_days[j].closing;
+        days_[i].active_status = 1;
+        break;
+      }
+  }
+  const [days, setDays] = useState(days_);
+
+  const setAllDay = (from, to, status) => {
+    for (let i = 0; i < days.length; i++) {
+      days[i].from = from;
+      days[i].to = to;
+      days[i].active_status = status;
+    }
+  };
 
   return (
     <div className="hstDc">
@@ -263,7 +285,7 @@ function BussinessSettingsDaysMarker({ state, setState }) {
           <div
             key={k}
             className={
-              (it.flag === 1 ? "hstDcAa" : "hstDcAa_") +
+              (it.active_status === 1 ? "hstDcAa" : "hstDcAa_") +
               (selected === k ? " hstDcAa__" : "")
             }
             onClick={() => setSelected(k)}
@@ -275,10 +297,11 @@ function BussinessSettingsDaysMarker({ state, setState }) {
       <div className="hstDcB">
         Open &nbsp;&nbsp;&nbsp;{" "}
         <FormSwitch
-          value={days[selected].flag === 1}
+          value={days[selected].active_status === 1}
           onTap={() => {
             let newArr = [...days];
-            newArr[selected].flag = days[selected].flag === 1 ? 0 : 1;
+            newArr[selected].active_status =
+              days[selected].active_status === 1 ? 0 : 1;
             setDays(newArr);
           }}
         />
@@ -290,36 +313,41 @@ function BussinessSettingsDaysMarker({ state, setState }) {
         <input
           type="time"
           className="hstDcDa"
-          disabled={days[selected].flag === 0}
+          disabled={days[selected].active_status === 0}
           onChange={(e) => (days[selected].from = e.target.value)}
           value={days[selected].from}
         />
         <input
           type="time"
           className="hstDcDa"
-          disabled={days[selected].flag === 0}
+          disabled={days[selected].active_status === 0}
           onChange={(e) => (days[selected].to = e.target.value)}
           value={days[selected].to}
         />
         <div
-          className="hstDcAa"
-          onClick={() => postBusinessDay(days[selected])}
-        >
-          APPLY
-        </div>
-        &nbsp; &nbsp; &nbsp;
-        <div
-          className="hstDcAa"
+          className="hstDcDb"
           onClick={() =>
-            postBusinessDay({
-              flag: 2,
-              day: "",
-              from: days[selected].from,
-              to: days[selected].to,
-            })
+            postBusinessDay(
+              {
+                flag: 2,
+                day: "",
+                active_status: days[selected].active_status,
+                from: days[selected].from,
+                to: days[selected].to,
+              },
+              state,
+              setState,
+              setAllDay
+            )
           }
         >
           APPLY FOR ALL DAYS
+        </div>
+        <div
+          className="hstDcAa"
+          onClick={() => postBusinessDay(days[selected], state, setState)}
+        >
+          APPLY
         </div>
       </div>
     </div>

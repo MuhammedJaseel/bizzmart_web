@@ -28,7 +28,7 @@ export async function postMember(body, state, setState) {
 }
 
 export async function postPartner(state, setState) {
-  const { loading, addPartner, isEdit,succesPop } = state;
+  const { loading, addPartner, isEdit, succesPop } = state;
   if (loading) return;
   setState({ loading: true, error: null });
   await postHttp(isEdit ? "updatePartner" : "addPartner", addPartner)
@@ -42,5 +42,47 @@ export async function postPartner(state, setState) {
       });
     })
     .catch((error) => setState({ error }));
+  setState({ loading: false });
+}
+
+export async function deletePartner(id, state, setState) {
+  const { loading, succesPop } = state;
+  if (loading) return;
+  setState({ loading: true, error: null });
+  await postHttp("deletePartner", { id })
+    .then(async (res) => {
+      await getAllPartners(state, setState);
+      setState({ deletePartnerConfirmPop: null, addPartner: {} });
+      succesPop({
+        active: true,
+        title: "Succesfully Deleted",
+        desc: "The partner has been succesfully deleted",
+      });
+    })
+    .catch((error) => setState({ error }));
+  setState({ loading: false });
+}
+export async function updatedPartner(status, state, setState) {
+  const { loading, succesPop } = state;
+  if (loading) return;
+  setState({ loading: true, error: null });
+  await postHttp("updatePartnerStatus", { status })
+    .then(async () => {
+      await getAllPartners(state, setState);
+      setState({ deletePartnerConfirmPop: null, addPartner: {} });
+      succesPop({
+        active: true,
+        title: "Succesfully Updated",
+        desc: "The partner has been succesfully updated",
+      });
+    })
+    .catch((desc) =>
+      succesPop({
+        active: true,
+        title: "Error On Updating",
+        desc,
+        type: "error",
+      })
+    );
   setState({ loading: false });
 }

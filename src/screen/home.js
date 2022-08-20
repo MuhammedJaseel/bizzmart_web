@@ -116,13 +116,13 @@ export default class HomeScreen extends Component {
                 <div
                   className={selectedDash === k ? "hmBi_" : "hmBi"}
                   onClick={() => {
-                    if (selectedDash === k) return;
                     setState({ selectedDash: k });
                     window.history.replaceState(
                       "home",
                       "Home",
                       `/dashboard/${ic.path}`
                     );
+                    if (selectedDash === k) window.location.reload();
                   }}
                 >
                   <div className="hmBj">

@@ -118,3 +118,20 @@ input::-webkit-inner-spin-button {
 .iamHidden {
   visibility: hidden;
 }
+.iamInputPrfix {
+  position: relative;
+  margin-left: -3.8vw;
+  font-size: 0.88vw;
+  color: #b3b3e2;
+  margin-top: 0.4vw;
+}
+.iamInputPrfix2 {
+  position: relative;
+  margin-left: -2vw;
+  font-size: 0.88vw;
+  color: #b3b3e2;
+}
+.row {
+  display: flex;
+  align-items: center;
+}

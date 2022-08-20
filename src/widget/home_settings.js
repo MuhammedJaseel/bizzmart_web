@@ -1,11 +1,8 @@
-import React, { Component, StrictMode } from "react";
+import { Component, StrictMode } from "react";
 import { addPaymentDummy, allSettings } from "../module/home_settings";
 import { Header1 } from "./widget";
-import {
-  getAllPayments,
-  getBussinessSettings,
-  getMasterData,
-} from "../method/home_settings";
+import { getAllPayments, getBussinessSettings } from "../method/home_settings";
+import { getMasterData } from "../method/home_settings";
 import { HomeSettings1AddPaymentPopup } from "./home_settings1";
 import { HomeSettings1CashAndBank } from "./home_settings1";
 import { HomeSettings1BussinessSettings } from "./home_settings1";
@@ -15,10 +12,10 @@ import { HomeSettings5ExpenseCategory } from "./home_settings5";
 import { HomeSettings5ProdectionStations } from "./home_settings5";
 import { HomeSettings5ProductCategory } from "./home_settings5";
 import { HomeSettings5SalesTaxes } from "./home_settings5";
-import "../style/hst.css";
 import { AccountAddPopUpLayout } from "./home_cashbank";
 import { accountStructure } from "../module/home_cashbank";
 import { WidgetConfirmPopup } from "./widget_popup";
+import "../style/hst.css";
 
 export default class HomeSettings extends Component {
   constructor(props) {
@@ -58,15 +55,15 @@ export default class HomeSettings extends Component {
     const state = this.state;
     const setState = (v) => this.setState(v);
     let path = window.location.pathname.split("/");
-    if (path.length > 3) {
-      path = path[3];
-      for (let j = 0; j < allSettings.length; j++)
-        for (let i = 0; i < allSettings[j].data.length; i++)
-          if (allSettings[j].data[i].path === path) {
-            this.setState({ page: allSettings[j].data[i] });
-            break;
-          }
-    } else this.setState({ page: null });
+    // if (path.length > 3) {
+    //   path = path[3];
+    //   for (let j = 0; j < allSettings.length; j++)
+    //     for (let i = 0; i < allSettings[j].data.length; i++)
+    //       if (allSettings[j].data[i].path === path) {
+    //         this.setState({ page: allSettings[j].data[i] });
+    //         break;
+    //       }
+    // } else this.setState({ page: null });
     getBussinessSettings(state, setState);
     getAllCashandBank(state, setState);
     getMasterData(state, setState);

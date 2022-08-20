@@ -80,6 +80,12 @@
   color: #727374;
   margin-top: 0.1vw;
 }
+.hinDaG {
+  display: flex;
+  align-items: center;
+  font-size: 0.78vw;
+  color: #40455183;
+}
 /* //////////////// */
 .hinDb {
   padding: 0vw 0.97vw;

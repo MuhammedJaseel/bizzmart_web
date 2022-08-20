@@ -103,13 +103,13 @@ export function WidgetConfirmPopup({ props }) {
       <WidgetPopUp1
         props={{
           title: "Confirm",
-          desc: props.desc,
+          desc: props?.desc,
           small: true,
-          error: props.error,
-          loading: props.loading,
-          close: props.close,
+          error: props?.error,
+          loading: props?.loading,
+          close: props?.close,
           btnTitle: "YES",
-          submit: props.onSubmit,
+          submit: props?.onSubmit,
         }}
       />
     );

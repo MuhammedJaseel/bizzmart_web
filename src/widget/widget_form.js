@@ -1,4 +1,4 @@
-import { StrictMode, useState } from "react";
+import { StrictMode, useRef, useState } from "react";
 import "../style/zf.css";
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -86,7 +86,6 @@ export function MyForm1({ props }) {
               </option>
               <option>APPLE iPHONE 13 PRO/128GB/BLACK</option>
             </select>
-            <input className="zfBbBc" defaultValue={it.qty} />
             <input className="zfBbBd" />
             <input className="zfBbBe" />
             <select className="zfBbBf">
@@ -168,18 +167,42 @@ function DrawerLayout1({ show, body }) {
   );
 }
 export function DrawerForm1({ props }) {
-  const { show, close, submit, loading, error, title, type, addCustomer } =
-    props;
+  const { show, close, submit, loading, error, title, type, setToPay } = props;
   const [selected, setSelected] = useState(0);
+  const [isToPay, setIsToPay] = useState(false);
+  const [image, setImage] = useState(null);
+  const refForKey = useRef(null);
   const body = (
     <StrictMode>
       <div className="zfEa">
         <div className="zfEaA">{title}</div>
-        <div className="zfEaB" onClick={close} />
+        <div
+          className="zfEaB"
+          onClick={() => {
+            close();
+            setImage(null);
+          }}
+        />
       </div>
       <div className="zfEb">
         <div className="zfEbA">
-          <div className="zfEbAa" />
+          <div className="zfEbAa">
+            {image !== null ? (
+              <img className="zfEbAaA" src={URL.createObjectURL(image)} />
+            ) : (
+              <div className="zfEbAaA" />
+            )}
+            <div className="zfEbAaB" onClick={() => refForKey.current.click()}>
+              <div className="zfEbAaBa"></div>
+            </div>
+            <input
+              ref={refForKey}
+              type="file"
+              id="image"
+              className="zfEbAaC"
+              onChange={(e) => setImage(e.target.files[0])}
+            />
+          </div>
           <div className={selected === 0 ? "zfEbAb_" : "zfEbAb"}>
             Basic information
           </div>
@@ -250,7 +273,6 @@ export function DrawerForm1({ props }) {
                   onFocus={() => setSelected(0)}
                   placeholder="Enter customer full name"
                   id="name"
-                  defaultValue={addCustomer?.name}
                 />
                 <div className="zfEbBbA">Loyalty Tier</div>
                 <select
@@ -331,9 +353,20 @@ export function DrawerForm1({ props }) {
                     id="opening_balance"
                     type="number"
                   />
-                  <div className="zfEbBbBb">
-                    <div className="zfEbBbBbA_">To Recive</div>
-                    <div className="zfEbBbBbA">To Pay</div>
+                  <div className="iamInputPrfix">INR</div>
+                  <div
+                    className="zfEbBbBb"
+                    onClick={() => {
+                      setIsToPay(!isToPay);
+                      setToPay(!isToPay);
+                    }}
+                  >
+                    <div className={!isToPay ? "zfEbBbBbA_" : "zfEbBbBbA"}>
+                      To Recive
+                    </div>
+                    <div className={isToPay ? "zfEbBbBbA__" : "zfEbBbBbA"}>
+                      To Pay
+                    </div>
                   </div>
                 </div>
                 <div className="zfEbBbA">
@@ -348,6 +381,7 @@ export function DrawerForm1({ props }) {
                     placeholder="0.00"
                     id="credit_limit"
                   />
+                  <div className="iamInputPrfix">INR</div>
                   <input
                     className="zfEbBbBa"
                     onFocus={() => setSelected(2)}
@@ -355,6 +389,7 @@ export function DrawerForm1({ props }) {
                     placeholder="0"
                     id="credit_period"
                   />
+                  <div className="iamInputPrfix">DAY</div>
                 </div>
                 <div className="zfEbBbA">
                   <div className="zfEbBbAa">GST Number</div>
@@ -490,7 +525,13 @@ export function DrawerForm1({ props }) {
       </div>
       <div className="zfEd">
         <div className="zfEdA">{error}</div>
-        <div className="zfEdB" onClick={close}>
+        <div
+          className="zfEdB"
+          onClick={() => {
+            close();
+            setImage(null);
+          }}
+        >
           CANCEL
         </div>
         <div className={loading ? "zfEdC_" : "zfEdC"} onClick={submit}>
