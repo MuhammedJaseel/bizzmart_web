@@ -1,6 +1,9 @@
 import React, { StrictMode } from "react";
 import { getProducts } from "../method/home_inventory";
-import { inventoryFormData, inventoryStateData } from "../module/home_inventory";
+import {
+  inventoryFormData,
+  inventoryStateData,
+} from "../module/home_inventory";
 import { inventoryPopupsData } from "../module/home_inventory";
 import { Header1, Header4, HeaderButtens1 } from "./widget";
 import { MyTable1, MyTableCounter1 } from "./widget_table";
@@ -71,12 +74,25 @@ function ProductTable({ state, setState }) {
     },
   };
 
+  const onclick = (k) => {
+    setPage(inventoryFormData.filter((k) => k.path === "addProdect")[0]);
+    product = allProduct[k];
+    product.is_service = 0;
+    setState({ product, isEdit: true });
+  };
+
   if (page?.path !== "prodect") return null;
   return (
     <StrictMode>
       <Header1 title={title} bodyL={page.title} onTap={setPage} bodyR={bodyR} />
       <Header4 title={page?.title} desc={page?.desc} />
-      <MyTable1 lg widths={page.widths} heads={page.heads} body={body} />
+      <MyTable1
+        lg
+        widths={page.widths}
+        heads={page.heads}
+        body={body}
+        onclick={onclick}
+      />
       <MyTableCounter1 props={counterProps} />
     </StrictMode>
   );

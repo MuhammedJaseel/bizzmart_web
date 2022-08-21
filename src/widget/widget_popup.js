@@ -9,11 +9,11 @@ import "../style/zp.css";
 //////////////////////////////////////////////////////////////////////////////////////////////
 export function WidgetPopUp1({ props, children }) {
   const { close, title, desc, btnTitle, submit, error, loading, small } = props;
-  const { onChnage } = props;
+  const { onChange } = props;
   return (
     <form
       className="zpA"
-      onChange={onChnage}
+      onChange={onChange}
       onSubmit={(e) => e.preventDefault()}
     >
       <div className={small ? "zpAa_" : "zpAa"}>

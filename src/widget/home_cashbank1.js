@@ -13,7 +13,7 @@ export function AccountAddPopUpLayout({ state, setState }) {
     desc: `Setup a new cash or bank account here for your business on bizzSmart.`,
     error,
     loading,
-    onChnage: (e) => {
+    onChange: (e) => {
       if (e.target.id === "account_display_name") {
         addAccount.account_display_name = JSON.parse(e.target.value).name;
         addAccount.bank_id = JSON.parse(e.target.value).id;
@@ -107,7 +107,7 @@ export function FundTransferPopUpLayout({ state, setState }) {
     desc: "Record the transfer of money between your bank and the cash or credit",
     error,
     loading,
-    onChnage: (e) => (makePayment[e.target.id] = e.target.value),
+    onChange: (e) => (makePayment[e.target.id] = e.target.value),
     submit: () => {},
   };
 
@@ -164,7 +164,7 @@ export function ReciveMoneyPopUpLayout({ state, setState }) {
     desc: "Record a cashflow in transaction from your contact to cash or bank account.",
     error,
     loading,
-    onChnage: (e) => (receiveMoney[e.target.id] = e.target.value),
+    onChange: (e) => (receiveMoney[e.target.id] = e.target.value),
     submit: () => {},
   };
 
@@ -231,7 +231,7 @@ export function SpendMoneyPopUpLayout({ state, setState }) {
     desc: "Record a cashflow out transaction from your cash or bank account to a contact.",
     error,
     loading,
-    onChnage: (e) => (spendMoney[e.target.id] = e.target.value),
+    onChange: (e) => (spendMoney[e.target.id] = e.target.value),
     submit: () => {},
   };
 

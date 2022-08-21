@@ -278,7 +278,7 @@ function ProductForm({ state, setState }) {
                 ))}
               </select>
               <div className="hinDe">
-                {product.product_kot.map((it, k) => (
+                {product?.product_kot?.map((it, k) => (
                   <div className="hinDeA" key={k}>
                     {it.name}
                     <div
@@ -299,10 +299,12 @@ function ProductForm({ state, setState }) {
             {product.is_service === 0 ? (
               <AddingForm1 title="Product type*">
                 <SelectButton
-                  edit
+                  isEdit
                   type={product.type}
                   setType={(v) =>
-                    setState({ product: { ...product, type: v } })
+                    setState({
+                      product: { ...product, type: v, variant_products: [] },
+                    })
                   }
                 />
               </AddingForm1>
@@ -558,25 +560,7 @@ function ProductForm({ state, setState }) {
                 ) : null}
               </StrictMode>
             ) : null}
-            {/*///////////////////////////////////////////////////////////////////////////////////////
-            //////////////////////////////////////////////////////////////////////////////////////////
-            //////////////////////////////      COMPOSIT PRODUCT      ///////////////////////////////
-            //////////////////////////////////////////////////////////////////////////////////////////
-            ////////////////////////////////////////////////////////////////////////////////////// */}
-            {product.type === 3 ? (
-              <StrictMode>
-                <AddingForm1 title="Default Products*">
-                  <div className="hinDa">
-                    <div
-                      className="hinDaE"
-                      onClick={() => setState({ isAddProdectPop: true })}
-                    >
-                      + ADD PRODUCTS
-                    </div>
-                  </div>
-                </AddingForm1>
-              </StrictMode>
-            ) : null}
+            <InventoryCompositProduct state={state} setState={setState} />
           </AddingFormLayout>
           {product.type === 2 && product.variant_products.length > 0 ? (
             <AddingFormLayout title={t3} desc={d3}>
@@ -660,7 +644,6 @@ function ProductForm({ state, setState }) {
             </div>
           </div>
         </div>
-        <InventoryAddProdectPop state={state} setState={setState} />
       </form>
     );
 }
@@ -889,38 +872,107 @@ function VariantProdectTable({ state, setState }) {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////     INVENTORY PRODECT POPUP     ////////////////////////////////////////
+//////////////////////////////////     INVENTORY COMPOSIT PRODECT     ////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function InventoryAddProdectPop({ state, setState }) {
-  const { loading, error, isAddProdectPop } = state;
-  const body = {
-    title: (
-      <StrictMode>
-        Add Products <span className="hinDh">iPhone 13 Bundle</span>
-      </StrictMode>
-    ),
-    desc: "Add default products for this bundle",
-    close: () => setState({ isAddProdectPop: false }),
-    // submit: () => postMember(addMember, state, setState),
-    loading,
-    error,
+function InventoryCompositProduct({ state, setState }) {
+  const { product } = state;
+  const { default_composites, selectable_composites, type } = product;
+  if (type !== 3) return null;
+
+  const setAddType = () => {
+    if (default_composites.length === 0) return 0;
+    return selectable_composites.length + 1;
   };
-  if (isAddProdectPop)
-    return (
-      <WidgetPopUp1 props={body}>
-        <WidgetPopUp1Body>
-          <WidgetPopUp1In1 title={"Partner Name*"}>
-            <select
-              className="htmA"
-              placeholder="Enter partner’s full name"
-              id="name"
+
+  return (
+    <StrictMode>
+      {default_composites.length !== 0 ? (
+        <StrictMode>
+          <AddingForm2>
+            <div className="hinDaA">
+              Default products{" "}
+              <sb>These products will be added in to the cart</sb>
+            </div>
+            <div
+              style={{ cursor: "pointer" }}
+              onClick={() => setState({ addProdectPop: 0 })}
             >
-              <option hidden> Select product</option>
-            </select>
-          </WidgetPopUp1In1>
-        </WidgetPopUp1Body>
-      </WidgetPopUp1>
-    );
+              Edit
+            </div>
+          </AddingForm2>
+          <AddingForm1 title="Default Products*">
+            <div className="hinDaH_">
+              {default_composites[0].composites?.map((it, k) => (
+                <div className="hinDaHa" key={k}>
+                  {it.name}
+                  <div className="hinDaHb">{it.cost}</div>
+                  <div
+                    className="hinDaHc"
+                    onClick={() => {
+                      default_composites[0].composites.splice(k, 1);
+                      if (default_composites[0].composites.length === 1)
+                        product.default_composites = [];
+                      setState({ product });
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
+          </AddingForm1>
+        </StrictMode>
+      ) : null}
+      {selectable_composites?.map((it, k) => (
+        <StrictMode>
+          <AddingForm2>
+            <div className="hinDaA">
+              {it.composite_name} <sb>Select</sb> {it.selectable}{" "}
+              <sb>Select</sb>
+            </div>
+            <div
+              style={{ cursor: "pointer" }}
+              onClick={() => setState({ addProdectPop: k + 1 })}
+            >
+              Edit
+            </div>
+          </AddingForm2>
+          <AddingForm1 title="Default Products*">
+            <div className="hinDaH_">
+              {selectable_composites[0].composites?.map((it, k) => (
+                <div className="hinDaHa" key={k}>
+                  {it.name}
+                  <div className="hinDaHb">{it.cost}</div>
+                  <div
+                    className="hinDaHc"
+                    onClick={() => {
+                      selectable_composites[0].composites.splice(k, 1);
+                      if (selectable_composites[0].composites.length === 1)
+                        product.selectable_composites = [];
+                      setState({ product });
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
+          </AddingForm1>
+        </StrictMode>
+      ))}
+      <AddingForm1 title="Default Products*">
+        <div className="hinDa">
+          <div
+            className="hinDaE"
+            onClick={() => setState({ addProdectPop: setAddType() })}
+          >
+            + ADD PRODUCTS
+          </div>
+          {default_composites.length !== 0 ? (
+            <div className="hinDaE" onClick={() => setState({})}>
+              SETUP INVENTORY
+            </div>
+          ) : null}
+        </div>
+      </AddingForm1>
+    </StrictMode>
+  );
 }

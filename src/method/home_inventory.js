@@ -51,10 +51,11 @@ export async function setInventory(state, setState) {
     if (attribute1 !== "") {
       const eachs = attribute1.split(",");
       for (let i = 0; i < eachs.length; i++)
-        variant_attribute[0].variants.push({
-          title: eachs[i],
-          is_primary: isPrimary ? 1 : 0,
-        });
+        if (eachs[i] !== "")
+          variant_attribute[0].variants.push({
+            title: eachs[i].replace(/^\s+|\s+$/gm, ""),
+            is_primary: isPrimary ? 1 : 0,
+          });
     }
   }
   if (attributeName2 !== "") {
@@ -65,12 +66,14 @@ export async function setInventory(state, setState) {
     if (attribute2 !== "") {
       const eachs = attribute2.split(",");
       for (let i = 0; i < eachs.length; i++)
-        variant_attribute[1].variants.push({
-          title: eachs[i],
-          is_primary: 0,
-        });
+        if (eachs[i] !== "")
+          variant_attribute[1].variants.push({
+            title: eachs[i],
+            is_primary: 0,
+          });
     }
   }
+  product.variant_products = [];
   for (let i = 0; i < variant_attribute[0].variants.length; i++) {
     for (let j = 0; j < variant_attribute[1].variants.length; j++) {
       const el = variant_attribute[0].variants[i].title;
@@ -165,7 +168,8 @@ export async function postInventoryProduct(state, setState) {
     formData.append("classification", product.classification);
   }
   if (product.type === 3) {
-    formData.append("min_stock_level", product.min_stock_level);
+    formData.append("default_composites", product.default_composites);
+    formData.append("selectable_composites", product.selectable_composites);
   }
   // MISSING Apply category defaults
   // formData.append("product_modifier", allModifire);
