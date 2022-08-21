@@ -6,6 +6,7 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
 }
 .hinDaA {
   width: 49%;
@@ -85,6 +86,40 @@
   align-items: center;
   font-size: 0.78vw;
   color: #40455183;
+}
+.hinDaH {
+  width: 75%;
+  border-radius: 0.2vw;
+  border: 0.06vw solid #d5d9dd;
+  padding: 0.5vw 0.2vw;
+  background-color: white;
+  display: flex;
+  flex-wrap: wrap;
+}
+.hinDaHa {
+  background-color: #2d4c86;
+  border-radius: 0.2vw;
+  padding: 0.3vw 0.5vw;
+  padding-bottom: 0.4vw;
+  color: white;
+  font-weight: 500;
+  font-size: 0.65vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0.1vw;
+}
+.hinDaHb {
+  padding-left: 1vw;
+}
+.hinDaHc {
+  width: 0.8vw;
+  height: 0.8vw;
+  background-image: url(../asset/ic_bin4.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  cursor: pointer;
+  margin-left: 0.4vw;
 }
 /* //////////////// */
 .hinDb {
@@ -435,4 +470,39 @@
 .hinDh {
   font-size: 1vw;
   font-weight: 500;
+}
+/*////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////  INVENTORY PRODECT MODIFIGHER  /////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+.hinDj {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #2d4c86;
+  font-size: 0.8vw;
+  margin: 0.2vw 0;
+}
+.hinDjA {
+  width: 74%;
+}
+.hinDjB {
+  width: 25%;
+}
+.hinDjD {
+  height: 1.7vw;
+  width: 1.8vw;
+  margin-left: -2.5vw;
+  background-image: url(../asset/ic_+1.svg);
+  background-size: contain;
+  background-position: right;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+.hinDj1 {
+  display: flex;
+  flex-wrap: wrap;
 }

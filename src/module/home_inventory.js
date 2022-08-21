@@ -450,6 +450,7 @@ export const inventoryStateData = {
     is_online: 0,
     product_kot: [],
     product_type: "",
+    product_modifier: [],
     image: [],
     // STANDARD PRODUCT ///////////////////////////////////////////////
     bar_code: "",
@@ -466,14 +467,12 @@ export const inventoryStateData = {
     stock_date: "",
     stock_price: "",
     min_stock_level: "",
-    product_modifier: "", //TODO
     // VARIANTS PRODUCT ///////////////////////////////////////////////
     variant_attribute: [],
     variant_products: [],
     selectable: "",
     classification: [],
     // COMPOSITE PRODUCT //////////////////////////////////////////////
-    product_modifier: [],
     default_composites: [],
     selectable_composites: [],
   },

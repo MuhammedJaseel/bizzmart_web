@@ -24,6 +24,12 @@ export default function HomeInventoryForms({ state, setState }) {
 function ProductForm({ state, setState }) {
   const { page, setPage, product, isEdit } = state;
   const { allKot, allUnits, allCategoty, allTax } = state;
+
+  // ////////////////////////////////////////////////////////////////////////////////////
+  // ////////////////////////////////////////////////////////////////////////////////////
+  // //////////////////////              TITLES           ///////////////////////////////
+  // ////////////////////////////////////////////////////////////////////////////////////
+  // ////////////////////////////////////////////////////////////////////////////////////
   const t1 = "GENERAL DETAILS";
   const d1 = (
     <StrictMode>
@@ -90,6 +96,11 @@ function ProductForm({ state, setState }) {
         <Header1 title="INVENTORY" bodyL={page.title} onTap={setPage} />
         <div className="hinD">
           <Header4 title={title} desc={page.desc} />
+          {/*///////////////////////////////////////////////////////////////////////////////////////
+          //////////////////////////////////////////////////////////////////////////////////////////
+          ////////////////////////         COMMEN VALUES         ///////////////////////////////////
+          //////////////////////////////////////////////////////////////////////////////////////////
+          ////////////////////////////////////////////////////////////////////////////////////// */}
           <AddingFormLayout title={t1} desc={d1}>
             <AddingForm1 title="Product name *">
               <input
@@ -296,6 +307,11 @@ function ProductForm({ state, setState }) {
                 />
               </AddingForm1>
             ) : null}
+            {/*///////////////////////////////////////////////////////////////////////////////////////
+            //////////////////////////////////////////////////////////////////////////////////////////
+            //////////////////////////////      STARNDERD PRODUCT      ///////////////////////////////
+            //////////////////////////////////////////////////////////////////////////////////////////
+            ////////////////////////////////////////////////////////////////////////////////////// */}
             {product.type === 1 ? (
               <StrictMode>
                 <AddingForm2>
@@ -405,6 +421,11 @@ function ProductForm({ state, setState }) {
                 </AddingForm1>
               </StrictMode>
             ) : null}
+            {/*///////////////////////////////////////////////////////////////////////////////////////
+            //////////////////////////////////////////////////////////////////////////////////////////
+            //////////////////////////////       VARIANT PRODUCT       ///////////////////////////////
+            //////////////////////////////////////////////////////////////////////////////////////////
+            ////////////////////////////////////////////////////////////////////////////////////// */}
             {product.type === 2 ? (
               <StrictMode>
                 <AddingForm2>
@@ -537,6 +558,11 @@ function ProductForm({ state, setState }) {
                 ) : null}
               </StrictMode>
             ) : null}
+            {/*///////////////////////////////////////////////////////////////////////////////////////
+            //////////////////////////////////////////////////////////////////////////////////////////
+            //////////////////////////////      COMPOSIT PRODUCT      ///////////////////////////////
+            //////////////////////////////////////////////////////////////////////////////////////////
+            ////////////////////////////////////////////////////////////////////////////////////// */}
             {product.type === 3 ? (
               <StrictMode>
                 <AddingForm1 title="Default Products*">
@@ -557,9 +583,14 @@ function ProductForm({ state, setState }) {
               <VariantProdectTable state={state} setState={setState} />
             </AddingFormLayout>
           ) : null}
+          {/*///////////////////////////////////////////////////////////////////////////////////////
+          //////////////////////////////////////////////////////////////////////////////////////////
+          /////////////////////////////     ADD MODIFIER PRODUCT      //////////////////////////////
+          //////////////////////////////////////////////////////////////////////////////////////////
+          ////////////////////////////////////////////////////////////////////////////////////// */}
           {product.is_service === 0 ? (
             <AddingFormLayout title={t4} desc={d4}>
-              <AddingForm1 title="Sell online">
+              <AddingForm1 title="Apply category defaults">
                 <div className="hinDaG">
                   <FormSwitch
                     value={product.is_online === 1}
@@ -571,9 +602,45 @@ function ProductForm({ state, setState }) {
                   &nbsp;Apply the modifiers saved against parent category
                 </div>
               </AddingForm1>
+              <AddingForm2>
+                <div>
+                  Multiple Selectable <sb>e.g. No sugar, cook well etc.</sb>
+                </div>
+              </AddingForm2>
+              <AddingForm1 title="Selling info *">
+                <div className="hinDa">
+                  <div
+                    className="hinDaE"
+                    onClick={() => setState({ isModifer: true })}
+                  >
+                    + ADD MODIFIERS
+                  </div>
+                  {product.product_modifier.length !== 0 ? (
+                    <div className="hinDaH">
+                      {product.product_modifier?.map((it, k) => (
+                        <div className="hinDaHa" key={k}>
+                          {it.title}
+                          <div className="hinDaHb">{it.charge}</div>
+                          <div
+                            className="hinDaHc"
+                            onClick={() => {
+                              product.product_modifier.splice(k, 1);
+                              setState({ product });
+                            }}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  ) : null}
+                </div>
+              </AddingForm1>
             </AddingFormLayout>
           ) : null}
-
+          {/*///////////////////////////////////////////////////////////////////////////////////////
+          //////////////////////////////////////////////////////////////////////////////////////////
+          //////////////////////////////            FOOTER           ///////////////////////////////
+          //////////////////////////////////////////////////////////////////////////////////////////
+          ////////////////////////////////////////////////////////////////////////////////////// */}
           <div className="hinDb">
             {isEdit ? <div className="hinDbA">DELETE PRODECT</div> : <div />}
             <div className="hinDbB">

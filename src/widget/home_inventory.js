@@ -5,7 +5,10 @@ import { getCategoryList, getProducts } from "../method/home_inventory";
 import { Header1, TitleTable1 } from "./widget";
 import HomeInventoryTables from "./home_inventory1";
 import HomeInventoryForms from "./home_inventory2";
-import HomeInventoryPopups from "./home_inventory3";
+import {
+  HomeInventoryPopups,
+  HomeInventoryModifersPopup,
+} from "./home_inventory3";
 import "../style/hin.css";
 
 export default class HomeInventory extends Component {
@@ -27,7 +30,7 @@ export default class HomeInventory extends Component {
       allTax: [],
       product: inventoryStateData.product,
       productPaging: {},
-      isEdit: true,
+      isEdit: false,
       isAddProdectPop: false,
       // FUNCTION ///////////////////////////////////////////////////////////////////
       setPage: (v) => {
@@ -81,6 +84,7 @@ export default class HomeInventory extends Component {
         <HomeInventoryTables state={state} setState={setState} />
         <HomeInventoryForms state={state} setState={setState} />
         <HomeInventoryPopups state={state} setState={setState} />
+        <HomeInventoryModifersPopup state={state} setState={setState} />
       </StrictMode>
     );
   }

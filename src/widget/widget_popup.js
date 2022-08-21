@@ -11,7 +11,11 @@ export function WidgetPopUp1({ props, children }) {
   const { close, title, desc, btnTitle, submit, error, loading, small } = props;
   const { onChnage } = props;
   return (
-    <form className="zpA" onChange={onChnage}>
+    <form
+      className="zpA"
+      onChange={onChnage}
+      onSubmit={(e) => e.preventDefault()}
+    >
       <div className={small ? "zpAa_" : "zpAa"}>
         <div className="zpAb">
           <div className="zpAbA">{title}</div>
