@@ -31,15 +31,13 @@ export default function HomeInventoryTables({ state, setState }) {
 }
 
 function ProductTable({ state, setState }) {
-  const { allProduct, page, setPage, product, productPaging } = state;
+  const { allProduct, page, setPage, productPaging } = state;
+  var { product } = state;
   const title = "INVENTORY";
   const bodyRBody = {
     makeAdd: () => {
+      setState({ product: inventoryStateData.product });
       setPage(inventoryFormData.filter((k) => k.path === "addProdect")[0]);
-      product = inventoryStateData.product;
-      product.type = 1;
-      product.is_service = 0;
-      setState({ product });
     },
     title: "+ New Product",
     drowelList: null,

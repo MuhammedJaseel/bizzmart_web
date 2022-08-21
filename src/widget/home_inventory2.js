@@ -1,4 +1,4 @@
-import React, { StrictMode } from "react";
+import React, { StrictMode, useRef, useState } from "react";
 import { postInventoryProduct, setInventory } from "../method/home_inventory";
 import {
   inventoryFormData,
@@ -656,43 +656,71 @@ function ProductForm({ state, setState }) {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function ImagePicker({ state, setState }) {
-  const images = [
-    "url(https://bobbyhadz.com/images/blog/javascript-update-all-values-in-object/banner.webp)",
-    "url(https://bobbyhadz.com/images/blog/javascript-update-all-values-in-object/banner.webp)",
-    "url(https://bobbyhadz.com/images/blog/javascript-update-all-values-in-object/banner.webp)",
-    "url(https://bobbyhadz.com/images/blog/javascript-update-all-values-in-object/banner.webp)",
-    "url(https://cdn.sstatic.net/Img/teams/teams-illo-free-sidebar-promo.svg?v=47faa659a05e)",
-    "url(https://bobbyhadz.com/images/blog/javascript-update-all-values-in-object/banner.webp)",
-  ];
+  const { product } = state;
+  const { image } = product;
+  const refForKey = useRef(null);
   return (
     <div className="hinDd">
       <div className="hinDdA">
-        {images.map((it, k) => (
-          <div
-            key={k}
-            className={k === 0 ? "hinDdAa_pr" : "hinDdAa"}
-            style={{ backgroundImage: it }}
-            draggable
-          >
-            <div className="hinDdAaA">
-              <div className="hinDdAaAa" />
+        {image.length !== 0 ? (
+          image.map((it, k) => (
+            <div
+              key={k}
+              className={k === 0 ? "hinDdAa_pr" : "hinDdAa"}
+              style={{ backgroundImage: `url(${URL.createObjectURL(it)})` }}
+              draggable
+            >
+              <div className="hinDdAaA">
+                <div
+                  className="hinDdAaAa"
+                  onClick={() => {
+                    product.image.splice(k, 1);
+                    setState({ product });
+                  }}
+                />
+              </div>
+              <div className="hinDdAaB">
+                Drag to
+                <br />
+                reorder
+              </div>
+              <div />
             </div>
-            <div className="hinDdAaB">
-              Drag to
-              <br />
-              reorder
-            </div>
-            <div />
-          </div>
-        ))}
+          ))
+        ) : (
+          <div className="hinDdAb" onClick={() => refForKey.current.click()} />
+        )}
+        <input
+          ref={refForKey}
+          type="file"
+          className="hinDdAc"
+          multiple
+          onChange={(e) => {
+            for (let i = 0; i < e.target.files.length; i++)
+              if (e.target.files[0].type.split("/")[0] === "image")
+                product.image.push(e.target.files[i]);
+            setState({ product });
+          }}
+        />
       </div>
       <div className="hinDdB"></div>
       <div className="hinDdC">
         <div className="hinDdCa">
           <div className="hinDdCaA">DRAG</div>&nbsp;images here or&nbsp;
-          <div className="hinDdCaA"> BROWSE</div>&nbsp;to upload
+          <div className="hinDdCaA" onClick={() => refForKey.current.click()}>
+            BROWSE
+          </div>
+          &nbsp;to upload
         </div>
-        <div className="hinDdCb">CLEAR</div>
+        <div
+          className="hinDdCb"
+          onClick={() => {
+            product.image = [];
+            setState({ product });
+          }}
+        >
+          CLEAR
+        </div>
       </div>
     </div>
   );
