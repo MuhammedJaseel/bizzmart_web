@@ -709,3 +709,57 @@
   border-radius: 1.63vw;
   background-color: white;
 }
+/* ///////////////////////////////////////////////////////////////////////////////////////////////////// */
+/* ///////////////////////////////////////////////////////////////////////////////////////////////////// */
+/* /////////////////////////////////       IMAGE UPLOADER LAYOUT1     ////////////////////////////////// */
+/* ///////////////////////////////////////////////////////////////////////////////////////////////////// */
+/* ///////////////////////////////////////////////////////////////////////////////////////////////////// */
+.zfM {
+  display: flex;
+  align-items: center;
+}
+.zfMa {
+  border: 0.08vw dashed #274885;
+  background-color: #d7dfe9;
+  border-radius: 0.3vw;
+  width: 35%;
+  padding: 1vw;
+  text-align: center;
+  color: #151618;
+  cursor: pointer;
+}
+.zfMaA {
+  font-size: 1.1vw;
+  font-weight: bold;
+}
+.zfMaB {
+  font-size: 0.9vw;
+  padding: 0.4vw;
+}
+.zfMaC {
+  color: #1516186b;
+  font-size: 0.6vw;
+}
+.zfMb {
+  max-width: 50%;
+  max-height: 4vw;
+  position: relative;
+}
+.zfMbA {
+  max-height: 4vw;
+  margin-left: 2vw;
+  object-fit: contain;
+  border-radius: 0.4vw;
+}
+.zfMbB {
+  position: absolute;
+  right: -0.5vw;
+  top: 0.5vw;
+  width: 1.1vw;
+  height: 1.1vw;
+  background-image: url(../asset/ic_bin5.svg);
+  background-size: contain;
+}
+.zfMc {
+  display: none;
+}

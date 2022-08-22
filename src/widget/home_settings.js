@@ -15,7 +15,16 @@ import { HomeSettings5SalesTaxes } from "./home_settings5";
 import { AccountAddPopUpLayout } from "./home_cashbank1";
 import { accountStructure } from "../module/home_cashbank";
 import { WidgetConfirmPopup } from "./widget_popup";
+import {
+  HomeSettings2InvoiceForm,
+  HomeSettings2DocumentPrefix,
+  HomeSettings2ServiceAndJobOrder,
+  HomeSettings2Barcode,
+} from "./home_settings2";
 import "../style/hst.css";
+import "../style/hst2.css";
+import { HomeSettings4AllowanceInceventves } from "./home_settings4";
+import { HomeSettings6AssetsExpenses, HomeSettings6EquityEarnings } from "./home_settings6";
 
 export default class HomeSettings extends Component {
   constructor(props) {
@@ -82,10 +91,17 @@ export default class HomeSettings extends Component {
         <HomeSettings1CashAndBank state={state} setState={setState} />
         <HomeSettingsBody3 state={state} setState={setState} />
         <HomeSettingsBody4 state={state} setState={setState} />
+        <HomeSettings2InvoiceForm state={state} setState={setState} />
+        <HomeSettings2DocumentPrefix state={state} setState={setState} />
+        <HomeSettings2ServiceAndJobOrder state={state} setState={setState} />
+        <HomeSettings2Barcode state={state} setState={setState} />
+        <HomeSettings4AllowanceInceventves state={state} setState={setState} />
         <HomeSettings5ExpenseCategory state={state} setState={setState} />
         <HomeSettings5ProductCategory state={state} setState={setState} />
         <HomeSettings5SalesTaxes state={state} setState={setState} />
         <HomeSettings5ProdectionStations state={state} setState={setState} />
+        <HomeSettings6AssetsExpenses state={state} setState={setState} />
+        <HomeSettings6EquityEarnings state={state} setState={setState} />
         {/* POPUP STARTS */}
         <AccountAddPopUpLayout state={state} setState={setState} />
         <HomeSettings1AddPaymentPopup state={state} setState={setState} />

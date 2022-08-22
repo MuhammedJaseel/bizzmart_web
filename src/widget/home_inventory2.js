@@ -1,15 +1,10 @@
-import React, { StrictMode, useRef, useState } from "react";
+import React, { StrictMode, useRef } from "react";
 import { postInventoryProduct, setInventory } from "../method/home_inventory";
-import {
-  inventoryFormData,
-  inventoryPages,
-  prodectTypes,
-} from "../module/home_inventory";
+import { inventoryPages, prodectTypes } from "../module/home_inventory";
+import { addProdectTitles } from "../module/home_inventory1";
 import { Header1, Header4 } from "./widget";
 import { AddingForm1, AddingForm2 } from "./widget_form";
 import { AddingFormLayout, FormSwitch, MyForm1 } from "./widget_form";
-import { WidgetPopUp1, WidgetPopUp1Body } from "./widget_popup";
-import { WidgetPopUp1In1 } from "./widget_popup";
 
 export default function HomeInventoryForms({ state, setState }) {
   return (
@@ -24,57 +19,6 @@ export default function HomeInventoryForms({ state, setState }) {
 function ProductForm({ state, setState }) {
   const { page, setPage, product, isEdit } = state;
   const { allKot, allUnits, allCategoty, allTax } = state;
-
-  // ////////////////////////////////////////////////////////////////////////////////////
-  // ////////////////////////////////////////////////////////////////////////////////////
-  // //////////////////////              TITLES           ///////////////////////////////
-  // ////////////////////////////////////////////////////////////////////////////////////
-  // ////////////////////////////////////////////////////////////////////////////////////
-  const t1 = "GENERAL DETAILS";
-  const d1 = (
-    <StrictMode>
-      What all are the general information about your new product? <br />
-      <br />
-      Add product name, supplier info, tags, product description and images for
-      your new product in this section.
-    </StrictMode>
-  );
-  const t2 = "INVENTORY INFORMATION";
-  const d2 = (
-    <StrictMode>
-      How you want to store, list, track and sell your new product?
-      <br />
-      <br />
-      You can set product supply details, suppliers, selling channels, supply &
-      sales details in this section.
-    </StrictMode>
-  );
-  const t3 = "VARIANT INFORMATION";
-  const d3 = (
-    <StrictMode>
-      What all variants are you planning for this product? <br />
-      <br />
-      You can set product variants and sub classifications with SKU, Pricing and
-      listing details in this section.
-      <br />
-      <br />
-      Choose up to two variable attributes for your product to create and manage
-      SKUs and their inventory levels.
-    </StrictMode>
-  );
-  const t4 = "MODIFIER SETTINGS";
-  const d4 = (
-    <StrictMode>
-      What all variants are you planning for this product? <br />
-      <br />
-      You can set product variants and sub classifications with SKU, Pricing and
-      listing details in this section.
-      <br />
-      <br />
-      Choose up to two variable attributes for your product to create and manage
-      SKUs and their inventory levels.
-    </StrictMode>
-  );
 
   const title = isEdit ? page?.editTitle : page?.title;
 
@@ -101,7 +45,10 @@ function ProductForm({ state, setState }) {
           ////////////////////////         COMMEN VALUES         ///////////////////////////////////
           //////////////////////////////////////////////////////////////////////////////////////////
           ////////////////////////////////////////////////////////////////////////////////////// */}
-          <AddingFormLayout title={t1} desc={d1}>
+          <AddingFormLayout
+            title={addProdectTitles.general.t}
+            desc={addProdectTitles.general.d}
+          >
             <AddingForm1 title="Product name *">
               <input
                 className="hinDa"
@@ -295,7 +242,10 @@ function ProductForm({ state, setState }) {
             </AddingForm1>
           </AddingFormLayout>
           {/*///////////////////////////////////////////////////////////////////////////////////////////////*/}
-          <AddingFormLayout title={t2} desc={d2}>
+          <AddingFormLayout
+            title={addProdectTitles.inventory.t}
+            desc={addProdectTitles.inventory.d}
+          >
             {product.is_service === 0 ? (
               <AddingForm1 title="Product type*">
                 <SelectButton
@@ -562,8 +512,57 @@ function ProductForm({ state, setState }) {
             ) : null}
             <InventoryCompositProduct state={state} setState={setState} />
           </AddingFormLayout>
+          {/*///////////////////////////////////////////////////////////////////////////////////////
+          //////////////////////////////////////////////////////////////////////////////////////////
+          /////////////////////////////    COMPOSIT PRODUCT PRICING    /////////////////////////////
+          //////////////////////////////////////////////////////////////////////////////////////////
+          ////////////////////////////////////////////////////////////////////////////////////// */}
+          {product.isCompositSetted ? (
+            <AddingFormLayout
+              title={addProdectTitles.product.t}
+              desc={addProdectTitles.product.d}
+            >
+              <AddingForm2>
+                <div className="hinDaB">
+                  Barcode / SKU <sb>Autogenerated once left blank</sb>
+                </div>
+              </AddingForm2>
+              <AddingForm1 title="Bundle code *">
+                <div className="hinDa">
+                  <input
+                    className="hinDaB"
+                    id="bar_code"
+                    placeholder="Alapha numeric in caps, no special chars"
+                  />
+                </div>
+              </AddingForm1>
+              <AddingForm2>
+                <div className="hinDaB">MRP *</div>
+                <div className="hinDaB">RRP</div>
+                <div className="hinDaB">Online price</div>
+              </AddingForm2>
+              <AddingForm1 title="Selling information *">
+                <div className="hinDa">
+                  <input className="hinDaB" id="mrp" placeholder="Enter MRP" />
+                  <input
+                    className="hinDaB"
+                    id="selling_price"
+                    placeholder="Enter selling price"
+                  />
+                  <input
+                    id="online_price"
+                    className="hinDaB"
+                    placeholder="Enter online price"
+                  />
+                </div>
+              </AddingForm1>
+            </AddingFormLayout>
+          ) : null}
           {product.type === 2 && product.variant_products.length > 0 ? (
-            <AddingFormLayout title={t3} desc={d3}>
+            <AddingFormLayout
+              title={addProdectTitles.variant.t}
+              desc={addProdectTitles.variant.d}
+            >
               <VariantProdectTable state={state} setState={setState} />
             </AddingFormLayout>
           ) : null}
@@ -573,7 +572,10 @@ function ProductForm({ state, setState }) {
           //////////////////////////////////////////////////////////////////////////////////////////
           ////////////////////////////////////////////////////////////////////////////////////// */}
           {product.is_service === 0 ? (
-            <AddingFormLayout title={t4} desc={d4}>
+            <AddingFormLayout
+              title={addProdectTitles.modifier.t}
+              desc={addProdectTitles.modifier.d}
+            >
               <AddingForm1 title="Apply category defaults">
                 <div className="hinDaG">
                   <FormSwitch
@@ -995,7 +997,13 @@ function InventoryCompositProduct({ state, setState }) {
             + ADD PRODUCTS
           </div>
           {default_composites.length !== 0 ? (
-            <div className="hinDaE" onClick={() => setState({})}>
+            <div
+              className="hinDaE"
+              onClick={() => {
+                product.isCompositSetted = true;
+                setState({ product });
+              }}
+            >
               SETUP INVENTORY
             </div>
           ) : null}

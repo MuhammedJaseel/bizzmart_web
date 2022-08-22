@@ -430,6 +430,7 @@ export const inventoryStateData = {
     isAttributeName1: false,
     isAttributeName2: false,
     isPrimary: false,
+    isCompositSetted: false,
 
     // BASIC //////////////////////////////////////////////////////////
     type: 1,

@@ -583,6 +583,7 @@ export function AddingFormLayout1({ title, desc, ic }) {
     </AddingFormLayout>
   );
 }
+
 export function AddingForm1({ title, children }) {
   return (
     <div className="zfJ">
@@ -598,6 +599,42 @@ export function FormSwitch({ value, onTap }) {
   return (
     <div className={value ? "zfL" : "zfL_"} onClick={onTap}>
       <div className="zfLa" />
+    </div>
+  );
+}
+export function AddingFormLayout2({ t1, t2, t3, setImg }) {
+  const refForKey = useRef(null);
+  const [image, setImage] = useState(null);
+  return (
+    <div className="zfM">
+      <div className="zfMa" onClick={() => refForKey.current.click()}>
+        <div className="zfMaA">{t1}</div>
+        <div className="zfMaB">{t2}</div>
+        <div className="zfMaC">{t3}</div>
+      </div>
+      {image !== null ? (
+        <div className="zfMb">
+          <img className="zfMbA" src={URL.createObjectURL(image)} />
+          <div
+            className="zfMbB"
+            onClick={() => {
+              setImage(null);
+              setImg(null);
+            }}
+          />
+        </div>
+      ) : null}
+      <input
+        ref={refForKey}
+        type="file"
+        className="zfMc"
+        onChange={(e) => {
+          if (e.target.files[0].type.split("/")[0] === "image") {
+            setImage(e.target.files[0]);
+            setImg(e.target.files[0]);
+          }
+        }}
+      />
     </div>
   );
 }

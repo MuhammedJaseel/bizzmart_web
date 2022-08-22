@@ -1,10 +1,12 @@
 import React, { Component } from "react";
-import "../style/hdb.css";
 import { Header1, Header2 } from "./widget";
 import icTag from "../asset/ic_tag.svg";
 import icWalk from "../asset/ic_walk.svg";
 import icCart1 from "../asset/ic_cart1.svg";
 import icGraph from "../asset/ic_graph.svg";
+import LineChart from "react-linechart";
+import "../style/hdb.css";
+import { tempDataSalesGraph } from "../module/home_dashboard";
 
 const pTitles = ["Dashboard", "Analytics"];
 
@@ -85,13 +87,89 @@ function HDBG1({ ic, value, value2, tit }) {
   );
 }
 function HDBG2() {
-  return <div className="hdb_2"></div>;
+  const w = window.innerWidth;
+  const data = tempDataSalesGraph.points;
+  return (
+    <div className="hdb_2">
+      <div className="hdb_2a">
+        <div className="hdb_2aA">
+          <div className="hdbCCa">Sales Performing This Month</div>
+          <div className="hdb_2aAb">
+            <div className="hdb_2aAbA">
+              <div className="hdb_2aAbAa" />
+              Views
+            </div>
+            <div className="hdb_2aAbA">
+              <div className="hdb_2aAbAa" />
+              Views
+            </div>
+          </div>
+        </div>
+        <div className="hdb_2aB">
+          {[1, 1, 1, 1, 1].map(() => (
+            <div className="hdb_2aBa">
+              <div className="hdb_2aBaA">30k</div>
+              <div className="hdb_2aBaB" />
+            </div>
+          ))}
+        </div>
+        <div className="hdb_2aC">
+          {tempDataSalesGraph.hrValue.map((it, k) => (
+            <div className="hdb_2aCa">{it}</div>
+          ))}
+        </div>
+      </div>
+      <div className="hdb_2b">
+        <LineChart
+          width={w * 0.41}
+          height={w * 0.093}
+          data={data}
+          hideXAxis
+          hideYAxis
+          hideXLabel
+          hidePoints
+          margins={{ top: 0.01, right: 0.01, bottom: 0.01, left: 0.01 }}
+          onPointHover={() => alert()}
+        />
+      </div>
+    </div>
+  );
 }
 function HDBG3() {
-  return <div className="hdb_3"></div>;
+  return (
+    <div className="hdb_3">
+      <div className="hdbCCa">Total Revanue </div>
+      <div className="hdb_3a">
+        <div className="hdb_3aA">
+          {[1, 1, 1, 1].map(() => (
+            <div className="hdb_3aAa">6000</div>
+          ))}
+        </div>
+        <div className="hdb_3aB">
+          <div className="hdb_3aBa"></div>
+          <div className="hdb_3aBb">Sales</div>
+        </div>
+        <div className="hdb_3aB">
+          <div className="hdb_3aBa1"></div>
+          <div className="hdb_3aBb1">Cost</div>
+        </div>
+        <div className="hdb_3aB">
+          <div className="hdb_3aBa2"></div>
+          <div className="hdb_3aBb2">Profits</div>
+        </div>
+      </div>
+    </div>
+  );
 }
 function HDBG4() {
-  return <div className="hdb_4"></div>;
+  return (
+    <div className="hdb_4">
+      <div className="hdb_4A">
+        <div className="hdbCCa">Total Revanue </div>
+      </div>
+      <div className="hdb_4B"></div>
+    </div>
+  );
 }
 function HDBG5() {
   return (
@@ -163,7 +241,7 @@ function HDBG7() {
 function HDBG8() {
   return (
     <div className="hdb_8">
-      <div className="hdb_8A">Net Sales Unit</div>
+      <div className="hdbCCa">Net Sales Unit</div>
       <div className="hdb_8B"></div>
       <div className="hdb_8C">
         <div className="hdb_8Ca"></div>

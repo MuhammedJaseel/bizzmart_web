@@ -37,22 +37,22 @@ export const allSettings = [
       {
         title: "Invoice Form Settings",
         desc: "Manage your business details here, you can customize informations showing to your customers on the invoices and other documents.",
-        path: "",
+        path: "invoiceForm",
       },
       {
         title: "Document Prefix",
         desc: "Manage your business details here, you can customize informations showing to your customers on the invoices and other documents.",
-        path: "",
+        path: "documentPrefix",
       },
       {
         title: "Barcode Settings",
         desc: "Manage your business details here, you can customize informations showing to your customers on the invoices and other documents.",
-        path: "",
+        path: "barcode",
       },
       {
         title: "Service & Job Order Settings",
         desc: "Manage your business details here, you can customize informations showing to your customers on the invoices and other documents",
-        path: "",
+        path: "serviceAndOrder",
       },
     ],
   },
@@ -79,7 +79,7 @@ export const allSettings = [
       {
         title: "Allowances & Incentives",
         desc: "Manage your business dealss here, you can customize informations showing to your customers on the invoices and other documents",
-        path: "",
+        path: "allowenceAndIncentives",
       },
       {
         title: "Roles & Rights",
@@ -121,12 +121,12 @@ export const allSettings = [
       {
         title: "Assets & Recurring Expenses",
         desc: "Manage your business details here, you can customize informations showing for your customers on the invoices and other documents.",
-        path: "",
+        path: "assetsAndExpenses",
       },
       {
         title: "Equity & Earnings",
         desc: "Manage your business details here, you can customize informations showing for your customers on the invoices and other documents.",
-        path: "",
+        path: "equityEarnings",
       },
       {
         title: "Discount Settings",
