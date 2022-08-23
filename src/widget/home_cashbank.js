@@ -22,7 +22,7 @@ export default class HomeCashbank extends Component {
       allAccounts: [],
       allBanks: [],
       addAccount: null,
-      accountConfirmPop: null,
+      confirmPop: null,
       account: null,
       makePayment: null,
       receiveMoney: null,
@@ -43,7 +43,7 @@ export default class HomeCashbank extends Component {
   render() {
     const state = this.state;
     const setState = (v) => this.setState(v);
-    const { page, accountConfirmPop } = state;
+    const { page, confirmPop } = state;
     const bodyRBody = {
       makeAdd: () => setState({ addAccount: accountStructure }),
       title: "+ New Account",
@@ -75,7 +75,7 @@ export default class HomeCashbank extends Component {
         <FundTransferPopUpLayout state={state} setState={setState} />
         <ReciveMoneyPopUpLayout state={state} setState={setState} />
         <SpendMoneyPopUpLayout state={state} setState={setState} />
-        <WidgetConfirmPopup props={accountConfirmPop} />
+        <WidgetConfirmPopup props={confirmPop} />
       </StrictMode>
     );
   }
@@ -101,13 +101,13 @@ function HomeCashBankBody({ state, setState }) {
               onEdit={() => setState({ addAccount: it })}
               onDelete={() =>
                 setState({
-                  accountConfirmPop: {
+                  confirmPop: {
                     desc: "Are you sure you want to delete this Account",
                     loading,
                     error,
                     onSubmit: () => deleteAccount(it.id, state, setState),
                     close: () =>
-                      setState({ accountConfirmPop: null, error: null }),
+                      setState({ confirmPop: null, error: null }),
                   },
                 })
               }

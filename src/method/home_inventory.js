@@ -130,11 +130,8 @@ export async function postInventoryProduct(state, setState) {
   formData.append("category_id", product.category_id);
   formData.append("product_description", product.product_description);
   formData.append("is_service", product.is_service);
-  formData.append("primary_unit", JSON.parse(product.primary_unit).id);
-  formData.append(
-    "secondry_unit",
-    product.secondry_unit != "" ? JSON.parse(product.secondry_unit).id : ""
-  );
+  formData.append("primary_unit", product.primary_unit);
+  formData.append("secondry_unit", product.secondry_unit);
   formData.append("enable_unit_conversion", product.secondry_unit !== "");
   formData.append("conversion", product.conversion);
   formData.append("selling_tax", JSON.parse(product.selling_tax).id);
@@ -176,7 +173,7 @@ export async function postInventoryProduct(state, setState) {
   for (let i = 0; i < product.image.length; i++)
     formData.append("image[]", product.image[i], "[PROXY]");
 
-  await postHttp("productStore", formData)
+  await postHttp("productStore", formData, true)
     .then(async (res) => {
       await getProducts(state, setState);
       setState({
@@ -185,7 +182,7 @@ export async function postInventoryProduct(state, setState) {
           msg: "Product added successfully",
           subMsg: "Updated Successfully",
         },
-        addpage: false,
+        product: null,
       });
     })
     .then((error) =>

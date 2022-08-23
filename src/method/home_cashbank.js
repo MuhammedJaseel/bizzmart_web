@@ -32,7 +32,7 @@ export async function deleteAccount(id, state, setState) {
   await postHttp("deleteAccount", { account_id: id })
     .then(async () => {
       await getAllCashandBank(state, setState);
-      setState({ accountConfirmPop: null });
+      setState({ confirmPop: null });
     })
     .catch((e) => {
       succesPop({

@@ -8,14 +8,14 @@ export const baseApi = "https://drops.bizzsmart.in/api/isWebAppApi/V1/";
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const getHttp = async (path, prams) => {
+export const getHttp = async (path, prams, isForm) => {
   const header = {
     headers: {
       Authorization: "Bearer " + window.localStorage.getItem("bearerToken"),
       sessionId: window.localStorage.getItem("sessionId"),
-      "Content-type": "multipart/form-data",
     },
   };
+  if (isForm) header.headers["Content-type"] = "multipart/form-data";
   return await axios
     .get(baseApi + path, header)
     .then((res) => {
@@ -32,14 +32,15 @@ export const getHttp = async (path, prams) => {
     .catch((e) => Promise.reject(e?.message));
 };
 
-export const postHttp = async (path, body) => {
+export const postHttp = async (path, body, isForm) => {
   const header = {
     headers: {
       Authorization: "Bearer " + window.localStorage.getItem("bearerToken"),
       sessionId: window.localStorage.getItem("sessionId"),
-      "Content-type": "multipart/form-data",
     },
   };
+  if (isForm) header.headers["Content-type"] = "multipart/form-data";
+
   body.branch_id = window.localStorage.getItem("branchId");
   return await axios
     .post(baseApi + path, body, header)

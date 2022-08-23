@@ -1,5 +1,5 @@
 import { Component, StrictMode } from "react";
-import { addPaymentDummy, allSettings } from "../module/home_settings";
+import { allSettings } from "../module/home_settings";
 import { Header1 } from "./widget";
 import { getAllPayments, getBussinessSettings } from "../method/home_settings";
 import { getMasterData } from "../method/home_settings";
@@ -13,7 +13,6 @@ import { HomeSettings5ProdectionStations } from "./home_settings5";
 import { HomeSettings5ProductCategory } from "./home_settings5";
 import { HomeSettings5SalesTaxes } from "./home_settings5";
 import { AccountAddPopUpLayout } from "./home_cashbank1";
-import { accountStructure } from "../module/home_cashbank";
 import { WidgetConfirmPopup } from "./widget_popup";
 import {
   HomeSettings2InvoiceForm,
@@ -41,18 +40,13 @@ export default class HomeSettings extends Component {
       allAccounts: [],
       allPayments: [],
       allBusinessType: [],
-      addAccountPopup: null,
-      addAccount: accountStructure,
-      addPayment: addPaymentDummy,
-      addPaymentConfirmPop: null,
+      addAccount: null,
+      addPayment: null,
+      confirmPop: null,
       // ////////////////////////////////////////////////////////////
       allKot: [],
-      addKot: [],
-      deleteKot: [],
       // ////////////////////////////////////////////////////////////
       allCategory: [],
-      addCategory: [],
-      deleteCategory: [],
       // FUNCTION ///////////////////////////////////////////////////
       succesPop: props.succesPop,
       setPage: (v) => {
@@ -109,7 +103,7 @@ export default class HomeSettings extends Component {
         {/* POPUP STARTS */}
         <AccountAddPopUpLayout state={state} setState={setState} />
         <HomeSettings1AddPaymentPopup state={state} setState={setState} />
-        <WidgetConfirmPopup props={state.addPaymentConfirmPop} />
+        <WidgetConfirmPopup props={state.confirmPop} />
       </StrictMode>
     );
   }

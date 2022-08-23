@@ -449,9 +449,10 @@ export const inventoryStateData = {
     tax_inclusion: "",
     hsncode: "",
     is_online: 0,
-    product_kot: [],
+    product_kot: "",
     product_type: "",
     product_modifier: [],
+    category_default_modifier: 0,
     image: [],
     // STANDARD PRODUCT ///////////////////////////////////////////////
     bar_code: "",

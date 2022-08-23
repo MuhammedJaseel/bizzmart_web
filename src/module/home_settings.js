@@ -142,6 +142,6 @@ export const allTimeZone = ["Channai", "Asia/Kolkata", "Mumbail"];
 export const addPaymentDummy = {
   name: "",
   target_account_id: "",
-  type: "",
+  type: "Card",
   upi_id: "",
 };

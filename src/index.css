@@ -138,3 +138,10 @@ input::-webkit-inner-spin-button {
 .fullWidth {
   width: 100%;
 }
+.imaError {
+  font-size: 0.8vw;
+  color: tomato;
+  margin: 0.2vw;
+  text-align: center;
+  font-weight: 500;
+}

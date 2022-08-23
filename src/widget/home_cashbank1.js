@@ -39,6 +39,7 @@ export function AccountAddPopUpLayout({ state, setState }) {
   }
 
   function setDate(d) {
+    if (d?.date === undefined) return "Today";
     const s = d.split("-");
     return `${s[2]}-${s[1]}-${s[0]}`;
   }

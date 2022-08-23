@@ -108,14 +108,14 @@ function ProductForm({ state, setState }) {
                 <select className="hinDaB" id="primary_unit">
                   <option hidden>Select Unit</option>
                   {allUnits.map((it, k) => (
-                    <option value={JSON.stringify(it)}>{it.title}</option>
+                    <option value={it.title}>{it.title}</option>
                   ))}
                 </select>
                 <select className="hinDaB" id="secondry_unit">
                   <option hidden>Select alternate unit (optional)</option>
                   <option value="">NONE</option>
                   {allUnits.map((it, k) => (
-                    <option value={JSON.stringify(it)}>{it.title}</option>
+                    <option value={it.title}>{it.title}</option>
                   ))}
                 </select>
                 <div className="hinDaB">
@@ -207,38 +207,16 @@ function ProductForm({ state, setState }) {
             <AddingForm1 title="Select production station">
               <select
                 className="hinDa"
-                onChange={(e) => {
-                  const v = e.target.value;
-                  product.product_kot.push(allKot[v]);
-                  allKot.splice(v, 1);
-                  setState(product, allKot);
-                  e.target.selectedIndex = 0;
-                }}
+                id="product_kot"
+                defaultValue={product.product_kot}
               >
-                <option disabled>
-                  Select a prodect station to your product
-                </option>
+                <option hidden>Select a prodect station to your product</option>
                 {allKot.map((it, k) => (
-                  <option key={k} value={k}>
+                  <option key={k.id} value={k}>
                     {it.name}
                   </option>
                 ))}
               </select>
-              <div className="hinDe">
-                {product?.product_kot?.map((it, k) => (
-                  <div className="hinDeA" key={k}>
-                    {it.name}
-                    <div
-                      className="hinDeAa"
-                      onClick={() => {
-                        allKot.push(it);
-                        product.product_kot.splice(k, 1);
-                        setState(product, allKot);
-                      }}
-                    />
-                  </div>
-                ))}
-              </div>
             </AddingForm1>
           </AddingFormLayout>
           {/*///////////////////////////////////////////////////////////////////////////////////////////////*/}
@@ -300,18 +278,19 @@ function ProductForm({ state, setState }) {
                     <input
                       id="purchase_price"
                       className="hinDaB"
+                      type="number"
                       placeholder="Enter cost / purchase price"
                     />
                     <select className="hinDaB">
                       <option hidden>Select Purchase Unit</option>
                       {product.primary_unit !== "" ? (
-                        <option value={JSON.parse(product.primary_unit).id}>
-                          {JSON.parse(product.primary_unit).title}
+                        <option value={product.primary_unit}>
+                          {product.primary_unit}
                         </option>
                       ) : null}
                       {product.secondry_unit !== "" ? (
-                        <option value={JSON.parse(product.secondry_unit).id}>
-                          {JSON.parse(product.secondry_unit).title}
+                        <option value={product.secondry_unit}>
+                          {product.secondry_unit}
                         </option>
                       ) : null}
                     </select>
@@ -333,16 +312,19 @@ function ProductForm({ state, setState }) {
                       className="hinDaB"
                       id="mrp"
                       placeholder="Enter MRP"
+                      type="number"
                     />
                     <input
                       className="hinDaB"
                       id="selling_price"
                       placeholder="Enter selling price"
+                      type="number"
                     />
                     <input
                       id="online_price"
                       className="hinDaB"
                       placeholder="Enter online price"
+                      type="number"
                     />
                   </div>
                 </AddingForm1>
@@ -579,9 +561,10 @@ function ProductForm({ state, setState }) {
               <AddingForm1 title="Apply category defaults">
                 <div className="hinDaG">
                   <FormSwitch
-                    value={product.is_online === 1}
+                    value={product.category_default_modifier === 1}
                     onTap={() => {
-                      product.is_online = product.is_online === 1 ? 0 : 1;
+                      product.category_default_modifier =
+                        product.category_default_modifier === 1 ? 0 : 1;
                       setState({ product });
                     }}
                   />

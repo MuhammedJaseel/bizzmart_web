@@ -53,7 +53,7 @@ export async function postCustomer(state, setState) {
   formData.append("loyality_tier", addParties.loyality_tier);
   formData.append("image[]", addParties.image);
   setState({ loading: true, error: null });
-  await postHttp("addCustomer", addParties)
+  await postHttp("addCustomer", addParties, true)
     .then(async (res) => {
       await getAllCustomers(state, setState);
       setState({ addPage: false, addParties: {}, partie: null });
@@ -92,7 +92,7 @@ export async function postSuplier(state, setState) {
   if (typeof addParties.image === "object")
     formData.append("image[]", addParties.image, "[PROXY]");
   setState({ loading: true, error: null });
-  await postHttp("addSupplier", addParties)
+  await postHttp("addSupplier", addParties, true)
     .then(async (res) => {
       await getAllSuppliers(state, setState);
       setState({ addPage: false, addParties: {}, partie: null });
@@ -126,7 +126,7 @@ export async function updateCustomer(state, setState) {
   formData.append("loyality_tier", partie.loyality_tier);
   formData.append("image", partie.image);
   setState({ loading: true, error: null });
-  await postHttp("updateCustomer", partie)
+  await postHttp("updateCustomer", partie, true)
     .then(async (res) => {
       await getAllCustomers(state, setState);
       setState({ addPage: false, partie: {}, partie: null });
@@ -165,7 +165,7 @@ export async function updateSuplier(state, setState) {
   if (typeof partie.image === "object")
     formData.append("image[]", partie.image, "[PROXY]");
   setState({ loading: true, error: null });
-  await postHttp("updateSupplier", partie)
+  await postHttp("updateSupplier", partie, true)
     .then(async (res) => {
       await getAllSuppliers(state, setState);
       setState({ addPage: false, addParties: {}, partie: null });

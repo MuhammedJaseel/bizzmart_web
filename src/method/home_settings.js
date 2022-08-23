@@ -74,7 +74,7 @@ export async function postBussinessSettings(state, setState) {
 ///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
 export async function getMasterData(state, setState) {
-  var getCat = postHttp("categoryLists", {});
+  var getCat = postHttp("getCategories", {});
   var getKot = postHttp("getKOT", {});
   await Promise.all([getCat, getKot])
     .then((res) => {
@@ -83,22 +83,118 @@ export async function getMasterData(state, setState) {
     })
     .catch((error) => setState({ error }));
 }
-export async function submitKots(state, setState) {
-  const { deleteKot, addKot } = state;
-  var error = null;
-  setState({ loading: true });
-  if (addKot.length !== 0)
-    await postHttp("addKOT", { title: addKot }).catch((e) => (error = e));
-  for (let i = 0; i < deleteKot.length; i++)
-    await postHttp("deleteKOT", { kot_id: deleteKot[i] }).catch(
-      (e) => (error = e)
-    );
-  if (error === null) {
-    await getMasterData(state, setState);
-    setState({ deleteKot: [], addKot: [] });
-  }
-  setState({ loading: false, error });
+export async function postCategory(e, state, setState) {
+  e.preventDefault();
+  const { succesPop, loading } = state;
+  if (loading) return;
+  var v = e.target.stationName.value.split(",");
+  const category = [];
+  for (let i = 0; i < v.length; i++)
+    category.push({ name: v[i].replace(/^\s+|\s+$/gm, "") });
+
+  setState({ loading: true, error: null });
+  await postHttp("addCategory", { category })
+    .then(async () => {
+      await getMasterData(state, setState);
+      e.target.reset();
+      succesPop({
+        active: true,
+        title: "Succesfully Added",
+        desc: "Your Category list was succesfully added",
+      });
+    })
+    .catch((error) => setState({ error }));
+  setState({ loading: false });
 }
+export async function updateCategory(k, state, setState) {
+  const { succesPop, loading, allCategory } = state;
+  if (loading) return;
+  setState({ loading: true, error: null });
+  await postHttp("updateCategory", allCategory[k])
+    .then(async () => {
+      await getMasterData(state, setState);
+      succesPop({
+        active: true,
+        title: "Succesfully Added",
+        desc: "Your Category list was succesfully updated",
+      });
+    })
+    .catch((error) => setState({ error }));
+  setState({ loading: false });
+}
+export async function deleteCategory(k, state, setState) {
+  const { succesPop, loading, allCategory } = state;
+  if (loading) return;
+  setState({ loading: true, error: null });
+  await postHttp("deleteCategory", allCategory[k])
+    .then(async () => {
+      await getMasterData(state, setState);
+      succesPop({
+        active: true,
+        title: "Succesfully Deleted",
+        desc: "Your Category was succesfully deleted",
+      });
+    })
+    .catch((error) => setState({ error }));
+  setState({ loading: false });
+}
+// ////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////////////////////////////
+export async function postKots(e, state, setState) {
+  e.preventDefault();
+  const { succesPop, loading } = state;
+  if (loading) return;
+  var v = e.target.stationName.value.split(",");
+  for (let i = 0; i < v.length; i++) v[i] = v[i].replace(/^\s+|\s+$/gm, "");
+  setState({ loading: true, error: null });
+  await postHttp("addKOT", { title: v })
+    .then(async () => {
+      await getMasterData(state, setState);
+      e.target.reset();
+      succesPop({
+        active: true,
+        title: "Succesfully Added",
+        desc: "Your KOT list was succesfully added",
+      });
+    })
+    .catch((error) => setState({ error }));
+  setState({ loading: false });
+}
+export async function deleteKots(id, state, setState) {
+  const { succesPop, loading } = state;
+  if (loading) return;
+  setState({ loading: true, error: null });
+  await postHttp("deleteKOT", { kot_id: id })
+    .then(async () => {
+      await getMasterData(state, setState);
+      succesPop({
+        active: true,
+        title: "Succesfully Deleted",
+        desc: "Your KOT was succesfully deleted",
+      });
+    })
+    .catch((error) => setState({ error }));
+  setState({ loading: false });
+}
+export async function updateKots(body, state, setState) {
+  const { succesPop, loading } = state;
+  if (loading) return;
+  setState({ loading: true, error: null });
+  await postHttp("updateKOT", body)
+    .then(async () => {
+      await getMasterData(state, setState);
+      succesPop({
+        active: true,
+        title: "Succesfully Added",
+        desc: "Your KOT list was succesfully updated",
+      });
+    })
+    .catch((error) => setState({ error }));
+  setState({ loading: false });
+}
+
 ///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
@@ -112,14 +208,16 @@ export async function getAllPayments(state, setState) {
   );
 }
 export async function addPayments(state, setState) {
-  const { addPayment, addPaymentPop } = state;
-  const url =
-    addPaymentPop === "Edit" ? "updatePaymentMethod" : "addPaymentMethod";
+  const { addPayment } = state;
+  console.log(addPayment);
+  const url = addPayment?.hasOwnProperty("id")
+    ? "updatePaymentMethod"
+    : "addPaymentMethod";
   setState({ loading: true, error: null });
   await postHttp(url, addPayment)
     .then(async () => {
       await getAllPayments(state, setState);
-      setState({ addPaymentPop: null });
+      setState({ addPayment: null });
     })
     .catch((error) => setState({ error }));
   setState({ loading: false });

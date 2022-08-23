@@ -1,6 +1,14 @@
-import React, { StrictMode } from "react";
-import { submitKots } from "../method/home_settings";
-import WidgetFooterSubmit from "./widget_footer";
+import React, { StrictMode, useState } from "react";
+import {
+  postKots,
+  deleteKots,
+  postCategory,
+  updateKots,
+  getMasterData,
+  updateCategory,
+  deleteCategory,
+} from "../method/home_settings";
+import { Header1 } from "./widget";
 import { AddingForm1, AddingFormLayout } from "./widget_form";
 
 export function HomeSettings5ExpenseCategory({ state, setState }) {
@@ -13,13 +21,7 @@ export function HomeSettings5ExpenseCategory({ state, setState }) {
         <div className="hstN">
           <AddingFormLayout title={title} desc={desc}>
             <AddingForm1 title="All Stations">
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  setState({ addKot: e.target.stationName.value.split(",") });
-                  e.target.reset();
-                }}
-              >
+              <form onSubmit={(e) => {}}>
                 <button className="hstNaA" type="submit" />
                 <input
                   className="hstNaB"
@@ -31,30 +33,15 @@ export function HomeSettings5ExpenseCategory({ state, setState }) {
                 <div className="hstNbA">
                   <div className="hstNbAa">Station (Kitchen)</div>Station IP
                 </div>
-                {allKot.map((it, k) =>
-                  deleteKot.filter((it1) => it1 === it.id).length > 0 ? null : (
-                    <div className="hstNbB" key={k}>
-                      <div className="hstNbBa">{it.title}</div>
-                      <div className="hstNbBb">192.168.1.212</div>
-                      <div
-                        className="hstNbBc"
-                        onClick={() => {
-                          deleteKot.push(it.id);
-                          setState({ deleteKot });
-                        }}
-                      />
-                    </div>
-                  )
-                )}
-                {addKot.map((it, k) => (
+                {allKot.map((it, k) => (
                   <div className="hstNbB" key={k}>
-                    <div className="hstNbBa">{it}</div>
-                    <div className="hstNbBb">...</div>
+                    <div className="hstNbBa">{it.title}</div>
+                    <div className="hstNbBb">192.168.1.212</div>
                     <div
                       className="hstNbBc"
                       onClick={() => {
-                        addKot.splice(k, 1);
-                        setState({ addKot });
+                        deleteKot.push(it.id);
+                        setState({ deleteKot });
                       }}
                     />
                   </div>
@@ -63,41 +50,33 @@ export function HomeSettings5ExpenseCategory({ state, setState }) {
             </AddingForm1>
           </AddingFormLayout>
         </div>
-        <WidgetFooterSubmit
-          props={{
-            onTap: () => submitKots(state, setState),
-            onCancel: () => state.setPage(null),
-            loading,
-            error,
-          }}
-        />
       </StrictMode>
     );
 }
 export function HomeSettings5ProductCategory({ state, setState }) {
   const title = `PRODUCT CATEGORIES`;
   const desc = `Add your prodect station here`;
-  const { page, allCategory, addCategory, deleteCategory, loading, error } =
-    state;
+  const { page, allCategory, allKot, loading, error } = state;
   if (page?.path === "productCategories")
     return (
       <StrictMode>
+        <Header1
+          title="MASTERDATA SETTINGS"
+          bodyL="PRODUCTION CATEGORIES"
+          onTap={() => {
+            setState({ page: null });
+            getMasterData(state, setState);
+          }}
+        />
         <div className="hstN">
           <AddingFormLayout title={title} desc={desc}>
             <AddingForm1 title="Category Settings">
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  setState({
-                    addCategory: e.target.stationName.value.split(","),
-                  });
-                  e.target.reset();
-                }}
-              >
+              <form onSubmit={(e) => postCategory(e, state, setState)}>
                 <button className="hstNaA" type="submit" />
                 <input
                   className="hstNaB"
                   id="stationName"
+                  disabled={loading}
                   placeholder="Type station names separated by comma and add"
                 />
               </form>
@@ -105,45 +84,42 @@ export function HomeSettings5ProductCategory({ state, setState }) {
                 <div className="hstNbA">
                   <div className="hstNbAa">Category Head</div>Product Station
                 </div>
-                {allCategory.map((it, k) =>
-                  deleteCategory.filter((it1) => it1 === it.id).length >
-                  0 ? null : (
-                    <div className="hstNbB" key={k}>
-                      <div className="hstNbBa">{it.name}</div>
-                      <div className="hstNbBb_1">API is not giving data</div>
-                      <div
-                        className="hstNbBc"
-                        onClick={() => {
-                          deleteCategory.push(it.id);
-                          setState({ deleteCategory });
-                        }}
-                      />
-                      <div
-                        className="hstNbBc"
-                        onClick={() => {
-                          deleteCategory.push(it.id);
-                          setState({ deleteCategory });
-                        }}
-                      />
-                    </div>
-                  )
-                )}
-                {addCategory.map((it, k) => (
+                {allCategory?.map((it, k) => (
                   <div className="hstNbB" key={k}>
-                    <div className="hstNbBa">{it}</div>
-                    <div className="hstNbBb">...</div>
-                    <div
-                      className="hstNbBc"
-                      onClick={() => {
-                        addCategory.splice(k, 1);
-                        setState({ addCategory });
+                    <input
+                      defaultValue={it.name}
+                      className="hstNbBa"
+                      onChange={(e) => {
+                        it.name = e.target.value;
+                        it.updated = true;
+                        setState({ allCategory });
                       }}
                     />
+                    <select
+                      className="hstNbBb_1"
+                      defaultValue={it.kot_id}
+                      onChange={(e) => {
+                        it.kot_id = e.target.value;
+                        it.updated = true;
+                        setState({ allCategory });
+                      }}
+                    >
+                      <option hidden>Select Station</option>
+                      {allKot.map((it, k) => (
+                        <option value={it.id}>{it.title}</option>
+                      ))}
+                    </select>
                     <div
-                      className="hstNbBc"
+                      className={
+                        it.modifier.length === 0 ? "hstNbBd_" : "hstNbBd"
+                      }
+                      onClick={() => {}}
+                    />
+                    <div
+                      className={it.updated ? "hstNbBc_" : "hstNbBc"}
                       onClick={() => {
-                        addCategory.splice(k, 1);
-                        setState({ addCategory });
+                        if (it.updated) updateCategory(k, state, setState);
+                        else deleteCategory(k, state, setState);
                       }}
                     />
                   </div>
@@ -152,14 +128,6 @@ export function HomeSettings5ProductCategory({ state, setState }) {
             </AddingForm1>
           </AddingFormLayout>
         </div>
-        <WidgetFooterSubmit
-          props={{
-            // onTap: () => submitCategorys(state, setState),
-            onCancel: () => state.setPage(null),
-            loading,
-            error,
-          }}
-        />
       </StrictMode>
     );
 }
@@ -223,85 +191,72 @@ export function HomeSettings5SalesTaxes({ state, setState }) {
             </AddingForm1>
           </AddingFormLayout>
         </div>
-        <WidgetFooterSubmit
-          props={{
-            onTap: () => submitKots(state, setState),
-            onCancel: () => state.setPage(null),
-            loading,
-            error,
-          }}
-        />
       </StrictMode>
     );
 }
 export function HomeSettings5ProdectionStations({ state, setState }) {
   const title = `PRODUCTION STATION`;
   const desc = `Add your prodect station here`;
-  const { page, allKot, addKot, deleteKot, loading, error } = state;
-  if (page?.path === "prodectionStations")
-    return (
-      <StrictMode>
-        <div className="hstN">
-          <AddingFormLayout title={title} desc={desc}>
-            <AddingForm1 title="All Stations">
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  setState({ addKot: e.target.stationName.value.split(",") });
-                  e.target.reset();
-                }}
-              >
-                <button className="hstNaA" type="submit" />
-                <input
-                  className="hstNaB"
-                  id="stationName"
-                  placeholder="Type station names separated by comma and add"
-                />
-              </form>
-              <div className="hstNb">
-                <div className="hstNbA">
-                  <div className="hstNbAa">Station (Kitchen)</div>Station IP
-                </div>
-                {allKot.map((it, k) =>
-                  deleteKot.filter((it1) => it1 === it.id).length > 0 ? null : (
-                    <div className="hstNbB" key={k}>
-                      <div className="hstNbBa">{it.title}</div>
-                      <div className="hstNbBb">{it.ip}</div>
-                      <div
-                        className="hstNbBc"
-                        onClick={() => {
-                          deleteKot.push(it.id);
-                          setState({ deleteKot });
-                        }}
-                      />
-                    </div>
-                  )
-                )}
-                {addKot.map((it, k) => (
-                  <div className="hstNbB" key={k}>
-                    <div className="hstNbBa">{it}</div>
-                    <div className="hstNbBb">...</div>
-                    <div
-                      className="hstNbBc"
-                      onClick={() => {
-                        addKot.splice(k, 1);
-                        setState({ addKot });
-                      }}
-                    />
-                  </div>
-                ))}
+  const [selected, setSelected] = useState(null);
+  const [edited, setEdited] = useState(null);
+  const { page, allKot, loading, error } = state;
+  if (page?.path !== "prodectionStations") return null;
+  return (
+    <StrictMode>
+      <Header1
+        title="MASTERDATA SETTINGS"
+        bodyL="PRODUCTION STATION"
+        onTap={() => setState({ page: null })}
+      />
+      <div className="hstN">
+        <AddingFormLayout title={title} desc={desc}>
+          <AddingForm1 title="All Stations">
+            <form onSubmit={(e) => postKots(e, state, setState)}>
+              <button className="hstNaA" type="submit" />
+              <input
+                disabled={loading}
+                className="hstNaB"
+                id="stationName"
+                placeholder="Type station names separated by comma and add"
+              />
+            </form>
+            <div className="hstNb">
+              <div className="hstNbA">
+                <div className="hstNbAa">Station (Kitchen)</div>Station IP
               </div>
-            </AddingForm1>
-          </AddingFormLayout>
-        </div>
-        <WidgetFooterSubmit
-          props={{
-            onTap: () => submitKots(state, setState),
-            onCancel: () => state.setPage(null),
-            loading,
-            error,
-          }}
-        />
-      </StrictMode>
-    );
+              {allKot.map((it, k) => (
+                <div className="hstNbB" key={k}>
+                  <input
+                    className="hstNbBa"
+                    defaultValue={it.title}
+                    onFocus={() => {
+                      setSelected(k);
+                      setEdited(null);
+                    }}
+                    onChange={(e) => setEdited(e.target.value)}
+                  />
+                  <div className="hstNbBb">{it.ip}</div>
+                  <div
+                    className={
+                      selected === k && edited !== null ? "hstNbBc_" : "hstNbBc"
+                    }
+                    onClick={() =>
+                      selected === k && edited !== null
+                        ? updateKots(
+                            { id: it.id, title: edited },
+                            state,
+                            setState
+                          )
+                        : deleteKots(it.id, state, setState)
+                    }
+                  />
+                </div>
+              ))}
+              <div className="imaError">{error}</div>
+            </div>
+          </AddingForm1>
+        </AddingFormLayout>
+      </div>
+    </StrictMode>
+  );
 }

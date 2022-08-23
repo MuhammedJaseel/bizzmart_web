@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { StrictMode, useState } from "react";
 import icXl from "../asset/ic_xl.svg";
 import WidgetFooterSubmit from "./widget_footer";
 import { addPaymentDummy, allTimeZone } from "../module/home_settings";
@@ -11,6 +11,8 @@ import { postBussinessSettings } from "../method/home_settings";
 import { postBusinessDay } from "../method/home_settings";
 import { WidgetPopUp2Body } from "./widget_popup";
 import { WidgetPopUp1, WidgetPopUp1In1 } from "./widget_popup";
+import { accountStructure } from "../module/home_cashbank";
+import { deleteAccount } from "../method/home_cashbank";
 import "../style/hst.css";
 
 export function HomeSettings1BussinessSettings({ state, setState }) {
@@ -372,105 +374,125 @@ export function HomeSettings1CashAndBank({ state, setState }) {
   const desc1 = `Email sender address, You can select logged in users email or any email address of your choice`;
   if (page?.path !== "paymentBank") return null;
   return (
-    <div className="hstD">
-      <AddingFormLayout title="CASH & BANK ACCOUNTS" desc={desc}>
-        {allAccounts?.map((it, k) => (
-          <AddingForm1 key={k}>
-            <PaymentCard1 props={it} />
-          </AddingForm1>
-        ))}
-        <AddingForm1>
-          <PaymentButton1
-            props={{
-              title: "Add a new account",
-              onTap: () => setState({ addAccountPopup: 0 }),
-            }}
-          />
-        </AddingForm1>
-      </AddingFormLayout>
-      <AddingFormLayout title="PAYMENT METHODS" desc={desc1}>
-        {allPayments?.map((it, k) => (
-          <AddingForm1 key={k}>
-            <PaymentCard1
-              props={it}
-              isPayment
-              onEdit={() => setState({ addPaymentPop: "Edit", addPayment: it })}
-              onDelete={() =>
-                setState({
-                  addPaymentConfirmPop: {
-                    desc: "Are you sure you want to delete this payment method",
-                    error,
-                    loading,
-                    onSubmit: () => deletePayments(it.id, state, setState),
-                    close: () => setState({ addPaymentConfirmPop: null }),
-                  },
-                })
-              }
+    <StrictMode>
+      <Header1
+        title="GENERAL SETTINGS"
+        bodyL="PAYMENT METHODS"
+        onTap={() => setState({ page: null })}
+      />
+      <div className="hstD">
+        <AddingFormLayout title="CASH & BANK ACCOUNTS" desc={desc}>
+          {allAccounts?.map((it, k) => (
+            <AddingForm1 key={k}>
+              <PaymentCard1
+                props={it}
+                hide={it.account_display_name === "Cash in hand"}
+                onTap={null}
+                onEdit={() => setState({ addAccount: it })}
+                onDelete={() =>
+                  setState({
+                    confirmPop: {
+                      desc: "Are you sure you want to delete this Account",
+                      loading,
+                      error,
+                      onSubmit: () => deleteAccount(it.id, state, setState),
+                      close: () => setState({ confirmPop: null, error: null }),
+                    },
+                  })
+                }
+              />
+            </AddingForm1>
+          ))}
+          <AddingForm1>
+            <PaymentButton1
+              props={{
+                title: "Add a new account",
+                onTap: () => setState({ addAccount: accountStructure }),
+              }}
             />
           </AddingForm1>
-        ))}
-        <AddingForm1>
-          <PaymentButton1
-            props={{
-              title: "Add a new payment method",
-              onTap: () =>
-                setState({
-                  addPaymentPop: "Add New",
-                  addPayment: addPaymentDummy,
-                }),
-            }}
-          />
-        </AddingForm1>
-      </AddingFormLayout>
-    </div>
+        </AddingFormLayout>
+        <AddingFormLayout title="PAYMENT METHODS" desc={desc1}>
+          {allPayments?.map((it, k) => (
+            <AddingForm1 key={k}>
+              <PaymentCard1
+                props={it}
+                isPayment
+                hide={it.type === "Cash"}
+                hideBin={it.name === "Card" || it.name === "Upi"}
+                onTap={null}
+                onEdit={() => setState({ addPayment: it })}
+                onDelete={() =>
+                  setState({
+                    confirmPop: {
+                      desc: "Are you sure you want to delete this payment method",
+                      error,
+                      loading,
+                      onSubmit: () => deletePayments(it.id, state, setState),
+                      close: () => setState({ confirmPop: null }),
+                    },
+                  })
+                }
+              />
+            </AddingForm1>
+          ))}
+          <AddingForm1>
+            <PaymentButton1
+              props={{
+                title: "Add a new payment method",
+                onTap: () => setState({ addPayment: addPaymentDummy }),
+              }}
+            />
+          </AddingForm1>
+        </AddingFormLayout>
+      </div>
+    </StrictMode>
   );
 }
 export function HomeSettings1AddPaymentPopup({ state, setState }) {
-  const { addPaymentPop, error, loading, addPayment, allAccounts } = state;
+  const { error, loading, addPayment, allAccounts } = state;
+  const tit = addPayment?.hasOwnProperty("id") ? "Edit" : "Add New";
   const popupProps1 = {
-    close: () => setState({ addPaymentPop: null, error: null }),
-    title: addPaymentPop + " Payment Method",
-    desc: addPaymentPop + " payment method to receive payments",
+    close: () => setState({ addPayment: null, error: null }),
+    title: tit + " Payment Method",
+    desc: tit + " payment method to receive payments",
     error,
     loading,
-    onChnage: (e) => {
-      addPayment[e.target.id] = e.target.value;
-      setState({ addPayment });
-    },
+    onChange: (e) => (addPayment[e.target.id] = e.target.value),
     submit: () => addPayments(state, setState),
     small: true,
   };
-  if (addPaymentPop === "Edit" || addPaymentPop === "Add New")
-    return (
-      <WidgetPopUp1 props={popupProps1}>
-        <WidgetPopUp2Body>
-          <WidgetPopUp1In1 title="Display Name">
-            <input
-              className="hcbAa"
-              defaultValue={addPayment.name}
-              id="name"
-              placeholder="Enter display name"
-            />
-          </WidgetPopUp1In1>
-          <WidgetPopUp1In1 title="Target Account">
-            <select
-              className="hcbAa"
-              id="target_account_id"
-              defaultValue={addPayment.target_account_id}
-            >
-              <option value="" hidden>
-                Select account
+  if (addPayment === null) return null;
+  return (
+    <WidgetPopUp1 props={popupProps1}>
+      <WidgetPopUp2Body>
+        <WidgetPopUp1In1 title="Display Name">
+          <input
+            className="hcbAa"
+            defaultValue={addPayment?.name}
+            id="name"
+            placeholder="Enter display name"
+          />
+        </WidgetPopUp1In1>
+        <WidgetPopUp1In1 title="Target Account">
+          <select
+            className="hcbAa"
+            id="target_account_id"
+            defaultValue={addPayment?.target_account_id}
+          >
+            <option value="" hidden>
+              Select account
+            </option>
+            {allAccounts.map((it, k) => (
+              <option key={k} value={it.id}>
+                {it.account_name}
               </option>
-              {allAccounts.map((it, k) => (
-                <option key={k} value={it.id}>
-                  {it.account_name}
-                </option>
-              ))}
-            </select>
-          </WidgetPopUp1In1>
-        </WidgetPopUp2Body>
-      </WidgetPopUp1>
-    );
+            ))}
+          </select>
+        </WidgetPopUp1In1>
+      </WidgetPopUp2Body>
+    </WidgetPopUp1>
+  );
 }
 
 export function HomeSettingsBody3({ state, setState }) {

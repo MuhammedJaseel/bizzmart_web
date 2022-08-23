@@ -305,7 +305,7 @@ export function HeaderButtens1({ props }) {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 export function PaymentCard1(prams) {
-  const { props, onTap, isPayment, onEdit, onDelete, hide } = prams;
+  const { props, onTap, isPayment, onEdit, onDelete, hide, hideBin } = prams;
   const { account_balance, account_display_name, account_type } = props;
   const { last_entry_date, account_name } = props;
   const st = { backgroundImage: `url(${props.image})` };
@@ -317,7 +317,7 @@ export function PaymentCard1(prams) {
             <div className="zc1DaA">{account_display_name}</div>
             <div className="zc1DaB" style={st} />
           </div>
-          {!isPayment ? <div className="zc1Db">Balance</div> : null}
+          {!isPayment ? <div className="zc1Db">Balance</div> : <br />}
           <div className="zc1Dc">
             {!isPayment ? "INR" + account_balance : account_name}
           </div>
@@ -329,7 +329,7 @@ export function PaymentCard1(prams) {
           <div className="zc1DeA">{account_type}</div>
           {!hide ? (
             <div className="zc1DeB">
-              <div className="zc1DeC" onClick={onDelete} />
+              {!hideBin ? <div className="zc1DeC" onClick={onDelete} /> : null}
               <div className="zc1DeD" onClick={onEdit} />
             </div>
           ) : null}

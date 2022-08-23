@@ -152,7 +152,7 @@
 /* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 /* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 .hstN {
-  height: calc(100vh - 10vw);
+  height: calc(100vh - 6.5vw);
   overflow: auto;
 }
 .hstNaA {
@@ -214,10 +214,13 @@
 }
 /* This is for prodect category discription only */
 .hstNbBb_1 {
-  width: 48%;
+  width: 55%;
   background-color: #ffffff;
 }
-.hstNbBc {
+.hstNbBc,
+.hstNbBc_,
+.hstNbBd_,
+.hstNbBd {
   width: 1.7vw;
   background-color: var(--primart_blue);
   border-radius: 0.2vw;
@@ -226,6 +229,15 @@
   background-repeat: no-repeat;
   background-image: url(../asset/ic_bin1.svg);
   cursor: pointer;
+}
+.hstNbBc_ {
+  background-image: url(../asset/ic_mark3.svg);
+}
+.hstNbBd {
+  background-image: url(../asset/ic_modifier.svg);
+}
+.hstNbBd_ {
+  background-image: url(../asset/ic_modifier1.svg);
 }
 /* /////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 /* /////////////////////////////////////////////////////////////////////////////////////////////////////////// */
@@ -373,7 +385,7 @@
   padding: 1vw;
 }
 .hst_2DaFa {
-  font-size: .9vw;
+  font-size: 0.9vw;
   font-weight: 500;
   margin: 0.3vw;
 }
@@ -389,7 +401,7 @@
   min-width: 1.7vw;
   height: 1.7vw;
   background-color: var(--primart_blue);
-  border-radius: .2vw;
+  border-radius: 0.2vw;
   text-align: center;
   font-size: 1.3vw;
   color: white;
