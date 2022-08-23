@@ -13,6 +13,7 @@ export const getHttp = async (path, prams) => {
     headers: {
       Authorization: "Bearer " + window.localStorage.getItem("bearerToken"),
       sessionId: window.localStorage.getItem("sessionId"),
+      "Content-type": "multipart/form-data",
     },
   };
   return await axios
@@ -36,6 +37,7 @@ export const postHttp = async (path, body) => {
     headers: {
       Authorization: "Bearer " + window.localStorage.getItem("bearerToken"),
       sessionId: window.localStorage.getItem("sessionId"),
+      "Content-type": "multipart/form-data",
     },
   };
   body.branch_id = window.localStorage.getItem("branchId");
@@ -68,6 +70,7 @@ export const postHttpStatic = async (path, body) => {
   const header = {
     headers: {
       Authorization: "Bearer 6Ufw7bS+7yElKQJtvUCM3vNfOZsqQmMjmHZ8cdbMBuQ=",
+      "Content-type": "multipart/form-data",
     },
   };
   return await axios

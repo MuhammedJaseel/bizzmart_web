@@ -4,7 +4,13 @@ import { Header1, Header2, Header4 } from "./widget";
 import { HeaderButtens1, TitleFilter1 } from "./widget";
 import { DrawerForm1 } from "./widget_form";
 import { DrowerView2 } from "./widget_view";
-import { getAllCustomers, getAllSuppliers } from "../method/home_parties";
+import {
+  getAllCustomers,
+  getAllData,
+  getAllSuppliers,
+  updateCustomer,
+  updateSuplier,
+} from "../method/home_parties";
 import { postSuplier } from "../method/home_parties";
 import { postCustomer } from "../method/home_parties";
 import { partiesHeads0, partiesHeads1 } from "../module/home_parties";
@@ -26,6 +32,10 @@ export default class HomeParties extends Component {
       addPage: false,
       allCustomer: [],
       allSupplier: [],
+      allPlaceofSupplay: [],
+      allLoyaltyType: [],
+      allStates: [],
+      allSupplierType: [],
       customerPaging: {},
       supplierPaging: {},
       partie: null,
@@ -38,6 +48,8 @@ export default class HomeParties extends Component {
     const setState = (v) => this.setState(v);
     getAllCustomers(state, setState);
     getAllSuppliers(state, setState);
+    getAllData(state, setState);
+    
   }
   render() {
     const state = this.state;
@@ -183,16 +195,25 @@ function HomePartiesSuppliersTable({ state, setState }) {
 
 function HomePartiesAddForm({ state, setState }) {
   const { loading, error, page, addPage, addParties } = state;
+  const { allPlaceofSupplay, allStates, allLoyaltyType, allSupplierType } =
+    state;
   const body = {
     title: "New " + (page === 0 ? "customer" : "suppliers"),
     show: addPage,
-    close: () => setState({ addPage: false, addParties: null }),
+    close: () => {
+      setState({ addPage: false, addParties: null, error: null });
+      document.getElementById("partiesAddForm").reset();
+    },
     submit: () =>
       page === 0 ? postCustomer(state, setState) : postSuplier(state, setState),
     loading,
     error,
     type: page === 0 ? "customer" : "supplier",
     setToPay: (v) => (addParties.isToPay = v),
+    allPlaceofSupplay,
+    allStates,
+    allLoyaltyType,
+    allSupplierType,
   };
   return (
     <form
@@ -200,6 +221,7 @@ function HomePartiesAddForm({ state, setState }) {
         if (e.target.id === "image") addParties.image = e.target.files[0];
         else addParties[e.target.id] = e.target.value;
       }}
+      id="partiesAddForm"
     >
       <DrawerForm1 props={body} />
     </form>
@@ -208,13 +230,19 @@ function HomePartiesAddForm({ state, setState }) {
 
 function HomePartiesEditForm({ state, setState }) {
   const { partie, error, loading, page } = state;
+  const { allPlaceofSupplay, allStates, allLoyaltyType, allSupplierType } =
+    state;
   const body = {
     show: partie !== null,
     item: partie,
     error,
     loading,
-    close: () => setState({ partie: null }),
+    close: () => setState({ partie: null, error: null }),
     type: page === 0 ? "customer" : "supplier",
+    allPlaceofSupplay,
+    allStates,
+    allLoyaltyType,
+    allSupplierType,
   };
   return (
     <form
@@ -224,7 +252,9 @@ function HomePartiesEditForm({ state, setState }) {
       }}
       onSubmit={(e) => {
         e.preventDefault();
-        postSuplier(state, setState);
+        page === 0
+          ? updateCustomer(state, setState)
+          : updateSuplier(state, setState);
       }}
     >
       <DrowerView2 props={body} />

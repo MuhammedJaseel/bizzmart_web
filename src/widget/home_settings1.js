@@ -14,7 +14,8 @@ import { WidgetPopUp1, WidgetPopUp1In1 } from "./widget_popup";
 import "../style/hst.css";
 
 export function HomeSettings1BussinessSettings({ state, setState }) {
-  const { page, setPage, bussinessSettings, loading, error } = state;
+  const { page, setPage, bussinessSettings, loading, error, allBusinessType } =
+    state;
 
   const body = "GENERAL SETTINGS";
   const bodyL = "BUSINESS & GST SETTINGS";
@@ -185,7 +186,7 @@ export function HomeSettings1BussinessSettings({ state, setState }) {
         <AddingFormLayout title={title} desc={desc}>
           <AddingForm1 title="Timezone*">
             <select className="hstDa" value={bussinessSettings.branch_timezone}>
-              {allTimeZone.map((it, k) => (
+              {allTimeZone?.map((it, k) => (
                 <option key={k} value={it}>
                   {it}
                 </option>
@@ -215,12 +216,18 @@ export function HomeSettings1BussinessSettings({ state, setState }) {
             />
           </AddingForm1>
           <AddingForm1 title="Business Type">
-            <input
+            <select
               className="hstDa"
               placeholder="Name"
-              id="buisness_type"
-              defaultValue={bussinessSettings.buisness_type}
-            />
+              id="buisness_type_id"
+              defaultValue={bussinessSettings.buisness_type_id}
+            >
+              {allBusinessType.map((it, k) => (
+                <option key={k} value={it.id}>
+                  {it.name}
+                </option>
+              ))}
+            </select>
           </AddingForm1>
           <AddingForm1 title="GST Number">
             <input
@@ -281,7 +288,7 @@ function BussinessSettingsDaysMarker({ state, setState }) {
   return (
     <div className="hstDc">
       <div className="hstDcA">
-        {days.map((it, k) => (
+        {days?.map((it, k) => (
           <div
             key={k}
             className={
@@ -367,7 +374,7 @@ export function HomeSettings1CashAndBank({ state, setState }) {
   return (
     <div className="hstD">
       <AddingFormLayout title="CASH & BANK ACCOUNTS" desc={desc}>
-        {allAccounts.map((it, k) => (
+        {allAccounts?.map((it, k) => (
           <AddingForm1 key={k}>
             <PaymentCard1 props={it} />
           </AddingForm1>
@@ -382,7 +389,7 @@ export function HomeSettings1CashAndBank({ state, setState }) {
         </AddingForm1>
       </AddingFormLayout>
       <AddingFormLayout title="PAYMENT METHODS" desc={desc1}>
-        {allPayments.map((it, k) => (
+        {allPayments?.map((it, k) => (
           <AddingForm1 key={k}>
             <PaymentCard1
               props={it}

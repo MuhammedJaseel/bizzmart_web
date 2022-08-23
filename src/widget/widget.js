@@ -304,31 +304,35 @@ export function HeaderButtens1({ props }) {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-export function PaymentCard1({ props, onTap, isPayment, onEdit, onDelete }) {
-  const { account_balance, account_display_name, account_type, account_name } =
-    props;
-  const { last_entry_date } = props;
+export function PaymentCard1(prams) {
+  const { props, onTap, isPayment, onEdit, onDelete, hide } = prams;
+  const { account_balance, account_display_name, account_type } = props;
+  const { last_entry_date, account_name } = props;
   const st = { backgroundImage: `url(${props.image})` };
   return (
     <div className="zc1D-body">
-      <div className="zc1D" onClick={onTap}>
-        <div className="zc1Da">
-          <div className="zc1DaA">{account_display_name}</div>
-          <div className="zc1DaB" style={st} />
+      <div className="zc1D">
+        <div onClick={onTap}>
+          <div className="zc1Da">
+            <div className="zc1DaA">{account_display_name}</div>
+            <div className="zc1DaB" style={st} />
+          </div>
+          {!isPayment ? <div className="zc1Db">Balance</div> : null}
+          <div className="zc1Dc">
+            {!isPayment ? "INR" + account_balance : account_name}
+          </div>
+          {!isPayment ? (
+            <div className="zc1Dd">Last entry: {last_entry_date}</div>
+          ) : null}
         </div>
-        {!isPayment ? <div className="zc1Db">Balance</div> : null}
-        <div className="zc1Dc">
-          {!isPayment ? "INR" + account_balance : account_name}
-        </div>
-        {!isPayment ? (
-          <div className="zc1Dd">Last entry: {last_entry_date}</div>
-        ) : null}
         <div className="zc1De">
           <div className="zc1DeA">{account_type}</div>
-          <div className="zc1DeB">
-            <div className="zc1DeC" onClick={onDelete} />
-            <div className="zc1DeD" onClick={onEdit} />
-          </div>
+          {!hide ? (
+            <div className="zc1DeB">
+              <div className="zc1DeC" onClick={onDelete} />
+              <div className="zc1DeD" onClick={onEdit} />
+            </div>
+          ) : null}
         </div>
       </div>
     </div>

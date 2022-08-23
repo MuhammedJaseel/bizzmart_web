@@ -18,11 +18,10 @@ export default class HomeCashbank extends Component {
     this.state = {
       page: 0,
       loading: false,
-      addAccountPopup: null,
       error: null,
       allAccounts: [],
       allBanks: [],
-      addAccount: accountStructure,
+      addAccount: null,
       accountConfirmPop: null,
       account: null,
       makePayment: null,
@@ -32,6 +31,8 @@ export default class HomeCashbank extends Component {
       historyPaging: {},
       chequePaging: {},
       chequePage: 0,
+      // FUNCTION ///////////////////////////////////////////////////
+      succesPop: props.succesPop,
     };
   }
   componentDidMount() {
@@ -44,10 +45,13 @@ export default class HomeCashbank extends Component {
     const setState = (v) => this.setState(v);
     const { page, accountConfirmPop } = state;
     const bodyRBody = {
-      makeAdd: () => setState({ addAccountPopup: 0 }),
+      makeAdd: () => setState({ addAccount: accountStructure }),
       title: "+ New Account",
       drowelList: [
-        { title: "Add Account", fun: () => setState({ addAccountPopup: 0 }) },
+        {
+          title: "Add Account",
+          fun: () => setState({ addAccount: accountStructure }),
+        },
         { title: "Fund Transfer", fun: () => setState({ makePayment: {} }) },
         { title: "Receive Money", fun: () => setState({ receiveMoney: {} }) },
         { title: "Spend Money", fun: () => setState({ spendMoney: {} }) },
@@ -92,14 +96,15 @@ function HomeCashBankBody({ state, setState }) {
           <div className="hcbBa" key={k}>
             <PaymentCard1
               props={it}
+              hide={it.account_display_name === "Cash in hand"}
               onTap={() => setState({ account: it, page: 1 })}
-              onEdit={() => setState({ addPaymentPop: "Edit", addPayment: it })}
+              onEdit={() => setState({ addAccount: it })}
               onDelete={() =>
                 setState({
                   accountConfirmPop: {
                     desc: "Are you sure you want to delete this Account",
-                    error,
                     loading,
+                    error,
                     onSubmit: () => deleteAccount(it.id, state, setState),
                     close: () =>
                       setState({ accountConfirmPop: null, error: null }),

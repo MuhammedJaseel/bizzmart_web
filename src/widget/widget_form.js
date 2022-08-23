@@ -168,6 +168,8 @@ function DrawerLayout1({ show, body }) {
 }
 export function DrawerForm1({ props }) {
   const { show, close, submit, loading, error, title, type, setToPay } = props;
+  const { allPlaceofSupplay, allStates, allLoyaltyType, allSupplierType } =
+    props;
   const [selected, setSelected] = useState(0);
   const [isToPay, setIsToPay] = useState(false);
   const [image, setImage] = useState(null);
@@ -228,6 +230,11 @@ export function DrawerForm1({ props }) {
               </div>
             </StrictMode>
           )}
+          {true ? (
+            <div className={selected === 4 ? "zfEbAb_" : "zfEbAb"}>
+              Access Information
+            </div>
+          ) : null}
         </div>
         <div className="zfEbB">
           <div className="zfEbBa">BASIC INFORMATION</div>
@@ -280,9 +287,11 @@ export function DrawerForm1({ props }) {
                   onFocus={() => setSelected(0)}
                   id="loyality_tier"
                 >
-                  <option value="Silver">Silver</option>
-                  <option value="Gold">Gold</option>
-                  <option value="Platinum">Platinum</option>
+                  {allLoyaltyType.map((it, k) => (
+                    <option key={k} value={it.title}>
+                      {it.title}
+                    </option>
+                  ))}
                 </select>
                 <div className="zfEbBbA">Lead Channel</div>
                 <input
@@ -314,8 +323,11 @@ export function DrawerForm1({ props }) {
                   className="zfEbBbB"
                   onFocus={() => setSelected(0)}
                   placeholder="Distributor"
-                  disabled
-                />
+                >
+                  {allSupplierType.map((it, k) => (
+                    <option value={it.title}>{it.title}</option>
+                  ))}
+                </select>
               </StrictMode>
             ) : null}
           </div>
@@ -407,7 +419,13 @@ export function DrawerForm1({ props }) {
                     onFocus={() => setSelected(2)}
                     id="place_of_supply"
                     placeholder="Place of supply"
-                  />
+                  >
+                    {allPlaceofSupplay?.map((it, k) => (
+                      <option key={k} value={it.state_name}>
+                        {it.state_name}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
               <div className="zfEbBa">ADDRESS INFORMATION</div>
@@ -434,20 +452,14 @@ export function DrawerForm1({ props }) {
                   <select
                     className="zfEbBbBa"
                     onFocus={() => setSelected(2)}
-                    id="state"
-                    //
-                    //
-                    //
-                    //
-                    //
-                    // TODO: how i get states
-                    //
-                    //
-                    //
-                    //
-                    //
-                    //
-                  />
+                    id="state_id"
+                  >
+                    {allStates?.map((it, k) => (
+                      <option key={k} value={it.id}>
+                        {it.name}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
             </StrictMode>
@@ -518,9 +530,90 @@ export function DrawerForm1({ props }) {
                     </div>
                   </div>
                 </div>
+                {true ? (
+                  <StrictMode>
+                    <div className="zfEbBbA">User ID*</div>
+                    <input
+                      className="zfEbBbB"
+                      onFocus={() => setSelected(1)}
+                      placeholder="Enter user ID"
+                      id="number"
+                    />
+                    <div className="zfEbBbA">
+                      <div className="zfEbBbAa">Password*</div>
+                      <div className="zfEbBbAa">PIN*</div>
+                    </div>
+                    <div className="zfEbBbB">
+                      <input
+                        className="zfEbBbBa"
+                        onFocus={() => setSelected(1)}
+                        type="password"
+                        id="gst_number"
+                        placeholder="Password"
+                      />
+                      <input
+                        className="zfEbBbBa"
+                        onFocus={() => setSelected(1)}
+                        type="password"
+                        id="place_of_supply"
+                        placeholder="PinCode"
+                      />
+                    </div>
+                  </StrictMode>
+                ) : null}
               </div>
             </StrictMode>
           )}
+          {true ? (
+            <StrictMode>
+              <div className="zfEbBa">ACCES INFORMATION</div>
+              <br />
+              <div className="zfEbBc">
+                Head office System (HoS)
+                <select
+                  onFocus={() => setSelected(4)}
+                  className="zfEbBcB"
+                ></select>
+              </div>
+              <div className="zfEbBc">
+                Back office System (BoS)
+                <select
+                  onFocus={() => setSelected(4)}
+                  className="zfEbBcB"
+                ></select>
+              </div>
+              <div className="zfEbBc">
+                Point of Sale (PoS)
+                <select
+                  onFocus={() => setSelected(4)}
+                  className="zfEbBcB"
+                ></select>
+              </div>
+              <div className="zfEbBc">
+                Mobile Reporting
+                <select
+                  onFocus={() => setSelected(4)}
+                  className="zfEbBcB"
+                ></select>
+              </div>
+              <div className="zfEbBc">
+                Runner App
+                <select
+                  onFocus={() => setSelected(4)}
+                  className="zfEbBcB"
+                ></select>
+              </div>
+              <div className="zfEbBc">
+                Scanner App
+                <select
+                  onFocus={() => setSelected(4)}
+                  className="zfEbBcB"
+                ></select>
+              </div>
+              <br />
+              <br />
+            </StrictMode>
+          ) : null}
         </div>
       </div>
       <div className="zfEd">

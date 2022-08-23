@@ -24,7 +24,10 @@ import {
 import "../style/hst.css";
 import "../style/hst2.css";
 import { HomeSettings4AllowanceInceventves } from "./home_settings4";
-import { HomeSettings6AssetsExpenses, HomeSettings6EquityEarnings } from "./home_settings6";
+import {
+  HomeSettings6AssetsExpenses,
+  HomeSettings6EquityEarnings,
+} from "./home_settings6";
 
 export default class HomeSettings extends Component {
   constructor(props) {
@@ -37,6 +40,7 @@ export default class HomeSettings extends Component {
       bussinessSettings: {},
       allAccounts: [],
       allPayments: [],
+      allBusinessType: [],
       addAccountPopup: null,
       addAccount: accountStructure,
       addPayment: addPaymentDummy,

@@ -62,11 +62,12 @@ export async function deletePartner(id, state, setState) {
     .catch((error) => setState({ error }));
   setState({ loading: false });
 }
-export async function updatedPartner(status, state, setState) {
+export async function updatedPartner(item, state, setState) {
   const { loading, succesPop } = state;
   if (loading) return;
+  const status = item.status === "ACTIVE" ? 0 : 1;
   setState({ loading: true, error: null });
-  await postHttp("updatePartnerStatus", { status })
+  await postHttp("updatePartnerStatus", { status, id: item.id })
     .then(async () => {
       await getAllPartners(state, setState);
       setState({ deletePartnerConfirmPop: null, addPartner: {} });

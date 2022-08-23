@@ -4,11 +4,10 @@ import { WidgetPopUp1In1, WidgetPopUp1In2 } from "./widget_popup";
 import { addCashandBank } from "../method/home_cashbank";
 
 export function AccountAddPopUpLayout({ state, setState }) {
-  const { loading, addAccountPopup, error, addAccount, allBanks } = state;
-  if (addAccountPopup === null) return null;
-
+  const { loading, error, addAccount, allBanks } = state;
+  if (addAccount === null) return null;
   const popupProps1 = {
-    close: () => setState({ addAccountPopup: null }),
+    close: () => setState({ addAccount: null }),
     title: "Add Account",
     desc: `Setup a new cash or bank account here for your business on bizzSmart.`,
     error,
@@ -39,11 +38,20 @@ export function AccountAddPopUpLayout({ state, setState }) {
       break;
   }
 
+  function setDate(d) {
+    const s = d.split("-");
+    return `${s[2]}-${s[1]}-${s[0]}`;
+  }
+
   return (
     <WidgetPopUp1 props={popupProps1}>
       <WidgetPopUp1Body>
         <WidgetPopUp1In1 title="Account Type*">
-          <select className="hcbAa" id="account_type">
+          <select
+            className="hcbAa"
+            id="account_type"
+            defaultValue={addAccount?.account_type}
+          >
             <option value="Bank Account">Bank Account</option>
             <option value="Cash Account">Cash Account</option>
             <option value="Loan Account">Loan Account</option>
@@ -56,15 +64,22 @@ export function AccountAddPopUpLayout({ state, setState }) {
           <input
             className="hcbAa"
             id="account_name"
+            defaultValue={addAccount?.account_name}
             placeholder="Enter account holder name here"
           />
         </WidgetPopUp1In1>
         {type === 0 ? (
           <WidgetPopUp1In2 title1="Branch*" title2="IBAN/IFSC*">
-            <input className="hcbAb" placeholder="Enter branch" id="branch" />
+            <input
+              className="hcbAb"
+              defaultValue={addAccount?.branch}
+              placeholder="Enter branch"
+              id="branch"
+            />
             <input
               className="hcbAb"
               placeholder="Enter IFSC/IBAN"
+              defaultValue={addAccount?.ifsc_code}
               id="ifsc_code"
             />
           </WidgetPopUp1In2>
@@ -74,7 +89,11 @@ export function AccountAddPopUpLayout({ state, setState }) {
         {type === 0 ? (
           <StrictMode>
             <WidgetPopUp1In1 title="Select Bank*">
-              <select className="hcbAa" id="account_display_name">
+              <select
+                className="hcbAa"
+                id="account_display_name"
+                defaultValue={addAccount?.account_display_name}
+              >
                 <option>Select your bank</option>
                 {allBanks.map((it, k) => (
                   <option value={JSON.stringify(it)}>{it.name}</option>
@@ -85,14 +104,28 @@ export function AccountAddPopUpLayout({ state, setState }) {
               <input
                 className="hcbAa"
                 placeholder="Enter account number here"
+                defaultValue={addAccount?.account_number}
                 id="account_number"
+                type="number"
               />
             </WidgetPopUp1In1>
           </StrictMode>
         ) : null}
         <WidgetPopUp1In2 title1="Account Balance" title2="As On">
-          <input className="hcbAb" placeholder="0.00" id="account_balance" />
-          <input className="hcbAb" type="date" disabled />
+          <input
+            className="hcbAb"
+            type="number"
+            placeholder="0.00"
+            id="account_balance"
+            defaultValue={addAccount?.account_balance}
+          />
+          <input
+            className="hcbAb"
+            type={addAccount?.date === undefined ? "" : "date"}
+            disabled
+            placeholder="dd-mm-yyyy"
+            value={setDate(addAccount?.date)}
+          />
         </WidgetPopUp1In2>
       </WidgetPopUp1Body>
     </WidgetPopUp1>

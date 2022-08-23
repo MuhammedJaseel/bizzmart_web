@@ -139,6 +139,7 @@ export default function DrawerView1({ state, setState }) {
 
 export function DrowerView2({ props }) {
   const { show, close, item, error, loading, type } = props;
+  const { allPlaceofSupplay, allStates, allLoyaltyType } = props;
   const [page, setPage] = useState(0);
   const refForKey = useRef(null);
   const [image, setImage] = useState(null);
@@ -232,14 +233,19 @@ export function DrowerView2({ props }) {
                 defaultValue={item.loyalty_tire}
                 id="loyalty_tire"
               >
-                <option value="Silver">Silver</option>
-                <option value="Gold">Gold</option>
-                <option value="Platinum">Platinum</option>
+                {allLoyaltyType.map((it, k) => (
+                  <option value={it.title}>{it.title}</option>
+                ))}
               </select>
               {type === "customer" ? (
                 <StrictMode>
                   <div className="zvDbFa">Lead Channel</div>
-                  <input className="zvDbFb" />
+                  <input
+                    className="zvDbFb"
+                    id="create_from"
+                    defaultValue={item.create_from}
+                    disabled
+                  />
                 </StrictMode>
               ) : null}
             </div>
@@ -287,9 +293,16 @@ export function DrowerView2({ props }) {
                 </div>
                 <div className="zvDbFd">
                   <div className="zvDbFa">Place of Supplay</div>
-                  <select className="zvDbFb">
-                    <option hidden>Select</option>
-                    <option value="Karnataka">Karnataka</option>
+                  <select
+                    className="zvDbFb"
+                    id="place_of_supply"
+                    defaultChecked={item.place_of_supply}
+                  >
+                    {allPlaceofSupplay.map((it, k) => (
+                      <option key={k} value={it.state_name}>
+                        {it.state_name}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -313,9 +326,16 @@ export function DrowerView2({ props }) {
                 </div>
                 <div className="zvDbFd">
                   <div className="zvDbFa">State</div>
-                  <select className="zvDbFb">
-                    <option hidden>Select</option>
-                    <option value="Karnataka">Karnataka</option>
+                  <select
+                    className="zvDbFb"
+                    id="state_id"
+                    defaultValue={item.state_id}
+                  >
+                    {allStates.map((it, k) => (
+                      <option key={k} value={it.id}>
+                        {it.name}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, StrictMode } from "react";
 import { MyTable1, MyTableCounter1 } from "./widget_table";
 import { Header1, Header2, Header4 } from "./widget";
 import { HeaderButtens1, TitleFilter1 } from "./widget";
@@ -20,6 +20,11 @@ import {
 } from "./widget_popup";
 import { WidgetPopUp1In1 } from "./widget_popup";
 import "../style/htm.css";
+import {
+  HomeTeamPayAdpancePop,
+  HomeTeamPayRoll,
+  HomeTeamPaySlip,
+} from "./home_team1";
 
 const pTitles = teamPTitles;
 const titles = teamTitles;
@@ -42,6 +47,7 @@ export default class HomeTeam extends Component {
       member: null,
       addMember: {},
       addPartner: {},
+      payrollAdvance: null,
       succesPop: props.succesPop,
       deletePartnerConfirmPop: null,
     };
@@ -70,10 +76,13 @@ export default class HomeTeam extends Component {
       drowelList:
         page === 0
           ? [
-              { title: "New Employee", fun: () => alert() },
-              { title: "Payslip", fun: () => alert() },
-              { title: "Payrun", fun: () => alert() },
-              { title: "Paytoll Advance", fun: () => alert() },
+              { title: "New Employee", fun: () => setState({ addPage: true }) },
+              { title: "Payslip", fun: () => setState({ page: 2 }) },
+              { title: "Payrun", fun: () => setState({ page: 3 }) },
+              {
+                title: "Paytoll Advance",
+                fun: () => setState({ payrollAdvance: {} }),
+              },
             ]
           : null,
     };
@@ -81,21 +90,28 @@ export default class HomeTeam extends Component {
 
     return (
       <React.StrictMode>
-        <Header1 title="TEAM" bodyL={titleL} bodyR={bodyR} />
-        <Header2
-          titles={pTitles}
-          page={page}
-          onTap={(k) => setState({ page: k, addPage: false })}
-        />
-        <Header4
-          title={titles.title[page]}
-          desc={titles.desc[page]}
-          body={filter}
-        />
+        {page === 0 || page === 1 ? (
+          <StrictMode>
+            <Header1 title="TEAM" bodyL={titleL} bodyR={bodyR} />
+            <Header2
+              titles={pTitles}
+              page={page}
+              onTap={(k) => setState({ page: k, addPage: false })}
+            />
+            <Header4
+              title={titles.title[page]}
+              desc={titles.desc[page]}
+              body={filter}
+            />
+          </StrictMode>
+        ) : null}
         <HomeTeamMembersTable state={state} setState={setState} />
         <HomeTeamPartnersTable state={state} setState={setState} />
         <HomeTeamMembersForm state={state} setState={setState} />
         <HomeTeamPartnersForm state={state} setState={setState} />
+        <HomeTeamPaySlip state={state} setState={setState} />
+        <HomeTeamPayRoll state={state} setState={setState} />
+        <HomeTeamPayAdpancePop state={state} setState={setState} />
         <WidgetConfirmPopup props={state.deletePartnerConfirmPop} />
       </React.StrictMode>
     );
@@ -123,8 +139,8 @@ function HomeTeamMembersTable({ state, setState }) {
         { data: it.image, data2: it.name, type: 1 },
         { data: it.name },
         { data: it.code, type: 2 },
-        { data: it.joiningDate },
-        { data: it.phoneNumber },
+        { data: it.joindate },
+        { data: it.phone },
         { data: it.email },
         { data: [statDot(it.systemUser === "NO" ? "r" : "g"), it.systemUser] },
         {
@@ -160,8 +176,7 @@ function HomeTeamPartnersTable({ state, setState }) {
     return "htmCb";
   };
   const onClickStatus = (it) => {
-    if (it.status !== "PENDING")
-      updatedPartner(it.status === "ACTIVE" ? 1 : 0, state, setState);
+    if (it.status !== "PENDING") updatedPartner(it, state, setState);
   };
 
   const onClickDelete = (it) =>
@@ -182,7 +197,7 @@ function HomeTeamPartnersTable({ state, setState }) {
       body.push([
         { data: it.image, data2: it.name, type: 1 },
         { data: it.name },
-        { data: it.joiningDate },
+        { data: it.joindate },
         { data: it.phone },
         { data: it.email },
         {

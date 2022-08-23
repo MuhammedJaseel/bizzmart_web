@@ -40,3 +40,280 @@
   background-size: 1.5vw 1.5vw;
   margin-left: 1vw;
 }
+/* ///////////////////////////////////////////////////////////////////////////////////////////////// */
+/* ///////////////////////////////////////////////////////////////////////////////////////////////// */
+/* ////////////////////////////////////        TEAM PAYSLIP        ///////////////////////////////// */
+/* ///////////////////////////////////////////////////////////////////////////////////////////////// */
+/* ///////////////////////////////////////////////////////////////////////////////////////////////// */
+.htmE {
+  height: calc(100vh - 12vw);
+  padding: 0 1vw;
+}
+.htmEa {
+  font-size: 1vw;
+  font-weight: 500;
+  margin-bottom: 0.2vw;
+}
+.htmEb {
+  margin-bottom: 0.5vw;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1vw;
+}
+.htmEbA {
+  width: 20vw;
+  margin-right: 0.5vw;
+}
+.htmEbB {
+  color: white;
+  background-color: #2d4c86;
+  font-size: 0.88vw;
+  font-weight: 500;
+  padding: 0.3vw 2vw;
+  cursor: pointer;
+  border-radius: 0.1vw;
+}
+.htmEc {
+  display: flex;
+}
+.htmEcA {
+  min-width: 19vw;
+  margin-right: 0.5vw;
+  border-radius: 0.2vw;
+  box-shadow: 0 0 0.2vw #0000002a;
+  background-color: white;
+  font-size: 1vw;
+}
+.htmEcAa {
+  border-top-left-radius: 0.2vw;
+  border-top-right-radius: 0.2vw;
+  background-color: #707070;
+  color: white;
+  padding: 0.5vw;
+  font-weight: 500;
+}
+.htmEcAb {
+  height: calc(100vh - 18.5vw);
+  overflow: auto;
+}
+.htmEcAbA,
+.htmEcAbA_ {
+  padding: 0.5vw 1vw;
+  color: #3d424e;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+.htmEcAbA:nth-child(even) {
+  background-color: #f5f6f7;
+}
+.htmEcAbA_ {
+  background-color: #e1e7ec;
+}
+.htmEcAbAa {
+  color: #255dc5;
+  font-weight: bold;
+  font-size: 0.6vw;
+}
+.htmEcB {
+  width: 100%;
+  height: calc(100vh - 16vw);
+}
+.htmEcBa {
+  display: flex;
+  width: 100%;
+  border-top-left-radius: 0.2vw;
+  border-top-right-radius: 0.2vw;
+  background-color: #707070;
+  color: white;
+  font-size: 1vw;
+  font-weight: 500;
+}
+.htmEcBaA,
+.htmEcBaB {
+  padding: 0.5vw 1vw;
+  border-right: 0.05vw solid rgba(255, 255, 255, 0.449);
+  width: 20%;
+}
+.htmEcBaB {
+  text-align: right;
+  width: 15%;
+}
+.htmEcBb {
+  display: flex;
+  font-size: 1vw;
+  color: #3d424e;
+  border: 0.05vw solid #7070707c;
+  background-color: white;
+}
+.htmEcBc {
+  display: flex;
+  width: 100%;
+  border-top-left-radius: 0.2vw;
+  border-top-right-radius: 0.2vw;
+  background-color: #707070;
+  color: white;
+  font-size: 1vw;
+  font-weight: 500;
+  margin-top: 0.6vw;
+}
+.htmEcBcA,
+.htmEcBcB,
+.htmEcBcC,
+.htmEcBcD,
+.htmEcBcE {
+  padding: 0.5vw 1vw;
+  border-right: 0.05vw solid rgba(255, 255, 255, 0.449);
+  width: 2%;
+}
+.htmEcBcB {
+  width: 65%;
+}
+.htmEcBcC {
+  width: 15%;
+  text-align: right;
+}
+.htmEcBcD {
+  width: 20%;
+  text-align: right;
+}
+.htmEcBcE {
+  width: 15%;
+  text-align: right;
+}
+.htmEcBd {
+  border: 0.05vw solid #70707086;
+}
+.htmEcBdA {
+  display: flex;
+  font-size: 1vw;
+  color: #3d424e;
+  background-color: white;
+  border-bottom: 0.05vw solid #b6b6b677;
+}
+.htmEcBdA:nth-last-child(even) {
+  background-color: #b3b3b31e;
+}
+.htmEcBe,
+.htmEcBf {
+  display: flex;
+  justify-content: space-between;
+  margin: 1vw;
+  font-size: 1vw;
+  margin-left: 60%;
+}
+.htmEcBf {
+  font-size: 1.1vw;
+  font-weight: 500;
+}
+/* ///////////////////////////////////////////////////////////////////////////////////////////////// */
+/* ///////////////////////////////////////////////////////////////////////////////////////////////// */
+/* ////////////////////////////////////        TEAM PAYROLL        ///////////////////////////////// */
+/* ///////////////////////////////////////////////////////////////////////////////////////////////// */
+/* ///////////////////////////////////////////////////////////////////////////////////////////////// */
+.htmF {
+  height: calc(100vh - 11.6vw);
+  padding: 0 1vw;
+}
+.htmFa {
+  border: 0.05vw solid #70707086;
+  background-color: white;
+  border-radius: 0.2vw;
+  padding: 2vw 1vw;
+  display: flex;
+  justify-content: space-between;
+}
+.htmFaA {
+  color: #3d424e;
+  font-size: 0.88vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  font-weight: bold;
+  height: 3vw;
+}
+.htmFaAa {
+  width: 14vw;
+}
+.htmFaAb {
+  width: 8vw;
+  padding: 0.5vw;
+  border-radius: 0.2vw;
+  background-color: #2d4c86;
+  color: white;
+  text-align: center;
+}
+.htmFaAc {
+  width: 22vw;
+}
+.htmFb {
+  display: flex;
+  width: 100%;
+  border-top-left-radius: 0.2vw;
+  border-top-right-radius: 0.2vw;
+  background-color: #707070;
+  color: white;
+  font-size: 1vw;
+  font-weight: 500;
+  margin-top: 0.6vw;
+}
+.htmFbA,
+.htmFbB,
+.htmFbC,
+.htmFbD {
+  padding: 0.5vw 1vw;
+  border-right: 0.05vw solid rgba(255, 255, 255, 0.449);
+  width: 1%;
+}
+.htmFbB {
+  width: 25%;
+}
+.htmFbC {
+  width: 20%;
+}
+.htmFbD {
+  width: 12%;
+  text-align: right;
+}
+.htmFc {
+  border: 0.05vw solid #70707086;
+}
+.htmFcA {
+  display: flex;
+  font-size: 1vw;
+  color: #3d424e;
+  background-color: white;
+  border-bottom: 0.05vw solid #b6b6b677;
+}
+.htmFcA:nth-last-child(even) {
+  background-color: #b3b3b31e;
+}
+.htmFd {
+  margin-top: 0.5vw;
+  border: 0.05vw solid #70707086;
+  background-color: white;
+  border-radius: 0.2vw;
+  padding: 1vw;
+  display: flex;
+  justify-content: space-between;
+}
+.htmFdA {
+  color: #3d424e;
+  font-size: 0.88vw;
+  font-weight: 500;
+  width: 36%;
+}
+.htmFdAa {
+  width: 100%;
+}
+.htmFdAb,
+.htmFdAc {
+  display: flex;
+  justify-content: space-between;
+  margin: 1vw;
+}
+.htmFdAc {
+  font-size: 1vw;
+  font-weight: bold;
+}

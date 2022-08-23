@@ -11,6 +11,9 @@ export async function getBussinessSettings(state, setState) {
   await postHttp("businessSettings", {}).then((res) => {
     setState({ bussinessSettings: res.data });
   });
+  await postHttp("getBusinessTypeLists", {}).then((res) => {
+    setState({ allBusinessType: res.data });
+  });
 }
 
 export function bussinessSettingsValidator(e, state, setState) {
