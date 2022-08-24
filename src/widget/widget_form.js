@@ -7,8 +7,8 @@ import "../style/zf.css";
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-export function MyForm1({ props }) {
-  const { noHeader } = props;
+export function MyForm1({ state, setState }) {
+  const { form } = state;
   const typeSaves = [
     { title: "Save Invoice", fun: null },
     { title: "Save & Add New", fun: null },
@@ -27,7 +27,7 @@ export function MyForm1({ props }) {
   const [isDrower, setIsDrower] = useState(false);
   return (
     <div className="zfB">
-      {noHeader ? null : (
+      {true ? null : (
         <div className="zfBa">
           <div className="zfBaA">
             <div className="zfBaAa">

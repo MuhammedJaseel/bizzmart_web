@@ -21,6 +21,17 @@ export async function getProducts(state, setState) {
   setState({ loading: false });
   return;
 }
+export async function getServices(state, setState) {
+  const { servicesPaging } = state;
+
+  await postHttp("serviceProducts", servicesPaging)
+    .then((res) => {
+      setState({ allService: res.data, servicesPaging: res.page });
+    })
+    .catch((error) => setState({ error }));
+  setState({ loading: false });
+  return;
+}
 
 export async function getCategoryList(state, setState) {
   var getCat = postHttp("categoryLists", {});
@@ -100,31 +111,42 @@ export async function setInventory(state, setState) {
 }
 
 export async function postInventoryProduct(state, setState) {
-  const { product, allTax } = state;
-  const formData = new FormData();
+  const { product, allTax, succesPop } = state;
+  var error = null;
 
-  const taxType = product.tax_inclusion;
+  if (product.selling_tax === "") error = "Select Tax";
+
   const purchasePrice = product.purchase_price;
-
   var proTax = 0;
   var costPrice = "";
   var costTaxAmount = "";
   var costWithTax = "";
-
-  const rate = JSON.parse(product.selling_tax).rate;
-  const cess = JSON.parse(product.selling_tax).cess;
-  proTax = parseInt(rate) + parseInt(cess);
-
-  if (taxType === "Inclusive") {
-    costPrice = purchasePrice / ((1 + proTax) / 100);
-    costTaxAmount = purchasePrice - costPrice;
-    costWithTax = purchasePrice;
-  } else {
-    costPrice = purchasePrice;
-    costTaxAmount = purchasePrice * (proTax / 100);
-    costWithTax = costPrice + costTaxAmount;
+  var rate = "";
+  var cess = "";
+  try {
+    rate = allTax.filter((it) => it.id == product.selling_tax)[0].rate;
+    cess = allTax.filter((it) => it.id == product.selling_tax)[0].cess;
+    if (product.tax_inclusion === "Inclusive") {
+      costPrice = purchasePrice / ((1 + proTax) / 100);
+      costTaxAmount = purchasePrice - costPrice;
+      costWithTax = purchasePrice;
+    } else {
+      costPrice = purchasePrice;
+      costTaxAmount = purchasePrice * (proTax / 100);
+      costWithTax = costPrice + costTaxAmount;
+    }
+    proTax = parseInt(rate) + parseInt(cess);
+  } catch (e) {
+    error = "Something wrong at calculating tax, Check your tax details";
   }
+
+  setState({ error });
+  if (error !== null) return;
+
+  const isEdit = product?.hasOwnProperty("id");
+  const formData = new FormData();
   formData.append("branch_id", window.localStorage.getItem("branchId"));
+  if (isEdit) formData.append("id", product.id);
   formData.append("product_name", product.product_name);
   // MISSING Select product type
   formData.append("category_id", product.category_id);
@@ -134,14 +156,19 @@ export async function postInventoryProduct(state, setState) {
   formData.append("secondry_unit", product.secondry_unit);
   formData.append("enable_unit_conversion", product.secondry_unit !== "");
   formData.append("conversion", product.conversion);
-  formData.append("selling_tax", JSON.parse(product.selling_tax).id);
-  formData.append("cost_tax", JSON.parse(product.selling_tax).id);
-  formData.append("online_tax", JSON.parse(product.selling_tax).id);
-  formData.append("tax_inclusion", taxType);
+  formData.append("selling_tax", product.selling_tax);
+  formData.append("cost_tax", product.selling_tax);
+  formData.append("online_tax", product.selling_tax);
+  formData.append("tax_inclusion", product.tax_inclusion);
   formData.append("hsncode", product.hsncode);
   formData.append("is_online", product.is_online);
   formData.append("product_kot", product.product_kot);
   formData.append("product_type", product.type);
+  formData.append("product_modifier", product.product_modifier);
+  formData.append(
+    "category_default_modifier",
+    product.category_default_modifier
+  );
   if (product.type === 1) {
     formData.append("bar_code", product.bar_code);
     formData.append("ean", product.ean);
@@ -168,24 +195,27 @@ export async function postInventoryProduct(state, setState) {
     formData.append("default_composites", product.default_composites);
     formData.append("selectable_composites", product.selectable_composites);
   }
-  // MISSING Apply category defaults
-  // formData.append("product_modifier", allModifire);
   for (let i = 0; i < product.image.length; i++)
-    formData.append("image[]", product.image[i], "[PROXY]");
+    formData.append("image[]", product.image[i]);
 
-  await postHttp("productStore", formData, true)
+  setState({ loading: true });
+  await postHttp(isEdit ? "updateStore" : "productStore", formData, true)
     .then(async (res) => {
       await getProducts(state, setState);
-      setState({
-        succesPop: {
-          type: 0,
-          msg: "Product added successfully",
-          subMsg: "Updated Successfully",
-        },
-        product: null,
+      succesPop({
+        active: true,
+        title: "Product added successfully",
+        desc: "Updated Successfully",
       });
+      setState({ product: null });
     })
-    .then((error) =>
-      setState({ succesPop: { type: 1, msg: "Oop's", subMsg: error } })
+    .catch((desc) =>
+      succesPop({
+        active: true,
+        type: "error",
+        title: "Error on Adding",
+        desc,
+      })
     );
+  setState({ loading: false });
 }

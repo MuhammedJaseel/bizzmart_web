@@ -7,9 +7,11 @@ import {
   getMasterData,
   updateCategory,
   deleteCategory,
+  updateCategoryModifier,
 } from "../method/home_settings";
 import { Header1 } from "./widget";
 import { AddingForm1, AddingFormLayout } from "./widget_form";
+import { WidgetPopUp1, WidgetPopUp2Body } from "./widget_popup";
 
 export function HomeSettings5ExpenseCategory({ state, setState }) {
   const title = `EXPENSE CATEGORY`;
@@ -97,9 +99,9 @@ export function HomeSettings5ProductCategory({ state, setState }) {
                     />
                     <select
                       className="hstNbBb_1"
-                      defaultValue={it.kot_id}
+                      defaultValue={it.kot}
                       onChange={(e) => {
-                        it.kot_id = e.target.value;
+                        it.kot = e.target.value;
                         it.updated = true;
                         setState({ allCategory });
                       }}
@@ -113,7 +115,7 @@ export function HomeSettings5ProductCategory({ state, setState }) {
                       className={
                         it.modifier.length === 0 ? "hstNbBd_" : "hstNbBd"
                       }
-                      onClick={() => {}}
+                      onClick={() => setState({ addCategoryModifier: it })}
                     />
                     <div
                       className={it.updated ? "hstNbBc_" : "hstNbBc"}
@@ -131,6 +133,70 @@ export function HomeSettings5ProductCategory({ state, setState }) {
       </StrictMode>
     );
 }
+export function HomeSettings5CategotyAddModifiger({ state, setState }) {
+  const { addCategoryModifier, loading, error } = state;
+
+  const value = {};
+  if (addCategoryModifier === null) return null;
+  const body = {
+    title: (
+      <StrictMode>
+        Add Products <span className="hinDh">iPhone 13 Bundle</span>
+      </StrictMode>
+    ),
+    desc: "Add default products for this bundle",
+    close: () => setState({ addCategoryModifier: null, error: null }),
+    loading,
+    error,
+    onChange: null,
+    submit: () => updateCategoryModifier(state, setState),
+  };
+  return (
+    <WidgetPopUp1 props={body}>
+      <WidgetPopUp2Body>
+        <div className="hinDj">
+          <div className="hinDjA">Add Modifier*</div>
+          <div className="hinDjB">Charge</div>
+        </div>
+        <form
+          className="hinDj"
+          onChange={(e) => (value[e.target.id] = e.target.value)}
+        >
+          <input className="hinDjA" id="title" />
+          <input className="hinDjB" id="charge_amount" type="number" />
+          <div
+            className="hinDjD"
+            onClick={() => {
+              setState({ error: null });
+              if (value.title === "" || value.title === null)
+                setState({ error: "Enter title" });
+              else {
+                addCategoryModifier.modifier.push(value);
+                setState({ addCategoryModifier });
+              }
+            }}
+          />
+        </form>
+        <div className="hinDj1">
+          {addCategoryModifier?.modifier?.map((it, k) => (
+            <div className="hinDaHa" key={k}>
+              {it.title}
+              <div className="hinDaHb">{it.charge_amount}</div>
+              <div
+                className="hinDaHc"
+                onClick={() => {
+                  addCategoryModifier.modifier.splice(k, 1);
+                  setState({ addCategoryModifier });
+                }}
+              />
+            </div>
+          ))}
+        </div>
+      </WidgetPopUp2Body>
+    </WidgetPopUp1>
+  );
+}
+
 export function HomeSettings5SalesTaxes({ state, setState }) {
   const title = `SALES TAXES`;
   const desc = `Add your prodect station here`;

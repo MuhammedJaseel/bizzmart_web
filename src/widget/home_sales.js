@@ -6,6 +6,7 @@ import { HeaderButtens1, TitleFilter1 } from "./widget";
 import { MyForm1 } from "./widget_form";
 import DrawerView1 from "./widget_view";
 import "../style/hsl.css";
+import { salesGetSales } from "../method/home_sales";
 
 const pTitles = ["Sales Invoices", "Sales Estimates"];
 const titS = {
@@ -46,12 +47,16 @@ export default class HomeSales extends Component {
       // /////////////////////////////
       allInvoice: [],
       allEstimate: [],
+      invoicePaging: {},
+      estimatePaging: {},
       invoice: null,
     };
   }
 
   componentDidMount() {
-    this.setState({ allInvoice: invoiceList, allEstimate: estimateList });
+    const state = this.state;
+    const setState = (v) => this.setState(v);
+    salesGetSales(state, setState);
   }
 
   render() {
@@ -78,7 +83,11 @@ export default class HomeSales extends Component {
     return (
       <StrictMode>
         <Header1 title="SALES" bodyL={pTitles[page]} bodyR={bodyR} />
-        <Header2 titles={pTitles} page={page} onTap={(k) => setState({ page: k, addPage: false })} />
+        <Header2
+          titles={pTitles}
+          page={page}
+          onTap={(k) => setState({ page: k, addPage: false })}
+        />
         <Header4 title={titS.tit[page]} desc={titS.desc[page]} body={filter} />
         <HomeSalesInvoicesTable state={state} setState={setState} />
         <HomeSalesEstimatesTable state={state} setState={setState} />

@@ -5,6 +5,7 @@ import { Header1, Header2, Header4 } from "./widget";
 import { HeaderButtens1, TitleFilter1 } from "./widget";
 import { MyForm1 } from "./widget_form";
 import "../style/hpr.css";
+import { purchaseGetPurchase } from "../method/home_purchase";
 
 const pTitles = ["Purchase List", "Purchase Order"];
 const desc = [
@@ -35,14 +36,16 @@ export default class HomePurchase extends Component {
       // /////////////////////////////
       allPurchaseList: [],
       allPurchaseOrder: [],
+      purchasePaging: {},
+      estimatePaging: {},
+      form: null,
     };
   }
 
   componentDidMount() {
-    this.setState({
-      allPurchaseList: purchaseList,
-      allPurchaseOrder: purchaseOrder,
-    });
+    const state = this.state;
+    const setState = (v) => this.setState(v);
+    purchaseGetPurchase(state, setState);
   }
 
   render() {
@@ -50,36 +53,32 @@ export default class HomePurchase extends Component {
     const setState = (v) => this.setState(v);
     const { page, addPage } = state;
 
-    const filterBody = {
-      searchPh: "Search an asset",
-    };
-    const filter = !addPage ? <TitleFilter1 props={filterBody} /> : null;
     const bodyRBody = {
-      makeAdd: () => setState({ addPage: true }),
+      makeAdd: () => setState({ form: {} }),
       title: page === 0 ? "+ New Purchase" : "+ New Purchase Order",
       drowelList: [
-        { title: "Add Purchase", fun: () => alert() },
-        { title: "Add Purchase Order", fun: () => alert() },
+        { title: "Add Purchase", fun: () => setState({ form: {} }) },
+        { title: "Add Purchase Order", fun: () => setState({ form: {} }) },
       ],
     };
     const bodyR = <HeaderButtens1 props={bodyRBody} />;
 
     return (
       <React.StrictMode>
-        <Header1 title="Purchase" bodyR={addPage ? null : bodyR} />
-        <Header2 titles={pTitles} page={page} onTap={(k) => setState({ page: k, addPage: false })} />
-        <Header4 title={pTitles[page]} desc={desc[page]} body={filter} />
+        <Header1 title="PURCHASE" bodyR={addPage ? null : bodyR} />
         <HomePurchaseListTable state={state} setState={setState} />
         <HomePurchaseOrderTable state={state} setState={setState} />
-        <HomePurchaseListForm state={state} setState={setState} />
-        <HomePurchaseOrderForm state={state} setState={setState} />
+        <HomePurchaseForm state={state} setState={setState} />
       </React.StrictMode>
     );
   }
 }
 
 function HomePurchaseListTable({ state, setState }) {
-  const { page, allPurchaseList, addPage } = state;
+  const { page, allPurchaseList, form } = state;
+
+  const filterBody = { searchPh: "Search an asset" };
+  const filter = <TitleFilter1 props={filterBody} />;
 
   const widths = [
     { width: 4 },
@@ -96,26 +95,35 @@ function HomePurchaseListTable({ state, setState }) {
     for (let i = 0; i < allPurchaseList.length; i++) {
       const it = allPurchaseList[i];
       body.push([
-        { data: it.image, data2: it.supplier, type: 1 },
-        { data: it.grn, type: 3 },
+        { data: it.image, data2: it.supplier_name, type: 1 },
+        { data: it.reference_number, type: 3 },
         { data: it.date },
-        { data: it.supplier, type: 3 },
-        { data: it.invoice },
-        { data: it.total },
-        { data: it.amountDue },
+        { data: it.supplier_name, type: 3 },
+        { data: it.invoice_no },
+        { data: it.total_amount },
+        { data: it.balance_amount },
         { data: it.status },
       ]);
     }
-  if (page !== 0 || addPage) return null;
+  if (page !== 0 || form !== null) return null;
   return (
     <React.StrictMode>
+      <Header2
+        titles={pTitles}
+        page={page}
+        onTap={(k) => setState({ page: k, addPage: false })}
+      />
+      <Header4 title={pTitles[page]} desc={desc[page]} body={filter} />
       <MyTable1 widths={widths} heads={heads0} body={body} />
       <MyTableCounter1 props={{ total: 100 }} />
     </React.StrictMode>
   );
 }
 function HomePurchaseOrderTable({ state, setState }) {
-  const { page, allPurchaseOrder, addPage } = state;
+  const { page, allPurchaseOrder, form } = state;
+
+  const filterBody = { searchPh: "Search an asset" };
+  const filter = <TitleFilter1 props={filterBody} />;
 
   const widths = [
     { width: 4 },
@@ -133,36 +141,32 @@ function HomePurchaseOrderTable({ state, setState }) {
         { data: it.image, data2: it.supplier, type: 1 },
         { data: it.pon, type: 2 },
         { data: it.date },
-        { data: it.supplier, type: 2 },
-        { data: it.total },
+        { data: it.supplier_name, type: 2 },
+        { data: it.total_amount },
         { data: it.action, type: 2 },
       ]);
     }
-  if (page !== 1 || addPage) return null;
+  if (page !== 1 || form !== null) return null;
   return (
     <React.StrictMode>
+      <Header2
+        titles={pTitles}
+        page={page}
+        onTap={(k) => setState({ page: k, addPage: false })}
+      />
+      <Header4 title={pTitles[page]} desc={desc[page]} body={filter} />
       <MyTable1 widths={widths} heads={heads1} body={body} />
       <MyTableCounter1 props={{ total: 100 }} />
     </React.StrictMode>
   );
 }
 
-function HomePurchaseListForm({ state, setState }) {
-  const { page, addPage } = state;
-  if (page !== 0 || !addPage) return null;
+function HomePurchaseForm({ state, setState }) {
+  const { page, form } = state;
+  if (form === null) return null;
   return (
     <React.StrictMode>
-      <MyForm1 />
-    </React.StrictMode>
-  );
-}
-
-function HomePurchaseOrderForm({ state, setState }) {
-  const { page, addPage } = state;
-  if (page !== 1 || !addPage) return null;
-  return (
-    <React.StrictMode>
-      <MyForm1 />
+      <MyForm1 state={state} setState={setState} />
     </React.StrictMode>
   );
 }

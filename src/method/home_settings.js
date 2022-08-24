@@ -138,6 +138,23 @@ export async function deleteCategory(k, state, setState) {
     .catch((error) => setState({ error }));
   setState({ loading: false });
 }
+export async function updateCategoryModifier(state, setState) {
+  const { succesPop, loading, addCategoryModifier } = state;
+  if (loading) return;
+  setState({ loading: true, error: null });
+  await postHttp("updateModifier", addCategoryModifier)
+    .then(async () => {
+      await getMasterData(state, setState);
+      succesPop({
+        active: true,
+        title: "Succesfully Updated",
+        desc: "Your Category was succesfully Updated",
+      });
+      setState({ addCategoryModifier: null });
+    })
+    .catch((error) => setState({ error }));
+  setState({ loading: false });
+}
 // ////////////////////////////////////////////////////////////////////////////
 // ////////////////////////////////////////////////////////////////////////////
 // ////////////////////////////////////////////////////////////////////////////

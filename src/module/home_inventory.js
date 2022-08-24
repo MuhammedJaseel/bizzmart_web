@@ -388,7 +388,7 @@ export const inventoryPages = [
 
 export const inventoryFormData = [
   {
-    path: "addProdect",
+    path: "addProduct",
     title: "New Product",
     editTitle: "Edit Product",
     desc: "Add and view prodect for selling across all your linked bizzMart channel",

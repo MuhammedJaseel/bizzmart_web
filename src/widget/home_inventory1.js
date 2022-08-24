@@ -1,14 +1,14 @@
 import React, { StrictMode } from "react";
 import { getProducts } from "../method/home_inventory";
-import {
-  inventoryFormData,
-  inventoryStateData,
-} from "../module/home_inventory";
+import { inventoryFormData } from "../module/home_inventory";
+import { inventoryStateData } from "../module/home_inventory";
 import { inventoryPopupsData } from "../module/home_inventory";
 import { Header1, Header4, HeaderButtens1 } from "./widget";
 import { MyTable1, MyTableCounter1 } from "./widget_table";
 
 export default function HomeInventoryTables({ state, setState }) {
+  const { product } = state;
+  if (product !== null) return null;
   return (
     <StrictMode>
       <ProductTable state={state} setState={setState} />
@@ -31,14 +31,11 @@ export default function HomeInventoryTables({ state, setState }) {
 }
 
 function ProductTable({ state, setState }) {
-  const { allProduct, page, setPage, productPaging } = state;
+  const { allProduct, page, productPaging } = state;
   var { product } = state;
   const title = "INVENTORY";
   const bodyRBody = {
-    makeAdd: () => {
-      setState({ product: inventoryStateData.product });
-      setPage(inventoryFormData.filter((k) => k.path === "addProdect")[0]);
-    },
+    makeAdd: () => setState({ product: inventoryStateData.product }),
     title: "+ New Product",
     drowelList: null,
     onShare: null,
@@ -72,35 +69,40 @@ function ProductTable({ state, setState }) {
     },
   };
 
-  const onclick = (k) => {
-    setPage(inventoryFormData.filter((k) => k.path === "addProdect")[0]);
+  const tableOnclick = (k) => {
     product = allProduct[k];
-    product.is_service = 0;
-    setState({ product, isEdit: true });
+    product.type = parseInt(allProduct[k].product_type);
+    console.log();
+    setState({ product });
   };
 
   if (page?.path !== "prodect") return null;
   return (
     <StrictMode>
-      <Header1 title={title} bodyL={page.title} onTap={setPage} bodyR={bodyR} />
+      <Header1
+        title={title}
+        bodyL={page.title}
+        onTap={() => setState({ page: null })}
+        bodyR={bodyR}
+      />
       <Header4 title={page?.title} desc={page?.desc} />
       <MyTable1
         lg
         widths={page.widths}
         heads={page.heads}
         body={body}
-        onclick={onclick}
+        onclick={tableOnclick}
       />
       <MyTableCounter1 props={counterProps} />
     </StrictMode>
   );
 }
 function ServiceTable({ state, setState }) {
-  const { allProduct, page, setPage, product } = state;
+  const { allService, page, servicesPaging } = state;
+  var { product } = state;
   const title = "INVENTORY";
   const bodyRBody = {
     makeAdd: () => {
-      setPage(inventoryFormData.filter((k) => k.path === "addService")[0]);
       product = inventoryStateData.product;
       product.type = 2;
       product.is_service = 1;
@@ -113,32 +115,56 @@ function ServiceTable({ state, setState }) {
   };
   const bodyR = <HeaderButtens1 props={bodyRBody} />;
 
+  const counterProps = {
+    total: servicesPaging?.totalCount,
+    onTap: (v) => {
+      servicesPaging.page_number = v;
+      getProducts(state, setState);
+    },
+  };
+
   const body = [];
-  if (allProduct !== null)
-    for (let i = 0; i < allProduct.length; i++) {
-      const it = allProduct[i];
-      // if (it.is_service === 1)
-      body.push([
-        { data: it.image, data2: it.name, type: 1 },
-        { data: it.name, data2: it.product_type, type: 2 },
-        { data: it.code, type: 2 },
-        { data: it.category_name },
-        { data: it.type },
-        { data: it.cost },
-        { data: it.selling, type: 2 },
-        { data: it.MRP },
-        { data: it.tax },
-        { data: it.stock },
-        { data: it.MSL },
-      ]);
-    }
+  for (let i = 0; i < allService.length; i++) {
+    const it = allService[i];
+    body.push([
+      { data: it.image, data2: it.name, type: 1 },
+      { data: it.name, data2: it.product_type, type: 2 },
+      { data: it.code, type: 2 },
+      { data: it.category_name },
+      { data: it.type },
+      { data: it.cost },
+      { data: it.selling, type: 2 },
+      { data: it.MRP },
+      { data: it.tax },
+      { data: it.stock },
+      { data: it.MSL },
+    ]);
+  }
   if (page?.path !== "service") return null;
+
+  const tableOnclick = (k) => {
+    product = allService[k];
+    product.type = parseInt(allService[k].product_type);
+    setState({ product });
+  };
+
   return (
     <StrictMode>
-      <Header1 title={title} bodyL={page.t2} onTap={setPage} bodyR={bodyR} />
+      <Header1
+        title={title}
+        bodyL={page.t2}
+        onTap={() => setState({ page: null })}
+        bodyR={bodyR}
+      />
       <Header4 title={page?.title} desc={page?.desc} />
-      <MyTable1 lg widths={page.widths} heads={page.heads} body={body} />
-      <MyTableCounter1 props={{ total: 50 }} />
+      <MyTable1
+        lg
+        widths={page.widths}
+        heads={page.heads}
+        body={body}
+        onclick={tableOnclick}
+      />
+      <MyTableCounter1 props={counterProps} />
     </StrictMode>
   );
 }
@@ -183,7 +209,7 @@ function AssetTable({ state, setState }) {
   if (page?.path !== "asset") return null;
   return (
     <StrictMode>
-      <Header1 title={title} bodyL={page.t2} onTap={setPage} bodyR={bodyR} />
+      <Header1 title={title} bodyL={page.t2} onTap={null} bodyR={bodyR} />
       <Header4 title={page?.title} desc={page?.desc} />
       <MyTable1 lg widths={page.widths} heads={page.heads} body={body} />
       <MyTableCounter1 props={{ total: 50 }} />

@@ -5,6 +5,7 @@ import { HeaderButtens1, TitleFilter1 } from "./widget";
 import { Header1, Header2, Header4 } from "./widget";
 import { MyForm1 } from "./widget_form";
 import "../style/hdb.css";
+import { expenseGetExpenses } from "../method/home_expense";
 
 const pTitles = ["Expense Enteries"];
 const desc =
@@ -28,10 +29,13 @@ export default class HomeExpense extends Component {
       addPage: false,
       // /////////////////////////////
       allExpense: [],
+      expensesPaging: {},
     };
   }
   componentDidMount() {
-    this.setState({ allExpense: expenseList });
+    const state = this.state;
+    const setState = (v) => this.setState(v);
+    expenseGetExpenses(state, setState);
   }
   render() {
     const state = this.state;
@@ -78,7 +82,7 @@ function HomeExpenceTable({ state, setState }) {
     for (let i = 0; i < allExpense.length; i++) {
       const it = allExpense[i];
       body.push([
-        { data: it.image, data2: it.expenseCategory, type: 1 },
+        { data: it.image, data2: "it.expenseCategory", type: 1 },
         { data: it.invoice, type: 2 },
         { data: it.date },
         { data: it.expenseCategory, data2: it.type, type: 2 },

@@ -8,7 +8,10 @@ import { HomeSettings1CashAndBank } from "./home_settings1";
 import { HomeSettings1BussinessSettings } from "./home_settings1";
 import { HomeSettingsBody3, HomeSettingsBody4 } from "./home_settings1";
 import { getAllCashandBank } from "../method/home_cashbank";
-import { HomeSettings5ExpenseCategory } from "./home_settings5";
+import {
+  HomeSettings5CategotyAddModifiger,
+  HomeSettings5ExpenseCategory,
+} from "./home_settings5";
 import { HomeSettings5ProdectionStations } from "./home_settings5";
 import { HomeSettings5ProductCategory } from "./home_settings5";
 import { HomeSettings5SalesTaxes } from "./home_settings5";
@@ -45,32 +48,16 @@ export default class HomeSettings extends Component {
       confirmPop: null,
       // ////////////////////////////////////////////////////////////
       allKot: [],
-      // ////////////////////////////////////////////////////////////
       allCategory: [],
+      addCategoryModifier: null,
       // FUNCTION ///////////////////////////////////////////////////
       succesPop: props.succesPop,
-      setPage: (v) => {
-        this.setState({ page: v, error: null });
-        var url = "/dashboard/settings";
-        if (v !== null) url = `/dashboard/settings/${v.path}`;
-        window.history.replaceState("home", "home", url);
-      },
     };
   }
 
   componentDidMount() {
     const state = this.state;
     const setState = (v) => this.setState(v);
-    let path = window.location.pathname.split("/");
-    // if (path.length > 3) {
-    //   path = path[3];
-    //   for (let j = 0; j < allSettings.length; j++)
-    //     for (let i = 0; i < allSettings[j].data.length; i++)
-    //       if (allSettings[j].data[i].path === path) {
-    //         this.setState({ page: allSettings[j].data[i] });
-    //         break;
-    //       }
-    // } else this.setState({ page: null });
     getBussinessSettings(state, setState);
     getAllCashandBank(state, setState);
     getMasterData(state, setState);
@@ -82,9 +69,7 @@ export default class HomeSettings extends Component {
     const setState = (v) => this.setState(v);
     return (
       <StrictMode>
-        {/* LANDING PAGE */}
         <HomeSettingsLanding state={state} setState={setState} />
-        {/* FORM PAGE STARTS HERE */}
         <HomeSettings1BussinessSettings state={state} setState={setState} />
         <HomeSettings1CashAndBank state={state} setState={setState} />
         <HomeSettingsBody3 state={state} setState={setState} />
@@ -98,9 +83,9 @@ export default class HomeSettings extends Component {
         <HomeSettings5ProductCategory state={state} setState={setState} />
         <HomeSettings5SalesTaxes state={state} setState={setState} />
         <HomeSettings5ProdectionStations state={state} setState={setState} />
+        <HomeSettings5CategotyAddModifiger state={state} setState={setState} />
         <HomeSettings6AssetsExpenses state={state} setState={setState} />
         <HomeSettings6EquityEarnings state={state} setState={setState} />
-        {/* POPUP STARTS */}
         <AccountAddPopUpLayout state={state} setState={setState} />
         <HomeSettings1AddPaymentPopup state={state} setState={setState} />
         <WidgetConfirmPopup props={state.confirmPop} />
@@ -110,7 +95,7 @@ export default class HomeSettings extends Component {
 }
 
 function HomeSettingsLanding({ state, setState }) {
-  const { page, setPage } = state;
+  const { page } = state;
   if (page !== null) return null;
   return (
     <StrictMode>
@@ -121,7 +106,11 @@ function HomeSettingsLanding({ state, setState }) {
             <div className="hstAb">{it.title}</div>
             <div className="hstAc">{it.desc}</div>
             {it.data.map((it1, k) => (
-              <div className="hstAd" key={k} onClick={() => setPage(it1)}>
+              <div
+                className="hstAd"
+                key={k}
+                onClick={() => setState({ page: it1 })}
+              >
                 <div className="hstAe">{it1.title}</div>
                 <div className="hstAf">{it1.desc}</div>
               </div>
