@@ -3,7 +3,7 @@ import { Header1, Header2, Header4 } from "./widget";
 import { HeaderButtens1, PaymentCard1 } from "./widget";
 import { accountStructure } from "../module/home_cashbank";
 import { WidgetConfirmPopup } from "./widget_popup";
-import { getAllCashandBank } from "../method/home_cashbank";
+import { getAllCashandBank, getBankHistory } from "../method/home_cashbank";
 import { deleteAccount } from "../method/home_cashbank";
 import { MyTable1, MyTableCounter1 } from "./widget_table";
 import { AccountAddPopUpLayout } from "./home_cashbank1";
@@ -21,10 +21,11 @@ export default class HomeCashbank extends Component {
       error: null,
       allAccounts: [],
       allBanks: [],
+      allTransferType: [],
       addAccount: null,
       confirmPop: null,
       account: null,
-      makePayment: null,
+      fundTransfer: null,
       receiveMoney: null,
       spendMoney: null,
       allCheque: [],
@@ -52,7 +53,7 @@ export default class HomeCashbank extends Component {
           title: "Add Account",
           fun: () => setState({ addAccount: accountStructure }),
         },
-        { title: "Fund Transfer", fun: () => setState({ makePayment: {} }) },
+        { title: "Fund Transfer", fun: () => setState({ fundTransfer: {} }) },
         { title: "Receive Money", fun: () => setState({ receiveMoney: {} }) },
         { title: "Spend Money", fun: () => setState({ spendMoney: {} }) },
         { title: "PDC Tracking", fun: () => setState({ page: 2 }) },
@@ -97,7 +98,7 @@ function HomeCashBankBody({ state, setState }) {
             <PaymentCard1
               props={it}
               hide={it.account_display_name === "Cash in hand"}
-              onTap={() => setState({ account: it, page: 1 })}
+              onTap={() => getBankHistory(it, state, setState)}
               onEdit={() => setState({ addAccount: it })}
               onDelete={() =>
                 setState({
@@ -106,8 +107,7 @@ function HomeCashBankBody({ state, setState }) {
                     loading,
                     error,
                     onSubmit: () => deleteAccount(it.id, state, setState),
-                    close: () =>
-                      setState({ confirmPop: null, error: null }),
+                    close: () => setState({ confirmPop: null, error: null }),
                   },
                 })
               }
@@ -142,25 +142,23 @@ function BankHistory({ state, setState }) {
     { width: 15, right: true },
   ];
   const body = [];
-  if (account !== null)
-    if (account.history !== null)
-      // for (let i = 0; i < account.history.length; i++) {
-      for (let i = 0; i < 20; i++) {
-        // const it = account.history[i];
-        body.push([
-          { data: "it.date" },
-          { data: "it.name" },
-          { data: "it.reference" },
-          { data: "it.name" },
-          { data: "it.recevied" },
-          { data: "it.paid" },
-          { data: "it.balance" },
-        ]);
-      }
+
+  for (let i = 0; i < account?.transactions?.length; i++) {
+    const it = account?.transactions[i];
+    body.push([
+      { data: "it.date" },
+      { data: "it.name" },
+      { data: "it.reference" },
+      { data: "it.name" },
+      { data: "it.recevied" },
+      { data: "it.paid" },
+      { data: "it.balance" },
+    ]);
+  }
   const counterProps = {
-    total: historyPaging.totalCount,
+    // total: historyPaging.totalCount,
     onTap: (v) => {
-      historyPaging.page_number = v;
+      // historyPaging.page_number = v;
       // getAllCustomers(state, setState);TODO
     },
   };

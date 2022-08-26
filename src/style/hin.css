@@ -125,6 +125,42 @@
   cursor: pointer;
   margin-left: 0.4vw;
 }
+.hinDaJ {
+  width: 72%;
+  border: 0.08vw solid #bdbdbd7c;
+  border-radius: 0.2vw;
+  padding: 0.2vw;
+  background-color: white;
+  display: flex;
+  flex-wrap: wrap;
+}
+.hinDaJa,
+.hinDaJa_g {
+  display: flex;
+  align-items: center;
+  padding: 0.3vw 0.4vw;
+  color: white;
+  font-size: 0.7vw;
+  font-weight: 500;
+  border-radius: 0.2vw;
+  background-color: #2d4c86;
+  margin: 0.1vw;
+}
+.hinDaJa_g {
+  background-color: #039003;
+}
+.hinDaJaA {
+  padding-right: 2vw;
+}
+.hinDaJaB {
+  width: 1.2vw;
+  height: 0.8vw;
+  background-position: center;
+  background-image: url(../asset/ic_bin4.svg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
 /* ////////////////////////////////////////////////////////////////////////////////////////////////// */
 /* ////////////////////////////////////////////////////////////////////////////////////////////////// */
 /* ////////////////////////////////////////////////////////////////////////////////////////////////// */
@@ -443,6 +479,7 @@
   color: #2d4c86;
   font-size: 0.8vw;
   margin: 0.2vw 0;
+  position: relative;
 }
 .hinDjA {
   width: 74%;
@@ -459,6 +496,23 @@
   background-position: right;
   background-repeat: no-repeat;
   cursor: pointer;
+}
+.hinDjE {
+  position: absolute;
+  top: 105%;
+  left: 0;
+  right: 28%;
+  height: auto;
+  background-color: white;
+  border-radius: 0.4vw;
+  border: 0.08vw solid rgba(128, 128, 128, 0.165);
+}
+.hinDjEa {
+  padding: 0.3vw 1vw;
+  cursor: pointer;
+}
+.hinDjEa:hover {
+  background-color: #2d4c860b;
 }
 .hinDj1 {
   display: flex;
@@ -478,7 +532,113 @@
 /*////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////   INVENTORY COMPOSIT PRODUCT   /////////////////////////////////////
+/////////////////////////////////////    INVENTORY TOPPINGS POPUP    /////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+.hinDkA {
+  border-radius: 0.25vw;
+  background-color: #d5d9dd7a;
+  padding: 1vw;
+  font-size: 0.88vw;
+}
+.hinDkAa {
+  display: flex;
+  justify-content: space-between;
+}
+.hinDkAaA {
+  width: 35%;
+}
+.hinDkAaAa {
+  display: flex;
+  justify-content: space-between;
+}
+.hinDkAaAaB {
+  width: 60%;
+}
+.hinDkAaAaBa {
+  color: #2d4c86;
+  font-weight: 500;
+  margin-bottom: 0.2vw;
+}
+.hinDkAaAaBb {
+  display: flex;
+  background-color: #c4c4c4;
+  border-radius: 1vw;
+  height: 2vw;
+  color: white;
+  cursor: pointer;
+}
+.hinDkAaAaBbA_,
+.hinDkAaAaBbA,
+.hinDkAaAaBbB {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #039003;
+  border-radius: 1vw;
+  width: 50%;
+}
+.hinDkAaAaBbA_ {
+  background-color: transparent;
+}
+.hinDkAaAaBbB {
+  background-color: #970909;
+}
+.hinDkAaAaC {
+  width: 26%;
+}
+.hinDkAaAaCa {
+  width: 100%;
+}
+.hinDkAaAb {
+  margin-top: 1.5vw;
+  width: 100%;
+}
+.hinDkAaAbA {
+  width: 100%;
+}
+.hinDkAb {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1vw;
+}
+.hinDkAaB {
+  min-width: 55%;
+}
+.hinDkAaBa,
+.hinDkAaBa_ {
+  display: flex;
+  padding: 0.2vw;
+  align-items: center;
+  justify-content: space-between;
+}
+.hinDkAaBa_ {
+  font-weight: 500;
+  color: #2d4c86;
+}
+.hinDkAaBaA {
+  width: 30%;
+}
+.hinDkAaBaB {
+  width: 47%;
+}
+.hinDkAaBaC {
+  width: 20%;
+}
+.hinDkAbA,
+.hinDkAbB {
+  padding: 0.4vw 1vw;
+  border-radius: 0.3vw;
+  color: #2d4c86;
+  background-color: white;
+  cursor: pointer;
+}
+.hinDkAbB {
+  background-color: #2d4c86;
+  color: white;
+  margin-left: 0.6vw;
+}
+.hinDkB {
+  width: 100%;
+}

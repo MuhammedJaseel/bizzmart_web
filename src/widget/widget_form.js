@@ -23,11 +23,10 @@ export function MyForm1({ state, setState }) {
     taxAmount: "0.0",
     total: "0.0",
   };
-  let [items, setItems] = useState([dummyProduct]);
   const [isDrower, setIsDrower] = useState(false);
   return (
     <div className="zfB">
-      {true ? null : (
+      {form.formType === "invoice" || form.formType === "estimate" ? (
         <div className="zfBa">
           <div className="zfBaA">
             <div className="zfBaAa">
@@ -53,63 +52,116 @@ export function MyForm1({ state, setState }) {
             </div>
           </div>
         </div>
-      )}
+      ) : null}
+      {form.formType === "estimate" ? <div className="zfBa"></div> : null}
+      {form.formType !== "purchaseList" ? (
+        <div className="zfBa">
+          <div className="zfBaA">
+            <div className="zfBaAa">
+              <div className="zfBaAaA">Ref/PO#</div>
+              <input className="zfBaAaC" id="invoice_number" />
+            </div>
+            <div className="zfBaAa">
+              <div className="zfBaAaA">Supplier Invoice #</div>
+              <input className="zfBaAaC" id="supplier_invoice_no" />
+            </div>
+            <div className="zfBaAa">
+              <div className="zfBaAaA">Supplier*</div>
+              <select className="zfBaAaB" id="supplier_id">
+                <option>Name</option>
+              </select>
+            </div>
+            <div className="zfBaAa">
+              <div className="zfBaAaA">Purchase Date*</div>
+              <input type="date" className="zfBaAaC" id="purchase_date" />
+            </div>
+            <div className="zfBaAa">
+              <div className="zfBaAaA">Due Date</div>
+              <input className="zfBaAaC" />
+            </div>
+            <div className="zfBaAa">
+              <div className="zfBaAaA">Contact Person</div>
+              <input className="zfBaAaC" />
+            </div>
+          </div>
+          <div className="zfBaB">
+            <div className="zfBaBa">Address</div>
+            <div className="zfBaBb">
+              Jack Dorsea, 102A, Jami’a Street, New Delhi 12, India. GST:
+              AAA456AE3423AZ Phone: 974 523 6674
+            </div>
+          </div>
+        </div>
+      ) : null}
       <div className="zfBb">
         <div className="zfBbA">
           <div className="zfBbAa" />
-          <div className="zfBbAb">Product / Service</div>
-          <div className="zfBbAc">Qty</div>
-          <div className="zfBbAd">Price / Rate</div>
-          <div className="zfBbAe">Discount</div>
-          <div className="zfBbAf">Tax Slab</div>
-          <div className="zfBbAg">Tax Amount</div>
-          <div className="zfBbAh">Total</div>
+          <div className="zfBbAb zfBbA_t">Product / Service</div>
+          <div className="zfBbAc zfBbA_t">Qty</div>
+          <div className="zfBbAd zfBbA_t">Price / Rate</div>
+          <div className="zfBbAe zfBbA_t">Discount</div>
+          <div className="zfBbAd zfBbA_t">Tax Slab</div>
+          <div className="zfBbAg zfBbA_t">Tax Amount</div>
+          <div className="zfBbAg zfBbA_t">Total</div>
         </div>
-        {items.map((it, k) => (
-          <form
-            key={k}
-            className="zfBbB"
-            onChange={() => {
-              if (items.length === k + 1) setItems([...items, dummyProduct]);
-            }}
-          >
-            <div
-              className="zfBbBa"
-              onClick={() => {
-                items.splice(k, 1);
-                setItems(items);
+        {form?.items.map((it, k) => (
+          <form key={k} className="zfBbB" onChange={() => {}}>
+            <div className="zfBbAa zfBbA_d" onClick={() => {}} />
+            <select
+              className="zfBbAb zfBbA_d"
+              onChange={(e) => {
+                it.product_name = e.target.value;
               }}
-            />
-            <select className="zfBbBb">
+            >
               <option hidden selected>
                 Select Product / Service ...
               </option>
               <option>APPLE iPHONE 13 PRO/128GB/BLACK</option>
             </select>
-            <input className="zfBbBd" />
-            <input className="zfBbBe" />
-            <select className="zfBbBf">
+            <input
+              className="zfBbAc zfBbBa zfBbA_d"
+              type="number"
+              onChange={(e) => (it.quantity = e.target.value)}
+            />
+            <input
+              className="zfBbAd zfBbA_d"
+              type="number"
+              onChange={(e) => (it.price = e.target.value)}
+            />
+            <input
+              className="zfBbAe zfBbA_d"
+              type="number"
+              onChange={(e) => (it.discount_amount = e.target.value)}
+            />
+            <select className="zfBbAd zfBbA_d">
               <option>Tax Slab</option>
             </select>
-            <div className="zfBbBg">Tax Amount</div>
-            <div className="zfBbBh">Total</div>
+            <div className="zfBbAg zfBbA_d">Tax Amount</div>
+            <div className="zfBbAg zfBbA_d">Total</div>
           </form>
         ))}
       </div>
       <div className="zfBc">
-        <div className="zfBcA">
-          <div className="zfBcAa">Delivery Address</div>
-          <textarea className="zfBcAb" placeholder="Address" />
-          <div className="zfBcAa">Invoice Note</div>
-          <textarea
-            className="zfBcAc"
-            placeholder="Enter invoice terms / notes here"
-          />
-        </div>
+        {true ? (
+          <div className="zfBcA">
+            <div className="zfBcAa">Delivery Address</div>
+            <textarea className="zfBcAb" placeholder="Address" />
+            <div className="zfBcAa">Purchase Note</div>
+            <textarea
+              className="zfBcAc"
+              placeholder="Enter invoice terms / notes here"
+            />
+          </div>
+        ) : null}
         <div className="zfBcB">
           <div className="zfBcBa">
             <div>Discount</div>
-            <input type="number" className="zfBcBb" placeholder="0.0" />
+            <input
+              type="number"
+              id="discount"
+              className="zfBcBb"
+              placeholder="0.0"
+            />
           </div>
           <div className="zfBcBa">
             <div>Subtotal</div>

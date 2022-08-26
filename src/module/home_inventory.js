@@ -1,9 +1,9 @@
 export const prodectTypes = [
-  "Stock",
-  "Raw Material",
-  "Ingredient",
-  "Operational Item",
-  "Consumabl",
+  { name: "Stock", id: "1" },
+  { name: "Raw Material", id: "2" },
+  { name: "Ingredient", id: "3" },
+  { name: "Operational Item", id: "4" },
+  { name: "Consumabl", id: "5" },
 ];
 
 export const inventoryPages = [
@@ -419,7 +419,7 @@ export const inventoryPopupsData = [
 
 export const inventoryStateData = {
   product: {
-    isUseSecondryUnit: false,
+    secUnit: false,
     inventoryTable: [],
     attribute1: "",
     attribute2: "",
@@ -449,6 +449,7 @@ export const inventoryStateData = {
     tax_inclusion: "",
     hsncode: "",
     is_online: 0,
+    category_default_kot: 0,
     product_kot: "",
     product_type: "",
     product_modifier: [],
@@ -474,6 +475,7 @@ export const inventoryStateData = {
     variant_products: [],
     selectable: "",
     classification: [],
+    attribute_title: "",
     // COMPOSITE PRODUCT //////////////////////////////////////////////
     default_composites: [],
     selectable_composites: [],

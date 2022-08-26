@@ -49,7 +49,8 @@ export default class HomeSales extends Component {
       allEstimate: [],
       invoicePaging: {},
       estimatePaging: {},
-      invoice: null,
+      form: null,
+      item: null,
     };
   }
 
@@ -62,23 +63,30 @@ export default class HomeSales extends Component {
   render() {
     const state = this.state;
     const setState = (v) => this.setState(v);
-    const { page, addPage } = state;
+    const { page, form } = state;
 
     const filterBody = {
       searchPh: page === 0 ? "Search an invoices" : "Search an estimates",
     };
-    const filter = !addPage ? <TitleFilter1 props={filterBody} /> : null;
+    const filter = form === null ? <TitleFilter1 props={filterBody} /> : null;
     const bodyRBody = {
-      makeAdd: () => setState({ addPage: true }),
-      title: page === 0 ? "+ New Invoice" : "+ New Estmates",
+      makeAdd: () =>
+        setState({ form: { formType: page === 0 ? "invoice" : "estimate" } }),
+      title: page === 0 ? "+ New Invoice" : "+ New Estimates",
       drowelList: [
-        { title: "Add New Invoice", fun: () => setState({ addPage: true }) },
-        { title: "Add New Estimate", fun: () => setState({ addPage: true }) },
+        {
+          title: "Add New Invoice",
+          fun: () => setState({ form: { formType: "invoice" } }),
+        },
+        {
+          title: "Add New Estimate",
+          fun: () => setState({ form: { formType: "estimate" } }),
+        },
       ],
       onShare: null,
       onDownload: null,
     };
-    const bodyR = !addPage ? <HeaderButtens1 props={bodyRBody} /> : null;
+    const bodyR = form === null ? <HeaderButtens1 props={bodyRBody} /> : null;
 
     return (
       <StrictMode>
@@ -86,13 +94,12 @@ export default class HomeSales extends Component {
         <Header2
           titles={pTitles}
           page={page}
-          onTap={(k) => setState({ page: k, addPage: false })}
+          onTap={(k) => setState({ page: k, form: null })}
         />
         <Header4 title={titS.tit[page]} desc={titS.desc[page]} body={filter} />
         <HomeSalesInvoicesTable state={state} setState={setState} />
         <HomeSalesEstimatesTable state={state} setState={setState} />
-        <HomeSalesInvoicesForm state={state} setState={setState} />
-        <HomeSalesEstimatesForm state={state} setState={setState} />
+        <HomeSalesForm state={state} setState={setState} />
         <DrawerView1 state={state} setState={setState} />
       </StrictMode>
     );
@@ -100,7 +107,7 @@ export default class HomeSales extends Component {
 }
 
 function HomeSalesInvoicesTable({ state, setState }) {
-  const { page, addPage, allInvoice } = state;
+  const { page, form, allInvoice } = state;
   const widths = [
     { width: 4 },
     { width: 10 },
@@ -112,29 +119,28 @@ function HomeSalesInvoicesTable({ state, setState }) {
     { width: 8 },
   ];
   const body = [];
-  if (allInvoice !== null)
-    for (let i = 0; i < allInvoice.length; i++) {
-      const it = allInvoice[i];
-      body.push([
-        { data: it.image, data2: it.customer, type: 1 },
-        { data: it.invoice },
-        { data: it.date, type: 2 },
-        { data: it.customer, data2: it.type, type: 2 },
-        { data: it.phoneNumber },
-        { data: it.total },
-        { data: it.action },
-        { data: it.status },
-      ]);
-    }
-  const onclick = (v) => setState({ invoice: v });
-  if (page !== 0 || addPage) return null;
+  // for (let i = 0; i < allInvoice.length; i++) {
+  //   const it = allInvoice[i];
+  body.push([
+    { data: "it.image", data2: "it.customer", type: 1 },
+    { data: "it.invoice" },
+    { data: "it.date", type: 2 },
+    { data: "it.customer", data2: "it.type", type: 2 },
+    { data: "it.phoneNumber" },
+    { data: "it.total" },
+    { data: "it.action" },
+    { data: "it.status" },
+  ]);
+  // }
+  const onclick = (v) => setState({ item: v });
+  if (page !== 0 || form !== null) return null;
   return [
     <MyTable1 widths={widths} heads={heads0} body={body} onclick={onclick} />,
     <MyTableCounter1 props={{ total: 100 }} />,
   ];
 }
 function HomeSalesEstimatesTable({ state, setState }) {
-  const { page, addPage, allEstimate } = state;
+  const { page, form, allEstimate } = state;
   const widths = [
     { width: 4 },
     { width: 10 },
@@ -158,18 +164,26 @@ function HomeSalesEstimatesTable({ state, setState }) {
         { data: it.action },
       ]);
     }
-  if (page !== 1 || addPage) return null;
+  if (page !== 1 || form !== null) return null;
   return [
     <MyTable1 widths={widths} heads={heads1} body={body} />,
     <MyTableCounter1 props={{ total: 100 }} />,
   ];
 }
 
-function HomeSalesInvoicesForm({ state, setState }) {
-  if (state.page !== 0 || !state.addPage) return null;
-  return <MyForm1 props={{}} />;
+function HomeSalesForm({ state, setState }) {
+  const { form } = state;
+  if (form === null) return null;
+  return <MyForm1 state={state} setState={setState} />;
 }
-function HomeSalesEstimatesForm({ state, setState }) {
-  if (state.page !== 1 || !state.addPage) return null;
-  return <MyForm1 props={{}} />;
-}
+
+// [{"variant_name": "el","bar_code": "asa","hsncode": "sas","ean": "12","purchase_price": "21",
+// "cost_price": "21",
+// "cost_with_tax": "21",
+// "selling_price": "21",
+// "online_price": "1",
+// "cost_tax_amount": "1",
+// "mrp": "21",
+// "stock_price": "12",
+// "opening_stock": "21",
+// "min_stock_level": "21",}]

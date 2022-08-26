@@ -1,7 +1,7 @@
 import React, { StrictMode } from "react";
 import { WidgetPopUp1, WidgetPopUp1Body } from "./widget_popup";
 import { WidgetPopUp1In1, WidgetPopUp1In2 } from "./widget_popup";
-import { addCashandBank } from "../method/home_cashbank";
+import { addCashandBank, postFundTransfer } from "../method/home_cashbank";
 
 export function AccountAddPopUpLayout({ state, setState }) {
   const { loading, error, addAccount, allBanks } = state;
@@ -133,35 +133,46 @@ export function AccountAddPopUpLayout({ state, setState }) {
   );
 }
 export function FundTransferPopUpLayout({ state, setState }) {
-  const { loading, makePayment, error, allBanks } = state;
-  if (makePayment === null) return null;
+  const { loading, fundTransfer, error, allBanks, allTransferType } = state;
+  const { allAccounts } = state;
+  if (fundTransfer === null) return null;
   const popupProps1 = {
-    close: () => setState({ makePayment: null }),
+    close: () => setState({ fundTransfer: null }),
     title: "Transfer Money",
     desc: "Record the transfer of money between your bank and the cash or credit",
     error,
     loading,
-    onChange: (e) => (makePayment[e.target.id] = e.target.value),
-    submit: () => {},
+    onChange: (e) => (fundTransfer[e.target.id] = e.target.value),
+    submit: () => postFundTransfer(state, setState),
   };
 
   return (
     <WidgetPopUp1 props={popupProps1}>
       <WidgetPopUp1Body>
         <WidgetPopUp1In1 title="Paid from Account*">
-          <select className="hcbAa" id="account_type">
-            <option disabled>Select bank</option>
-            {allBanks.map((it, k) => (
+          <select className="hcbAa" id="transfer_from_account_id">
+            <option hidden>Select bank</option>
+            {allAccounts.map((it, k) => (
               <option key={k} value={it.id}>
-                {it.name}
+                {it.account_display_name}
               </option>
             ))}
           </select>
         </WidgetPopUp1In1>
         <WidgetPopUp1In2 title1="Amount Transferred*" title2="Transfer Method*">
-          <input className="hcbAb" placeholder="Enter branch" id="branch" />
-          <select className="hcbAb" id="ifsc_code">
-            <option>Cash Deposit</option>
+          <input
+            className="hcbAb"
+            placeholder="0.00"
+            id="amount"
+            type="number"
+          />
+          <select className="hcbAb" id="transfer_type_id">
+            <option hidden>Select type</option>
+            {allTransferType.map((it, k) => (
+              <option key={k} value={it.id}>
+                {it.name}
+              </option>
+            ))}
           </select>
         </WidgetPopUp1In2>
         <WidgetPopUp1In1 title="Reference">
@@ -170,11 +181,11 @@ export function FundTransferPopUpLayout({ state, setState }) {
       </WidgetPopUp1Body>
       <WidgetPopUp1Body>
         <WidgetPopUp1In1 title="Paid into Account*">
-          <select className="hcbAa" id="account_type">
-            <option disabled>Select bank</option>
-            {allBanks.map((it, k) => (
+          <select className="hcbAa" id="transfer_to_account_id">
+            <option hidden>Select bank</option>
+            {allAccounts.map((it, k) => (
               <option key={k} value={it.id}>
-                {it.name}
+                {it.account_display_name}
               </option>
             ))}
           </select>

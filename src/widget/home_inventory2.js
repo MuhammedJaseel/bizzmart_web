@@ -21,6 +21,7 @@ function ProductForm({ state, setState }) {
   const { page, product, loading, error } = state;
   const { allKot, allUnits, allCategoty, allTax } = state;
 
+  const conRef = useRef(null);
   if (product === null) return null;
   const isEdit = product?.hasOwnProperty("id");
   const title = isEdit ? page?.editTitle : page?.title;
@@ -61,13 +62,13 @@ function ProductForm({ state, setState }) {
             <div className="hinDaA">Select product type</div>
             <div className="hinDaA">Category *</div>
           </AddingForm2>
-          <AddingForm1 title="Business Legal Name">
+          <AddingForm1 title="Inventory type *">
             <div className="hinDa">
-              <select className="hinDaA">
+              <select className="hinDaA" id="inventory_type">
                 <option hidden> Select prodect type</option>
                 {prodectTypes.map((it, k) => (
-                  <option key={k} value={it}>
-                    {it}
+                  <option key={k} value={it.id}>
+                    {it.name}
                   </option>
                 ))}
               </select>
@@ -121,27 +122,33 @@ function ProductForm({ state, setState }) {
               <div className="hinDaB">
                 {product?.secondry_unit !== "" ? (
                   <StrictMode>
-                    {product?.isUseSecondryUnit ? (
-                      <div className="hinDaBa"></div>
-                    ) : (
-                      <div className="hinDaBa"></div>
-                    )}
-                    <input className="hinDaBb" type="number" id="conversion" />
-                    {product?.isUseSecondryUnit ? (
-                      <div className="hinDaBa"></div>
-                    ) : (
-                      <div className="hinDaBa"></div>
-                    )}
+                    <div className="hinDaBa">
+                      1{" "}
+                      {product?.secUnit
+                        ? product?.primary_unit
+                        : product?.secondry_unit}
+                    </div>
+                    <input
+                      className="hinDaBb"
+                      type="number"
+                      id="conversion"
+                      ref={conRef}
+                      defaultValue={product.conversion}
+                      placeholder="0.00"
+                    />
+                    <div className="hinDaBa">
+                      {!product?.secUnit
+                        ? product?.primary_unit
+                        : product?.secondry_unit}
+                    </div>
                     <div
                       className="hinDaBc"
-                      onClick={() =>
-                        setState({
-                          product: {
-                            ...product,
-                            isUseSecondryUnit: !product?.isUseSecondryUnit,
-                          },
-                        })
-                      }
+                      onClick={() => {
+                        conRef.current.value = 1 / product?.conversion;
+                        product.conversion = 1 / product?.conversion;
+                        product.secUnit = !product?.secUnit;
+                        setState({ product });
+                      }}
                     />
                   </StrictMode>
                 ) : null}
@@ -192,18 +199,31 @@ function ProductForm({ state, setState }) {
             </div>
           </AddingForm1>
           <AddingForm1 title="Upload images">
-            {/* <ImagePicker state={state} setState={setState} /> */}
+            <ImagePicker state={state} setState={setState} />
+          </AddingForm1>
+          <AddingForm1 title="Set category default prodection station">
+            <div className="hinDaG">
+              <FormSwitch
+                value={product?.category_default_kot === 1}
+                onTap={() => {
+                  product.category_default_kot =
+                    product?.category_default_kot === 1 ? 0 : 1;
+                  setState({ product });
+                }}
+              />
+            </div>
           </AddingForm1>
           <AddingForm1 title="Select production station">
             <select
               className="hinDa"
               id="product_kot"
               defaultValue={product?.product_kot}
+              disabled={product?.category_default_kot === 1}
             >
               <option hidden>Select a prodect station to your product</option>
               {allKot.map((it, k) => (
                 <option key={k.id} value={k}>
-                  {it.name}
+                  {it.title}
                 </option>
               ))}
             </select>
@@ -376,6 +396,10 @@ function ProductForm({ state, setState }) {
                     className={
                       product?.isAttributeName1 ? "hinDaD" : "hinDaD iamHidden"
                     }
+                    onChange={() => {
+                      product.classification = [];
+                      setState({ product });
+                    }}
                     placeholder="Enter values separate by comma and press enter"
                     id="attribute1"
                   />
@@ -421,6 +445,7 @@ function ProductForm({ state, setState }) {
                   Single Selectable <sb>e.g. Colour, Size etc. </sb>
                 </div>
               </AddingForm2>
+
               {product.isAttribute1 ? (
                 <AddingForm1 title="Variant attribute 02*">
                   <div className="hinDa">
@@ -465,6 +490,56 @@ function ProductForm({ state, setState }) {
                       }}
                     />
                     <div className="hinDaF" />
+                  </div>
+                </AddingForm1>
+              ) : null}
+              <AddingForm2>
+                <div
+                  className={
+                    product?.isAttribute2 ? "hinDaB" : "hinDaB iamHidden"
+                  }
+                >
+                  Multiple Selectable <sb>e.g. Toppings, Drinks etc. </sb>
+                </div>
+              </AddingForm2>
+              {product?.isAttribute2 ? (
+                <AddingForm1>
+                  <div className="hinDa">
+                    <input
+                      className={
+                        product?.isAttribute2 ? "hinDaC" : "hinDaC iamHidden"
+                      }
+                      placeholder="Enter attribute title"
+                      id="attribute_title"
+                    />
+                    <div
+                      className="hinDaC_sideBtn"
+                      onClick={() => setState({ addToppings: [] })}
+                    />
+                    {product.classification.length !== 0 ? (
+                      <div className="hinDaJ">
+                        {product.classification.map((it, k) => (
+                          <div
+                            key={k}
+                            className={
+                              it.is_default === 1 ? "hinDaJa_g" : "hinDaJa"
+                            }
+                          >
+                            <div className="hinDaJaA">{it.topping_title}</div>
+                            {it.charge_amount}
+                            <div
+                              className="hinDaJaB"
+                              onClick={() => {
+                                product.classification.splice(k, 1);
+                                setState({ product });
+                              }}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="hinDaJ iamHidden" />
+                    )}
                   </div>
                 </AddingForm1>
               ) : null}
@@ -515,14 +590,21 @@ function ProductForm({ state, setState }) {
             </AddingForm2>
             <AddingForm1 title="Selling information *">
               <div className="hinDa">
-                <input className="hinDaB" id="mrp" placeholder="Enter MRP" />
+                <input
+                  className="hinDaB"
+                  type="number"
+                  id="mrp"
+                  placeholder="Enter MRP"
+                />
                 <input
                   className="hinDaB"
                   id="selling_price"
                   placeholder="Enter selling price"
+                  type="number"
                 />
                 <input
                   id="online_price"
+                  type="number"
                   className="hinDaB"
                   placeholder="Enter online price"
                 />
@@ -826,14 +908,17 @@ function VariantProdectTable({ state, setState }) {
           />
           <input
             className="hinDfAc hinDfBa"
+            type="number"
             onChange={(e) => (it.opening_stock = e.target.value)}
           />
           <input
             className="hinDfAc hinDfBa"
+            type="number"
             onChange={(e) => (it.min_stock_level = e.target.value)}
           />
           <input
             className="hinDfAd hinDfBa"
+            type="number"
             onChange={(e) => (it.cost_price = e.target.value)}
             placeholder="0.00"
           />
@@ -841,16 +926,19 @@ function VariantProdectTable({ state, setState }) {
             className="hinDfAd hinDfBa"
             onChange={(e) => (it.mrp = e.target.value)}
             placeholder="0.00"
+            type="number"
           />
           <input
             className="hinDfAd hinDfBa"
             onChange={(e) => (it.selling_price = e.target.value)}
             placeholder="0.00"
+            type="number"
           />
           <input
             className="hinDfAc hinDfBa"
             onChange={(e) => (it.online_price = e.target.value)}
             placeholder="0.00"
+            type="number"
           />
         </div>
       ))}
@@ -928,15 +1016,15 @@ function InventoryCompositProduct({ state, setState }) {
           </AddingForm2>
           <AddingForm1 title="Default Products*">
             <div className="hinDaH_">
-              {selectable_composites[0].composites?.map((it, k) => (
+              {it.composites?.map((it, k) => (
                 <div className="hinDaHa" key={k}>
                   {it.name}
                   <div className="hinDaHb">{it.cost}</div>
                   <div
                     className="hinDaHc"
                     onClick={() => {
-                      selectable_composites[0].composites.splice(k, 1);
-                      if (selectable_composites[0].composites.length === 1)
+                      it.composites.splice(k, 1);
+                      if (it.composites.length === 1)
                         product.selectable_composites = [];
                       setState({ product });
                     }}

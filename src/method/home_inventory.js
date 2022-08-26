@@ -1,3 +1,4 @@
+import { type } from "@testing-library/user-event/dist/type";
 import { getHttp, postHttp } from "../module/api_int";
 import { getTodayType1 } from "../module/simple";
 
@@ -12,7 +13,6 @@ export async function getProduct(state, setState) {
 
 export async function getProducts(state, setState) {
   const { productPaging } = state;
-
   await postHttp("products", productPaging)
     .then((res) => {
       setState({ allProduct: res.data, productPaging: res.page });
@@ -21,6 +21,21 @@ export async function getProducts(state, setState) {
   setState({ loading: false });
   return;
 }
+
+export async function inventorySearchProduct(v, state, setState) {
+  if (v === "") {
+    setState({ loading: false, error: null, allProductSearches: [] });
+    return;
+  }
+  setState({ loading: true, error: null });
+
+  await postHttp("getSearchProducts", { serach: v })
+    .then((res) => setState({ allProductSearches: res.data }))
+    .catch((error) => setState({ error }));
+  setState({ loading: false });
+  return;
+}
+
 export async function getServices(state, setState) {
   const { servicesPaging } = state;
 
@@ -36,14 +51,16 @@ export async function getServices(state, setState) {
 export async function getCategoryList(state, setState) {
   var getCat = postHttp("categoryLists", {});
   var getUnit = postHttp("unitLists", {});
-  var getKot = postHttp("KOTLists", {});
+  var getKot = postHttp("getKOT", {});
   var getTax = postHttp("taxLists", {});
-  await Promise.all([getCat, getUnit, getKot, getTax])
+  var getToppings = postHttp("getToppingsProducts", {});
+  await Promise.all([getCat, getUnit, getKot, getTax, getToppings])
     .then((res) => {
       setState({ allCategoty: res[0].data });
       setState({ allUnits: res[1].data });
       setState({ allKot: res[2].data });
       setState({ allTax: res[3].data });
+      setState({ allToppings: res[4].data });
     })
     .catch((error) => setState({ error }));
 }
@@ -107,6 +124,7 @@ export async function setInventory(state, setState) {
       });
     }
   }
+  product.variant_attribute = variant_attribute;
   setState({ product });
 }
 
@@ -116,7 +134,7 @@ export async function postInventoryProduct(state, setState) {
 
   if (product.selling_tax === "") error = "Select Tax";
 
-  const purchasePrice = product.purchase_price;
+  var purchasePrice = "";
   var proTax = 0;
   var costPrice = "";
   var costTaxAmount = "";
@@ -126,36 +144,64 @@ export async function postInventoryProduct(state, setState) {
   try {
     rate = allTax.filter((it) => it.id == product.selling_tax)[0].rate;
     cess = allTax.filter((it) => it.id == product.selling_tax)[0].cess;
-    if (product.tax_inclusion === "Inclusive") {
-      costPrice = purchasePrice / ((1 + proTax) / 100);
-      costTaxAmount = purchasePrice - costPrice;
-      costWithTax = purchasePrice;
-    } else {
-      costPrice = purchasePrice;
-      costTaxAmount = purchasePrice * (proTax / 100);
-      costWithTax = costPrice + costTaxAmount;
+    if (product.type === 1) {
+      purchasePrice = product.purchase_price;
+      if (product.tax_inclusion === "Inclusive") {
+        costPrice = purchasePrice / ((1 + proTax) / 100);
+        costTaxAmount = purchasePrice - costPrice;
+        costWithTax = purchasePrice;
+      } else {
+        costPrice = purchasePrice;
+        costTaxAmount = purchasePrice * (proTax / 100);
+        costWithTax = costPrice + costTaxAmount;
+      }
+      proTax = parseInt(rate) + parseInt(cess);
     }
-    proTax = parseInt(rate) + parseInt(cess);
+    // if (product.type === 2) {
+    else {
+      for (let i = 0; i < product.variant_products.length; i++) {
+        purchasePrice = product.variant_products[i].purchase_price;
+        if (product.tax_inclusion === "Inclusive") {
+          costPrice = purchasePrice / ((1 + proTax) / 100);
+          costTaxAmount = purchasePrice - costPrice;
+          costWithTax = purchasePrice;
+        } else {
+          costPrice = purchasePrice;
+          costTaxAmount = purchasePrice * (proTax / 100);
+          costWithTax = costPrice + costTaxAmount;
+        }
+        product.variant_products[i].cost_price = costPrice;
+        product.variant_products[i].cost_tax_amount = costTaxAmount;
+        product.variant_products[i].cost_with_tax = costWithTax; //set category default prodection station
+      }
+    }
   } catch (e) {
     error = "Something wrong at calculating tax, Check your tax details";
   }
 
+  
+    const isEdit = product?.hasOwnProperty("id");
+    const formData = new FormData();
+  try {
+    if (product.secondry_unit !== "" && product.secUnit)
+      formData.append("conversion", 1 / product.conversion);
+    else formData.append("conversion", product.conversion);
+  } catch (error) {
+    error = "Error on unit convertion";
+  }
+
   setState({ error });
   if (error !== null) return;
-
-  const isEdit = product?.hasOwnProperty("id");
-  const formData = new FormData();
   formData.append("branch_id", window.localStorage.getItem("branchId"));
   if (isEdit) formData.append("id", product.id);
   formData.append("product_name", product.product_name);
-  // MISSING Select product type
+  formData.append("inventory_type", product.inventory_type);
   formData.append("category_id", product.category_id);
   formData.append("product_description", product.product_description);
   formData.append("is_service", product.is_service);
   formData.append("primary_unit", product.primary_unit);
   formData.append("secondry_unit", product.secondry_unit);
   formData.append("enable_unit_conversion", product.secondry_unit !== "");
-  formData.append("conversion", product.conversion);
   formData.append("selling_tax", product.selling_tax);
   formData.append("cost_tax", product.selling_tax);
   formData.append("online_tax", product.selling_tax);
@@ -164,37 +210,45 @@ export async function postInventoryProduct(state, setState) {
   formData.append("is_online", product.is_online);
   formData.append("product_kot", product.product_kot);
   formData.append("product_type", product.type);
-  formData.append("product_modifier", product.product_modifier);
+  formData.append("product_modifier", JSON.stringify(product.product_modifier));
   formData.append(
     "category_default_modifier",
     product.category_default_modifier
   );
-  if (product.type === 1) {
-    formData.append("bar_code", product.bar_code);
-    formData.append("ean", product.ean);
-    formData.append("purchase_price", purchasePrice);
-    formData.append("stock_unit", product.primary_unit);
-    formData.append("cost_price", costPrice);
-    formData.append("cost_with_tax", costWithTax);
-    formData.append("cost_tax_amount", costTaxAmount);
-    formData.append("selling_price", product.selling_price);
-    formData.append("online_price", product.online_price);
-    formData.append("mrp", product.mrp);
-    formData.append("opening_stock", product.opening_stock);
-    formData.append("stock_date", getTodayType1());
-    formData.append("stock_price", costPrice);
-    formData.append("min_stock_level", product.min_stock_level);
-  }
-  if (product.type === 2) {
-    formData.append("variant_products", product.variant_products);
-    formData.append("variant_attribute", product.variant_attribute);
-    formData.append("selectable", product.selectable);
-    formData.append("classification", product.classification);
-  }
-  if (product.type === 3) {
-    formData.append("default_composites", product.default_composites);
-    formData.append("selectable_composites", product.selectable_composites);
-  }
+  // TYPE 1
+  formData.append("bar_code", product.bar_code);
+  formData.append("ean", product.ean);
+  formData.append("cost_price", costPrice);
+  formData.append("purchase_price", purchasePrice);
+  formData.append("stock_unit", product.primary_unit);
+  formData.append("cost_with_tax", costWithTax);
+  formData.append("cost_tax_amount", costTaxAmount);
+  formData.append("selling_price", product.selling_price);
+  formData.append("online_price", product.online_price);
+  formData.append("mrp", product.mrp);
+  formData.append("opening_stock", product.opening_stock);
+  formData.append("stock_date", getTodayType1());
+  formData.append("stock_price", costPrice);
+  formData.append("min_stock_level", product.min_stock_level);
+  //TYPE 2
+  formData.append("variant_products", JSON.stringify(product.variant_products));
+  formData.append(
+    "variant_attribute",
+    JSON.stringify(product.variant_attribute)
+  );
+  formData.append("selectable", product.selectable);
+  formData.append("attribute_title", product.attribute_title);
+  formData.append("classification", JSON.stringify(product.classification));
+  //TYPE 3
+  formData.append(
+    "default_composites",
+    JSON.stringify(JSON.stringify(product.default_composites))
+  );
+  formData.append(
+    "selectable_composites",
+    JSON.stringify(JSON.stringify(product.selectable_composites))
+  );
+  // IMAGE
   for (let i = 0; i < product.image.length; i++)
     formData.append("image[]", product.image[i]);
 

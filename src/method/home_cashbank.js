@@ -7,6 +7,9 @@ export async function getAllCashandBank(state, setState) {
   await postHttp("getBankWithAggregateLists", {}).then((res) =>
     setState({ allBanks: res.data.banks })
   );
+  await postHttp("fundTransferTypeLists", {}).then((res) =>
+    setState({ allTransferType: res.data })
+  );
 }
 export async function addCashandBank(state, setState) {
   const { addAccount } = state;
@@ -43,4 +46,33 @@ export async function deleteAccount(id, state, setState) {
       });
     });
   setState({ loading: false });
+}
+
+export async function postFundTransfer(state, setState) {
+  const { fundTransfer, succesPop } = state;
+  setState({ loading: true, error: null });
+  await postHttp("fundTransfer", fundTransfer)
+    .then(async () => {
+      succesPop({
+        active: true,
+        title: "Succesfully Added",
+        desc: "Yout transaction has been succesfully added.",
+      });
+      setState({ fundTransfer: null });
+    })
+    .catch((error) => setState({ error }));
+  setState({ loading: false });
+}
+
+export async function getBankHistory(it, state, setState) {
+  const { account } = state;
+  setState({ account: it, page: 1, allHistory: [], error: null });
+  await postHttp("accountTransactions", {
+    account_id: it.id,
+    from_date: "25-06-2021",
+    to_date: "25_10-2021",
+  }).then((res) =>
+    setState({  account: { ...account, ...res.data }, historyPaging: res.page })
+  );
+  console.log(account);
 }

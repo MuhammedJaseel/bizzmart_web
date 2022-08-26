@@ -1,4 +1,5 @@
-import React, { StrictMode, useState } from "react";
+import React, { StrictMode, useRef, useState } from "react";
+import { inventorySearchProduct } from "../method/home_inventory";
 import { WidgetPopUp1, WidgetPopUp2Body } from "./widget_popup";
 
 export function HomeInventoryModifersPopup({ state, setState }) {
@@ -73,16 +74,18 @@ export function HomeInventoryModifersPopup({ state, setState }) {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+var value = {};
 export function InventoryAddProdectPop({ state, setState }) {
-  const { loading, error, addProdectPop, allProduct, product } = state;
+  const { loading, error, addProdectPop, allProductSearches, product } = state;
   const { default_composites, selectable_composites } = product;
-  
+
   var [values, setValues] = useState([]);
+  const refForKey = useRef(null);
+  const refForKey1 = useRef(null);
   if (addProdectPop === null) return null;
-  
-  const value = {};
+
   var item = { composite_name: "", selectable: 0, composites: [] };
-  
+
   if (default_composites.length === 1 && addProdectPop === 0)
     values = default_composites[0].composites;
 
@@ -94,26 +97,19 @@ export function InventoryAddProdectPop({ state, setState }) {
   const body = {
     title: (
       <StrictMode>
-        Add Products <span className="hinDh">iPhone 13 Bundle</span>
+        Add Products <span className="hinDh">{product.product_name}</span>
       </StrictMode>
     ),
     desc: "Add default products for this bundle",
-    close: () => {
-      setState({ addProdectPop: null });
-      setValues([]);
-    },
     loading,
     error,
+    close: () => {
+      setState({ addProdectPop: null, allProductSearches: [], error: null });
+      setValues([]);
+    },
     onChange: (e) => {
-      if (e.target.id === "name" || e.target.id === "qunatity")
-        if (e.target.id === "qunatity") value.qunatity = e.target.value;
-        else {
-          const pro = JSON.parse(e.target.value);
-          value.product_id = pro.id;
-          value.name = pro.name;
-          value.cost = pro.cost;
-          value.cost_tax = pro.cost_tax;
-        }
+      if (e.target.id === "name")
+        inventorySearchProduct(e.target.value, state, setState);
       else item[e.target.id] = e.target.value;
     },
     submit: () => {
@@ -124,7 +120,7 @@ export function InventoryAddProdectPop({ state, setState }) {
       item.composites = values;
       if (addProdectPop === 0) product.default_composites = [item];
       else product.selectable_composites[addProdectPop - 1] = item;
-      setState({ product, addProdectPop: null });
+      setState({ product, addProdectPop: null, error: null });
       setValues([]);
     },
   };
@@ -160,18 +156,55 @@ export function InventoryAddProdectPop({ state, setState }) {
           <div className="hinDjB">Qty</div>
         </div>
         <div className="hinDj">
-          <select className="hinDjA" id="name">
-            {allProduct.map((it, k) => (
-              <option key={k} value={JSON.stringify(it)}>
-                {it.name}
-              </option>
-            ))}
-          </select>
-          <input className="hinDjB" id="qunatity" type="number" />
+          <input
+            className="hinDjA"
+            id="name"
+            ref={refForKey}
+            placeholder="Search your prodect here"
+          />
+          <input
+            className="hinDjB"
+            id="qunatity"
+            type="number"
+            placeholder="0.00"
+            ref={refForKey1}
+            onChange={(e) => (value = { ...value, qunatity: e.target.value })}
+          />
           <div
             className="hinDjD"
-            onClick={() => setValues(values.concat([value]))}
+            onClick={() => {
+              setState({ error: null });
+              if (value.name === "" || value.name === undefined) {
+                setState({ error: "Not a valid Prodect" });
+                return;
+              }
+              if (value.qunatity === "" || value.qunatity === undefined) {
+                setState({ error: "Enter quantity" });
+                return;
+              }
+              setValues(values.concat([value]));
+              value = {};
+              refForKey.current.value = "";
+              refForKey1.current.value = "";
+            }}
           />
+          {allProductSearches.length !== 0 ? (
+            <div className="hinDjE">
+              {allProductSearches.map((it, k) => (
+                <div
+                  key={k}
+                  className="hinDjEa"
+                  onClick={() => {
+                    value = { ...value, ...it };
+                    setState({ allProductSearches: [] });
+                    refForKey.current.value = it.name;
+                  }}
+                >
+                  {it.name}
+                </div>
+              ))}
+            </div>
+          ) : null}
         </div>
         <div className="hinDj1">
           {values?.length !== 0
@@ -188,6 +221,149 @@ export function InventoryAddProdectPop({ state, setState }) {
                 </div>
               ))
             : null}
+        </div>
+      </WidgetPopUp2Body>
+    </WidgetPopUp1>
+  );
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////     INVENTORY TOPPINGS POPUP     ////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+export function InventoryAddToppingsPop({ state, setState }) {
+  var { addToppings, loading, error, product, allToppings } = state;
+
+  const [topping, setTopping] = useState("");
+  const [selected, setSelected] = useState("");
+  const [isDefault, setIsDefault] = useState(false);
+  if (addToppings === null) return null;
+  const body = {
+    title: "Add Toppings",
+    desc: "Add  toppings to your product",
+    close: () => setState({ addToppings: null }),
+    loading,
+    error,
+    onChange: (e) => {},
+    submit: () => {
+      product.classification = product.classification.concat(addToppings);
+      setState({ product, addToppings: null });
+    },
+  };
+
+  var charge = "";
+  return (
+    <WidgetPopUp1 props={body}>
+      <WidgetPopUp2Body>
+        <div className="hinDkA">
+          <div className="hinDkAa">
+            <div className="hinDkAaA">
+              <div className="hinDkAaAa">
+                <div className="hinDkAaAaB">
+                  <div className="hinDkAaAaBa">Attribute Type</div>
+                  <div
+                    className="hinDkAaAaBb"
+                    onClick={() => setIsDefault(!isDefault)}
+                  >
+                    <div
+                      className={!isDefault ? "hinDkAaAaBbA" : "hinDkAaAaBbA_"}
+                    >
+                      Default
+                    </div>
+                    <div
+                      className={isDefault ? "hinDkAaAaBbB" : "hinDkAaAaBbA_"}
+                    >
+                      Optional
+                    </div>
+                  </div>
+                </div>
+                {isDefault ? (
+                  <div className="hinDkAaAaC">
+                    <div className="hinDkAaAaBa">Selectables</div>
+                    <input
+                      className="hinDkAaAaCa"
+                      placeholder="0.0"
+                      type="number"
+                    />
+                  </div>
+                ) : null}
+              </div>
+              <div className="hinDkAaAb">
+                <div className="hinDkAaAaBa">Select Classifications</div>
+                <select className="hinDkAaAbA">
+                  <option hidden>Select Classifications</option>
+                  {allToppings.map((it, k) => (
+                    <option>{it.name}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            <div className="hinDkAaB">
+              <div className="hinDkAaBa_">
+                <div className="hinDkAaBaA">Product Variant</div>
+                <div className="hinDkAaBaB">Select Topping Variant</div>
+                <div className="hinDkAaBaC">Charge</div>
+              </div>
+              {product?.attribute1 !== ""
+                ? product?.attribute1?.split(",").map((it, k) => (
+                    <div className="hinDkAaBa" key={k}>
+                      <div className="hinDkAaBaA">
+                        &nbsp;&nbsp;&nbsp;{it.replace(/^\s+|\s+$/gm, "")}
+                      </div>
+                      <select
+                        className="hinDkAaBaB"
+                        onChange={(e) => (topping = e.target.value)}
+                      >
+                        <option hidden>Select topping</option>
+                      </select>
+                      <input
+                        className="hinDkAaBaC"
+                        placeholder="0.00"
+                        onChange={(e) => (charge = e.target.value)}
+                      />
+                    </div>
+                  ))
+                : null}
+            </div>
+          </div>
+          <div className="hinDkAb">
+            <div className="hinDkAbA">CLEAR</div>
+            <div
+              className="hinDkAbB"
+              onClick={() => {
+                addToppings.push({
+                  topping_id: "",
+                  topping_title: "assa",
+                  variant_title: "",
+                  cost_amount: "",
+                  charge_amount: "2",
+                  is_default: "",
+                });
+              }}
+            >
+              ADD
+            </div>
+          </div>
+        </div>
+        <div className="hinDkB">
+          {addToppings?.map((it, k) => (
+            <div
+              key={k}
+              className={it.is_default === 1 ? "hinDaJa_g" : "hinDaJa"}
+            >
+              <div className="hinDaJaA">{it.topping_title}</div>
+              {it.charge_amount}
+              <div
+                className="hinDaJaB"
+                onClick={() => {
+                  addToppings?.splice(k, 1);
+                  setState({ product });
+                }}
+              />
+            </div>
+          ))}
         </div>
       </WidgetPopUp2Body>
     </WidgetPopUp1>

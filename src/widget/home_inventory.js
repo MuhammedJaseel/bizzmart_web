@@ -7,7 +7,10 @@ import {
   getServices,
 } from "../method/home_inventory";
 import { Header1, TitleTable1 } from "./widget";
-import { HomeInventoryModifersPopup } from "./home_inventory3";
+import {
+  HomeInventoryModifersPopup,
+  InventoryAddToppingsPop,
+} from "./home_inventory3";
 import { InventoryAddProdectPop } from "./home_inventory3";
 import HomeInventoryTables from "./home_inventory1";
 import HomeInventoryForms from "./home_inventory2";
@@ -25,16 +28,19 @@ export default class HomeInventory extends Component {
       // DATA //////////////////////////////////////////////////////
       allProduct: [],
       allService: [],
+      allProductSearches: [],
       allAsset: [],
       allIssue: [],
       allCategoty: [],
       allUnits: [],
       allKot: [],
       allTax: [],
+      allToppings: [],
       product: inventoryStateData.product,
       productPaging: {},
       servicesPaging: {},
       addProdectPop: null,
+      addToppings: null,
       // FUNCTION ///////////////////////////////////////////////////
       succesPop: props.succesPop,
     };
@@ -54,8 +60,9 @@ export default class HomeInventory extends Component {
         <InventoryLanding state={state} setState={setState} />
         <HomeInventoryTables state={state} setState={setState} />
         <HomeInventoryForms state={state} setState={setState} />
-        {/* <HomeInventoryModifersPopup state={state} setState={setState} /> */}
-        {/* <InventoryAddProdectPop state={state} setState={setState} /> */}
+        <HomeInventoryModifersPopup state={state} setState={setState} />
+        <InventoryAddProdectPop state={state} setState={setState} />
+        <InventoryAddToppingsPop state={state} setState={setState} />
       </StrictMode>
     );
   }

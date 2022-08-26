@@ -54,10 +54,13 @@ export default class HomePurchase extends Component {
     const { page, addPage } = state;
 
     const bodyRBody = {
-      makeAdd: () => setState({ form: {} }),
+      makeAdd: () => setState({ form: { items: [{}] } }),
       title: page === 0 ? "+ New Purchase" : "+ New Purchase Order",
       drowelList: [
-        { title: "Add Purchase", fun: () => setState({ form: {} }) },
+        {
+          title: "Add Purchase",
+          fun: () => setState({ form: { formType: "purchaseList" } }),
+        },
         { title: "Add Purchase Order", fun: () => setState({ form: {} }) },
       ],
     };
@@ -162,10 +165,14 @@ function HomePurchaseOrderTable({ state, setState }) {
 }
 
 function HomePurchaseForm({ state, setState }) {
-  const { page, form } = state;
+  const { form } = state;
   if (form === null) return null;
   return (
     <React.StrictMode>
+      <Header4
+        title={"New Purchase Invoice"}
+        desc={"Record a new purchase entry from your supplier"}
+      />
       <MyForm1 state={state} setState={setState} />
     </React.StrictMode>
   );

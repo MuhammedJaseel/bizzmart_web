@@ -27,15 +27,15 @@ function DrawerLayout2({ show, children }) {
 }
 
 export default function DrawerView1({ state, setState }) {
-  const { invoice } = state;
+  const { item } = state;
   return (
-    <DrawerLayout1 show={invoice !== null}>
+    <DrawerLayout1 show={item !== null}>
       <div className="zvBa">
         <div className="zvBaA">
           <div className="zvBaAa">INV22-0653</div>
           <div className="zvBaAb">PARTIALLY PAID</div>
         </div>
-        <div className="zvBaB" onClick={() => setState({ invoice: null })} />
+        <div className="zvBaB" onClick={() => setState({ item: null })} />
       </div>
       <div className="zvB-body">
         <div className="zvBb">
