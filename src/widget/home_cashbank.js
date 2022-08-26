@@ -10,6 +10,7 @@ import { AccountAddPopUpLayout } from "./home_cashbank1";
 import { FundTransferPopUpLayout } from "./home_cashbank1";
 import { ReciveMoneyPopUpLayout } from "./home_cashbank1";
 import { SpendMoneyPopUpLayout } from "./home_cashbank1";
+import { TitleFilter1 } from "./widget";
 import "../style/hcb.css";
 
 export default class HomeCashbank extends Component {
@@ -122,7 +123,18 @@ function HomeCashBankBody({ state, setState }) {
 function BankHistory({ state, setState }) {
   const { page, account, historyPaging } = state;
 
+  const balanceBody = (
+    <div className="hcbCa">
+      ACCOUNT BALANCE:
+      <div className="hcbCaA">&nbsp;{account?.total}</div>
+    </div>
+  );
+
+  const filterBody = { onlyDate: true };
+  const filter = <TitleFilter1 props={filterBody} />;
+
   const heads = [
+    "",
     "Date",
     "Type",
     "Reference",
@@ -133,6 +145,7 @@ function BankHistory({ state, setState }) {
   ];
 
   const widths = [
+    { width: 1 },
     { width: 10 },
     { width: 15 },
     { width: 15 },
@@ -146,6 +159,7 @@ function BankHistory({ state, setState }) {
   for (let i = 0; i < account?.transactions?.length; i++) {
     const it = account?.transactions[i];
     body.push([
+      { data: null },
       { data: it.date },
       { data: it.type },
       { data: it.description },
@@ -165,7 +179,12 @@ function BankHistory({ state, setState }) {
   if (page !== 1) return null;
   return (
     <React.StrictMode>
-      <Header4 title={"tit[page].title"} desc={"tit[page].desc"} />
+      <Header1 title={account.account_display_name} bodyR={filter} />
+      <Header4
+        title="Review Account Activites"
+        desc="Review all the account activities against the given date range, you can reconsile for any mismatch or charges here"
+        body={balanceBody}
+      />
       <MyTable1 widths={widths} heads={heads} body={body} />
       <MyTableCounter1 props={counterProps} />
     </React.StrictMode>

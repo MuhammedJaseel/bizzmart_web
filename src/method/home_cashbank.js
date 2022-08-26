@@ -72,7 +72,6 @@ export async function getBankHistory(it, state, setState) {
     from_date: "01-01-2021",
     to_date: "25-10-2022",
   }).then((res) =>
-    setState({  account: { ...account, ...res.data }, historyPaging: res.page })
+    setState({ account: { ...it, ...res.data }, historyPaging: res.page })
   );
-  console.log(account);
 }

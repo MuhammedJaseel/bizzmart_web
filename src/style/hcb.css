@@ -14,7 +14,7 @@
 }
 .hcbBa {
   display: flex;
-  
+
   width: 32vw;
 }
 .hcbAa {
@@ -22,4 +22,12 @@
 }
 .hcbAb {
   width: 49%;
+}
+.hcbCa {
+  display: flex;
+  align-items: center;
+  font-size: 1.1vw;
+}
+.hcbCaA {
+  font-weight: bold;
 }
