@@ -69,8 +69,8 @@ export async function getBankHistory(it, state, setState) {
   setState({ account: it, page: 1, allHistory: [], error: null });
   await postHttp("accountTransactions", {
     account_id: it.id,
-    from_date: "25-06-2021",
-    to_date: "25_10-2021",
+    from_date: "01-01-2021",
+    to_date: "25-10-2022",
   }).then((res) =>
     setState({  account: { ...account, ...res.data }, historyPaging: res.page })
   );

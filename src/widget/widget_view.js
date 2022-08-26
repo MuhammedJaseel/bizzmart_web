@@ -233,6 +233,7 @@ export function DrowerView2({ props }) {
                 defaultValue={item.loyalty_tire}
                 id="loyalty_tire"
               >
+                <option hidden>Select Loyelty</option>
                 {allLoyaltyType.map((it, k) => (
                   <option value={it.title}>{it.title}</option>
                 ))}

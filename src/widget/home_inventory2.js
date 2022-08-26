@@ -222,7 +222,7 @@ function ProductForm({ state, setState }) {
             >
               <option hidden>Select a prodect station to your product</option>
               {allKot.map((it, k) => (
-                <option key={k.id} value={k}>
+                <option key={it.id} value={k}>
                   {it.title}
                 </option>
               ))}
@@ -959,13 +959,13 @@ function InventoryCompositProduct({ state, setState }) {
   if (type !== 3) return null;
 
   const setAddType = () => {
-    if (default_composites.length === 0) return 0;
+    if (default_composites?.length === 0) return 0;
     return selectable_composites.length + 1;
   };
 
   return (
     <StrictMode>
-      {default_composites.length !== 0 ? (
+      {default_composites?.length !== 0 ? (
         <StrictMode>
           <AddingForm2>
             <div className="hinDaA">
@@ -981,15 +981,15 @@ function InventoryCompositProduct({ state, setState }) {
           </AddingForm2>
           <AddingForm1 title="Default Products*">
             <div className="hinDaH_">
-              {default_composites[0].composites?.map((it, k) => (
+              {default_composites[0]?.composites?.map((it, k) => (
                 <div className="hinDaHa" key={k}>
                   {it.name}
                   <div className="hinDaHb">{it.cost}</div>
                   <div
                     className="hinDaHc"
                     onClick={() => {
-                      default_composites[0].composites.splice(k, 1);
-                      if (default_composites[0].composites.length === 1)
+                      default_composites[0]?.composites.splice(k, 1);
+                      if (default_composites[0]?.composites.length === 1)
                         product.default_composites = [];
                       setState({ product });
                     }}

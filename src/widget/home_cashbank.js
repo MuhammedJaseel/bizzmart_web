@@ -146,13 +146,13 @@ function BankHistory({ state, setState }) {
   for (let i = 0; i < account?.transactions?.length; i++) {
     const it = account?.transactions[i];
     body.push([
-      { data: "it.date" },
-      { data: "it.name" },
-      { data: "it.reference" },
-      { data: "it.name" },
-      { data: "it.recevied" },
-      { data: "it.paid" },
-      { data: "it.balance" },
+      { data: it.date },
+      { data: it.type },
+      { data: it.description },
+      { data: it.name },
+      { data: it.recevied },
+      { data: it.paid },
+      { data: it.balance },
     ]);
   }
   const counterProps = {

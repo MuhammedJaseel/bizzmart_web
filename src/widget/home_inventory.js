@@ -22,7 +22,7 @@ export default class HomeInventory extends Component {
     this.state = {
       loading: true,
       error: null,
-      page: 0,
+      page: null,
       addPage: false,
       popup: null,
       // DATA //////////////////////////////////////////////////////
@@ -36,7 +36,7 @@ export default class HomeInventory extends Component {
       allKot: [],
       allTax: [],
       allToppings: [],
-      product: inventoryStateData.product,
+      product: null,
       productPaging: {},
       servicesPaging: {},
       addProdectPop: null,

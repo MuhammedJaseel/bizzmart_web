@@ -179,9 +179,8 @@ export async function postInventoryProduct(state, setState) {
     error = "Something wrong at calculating tax, Check your tax details";
   }
 
-  
-    const isEdit = product?.hasOwnProperty("id");
-    const formData = new FormData();
+  const isEdit = product?.hasOwnProperty("id");
+  const formData = new FormData();
   try {
     if (product.secondry_unit !== "" && product.secUnit)
       formData.append("conversion", 1 / product.conversion);
@@ -208,12 +207,13 @@ export async function postInventoryProduct(state, setState) {
   formData.append("tax_inclusion", product.tax_inclusion);
   formData.append("hsncode", product.hsncode);
   formData.append("is_online", product.is_online);
+  formData.append("category_default_kot", product.category_default_kot);
   formData.append("product_kot", product.product_kot);
   formData.append("product_type", product.type);
   formData.append("product_modifier", JSON.stringify(product.product_modifier));
   formData.append(
     "category_default_modifier",
-    product.category_default_modifier
+    product.category_default_kot === 0 ? "" : product.category_default_modifier
   );
   // TYPE 1
   formData.append("bar_code", product.bar_code);
@@ -242,11 +242,11 @@ export async function postInventoryProduct(state, setState) {
   //TYPE 3
   formData.append(
     "default_composites",
-    JSON.stringify(JSON.stringify(product.default_composites))
+    JSON.stringify(product.default_composites)
   );
   formData.append(
     "selectable_composites",
-    JSON.stringify(JSON.stringify(product.selectable_composites))
+    JSON.stringify(product.selectable_composites)
   );
   // IMAGE
   for (let i = 0; i < product.image.length; i++)

@@ -77,17 +77,17 @@ export function HomeInventoryModifersPopup({ state, setState }) {
 var value = {};
 export function InventoryAddProdectPop({ state, setState }) {
   const { loading, error, addProdectPop, allProductSearches, product } = state;
-  const { default_composites, selectable_composites } = product;
-
+  
   var [values, setValues] = useState([]);
   const refForKey = useRef(null);
   const refForKey1 = useRef(null);
   if (addProdectPop === null) return null;
-
+  const { default_composites, selectable_composites } = product;
+  
   var item = { composite_name: "", selectable: 0, composites: [] };
-
-  if (default_composites.length === 1 && addProdectPop === 0)
-    values = default_composites[0].composites;
+  
+  if (default_composites?.length === 1 && addProdectPop === 0)
+    values = default_composites[0]?.composites;
 
   if (selectable_composites.length >= addProdectPop && addProdectPop !== 0) {
     values = selectable_composites[addProdectPop - 1]?.composites;
@@ -196,6 +196,7 @@ export function InventoryAddProdectPop({ state, setState }) {
                   className="hinDjEa"
                   onClick={() => {
                     value = { ...value, ...it };
+                    value.product_id = value.id;
                     setState({ allProductSearches: [] });
                     refForKey.current.value = it.name;
                   }}

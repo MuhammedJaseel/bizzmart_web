@@ -339,6 +339,7 @@ export function DrawerForm1({ props }) {
                   onFocus={() => setSelected(0)}
                   id="loyality_tier"
                 >
+                  <option hidden>Select Loyelty</option>
                   {allLoyaltyType.map((it, k) => (
                     <option key={k} value={it.title}>
                       {it.title}

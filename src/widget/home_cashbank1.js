@@ -176,7 +176,11 @@ export function FundTransferPopUpLayout({ state, setState }) {
           </select>
         </WidgetPopUp1In2>
         <WidgetPopUp1In1 title="Reference">
-          <input className="hcbAa" id="reference" placeholder="Type here.." />
+          <input
+            className="hcbAa"
+            id="reference_id"
+            placeholder="Type here.."
+          />
         </WidgetPopUp1In1>
       </WidgetPopUp1Body>
       <WidgetPopUp1Body>
