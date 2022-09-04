@@ -131,6 +131,8 @@
   font-weight: 500;
   margin-top: 1vw;
   margin-bottom: 0.3vw;
+  display: flex;
+  justify-content: space-between;
 }
 /* ///////////////////////////////     WIDGET POPUP IN2     /////////////////////////////// */
 .zpAh {

@@ -27,3 +27,20 @@ export const teamHeads1 = [
   "Status",
   "Actions",
 ];
+
+export const teamDummyData = {
+  name: "",
+  phone: "",
+  email: "",
+  address: "",
+  role_id: "",
+  permission: [],
+  salary: "",
+  salary_type_id: "",
+  system_user: "",
+  pin: "",
+  password: "",
+  join_date: "",
+  dob: "",
+  image: "",
+};

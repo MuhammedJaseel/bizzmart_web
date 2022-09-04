@@ -77,15 +77,15 @@ export function HomeInventoryModifersPopup({ state, setState }) {
 var value = {};
 export function InventoryAddProdectPop({ state, setState }) {
   const { loading, error, addProdectPop, allProductSearches, product } = state;
-  
+
   var [values, setValues] = useState([]);
   const refForKey = useRef(null);
   const refForKey1 = useRef(null);
   if (addProdectPop === null) return null;
   const { default_composites, selectable_composites } = product;
-  
+
   var item = { composite_name: "", selectable: 0, composites: [] };
-  
+
   if (default_composites?.length === 1 && addProdectPop === 0)
     values = default_composites[0]?.composites;
 
@@ -237,29 +237,59 @@ export function InventoryAddProdectPop({ state, setState }) {
 export function InventoryAddToppingsPop({ state, setState }) {
   var { addToppings, loading, error, product, allToppings } = state;
 
-  const [topping, setTopping] = useState("");
-  const [selected, setSelected] = useState("");
   const [isDefault, setIsDefault] = useState(false);
+  var charges = {};
+  var topping = "";
+  var selectValue = "";
+
   if (addToppings === null) return null;
   const body = {
     title: "Add Toppings",
     desc: "Add  toppings to your product",
-    close: () => setState({ addToppings: null }),
+    close: () => setState({ addToppings: null, error: null }),
     loading,
     error,
     onChange: (e) => {},
     submit: () => {
+      if (isDefault && selectValue === "") {
+        setState({ error: "Fill all the fields" });
+        return;
+      }
       product.classification = product.classification.concat(addToppings);
+      product.selectable = selectValue;
       setState({ product, addToppings: null });
     },
   };
 
-  var charge = "";
+  const assignTopping = () => {
+    if (topping === "") {
+      setState({ error: "Select topping" });
+      return;
+    }
+    for (let i = 0; i < product?.attribute1?.split(",").length; i++) {
+      const el = product?.attribute1?.split(",")[i].replace(/^\s+|\s+$/gm, "");
+      if (charges[el] !== "" && charges[el] !== undefined)
+        addToppings.push({
+          topping_id: allToppings[topping].id,
+          topping_title: allToppings[topping].name,
+          variant_title: el,
+          cost_amount: allToppings[topping].cost_price,
+          charge_amount: charges[el],
+          is_default: isDefault ? 1 : 0,
+        });
+    }
+    document.getElementById("toppingForm").reset();
+    charges = {};
+    selectValue = "";
+    topping = "";
+    setState({ addToppings });
+  };
+
   return (
     <WidgetPopUp1 props={body}>
       <WidgetPopUp2Body>
         <div className="hinDkA">
-          <div className="hinDkAa">
+          <form className="hinDkAa" id="toppingForm">
             <div className="hinDkAaA">
               <div className="hinDkAaAa">
                 <div className="hinDkAaAaB">
@@ -287,16 +317,20 @@ export function InventoryAddToppingsPop({ state, setState }) {
                       className="hinDkAaAaCa"
                       placeholder="0.0"
                       type="number"
+                      onChange={(e) => (selectValue = e.target.value)}
                     />
                   </div>
                 ) : null}
               </div>
               <div className="hinDkAaAb">
                 <div className="hinDkAaAaBa">Select Classifications</div>
-                <select className="hinDkAaAbA">
+                <select
+                  className="hinDkAaAbA"
+                  onChange={(e) => (topping = e.target.value)}
+                >
                   <option hidden>Select Classifications</option>
                   {allToppings.map((it, k) => (
-                    <option>{it.name}</option>
+                    <option value={k}>{it.name}</option>
                   ))}
                 </select>
               </div>
@@ -304,7 +338,6 @@ export function InventoryAddToppingsPop({ state, setState }) {
             <div className="hinDkAaB">
               <div className="hinDkAaBa_">
                 <div className="hinDkAaBaA">Product Variant</div>
-                <div className="hinDkAaBaB">Select Topping Variant</div>
                 <div className="hinDkAaBaC">Charge</div>
               </div>
               {product?.attribute1 !== ""
@@ -313,37 +346,33 @@ export function InventoryAddToppingsPop({ state, setState }) {
                       <div className="hinDkAaBaA">
                         &nbsp;&nbsp;&nbsp;{it.replace(/^\s+|\s+$/gm, "")}
                       </div>
-                      <select
-                        className="hinDkAaBaB"
-                        onChange={(e) => (topping = e.target.value)}
-                      >
-                        <option hidden>Select topping</option>
-                      </select>
                       <input
                         className="hinDkAaBaC"
                         placeholder="0.00"
-                        onChange={(e) => (charge = e.target.value)}
+                        type="number"
+                        onChange={(e) =>
+                          (charges[it.replace(/^\s+|\s+$/gm, "")] =
+                            e.target.value)
+                        }
                       />
                     </div>
                   ))
                 : null}
             </div>
-          </div>
+          </form>
           <div className="hinDkAb">
-            <div className="hinDkAbA">CLEAR</div>
             <div
-              className="hinDkAbB"
+              className="hinDkAbA"
               onClick={() => {
-                addToppings.push({
-                  topping_id: "",
-                  topping_title: "assa",
-                  variant_title: "",
-                  cost_amount: "",
-                  charge_amount: "2",
-                  is_default: "",
-                });
+                document.getElementById("toppingForm").reset();
+                charges = {};
+                selectValue = "";
+                topping = "";
               }}
             >
+              CLEAR
+            </div>
+            <div className="hinDkAbB" onClick={assignTopping}>
               ADD
             </div>
           </div>
@@ -354,7 +383,9 @@ export function InventoryAddToppingsPop({ state, setState }) {
               key={k}
               className={it.is_default === 1 ? "hinDaJa_g" : "hinDaJa"}
             >
-              <div className="hinDaJaA">{it.topping_title}</div>
+              <div className="hinDaJaA">
+                {it.topping_title}-{it.variant_title}
+              </div>
               {it.charge_amount}
               <div
                 className="hinDaJaB"

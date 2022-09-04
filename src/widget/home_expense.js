@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import { expenseList } from "../module/dummydata";
+import React, { Component, StrictMode } from "react";
 import { MyTable1, MyTableCounter1 } from "./widget_table";
 import { HeaderButtens1, TitleFilter1 } from "./widget";
 import { Header1, Header2, Header4 } from "./widget";
 import { MyForm1 } from "./widget_form";
-import "../style/hdb.css";
 import { expenseGetExpenses } from "../method/home_expense";
+import { expenseGetAllDetails } from "../method/home_expense";
+import "../style/hdb.css";
 
 const pTitles = ["Expense Enteries"];
 const desc =
@@ -26,30 +26,32 @@ export default class HomeExpense extends Component {
     this.state = {
       error: null,
       loading: false,
-      addPage: false,
       // /////////////////////////////
       allExpense: [],
+      allExpenseHead: [],
       expensesPaging: {},
+      invoiceNumber: "",
+      allAccounts: [],
+      allTransferType: [],
+      form: null,
     };
   }
   componentDidMount() {
     const state = this.state;
     const setState = (v) => this.setState(v);
     expenseGetExpenses(state, setState);
+    expenseGetAllDetails(state, setState);
   }
   render() {
     const state = this.state;
     const setState = (v) => this.setState(v);
-    const { allExpense, addPage } = state;
+    const { invoiceNumber } = state;
 
-    const filterBody = {
-      searchPh: "Search an expenses",
-    };
-    const filter = !addPage ? <TitleFilter1 props={filterBody} /> : null;
     const bodyRBody = {
-      makeAdd: () => setState({ addPage: true }),
+      makeAdd: () =>
+        setState({ form: { formType: "expense", invoice_no: invoiceNumber } }),
       title: "+ New Expense",
-      drowelList: [],
+      drowelList: null,
     };
     const bodyR = <HeaderButtens1 props={bodyRBody} />;
 
@@ -57,7 +59,6 @@ export default class HomeExpense extends Component {
       <React.StrictMode>
         <Header1 title="EXPENSES > EXPENSES LIST" bodyR={bodyR} />
         <Header2 titles={pTitles} page={0} setState={setState} />
-        <Header4 title={"Expenses List"} desc={desc} body={filter} />
         <HomeExpenceTable state={state} setState={setState} />
         <HomeExpenceForm state={state} setState={setState} />
       </React.StrictMode>
@@ -66,7 +67,7 @@ export default class HomeExpense extends Component {
 }
 
 function HomeExpenceTable({ state, setState }) {
-  const { addPage, allExpense } = state;
+  const { form, allExpense } = state;
 
   const widths = [
     { width: 4 },
@@ -91,16 +92,27 @@ function HomeExpenceTable({ state, setState }) {
         { data: it.amount },
       ]);
     }
-  if (addPage) return null;
+  if (form !== null) return null;
+
+  const filterBody = { searchPh: "Search an expenses" };
+  const filter = <TitleFilter1 props={filterBody} />;
+
   return (
     <React.StrictMode>
+      <Header4 title={"Expenses List"} desc={desc} body={filter} />
       <MyTable1 widths={widths} heads={heads} body={body} />
       <MyTableCounter1 props={{ total: 100 }} />
     </React.StrictMode>
   );
 }
 function HomeExpenceForm({ state, setState }) {
-  const { addPage } = state;
-  if (!addPage) return null;
-  return <MyForm1 />;
+  const { form } = state;
+  if (form === null) return null;
+  const desc = "Record a new expense entry for your businsee";
+  return (
+    <StrictMode>
+      <Header4 title="New Expenses Entry" desc={desc} />
+      <MyForm1 state={state} setState={setState} />;
+    </StrictMode>
+  );
 }

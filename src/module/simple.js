@@ -32,3 +32,11 @@ export function getTodayType1() {
   today = dd + "-" + mm + "-" + yyyy;
   return today;
 }
+
+export function makeMyDate(d) {
+  if (d === undefined) return "";
+  if (d === "") return "";
+  const ds = d.split("-");
+  if (ds.length < 3) return "";
+  return `${ds[2]}-${ds[1]}-${ds[0]}`;
+}

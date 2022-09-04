@@ -514,7 +514,10 @@ function ProductForm({ state, setState }) {
                     />
                     <div
                       className="hinDaC_sideBtn"
-                      onClick={() => setState({ addToppings: [] })}
+                      onClick={() => {
+                        if (product.attribute_title !== "")
+                          setState({ addToppings: [] });
+                      }}
                     />
                     {product.classification.length !== 0 ? (
                       <div className="hinDaJ">
@@ -526,7 +529,7 @@ function ProductForm({ state, setState }) {
                             }
                           >
                             <div className="hinDaJaA">{it.topping_title}</div>
-                            {it.charge_amount}
+                            {it.charge_amount}-{it.variant_title}
                             <div
                               className="hinDaJaB"
                               onClick={() => {

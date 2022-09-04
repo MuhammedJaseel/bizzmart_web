@@ -6,11 +6,12 @@ import {
   deletePartner,
   getAllMembers,
   getAllPartners,
+  getAllTeamData,
   postMember,
   postPartner,
   updatedPartner,
 } from "../method/home_team";
-import { teamHeads0, teamHeads1 } from "../module/home_team";
+import { teamDummyData, teamHeads0, teamHeads1 } from "../module/home_team";
 import { teamPTitles, teamTitles } from "../module/home_team";
 import { DrawerForm1 } from "./widget_form";
 import {
@@ -44,6 +45,9 @@ export default class HomeTeam extends Component {
       isEdit: false,
       allMember: [],
       allPartner: [],
+      allRols: [],
+      allSalatyTypes: [],
+      allModules: [],
       member: null,
       addMember: {},
       addPartner: {},
@@ -58,6 +62,7 @@ export default class HomeTeam extends Component {
     const setState = (v) => this.setState(v);
     getAllMembers(state, setState);
     getAllPartners(state, setState);
+    getAllTeamData(state, setState);
   }
   render() {
     const state = this.state;
@@ -71,7 +76,7 @@ export default class HomeTeam extends Component {
     const filter = !addPage ? <TitleFilter1 props={filterBody} /> : null;
     const titleL = page === 0 ? "TEAM LIST" : "PARTNERS";
     const bodyRBody = {
-      makeAdd: () => setState({ addPage: true }),
+      makeAdd: () => setState({ addPage: true, addMember: teamDummyData }),
       title: page === 0 ? "+ NEW EMPLOYEE" : "+ ADD PARTNER",
       drowelList:
         page === 0
@@ -138,11 +143,16 @@ function HomeTeamMembersTable({ state, setState }) {
       body.push([
         { data: it.image, data2: it.name, type: 1 },
         { data: it.name },
-        { data: it.code, type: 2 },
-        { data: it.joindate },
+        { data: it.employee_id, type: 2 },
+        { data: it.join_date },
         { data: it.phone },
         { data: it.email },
-        { data: [statDot(it.systemUser === "NO" ? "r" : "g"), it.systemUser] },
+        {
+          data: [
+            statDot(it.system_user === "0" ? "r" : "g"),
+            it.system_user === "0" ? "NO" : "YES",
+          ],
+        },
         {
           data: [statDot(it.status === "ACTIVE" ? "g" : "r"), it.status],
           type: 2,
@@ -152,7 +162,12 @@ function HomeTeamMembersTable({ state, setState }) {
   if (page !== 0) return null;
   return (
     <React.StrictMode>
-      <MyTable1 widths={widths} heads={heads0} body={body} />
+      <MyTable1
+        widths={widths}
+        heads={heads0}
+        body={body}
+        onclick={(v) => setState({ addPage: true, addMember: allMember[v] })}
+      />
       <MyTableCounter1 props={{ total: 100 }} />
     </React.StrictMode>
   );
@@ -225,15 +240,7 @@ function HomeTeamPartnersTable({ state, setState }) {
   if (page !== 1) return null;
   return (
     <React.StrictMode>
-      <MyTable1
-        widths={widths}
-        heads={heads1}
-        body={body}
-        onclick={
-          (v) => {}
-          // setState({ isEdit: true, addPage: true, addPartner: allPartner[v] })
-        }
-      />
+      <MyTable1 widths={widths} heads={heads1} body={body} onclick={null} />
       <MyTableCounter1 props={{ total: 100 }} />
     </React.StrictMode>
   );
@@ -241,14 +248,42 @@ function HomeTeamPartnersTable({ state, setState }) {
 
 function HomeTeamMembersForm({ state, setState }) {
   const { loading, error, page, addPage, addMember } = state;
+  var { allRols, allSalatyTypes, allModules } = state;
+  const title = addMember.hasOwnProperty("employee_id") ? "EDIT" : "NEW";
   const body = {
-    title: "NEW TEAM MEMBER",
+    title: title + " TEAM MEMBER",
     show: page === 0 && addPage,
-    close: () => setState({ addPage: false }),
-    submit: () => postMember(addMember, state, setState),
+    close: () => setState({ addPage: false, error: null, addMember: {} }),
+    submit: () => postMember(state, setState),
     loading,
     error,
     type: "member",
+    systemUser: addMember.system_user === 1,
+    setSystemUser: () => {
+      addMember.system_user = addMember.system_user === 1 ? 0 : 1;
+      setState({ addMember });
+    },
+    allRols,
+    allSalatyTypes,
+    allModules,
+    setRole: (e) => {
+      addMember.role_id = allRols[e.target.value].id;
+      allModules = allRols[e.target.value].modules || [];
+      addMember.permissions = [];
+      for (let i = 0; i < allModules.length; i++) {
+        addMember.permissions.push({
+          module_title: allModules[i].title,
+          permission_title: "",
+        });
+        for (let j = 0; j < allModules[i]?.pemissions.length; j++)
+          if (allModules[i]?.pemissions[j].is_default === 1)
+            addMember.permissions[i].permission_title =
+              allModules[i]?.pemissions[j].title;
+      }
+      setState({ allModules, addMember });
+    },
+    setPermission: (i, v) => (addMember.permission[i].permission_title = v),
+    form: addMember,
   };
   return (
     <form onChange={(e) => (addMember[e.target.id] = e.target.value)}>

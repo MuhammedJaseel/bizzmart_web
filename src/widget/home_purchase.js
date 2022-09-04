@@ -1,11 +1,10 @@
 import React, { Component } from "react";
-import { purchaseList, purchaseOrder } from "../module/dummydata";
 import { MyTable1, MyTableCounter1 } from "./widget_table";
 import { Header1, Header2, Header4 } from "./widget";
 import { HeaderButtens1, TitleFilter1 } from "./widget";
 import { MyForm1 } from "./widget_form";
-import "../style/hpr.css";
 import { purchaseGetPurchase } from "../method/home_purchase";
+import "../style/hpr.css";
 
 const pTitles = ["Purchase List", "Purchase Order"];
 const desc = [
@@ -54,14 +53,20 @@ export default class HomePurchase extends Component {
     const { page, addPage } = state;
 
     const bodyRBody = {
-      makeAdd: () => setState({ form: { items: [{}] } }),
+      makeAdd: () =>
+        setState({
+          form: { formType: page === 0 ? "purchaseList" : "purchaseOrder" },
+        }),
       title: page === 0 ? "+ New Purchase" : "+ New Purchase Order",
       drowelList: [
         {
           title: "Add Purchase",
           fun: () => setState({ form: { formType: "purchaseList" } }),
         },
-        { title: "Add Purchase Order", fun: () => setState({ form: {} }) },
+        {
+          title: "Add Purchase Order",
+          fun: () => setState({ form: { formType: "purchaseOrder" } }),
+        },
       ],
     };
     const bodyR = <HeaderButtens1 props={bodyRBody} />;

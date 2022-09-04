@@ -319,7 +319,7 @@ export function PaymentCard1(prams) {
           </div>
           {!isPayment ? <div className="zc1Db">Balance</div> : <br />}
           <div className="zc1Dc">
-            {!isPayment ? "INR" + account_balance : account_name}
+            {!isPayment ? "INR " + account_balance : account_name}
           </div>
           {!isPayment ? (
             <div className="zc1Dd">Last entry: {last_entry_date}</div>

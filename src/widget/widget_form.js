@@ -1,4 +1,6 @@
 import { StrictMode, useRef, useState } from "react";
+import { postExpense } from "../method/home_expense";
+import { makeMyDate } from "../module/simple";
 import "../style/zf.css";
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -8,91 +10,150 @@ import "../style/zf.css";
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 export function MyForm1({ state, setState }) {
-  const { form } = state;
+  const { form, allExpenseHead, invoiceNumber, allAccounts, allTransferType } =
+    state;
   const typeSaves = [
     { title: "Save Invoice", fun: null },
     { title: "Save & Add New", fun: null },
     { title: "Save & Payment", fun: null },
   ];
-  const dummyProduct = {
-    name: "",
-    qty: "1",
-    price: "0.0",
-    discount: "0.0",
-    tax: "",
-    taxAmount: "0.0",
-    total: "0.0",
-  };
+
   const [isDrower, setIsDrower] = useState(false);
   return (
     <div className="zfB">
-      {form.formType === "invoice" || form.formType === "estimate" ? (
-        <div className="zfBa">
-          <div className="zfBaA">
-            <div className="zfBaAa">
-              <div className="zfBaAaA">Customer*</div>
-              <select className="zfBaAaB">
-                <option>Name</option>
-              </select>
+      <form onChange={(e) => (form[e.target.id] = e.target.value)}>
+        {/* ///////////////////////////////////////////////////////////////////////// */}
+        {/* ///////////////////////////////////////////////////////////////////////// */}
+        {/* ///////////////////////////////////////////////////////////////////////// */}
+        {/* ///////////////////////////////////////////////////////////////////////// */}
+        {/* ///////////////////////////////////////////////////////////////////////// */}
+        {form.formType === "invoice" || form.formType === "estimate" ? (
+          <div className="zfBa">
+            <div className="zfBaA">
+              <div className="zfBaAa">
+                <div className="zfBaAaA">Customer*</div>
+                <select className="zfBaAaB">
+                  <option>Name</option>
+                </select>
+              </div>
+              <div className="zfBaAa">
+                <div className="zfBaAaA">Invoice Date*</div>
+                <input type="date" className="zfBaAaC" />
+              </div>
+              <div className="zfBaAa">
+                <div className="zfBaAaA">Due Date*</div>
+                <input type="date" className="zfBaAaC" />
+              </div>
             </div>
-            <div className="zfBaAa">
-              <div className="zfBaAaA">Invoice Date*</div>
-              <input type="date" className="zfBaAaC" />
-            </div>
-            <div className="zfBaAa">
-              <div className="zfBaAaA">Due Date*</div>
-              <input type="date" className="zfBaAaC" />
-            </div>
-          </div>
-          <div className="zfBaB">
-            <div className="zfBaBa">Address</div>
-            <div className="zfBaBb">
-              Jack Dorsea, 102A, Jami’a Street, New Delhi 12, India. GST:
-              AAA456AE3423AZ Phone: 974 523 6674
-            </div>
-          </div>
-        </div>
-      ) : null}
-      {form.formType === "estimate" ? <div className="zfBa"></div> : null}
-      {form.formType !== "purchaseList" ? (
-        <div className="zfBa">
-          <div className="zfBaA">
-            <div className="zfBaAa">
-              <div className="zfBaAaA">Ref/PO#</div>
-              <input className="zfBaAaC" id="invoice_number" />
-            </div>
-            <div className="zfBaAa">
-              <div className="zfBaAaA">Supplier Invoice #</div>
-              <input className="zfBaAaC" id="supplier_invoice_no" />
-            </div>
-            <div className="zfBaAa">
-              <div className="zfBaAaA">Supplier*</div>
-              <select className="zfBaAaB" id="supplier_id">
-                <option>Name</option>
-              </select>
-            </div>
-            <div className="zfBaAa">
-              <div className="zfBaAaA">Purchase Date*</div>
-              <input type="date" className="zfBaAaC" id="purchase_date" />
-            </div>
-            <div className="zfBaAa">
-              <div className="zfBaAaA">Due Date</div>
-              <input className="zfBaAaC" />
-            </div>
-            <div className="zfBaAa">
-              <div className="zfBaAaA">Contact Person</div>
-              <input className="zfBaAaC" />
+            <div className="zfBaB">
+              <div className="zfBaBa">Address</div>
+              <div className="zfBaBb">
+                Jack Dorsea, 102A, Jami’a Street, New Delhi 12, India. GST:
+                AAA456AE3423AZ Phone: 974 523 6674
+              </div>
             </div>
           </div>
-          <div className="zfBaB">
-            <div className="zfBaBa">Address</div>
-            <div className="zfBaBb">
-              Jack Dorsea, 102A, Jami’a Street, New Delhi 12, India. GST:
-              AAA456AE3423AZ Phone: 974 523 6674
+        ) : null}
+        {form.formType === "purchaseList" ||
+        form.formType === "purchaseOrder" ? (
+          <div className="zfBa">
+            <div className="zfBaA">
+              <div className="zfBaAa">
+                <div className="zfBaAaA">Ref/PO#</div>
+                <input className="zfBaAaC" id="invoice_number" />
+              </div>
+              <div className="zfBaAa">
+                <div className="zfBaAaA">Supplier Invoice #</div>
+                <input className="zfBaAaC" id="supplier_invoice_no" />
+              </div>
+              <div className="zfBaAa">
+                <div className="zfBaAaA">Supplier*</div>
+                <select className="zfBaAaB" id="supplier_id">
+                  <option>Name</option>
+                </select>
+              </div>
+              <div className="zfBaAa">
+                <div className="zfBaAaA">Purchase Date*</div>
+                <input type="date" className="zfBaAaC" id="purchase_date" />
+              </div>
+              <div className="zfBaAa">
+                <div className="zfBaAaA">Due Date</div>
+                <input className="zfBaAaC" />
+              </div>
+              <div className="zfBaAa">
+                <div className="zfBaAaA">Contact Person</div>
+                <input className="zfBaAaC" />
+              </div>
+            </div>
+            <div className="zfBaB">
+              <div className="zfBaBa">Address</div>
+              <div className="zfBaBb">
+                Jack Dorsea, 102A, Jami’a Street, New Delhi 12, India. GST:
+                AAA456AE3423AZ Phone: 974 523 6674
+              </div>
             </div>
           </div>
-        </div>
-      ) : null}
+        ) : null}
+        {form.formType === "expense" ? (
+          <div className="zfBa">
+            <div className="zfBaA">
+              <div className="zfBaAa">
+                <div className="zfBaAaA">Expense #</div>
+                <input
+                  className="zfBaAaC"
+                  value={invoiceNumber}
+                  id="invoice_no"
+                  disabled
+                />
+              </div>
+              <div className="zfBaAa">
+                <div className="zfBaAaA">Expense Head #</div>
+                <select className="zfBaAaB" id="expense_head_id">
+                  <option hidden>Select expense head</option>
+                  {allExpenseHead.map((it, k) => (
+                    <option value={it.id}>{it.name}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="zfBaAa">
+                <div className="zfBaAaA">Date</div>
+                <input className="zfBaAaC" type="date" disabled />
+              </div>
+              <div className="zfBaAa">
+                <div className="zfBaAaA">Paid From Account</div>
+                <select className="zfBaAaB" id="account_id">
+                  <option hidden>Select account</option>
+                  {allAccounts.map((it, k) => (
+                    <option value={it.id}>{it.account_display_name}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="zfBaAa">
+                <div className="zfBaAaA">Patment Method</div>
+                <select className="zfBaAaB" required>
+                  <option hidden>Select payment method</option>
+                  {allTransferType.map((it, k) => (
+                    <option value={it.id}>{it.name}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="zfBaAa">
+                <div className="zfBaAaA">Payment Date*</div>
+                <input className="zfBaAaC" type="date" id="date" />
+              </div>
+              <div className="zfBaAa">
+                <div className="zfBaAaA">Reference</div>
+                <input className="zfBaAaB" id="notes" />
+              </div>
+            </div>
+          </div>
+        ) : null}
+      </form>
+      {/* ///////////////////////////////////////////////////////////////////////// */}
+      {/* ///////////////////////////////////////////////////////////////////////// */}
+      {/* ///////////////////////////////////////////////////////////////////////// */}
+      {/* ///////////////////////////////////////////////////////////////////////// */}
+      {/* ///////////////////////////////////////////////////////////////////////// */}
       <div className="zfBb">
         <div className="zfBbA">
           <div className="zfBbAa" />
@@ -104,34 +165,42 @@ export function MyForm1({ state, setState }) {
           <div className="zfBbAg zfBbA_t">Tax Amount</div>
           <div className="zfBbAg zfBbA_t">Total</div>
         </div>
-        {form?.items.map((it, k) => (
-          <form key={k} className="zfBbB" onChange={() => {}}>
-            <div className="zfBbAa zfBbA_d" onClick={() => {}} />
-            <select
-              className="zfBbAb zfBbA_d"
-              onChange={(e) => {
-                it.product_name = e.target.value;
+        {(form?.items || []).concat([{}])?.map((it, k) => (
+          <form
+            key={k}
+            className="zfBbB"
+            onChange={(e) => {
+              if ((form?.items || []).length === k) {
+                if (form?.items === undefined) form.items = [];
+                form.items.push({});
+              }
+              form[e.target.id] = e.target.value;
+              setState(form);
+            }}
+          >
+            <div
+              className="zfBbAa zfBbA_d zfBbAa_"
+              onClick={() => {
+                if ((form?.items || []).length !== k) {
+                  form.items.splice(k, 1);
+                  setState(form);
+                }
               }}
-            >
-              <option hidden selected>
-                Select Product / Service ...
-              </option>
+            />
+            <select className="zfBbAb zfBbA_d" id="product_name">
+              <option hidden>Select Product / Service ...</option>
               <option>APPLE iPHONE 13 PRO/128GB/BLACK</option>
             </select>
             <input
               className="zfBbAc zfBbBa zfBbA_d"
               type="number"
-              onChange={(e) => (it.quantity = e.target.value)}
+              id="quantity"
             />
-            <input
-              className="zfBbAd zfBbA_d"
-              type="number"
-              onChange={(e) => (it.price = e.target.value)}
-            />
+            <input className="zfBbAd zfBbA_d" type="number" id="price" />
             <input
               className="zfBbAe zfBbA_d"
               type="number"
-              onChange={(e) => (it.discount_amount = e.target.value)}
+              id="discount_amount"
             />
             <select className="zfBbAd zfBbA_d">
               <option>Tax Slab</option>
@@ -141,6 +210,11 @@ export function MyForm1({ state, setState }) {
           </form>
         ))}
       </div>
+      {/* ///////////////////////////////////////////////////////////////////////// */}
+      {/* ///////////////////////////////////////////////////////////////////////// */}
+      {/* ///////////////////////////////////////////////////////////////////////// */}
+      {/* ///////////////////////////////////////////////////////////////////////// */}
+      {/* ///////////////////////////////////////////////////////////////////////// */}
       <div className="zfBc">
         {true ? (
           <div className="zfBcA">
@@ -179,7 +253,9 @@ export function MyForm1({ state, setState }) {
       </div>
       <div className="zfBd">
         <div className="zfBdA">
-          <div className="zfBdAa">SAVE</div>
+          <div className="zfBdAa" onClick={() => postExpense(state, setState)}>
+            SAVE
+          </div>
           {typeSaves !== null ? (
             <div className="zfBdAb" onClick={() => setIsDrower(!isDrower)} />
           ) : null}
@@ -203,6 +279,7 @@ export function MyForm1({ state, setState }) {
     </div>
   );
 }
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -222,6 +299,9 @@ export function DrawerForm1({ props }) {
   const { show, close, submit, loading, error, title, type, setToPay } = props;
   const { allPlaceofSupplay, allStates, allLoyaltyType, allSupplierType } =
     props;
+  // Next two props data decleration is only for Team Member
+  const { systemUser, setSystemUser, allRols, allSalatyTypes } = props;
+  const { allModules, setRole, setPermission, form } = props;
   const [selected, setSelected] = useState(0);
   const [isToPay, setIsToPay] = useState(false);
   const [image, setImage] = useState(null);
@@ -278,11 +358,11 @@ export function DrawerForm1({ props }) {
                 Financial Information
               </div>
               <div className={selected === 2 ? "zfEbAb_" : "zfEbAb"}>
-                Ststem Information
+                System Information
               </div>
             </StrictMode>
           )}
-          {false ? (
+          {systemUser ? (
             <div className={selected === 4 ? "zfEbAb_" : "zfEbAb"}>
               Access Information
             </div>
@@ -299,6 +379,7 @@ export function DrawerForm1({ props }) {
                   onFocus={() => setSelected(0)}
                   placeholder="Enter customer full name"
                   id="name"
+                  defaultValue={form?.name}
                 />
                 <div className="zfEbBbA">Mobile Number *</div>
                 <input
@@ -307,6 +388,7 @@ export function DrawerForm1({ props }) {
                   type="number"
                   placeholder="Enter customer mobile number"
                   id="phone"
+                  defaultValue={form?.phone}
                 />
                 <div className="zfEbBbA">Email Address</div>
                 <input
@@ -314,6 +396,7 @@ export function DrawerForm1({ props }) {
                   onFocus={() => setSelected(0)}
                   placeholder="Enter customer email address"
                   id="email"
+                  defaultValue={form?.email}
                 />
                 <div className="zfEbBbA">Address</div>
                 <textarea
@@ -321,6 +404,7 @@ export function DrawerForm1({ props }) {
                   onFocus={() => setSelected(0)}
                   placeholder="Enter customer’s default address"
                   id="address"
+                  defaultValue={form?.address}
                 />
               </StrictMode>
             ) : null}
@@ -528,15 +612,26 @@ export function DrawerForm1({ props }) {
                   <input
                     className="zfEbBbBa"
                     onFocus={() => setSelected(1)}
-                    id="gst_number"
-                    placeholder="Enter GST number"
+                    id="salary"
+                    placeholder="0.00"
+                    defaultValue={form?.salary}
                   />
                   <select
                     className="zfEbBbBa"
+                    id="salary_type_id"
                     onFocus={() => setSelected(1)}
-                    id="place_of_supply"
-                    placeholder="Place of supply"
-                  />
+                  >
+                    <option hidden>Select Salary type</option>
+                    {allSalatyTypes.map((it, k) => (
+                      <option
+                        key={k}
+                        value={it.id}
+                        selected={it.id === form?.salary_type_id}
+                      >
+                        {it.name}
+                      </option>
+                    ))}
+                  </select>
                 </div>
                 <div className="zfEbBbA">
                   <div className="zfEbBbAa">Joining Date</div>
@@ -547,15 +642,15 @@ export function DrawerForm1({ props }) {
                     className="zfEbBbBa"
                     onFocus={() => setSelected(1)}
                     type="date"
-                    id="gst_number"
-                    placeholder="Enter GST number"
+                    id="join_date"
+                    defaultValue={makeMyDate(form?.join_date)}
                   />
                   <input
                     className="zfEbBbBa"
                     onFocus={() => setSelected(1)}
                     type="date"
-                    id="place_of_supply"
-                    placeholder="Place of supply"
+                    id="dob"
+                    defaultValue={makeMyDate(form?.dob)}
                   />
                 </div>
               </div>
@@ -565,17 +660,25 @@ export function DrawerForm1({ props }) {
                 <select
                   className="zfEbBbB"
                   onFocus={() => setSelected(2)}
-                  type="number"
-                  placeholder="Enter customer mobile number"
-                  id="phone"
+                  onChange={setRole}
+                  defaultValue={form?.role_id}
                 >
-                  <option hidden disabled>
-                    Select Role
-                  </option>
+                  <option hidden>Select Role</option>
+                  {allRols.map((it, k) => (
+                    <option value={k} selected={it.id === form?.role_id}>
+                      {it.name}
+                    </option>
+                  ))}
                 </select>
                 <div className="zfEbBbA" />
                 <div className="zfEbBbB">
-                  <FormSwitch />
+                  <FormSwitch
+                    value={systemUser}
+                    onTap={() => {
+                      setSystemUser();
+                      setSelected(2);
+                    }}
+                  />
                   <div className="zfEbBbBc">
                     <div>System User</div>
                     <div className="zfEbBbBcA">
@@ -583,12 +686,12 @@ export function DrawerForm1({ props }) {
                     </div>
                   </div>
                 </div>
-                {false ? (
+                {systemUser ? (
                   <StrictMode>
                     <div className="zfEbBbA">User ID*</div>
                     <input
                       className="zfEbBbB"
-                      onFocus={() => setSelected(1)}
+                      onFocus={() => setSelected(2)}
                       placeholder="Enter user ID"
                       id="number"
                     />
@@ -599,16 +702,17 @@ export function DrawerForm1({ props }) {
                     <div className="zfEbBbB">
                       <input
                         className="zfEbBbBa"
-                        onFocus={() => setSelected(1)}
+                        onFocus={() => setSelected(2)}
                         type="password"
-                        id="gst_number"
+                        id="password"
                         placeholder="Password"
                       />
                       <input
                         className="zfEbBbBa"
-                        onFocus={() => setSelected(1)}
+                        onFocus={() => setSelected(2)}
                         type="password"
-                        id="place_of_supply"
+                        defaultValue={form?.pin}
+                        id="pin"
                         placeholder="PinCode"
                       />
                     </div>
@@ -617,52 +721,31 @@ export function DrawerForm1({ props }) {
               </div>
             </StrictMode>
           )}
-          {false ? (
+          {systemUser ? (
             <StrictMode>
               <div className="zfEbBa">ACCES INFORMATION</div>
               <br />
-              <div className="zfEbBc">
-                Head office System (HoS)
-                <select
-                  onFocus={() => setSelected(4)}
-                  className="zfEbBcB"
-                ></select>
-              </div>
-              <div className="zfEbBc">
-                Back office System (BoS)
-                <select
-                  onFocus={() => setSelected(4)}
-                  className="zfEbBcB"
-                ></select>
-              </div>
-              <div className="zfEbBc">
-                Point of Sale (PoS)
-                <select
-                  onFocus={() => setSelected(4)}
-                  className="zfEbBcB"
-                ></select>
-              </div>
-              <div className="zfEbBc">
-                Mobile Reporting
-                <select
-                  onFocus={() => setSelected(4)}
-                  className="zfEbBcB"
-                ></select>
-              </div>
-              <div className="zfEbBc">
-                Runner App
-                <select
-                  onFocus={() => setSelected(4)}
-                  className="zfEbBcB"
-                ></select>
-              </div>
-              <div className="zfEbBc">
-                Scanner App
-                <select
-                  onFocus={() => setSelected(4)}
-                  className="zfEbBcB"
-                ></select>
-              </div>
+              {allModules?.map((it, k) => (
+                <div className="zfEbBc" key={k}>
+                  {it.full_title} ({it.title})
+                  <select
+                    onFocus={() => setSelected(4)}
+                    className="zfEbBcB"
+                    onChange={(e) => setPermission(k, e.target.value)}
+                    defaultValue={
+                      it?.pemissions.filter((it2) => it2.is_default === 1)[0]
+                        ?.title
+                    }
+                  >
+                    <option hidden>Select Permission</option>
+                    {it?.pemissions?.map((it1, k1) => (
+                      <option key={k1} value={it1.title}>
+                        {it1.title}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              ))}
               <br />
               <br />
             </StrictMode>

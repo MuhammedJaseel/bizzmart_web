@@ -1,7 +1,13 @@
-import React, { StrictMode } from "react";
+import React, { StrictMode, useState } from "react";
 import { WidgetPopUp1, WidgetPopUp1Body } from "./widget_popup";
 import { WidgetPopUp1In1, WidgetPopUp1In2 } from "./widget_popup";
-import { addCashandBank, postFundTransfer } from "../method/home_cashbank";
+import {
+  addCashandBank,
+  postContact,
+  postFundTransfer,
+  postReceiveMoney,
+  postSpendMoney,
+} from "../method/home_cashbank";
 
 export function AccountAddPopUpLayout({ state, setState }) {
   const { loading, error, addAccount, allBanks } = state;
@@ -133,7 +139,7 @@ export function AccountAddPopUpLayout({ state, setState }) {
   );
 }
 export function FundTransferPopUpLayout({ state, setState }) {
-  const { loading, fundTransfer, error, allBanks, allTransferType } = state;
+  const { loading, fundTransfer, error, allTransferType } = state;
   const { allAccounts } = state;
   if (fundTransfer === null) return null;
   const popupProps1 = {
@@ -142,18 +148,31 @@ export function FundTransferPopUpLayout({ state, setState }) {
     desc: "Record the transfer of money between your bank and the cash or credit",
     error,
     loading,
-    onChange: (e) => (fundTransfer[e.target.id] = e.target.value),
+    onChange: (e) => {
+      if (e.target.id === "transfer_from_account_id") {
+        fundTransfer[e.target.id] = allAccounts[e.target.value].id;
+        fundTransfer.fromAcBalance =
+          allAccounts[e.target.value].account_balance;
+      } else if (e.target.id === "transfer_to_account_id") {
+        fundTransfer[e.target.id] = allAccounts[e.target.value].id;
+        fundTransfer.toAcBalance = allAccounts[e.target.value].account_balance;
+      } else fundTransfer[e.target.id] = e.target.value;
+      setState({ fundTransfer });
+    },
     submit: () => postFundTransfer(state, setState),
   };
 
   return (
     <WidgetPopUp1 props={popupProps1}>
       <WidgetPopUp1Body>
-        <WidgetPopUp1In1 title="Paid from Account*">
+        <WidgetPopUp1In1
+          title="Paid from Account*"
+          t2={fundTransfer?.fromAcBalance}
+        >
           <select className="hcbAa" id="transfer_from_account_id">
             <option hidden>Select bank</option>
             {allAccounts.map((it, k) => (
-              <option key={k} value={it.id}>
+              <option key={k} value={k} onClick={() => alert()}>
                 {it.account_display_name}
               </option>
             ))}
@@ -184,11 +203,14 @@ export function FundTransferPopUpLayout({ state, setState }) {
         </WidgetPopUp1In1>
       </WidgetPopUp1Body>
       <WidgetPopUp1Body>
-        <WidgetPopUp1In1 title="Paid into Account*">
+        <WidgetPopUp1In1
+          title="Paid into Account*"
+          t2={fundTransfer?.toAcBalance}
+        >
           <select className="hcbAa" id="transfer_to_account_id">
             <option hidden>Select bank</option>
             {allAccounts.map((it, k) => (
-              <option key={k} value={it.id}>
+              <option key={k} value={k}>
                 {it.account_display_name}
               </option>
             ))}
@@ -205,40 +227,61 @@ export function FundTransferPopUpLayout({ state, setState }) {
   );
 }
 export function ReciveMoneyPopUpLayout({ state, setState }) {
-  const { loading, receiveMoney, error, allBanks } = state;
+  const { loading, receiveMoney, error, allAccounts } = state;
+  const { allContact, allPaymenyMode } = state;
+
+  const [isAddContact, setisAddContact] = useState(false);
+
   if (receiveMoney === null) return null;
   const popupProps1 = {
-    close: () => setState({ receiveMoney: null }),
+    close: () => setState({ receiveMoney: null, error: null }),
     title: "Receive Money",
     desc: "Record a cashflow in transaction from your contact to cash or bank account.",
     error,
     loading,
     onChange: (e) => (receiveMoney[e.target.id] = e.target.value),
-    submit: () => {},
+    submit: () => postReceiveMoney(state, setState),
   };
 
   return (
     <WidgetPopUp1 props={popupProps1}>
       <WidgetPopUp1Body>
         <WidgetPopUp1In1 title="Select a contact to receive money from*">
-          <select className="hcbAa" id="account_type">
-            <option disabled>Select bank</option>
-            {allBanks.map((it, k) => (
-              <option key={k} value={it.id}>
-                {it.name}
-              </option>
-            ))}
-          </select>
+          <div className="hcbAc">
+            <select
+              className="hcbAa"
+              id="contact_id"
+              value={receiveMoney?.contact_id}
+            >
+              <option hidden>Select contact</option>
+              {allContact.map((it, k) => (
+                <option key={k} value={it.id}>
+                  {it.name}
+                </option>
+              ))}
+            </select>
+            <div
+              className={isAddContact ? "hcbAcA" : "hcbAcA_"}
+              onClick={() => setisAddContact(true)}
+            >
+              +
+            </div>
+          </div>
         </WidgetPopUp1In1>
         <WidgetPopUp1In2 title1="Amount receiving*" title2="Mode of payment*">
           <input
             className="hcbAb"
             placeholder="0.00"
-            id="branch"
+            id="amount"
             type="number"
           />
-          <select className="hcbAb" id="ifsc_code">
-            <option>Fund Transfer</option>
+          <select className="hcbAb" id="payment_mode_id">
+            <option hidden>Select mode of payment</option>
+            {allPaymenyMode.map((it, k) => (
+              <option key={k} value={it.id}>
+                {it.title}
+              </option>
+            ))}
           </select>
         </WidgetPopUp1In2>
         <WidgetPopUp1In1 title="Reference">
@@ -250,20 +293,38 @@ export function ReciveMoneyPopUpLayout({ state, setState }) {
         </WidgetPopUp1In1>
       </WidgetPopUp1Body>
       <WidgetPopUp1Body>
+        {isAddContact ? (
+          <WidgetPopUp1In2 title1="Contact FullName" title2="Mobile Number">
+            <input className="hcbAb" placeholder="Enter name here" id="name" />
+            <input
+              className="hcbAd"
+              placeholder="Mobile number here"
+              id="phone"
+              type="number"
+            />
+            <div
+              className="hcbAe"
+              onClick={async () => {
+                await postContact(state, setState);
+                setisAddContact(false);
+              }}
+            />
+          </WidgetPopUp1In2>
+        ) : null}
         <WidgetPopUp1In1 title="Select a cash or bank account to receive money*">
-          <select className="hcbAa" id="account_type">
-            <option disabled>Select bank</option>
-            {allBanks.map((it, k) => (
+          <select className="hcbAa" id="account_id">
+            <option hidden>Select bank</option>
+            {allAccounts.map((it, k) => (
               <option key={k} value={it.id}>
-                {it.name}
+                {it.account_display_name}
               </option>
             ))}
           </select>
         </WidgetPopUp1In1>
-        <WidgetPopUp1In1 title1="Description">
-          <textarea
+        <WidgetPopUp1In1 title="Description">
+          <input
             className="hcbAa"
-            type="date"
+            id="description"
             placeholder="Enter the description for this transaction"
           />
         </WidgetPopUp1In1>
@@ -272,40 +333,61 @@ export function ReciveMoneyPopUpLayout({ state, setState }) {
   );
 }
 export function SpendMoneyPopUpLayout({ state, setState }) {
-  const { loading, spendMoney, error, allBanks } = state;
+  const { loading, spendMoney, error, allAccounts } = state;
+  const { allContact, allPaymenyMode } = state;
+
+  const [isAddContact, setisAddContact] = useState(false);
+
   if (spendMoney === null) return null;
   const popupProps1 = {
-    close: () => setState({ spendMoney: null }),
+    close: () => setState({ spendMoney: null, error: null }),
     title: "Spend Money",
     desc: "Record a cashflow out transaction from your cash or bank account to a contact.",
     error,
     loading,
     onChange: (e) => (spendMoney[e.target.id] = e.target.value),
-    submit: () => {},
+    submit: () => postSpendMoney(state, setState),
   };
 
   return (
     <WidgetPopUp1 props={popupProps1}>
       <WidgetPopUp1Body>
-        <WidgetPopUp1In1 title="Select a contact to receive money from*">
-          <select className="hcbAa" id="account_type">
-            <option disabled>Select bank</option>
-            {allBanks.map((it, k) => (
-              <option key={k} value={it.id}>
-                {it.name}
-              </option>
-            ))}
-          </select>
+        <WidgetPopUp1In1 title="Select a contact to spend money to*">
+          <div className="hcbAc">
+            <select
+              className="hcbAa"
+              id="contact_id"
+              value={spendMoney?.contact_id}
+            >
+              <option hidden>Select contact</option>
+              {allContact.map((it, k) => (
+                <option key={k} value={it.id}>
+                  {it.name}
+                </option>
+              ))}
+            </select>{" "}
+            <div
+              className={isAddContact ? "hcbAcA" : "hcbAcA_"}
+              onClick={() => setisAddContact(true)}
+            >
+              +
+            </div>
+          </div>
         </WidgetPopUp1In1>
         <WidgetPopUp1In2 title1="Amount Spending*" title2="Mode of payment*">
           <input
             className="hcbAb"
             placeholder="0.00"
-            id="branch"
+            id="amount"
             type="number"
           />
-          <select className="hcbAb" id="ifsc_code">
-            <option>Fund Transfer</option>
+          <select className="hcbAb" id="payment_mode_id">
+            <option hidden>Select mode of payment</option>
+            {allPaymenyMode.map((it, k) => (
+              <option key={k} value={it.id}>
+                {it.title}
+              </option>
+            ))}
           </select>
         </WidgetPopUp1In2>
         <WidgetPopUp1In1 title="Reference">
@@ -317,21 +399,39 @@ export function SpendMoneyPopUpLayout({ state, setState }) {
         </WidgetPopUp1In1>
       </WidgetPopUp1Body>
       <WidgetPopUp1Body>
-        <WidgetPopUp1In1 title="Select a cash or bank account to receive money*">
-          <select className="hcbAa" id="account_type">
-            <option disabled>Select bank</option>
-            {allBanks.map((it, k) => (
+        {isAddContact ? (
+          <WidgetPopUp1In2 title1="Contact FullName" title2="Mobile Number">
+            <input className="hcbAb" placeholder="Enter name here" id="name" />
+            <input
+              className="hcbAd"
+              placeholder="Mobile number here"
+              id="phone"
+              type="number"
+            />
+            <div
+              className="hcbAe"
+              onClick={async () => {
+                await postContact(state, setState);
+                setisAddContact(false);
+              }}
+            />
+          </WidgetPopUp1In2>
+        ) : null}
+        <WidgetPopUp1In1 title="Select a cash or bank account to spend money*">
+          <select className="hcbAa" id="account_id">
+            <option hidden>Select Account</option>
+            {allAccounts.map((it, k) => (
               <option key={k} value={it.id}>
-                {it.name}
+                {it.account_display_name}
               </option>
             ))}
           </select>
         </WidgetPopUp1In1>
-        <WidgetPopUp1In1 title1="Description">
-          <textarea
+        <WidgetPopUp1In1 title="Description">
+          <input
             className="hcbAa"
-            type="date"
             placeholder="Enter the description for this transaction"
+            id="description"
           />
         </WidgetPopUp1In1>
       </WidgetPopUp1Body>

@@ -23,6 +23,8 @@ export default class HomeCashbank extends Component {
       allAccounts: [],
       allBanks: [],
       allTransferType: [],
+      allContact: [], 
+      allPaymenyMode: [],
       addAccount: null,
       confirmPop: null,
       account: null,
@@ -164,7 +166,7 @@ function BankHistory({ state, setState }) {
       { data: it.type },
       { data: it.description },
       { data: it.name },
-      { data: it.recevied },
+      { data: it.received },
       { data: it.paid },
       { data: it.balance },
     ]);

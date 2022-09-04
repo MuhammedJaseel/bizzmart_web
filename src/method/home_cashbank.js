@@ -10,6 +10,17 @@ export async function getAllCashandBank(state, setState) {
   await postHttp("fundTransferTypeLists", {}).then((res) =>
     setState({ allTransferType: res.data })
   );
+  await postHttp("getContact", {}).then((res) =>
+    setState({ allContact: res.data })
+  );
+  await postHttp("getPaymentModeLsist", {}).then((res) =>
+    setState({ allPaymenyMode: res.data })
+  );
+}
+export async function getAllContact(state, setState) {
+  await postHttp("getContact", {}).then((res) =>
+    setState({ allContact: res.data })
+  );
 }
 export async function addCashandBank(state, setState) {
   const { addAccount } = state;
@@ -74,4 +85,48 @@ export async function getBankHistory(it, state, setState) {
   }).then((res) =>
     setState({ account: { ...it, ...res.data }, historyPaging: res.page })
   );
+}
+
+export async function postReceiveMoney(state, setState) {
+  const { receiveMoney, succesPop } = state;
+  setState({ loading: true, error: null });
+  await postHttp("addContactReceiveMoney", receiveMoney)
+    .then(async () => {
+      succesPop({
+        active: true,
+        title: "Succesfully Added",
+        desc: "Yout transaction has been succesfully added.",
+      });
+      setState({ receiveMoney: null });
+    })
+    .catch((error) => setState({ error }));
+  setState({ loading: false });
+}
+export async function postSpendMoney(state, setState) {
+  const { spendMoney, succesPop } = state;
+  setState({ loading: true, error: null });
+  await postHttp("addContactSpendMoney", spendMoney)
+    .then(async () => {
+      succesPop({
+        active: true,
+        title: "Succesfully Added",
+        desc: "Yout transaction has been succesfully added.",
+      });
+      setState({ spendMoney: null });
+    })
+    .catch((error) => setState({ error }));
+  setState({ loading: false });
+}
+
+export async function postContact(state, setState) {
+  const { spendMoney, receiveMoney } = state;
+  setState({ loading: true, error: null });
+  await postHttp("addContact", spendMoney ?? receiveMoney)
+    .then(async (res) => {
+      await getAllContact(state, setState);
+      if (spendMoney !== null) spendMoney.contact_id = res.data.id;
+      if (receiveMoney !== null) receiveMoney.contact_id = res.data.id;
+    })
+    .catch((error) => setState({ error }));
+  setState({ loading: false, spendMoney, receiveMoney });
 }

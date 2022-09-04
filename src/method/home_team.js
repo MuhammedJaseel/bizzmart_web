@@ -1,30 +1,62 @@
 import { postHttp } from "../module/api_int";
 
 export async function getAllMembers(state, setState) {
-  await postHttp("getCustomers", {}).then((res) => {
-    // console.log(res.data);
+  await postHttp("getTeam", {}).then((res) => {
     setState({ allMember: res.data });
   });
 }
 export async function getAllPartners(state, setState) {
   await postHttp("getPartners", {}).then((res) => {
-    console.log(res.data);
     setState({ allPartner: res.data });
   });
 }
 
-export async function postMember(body, state, setState) {
-  const { loading } = state;
+export async function getAllTeamData(state, setState) {
+  await postHttp("getRoles", {}).then((res) => {
+    setState({ allRols: res.data });
+  });
+  await postHttp("getSalaryTypes", {}).then((res) => {
+    setState({ allSalatyTypes: res.data });
+  });
+}
+
+export async function postMember(state, setState) {
+  const { loading, addMember } = state;
   if (loading) return;
-  console.log(body);
-  // setState({ loading: true, error: null });
-  // await postHttp("addMember", body)
-  //   .then(async (res) => {
-  //     await getAllMembers(state, setState);
-  //     setState({ addPage: false, addMember: {} });
-  //   })
-  //   .catch((error) => setState({ error }));
-  // setState({ loading: false });
+  const url = addMember.hasOwnProperty("employee_id")
+    ? "updateTeam"
+    : "addTeam";
+
+  setState({ loading: true, error: null });
+
+  const formData = new FormData();
+  formData.append("branch_id", window.localStorage.getItem("branchId"));
+  formData.append("employee_id", addMember?.employee_id);
+  formData.append("name", addMember.name);
+  formData.append("phone", addMember.phone);
+  formData.append("email", addMember.email);
+  formData.append("address", addMember.address);
+  formData.append("role_id", addMember.role_id);
+  formData.append("permission", JSON.stringify(addMember.permission));
+  formData.append("salary", addMember.salary);
+  formData.append("salary_type_id", addMember.salary_type_id);
+  formData.append("system_user", addMember.system_user);
+  formData.append("pin", addMember.pin);
+  formData.append("password", addMember.password);
+  formData.append("join_date", addMember.join_date);
+  formData.append("dob", addMember.dob);
+  if (typeof addMember.image === "object") {
+    formData.append("image", addMember.image);
+    formData.append("thumbnail", addMember.image);
+  }
+
+  await postHttp(url, formData)
+    .then(async (res) => {
+      await getAllMembers(state, setState);
+      setState({ addPage: false, addMember: {} });
+    })
+    .catch((error) => setState({ error }));
+  setState({ loading: false });
 }
 
 export async function postPartner(state, setState) {

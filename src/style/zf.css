@@ -29,10 +29,10 @@
   padding-bottom: 0.15vw;
 }
 .zfBaAaB {
-  width: 16.25vw;
+  width: 15vw;
 }
 .zfBaAaC {
-  width: 10vw;
+  width: 8.75vw;
   height: 1.7vw;
 }
 .zfBaB {
@@ -76,6 +76,13 @@
 }
 .zfBbAa {
   width: 2.8%;
+}
+.zfBbAa_{
+  background-image: url(../asset/ic_bin2.svg);
+  background-position: center;
+  background-size: 40%;
+  background-repeat: no-repeat;
+  cursor: pointer;
 }
 .zfBbAb {
   width: 54%;

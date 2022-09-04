@@ -31,3 +31,37 @@
 .hcbCaA {
   font-weight: bold;
 }
+.hcbAc {
+  display: flex;
+  width: 100%;
+}
+.hcbAcA,
+.hcbAcA_ {
+  min-width: 1.8vw;
+  height: 1.8vw;
+  border-radius: 0.2vw;
+  background-color: #ddddeb;
+  margin-left: 0.5vw;
+  font-size: 1.5vw;
+  text-align: center;
+  cursor: pointer;
+}
+.hcbAcA_ {
+  background-color: var(--primart_blue);
+  color: white;
+}
+.hcbAd {
+  width: 40%;
+  margin-left: 2%;
+}
+.hcbAe {
+  min-width: 1.8vw;
+  height: 1.8vw;
+  border-radius: 0.2vw;
+  margin-left: 0.5vw;
+  background-image: url(../asset/ic_mark3.svg);
+  background-size: contain;
+  background-position: right;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}

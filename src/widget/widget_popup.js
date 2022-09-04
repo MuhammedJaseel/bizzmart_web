@@ -44,10 +44,13 @@ export function WidgetPopUp1Body({ children }) {
 export function WidgetPopUp2Body({ children }) {
   return <div className="zpAf2">{children}</div>;
 }
-export function WidgetPopUp1In1({ children, title }) {
+export function WidgetPopUp1In1({ children, title, t2 }) {
   return (
     <div className="zpAg">
-      <div className="zpAgA">{title}</div>
+      <div className="zpAgA">
+        {title}
+        <div>{t2}</div>
+      </div>
       {children}
     </div>
   );
