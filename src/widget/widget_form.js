@@ -157,13 +157,28 @@ export function MyForm1({ state, setState }) {
       <div className="zfBb">
         <div className="zfBbA">
           <div className="zfBbAa" />
-          <div className="zfBbAb zfBbA_t">Product / Service</div>
-          <div className="zfBbAc zfBbA_t">Qty</div>
-          <div className="zfBbAd zfBbA_t">Price / Rate</div>
-          <div className="zfBbAe zfBbA_t">Discount</div>
-          <div className="zfBbAd zfBbA_t">Tax Slab</div>
-          <div className="zfBbAg zfBbA_t">Tax Amount</div>
-          <div className="zfBbAg zfBbA_t">Total</div>
+          {form.formType === "expense" ? (
+            <StrictMode>
+              <div className="zfBbAb zfBbA_t">Expense Item*</div>
+              <div className="zfBbAc zfBbA_t">Qty*</div>
+              <div className="zfBbAd zfBbA_t">Price / Rate*</div>
+              <div className="zfBbAd zfBbA_t">Tax Slab</div>
+              <div className="zfBbAd zfBbA_t">Tax Treatment</div>
+              <div className="zfBbAd zfBbA_t">Input Type</div>
+              <div className="zfBbAg zfBbA_t">Tax Amount</div>
+              <div className="zfBbAg zfBbA_t">Total</div>
+            </StrictMode>
+          ) : (
+            <StrictMode>
+              <div className="zfBbAb zfBbA_t">Product / Service</div>
+              <div className="zfBbAc zfBbA_t">Qty</div>
+              <div className="zfBbAd zfBbA_t">Price / Rate</div>
+              <div className="zfBbAe zfBbA_t">Discount</div>
+              <div className="zfBbAd zfBbA_t">Tax Slab</div>
+              <div className="zfBbAg zfBbA_t">Tax Amount</div>
+              <div className="zfBbAg zfBbA_t">Total</div>
+            </StrictMode>
+          )}
         </div>
         {(form?.items || []).concat([{}])?.map((it, k) => (
           <form
@@ -174,7 +189,7 @@ export function MyForm1({ state, setState }) {
                 if (form?.items === undefined) form.items = [];
                 form.items.push({});
               }
-              form[e.target.id] = e.target.value;
+              form.items[k][e.target.id] = e.target.value;
               setState(form);
             }}
           >
@@ -187,26 +202,40 @@ export function MyForm1({ state, setState }) {
                 }
               }}
             />
-            <select className="zfBbAb zfBbA_d" id="product_name">
-              <option hidden>Select Product / Service ...</option>
-              <option>APPLE iPHONE 13 PRO/128GB/BLACK</option>
-            </select>
-            <input
-              className="zfBbAc zfBbBa zfBbA_d"
-              type="number"
-              id="quantity"
-            />
-            <input className="zfBbAd zfBbA_d" type="number" id="price" />
-            <input
-              className="zfBbAe zfBbA_d"
-              type="number"
-              id="discount_amount"
-            />
-            <select className="zfBbAd zfBbA_d">
-              <option>Tax Slab</option>
-            </select>
-            <div className="zfBbAg zfBbA_d">Tax Amount</div>
-            <div className="zfBbAg zfBbA_d">Total</div>
+            {form.formType === "expense" ? (
+              <StrictMode>
+                <input className="zfBbAb zfBbA_d" id="item_nane" />
+                <input
+                  className="zfBbAc zfBbBa zfBbA_d"
+                  type="number"
+                  id="quantity"
+                  placeholder="00"
+                />
+                <input
+                  className="zfBbAd zfBbA_d"
+                  type="number"
+                  id="rate"
+                  placeholder="0.0"
+                />
+                <select className="zfBbAd zfBbA_d" id="tax_id">
+                  <option>Tax Slab</option>
+                </select>
+                <select className="zfBbAd zfBbA_d" id="tax_type">
+                  <option>Tax treatment</option>
+                  <option>Inclusive</option>
+                  <option>Exclusive</option>
+                </select>
+                <select className="zfBbAd zfBbA_d">
+                  <option>Tax Slab</option>
+                </select>
+                <div className="zfBbAg zfBbA_d">{it.tax_amount}</div>
+                <div className="zfBbAg zfBbA_d">
+                  {it?.rate * parseFloat(it?.quantity || 0)}
+                </div>
+              </StrictMode>
+            ) : (
+              <StrictMode></StrictMode>
+            )}
           </form>
         ))}
       </div>
@@ -215,67 +244,135 @@ export function MyForm1({ state, setState }) {
       {/* ///////////////////////////////////////////////////////////////////////// */}
       {/* ///////////////////////////////////////////////////////////////////////// */}
       {/* ///////////////////////////////////////////////////////////////////////// */}
-      <div className="zfBc">
-        {true ? (
-          <div className="zfBcA">
-            <div className="zfBcAa">Delivery Address</div>
-            <textarea className="zfBcAb" placeholder="Address" />
-            <div className="zfBcAa">Purchase Note</div>
-            <textarea
-              className="zfBcAc"
-              placeholder="Enter invoice terms / notes here"
-            />
-          </div>
-        ) : null}
-        <div className="zfBcB">
-          <div className="zfBcBa">
-            <div>Discount</div>
-            <input
-              type="number"
-              id="discount"
-              className="zfBcBb"
-              placeholder="0.0"
-            />
-          </div>
-          <div className="zfBcBa">
-            <div>Subtotal</div>
-            <div>4,685.00</div>
-          </div>
-          <div className="zfBcBa">
-            <div>Tax</div>
-            <div>0.00</div>
-          </div>
-          <div className="zfBcBc">
-            <div>Total</div>
-            <div>4,685.00</div>
-          </div>
-        </div>
-      </div>
-      <div className="zfBd">
-        <div className="zfBdA">
-          <div className="zfBdAa" onClick={() => postExpense(state, setState)}>
-            SAVE
-          </div>
-          {typeSaves !== null ? (
-            <div className="zfBdAb" onClick={() => setIsDrower(!isDrower)} />
-          ) : null}
-          <div
-            onClick={() => setIsDrower(!isDrower)}
-            className={isDrower ? "zfBdAd_" : "zfBdAd"}
-          />
-          <div
-            className={isDrower ? "zfBdAc_" : "zfBdAc"}
-            onClick={() => setIsDrower(!isDrower)}
-          >
-            {typeSaves?.map((it, k) => (
-              <div className="zfBdAe" onClick={it.fun}>
-                {it.title}
+      {form.formType === "expense" ? (
+        <StrictMode>
+          <div className="zfBc">
+            <div className="zfBcA">
+              <div className="zfBcAa">Expence Note</div>
+              <textarea
+                className="zfBcAc"
+                onChange={(e) => (form.description = e.target.value)}
+                placeholder="Enter note if required"
+              />
+            </div>
+
+            <div className="zfBcB">
+              <div className="zfBcBa">
+                <div>Subtotal</div>
+                <div>4,685.00</div>
               </div>
-            ))}
+              <div className="zfBcBa">
+                <div>Tax</div>
+                <div>0.00</div>
+              </div>
+              <div className="zfBcBc">
+                <div>Total</div>
+                <div>4,685.00</div>
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="zfBdB">CANCEL</div>
-      </div>
+          <div className="zfBd">
+            <div className="zfBdA">
+              <div
+                className="zfBdAa"
+                onClick={() => postExpense(state, setState)}
+              >
+                SAVE
+              </div>
+              {typeSaves !== null ? (
+                <div
+                  className="zfBdAb"
+                  onClick={() => setIsDrower(!isDrower)}
+                />
+              ) : null}
+              <div
+                onClick={() => setIsDrower(!isDrower)}
+                className={isDrower ? "zfBdAd_" : "zfBdAd"}
+              />
+              <div
+                className={isDrower ? "zfBdAc_" : "zfBdAc"}
+                onClick={() => setIsDrower(!isDrower)}
+              >
+                {typeSaves?.map((it, k) => (
+                  <div className="zfBdAe" onClick={it.fun}>
+                    {it.title}
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="zfBdB">CANCEL</div>
+          </div>
+        </StrictMode>
+      ) : (
+        <StrictMode>
+          <div className="zfBc">
+            <div className="zfBcA">
+              <div className="zfBcAa">Delivery Address</div>
+              <textarea className="zfBcAb" placeholder="Address" />
+              <div className="zfBcAa">Purchase Note</div>
+              <textarea
+                className="zfBcAc"
+                placeholder="Enter invoice terms / notes here"
+              />
+            </div>
+
+            <div className="zfBcB">
+              <div className="zfBcBa">
+                <div>Discount</div>
+                <input
+                  type="number"
+                  id="discount"
+                  className="zfBcBb"
+                  placeholder="0.0"
+                />
+              </div>
+              <div className="zfBcBa">
+                <div>Subtotal</div>
+                <div>4,685.00</div>
+              </div>
+              <div className="zfBcBa">
+                <div>Tax</div>
+                <div>0.00</div>
+              </div>
+              <div className="zfBcBc">
+                <div>Total</div>
+                <div>4,685.00</div>
+              </div>
+            </div>
+          </div>
+          <div className="zfBd">
+            <div className="zfBdA">
+              <div
+                className="zfBdAa"
+                onClick={() => postExpense(state, setState)}
+              >
+                SAVE
+              </div>
+              {typeSaves !== null ? (
+                <div
+                  className="zfBdAb"
+                  onClick={() => setIsDrower(!isDrower)}
+                />
+              ) : null}
+              <div
+                onClick={() => setIsDrower(!isDrower)}
+                className={isDrower ? "zfBdAd_" : "zfBdAd"}
+              />
+              <div
+                className={isDrower ? "zfBdAc_" : "zfBdAc"}
+                onClick={() => setIsDrower(!isDrower)}
+              >
+                {typeSaves?.map((it, k) => (
+                  <div className="zfBdAe" onClick={it.fun}>
+                    {it.title}
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="zfBdB">CANCEL</div>
+          </div>
+        </StrictMode>
+      )}
     </div>
   );
 }

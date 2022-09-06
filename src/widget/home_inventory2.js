@@ -64,7 +64,11 @@ function ProductForm({ state, setState }) {
           </AddingForm2>
           <AddingForm1 title="Inventory type *">
             <div className="hinDa">
-              <select className="hinDaA" id="inventory_type">
+              <select
+                className="hinDaA"
+                id="inventory_type"
+                defaultValue={product?.inventory_type}
+              >
                 <option hidden> Select prodect type</option>
                 {prodectTypes.map((it, k) => (
                   <option key={k} value={it.id}>
@@ -72,7 +76,11 @@ function ProductForm({ state, setState }) {
                   </option>
                 ))}
               </select>
-              <select className="hinDaA" id="category_id">
+              <select
+                className="hinDaA"
+                id="category_id"
+                defaultValue={product?.category_id}
+              >
                 <option hidden> Select Category</option>
                 {allCategoty.map((it, k) => (
                   <option key={k} value={it.id}>
@@ -106,13 +114,21 @@ function ProductForm({ state, setState }) {
           </AddingForm2>
           <AddingForm1 title="Units *">
             <div className="hinDa">
-              <select className="hinDaB" id="primary_unit">
+              <select
+                className="hinDaB"
+                id="primary_unit"
+                defaultValue={product?.primary_unit}
+              >
                 <option hidden>Select Unit</option>
                 {allUnits.map((it, k) => (
                   <option value={it.title}>{it.title}</option>
                 ))}
               </select>
-              <select className="hinDaB" id="secondry_unit">
+              <select
+                className="hinDaB"
+                id="secondry_unit"
+                defaultValue={product?.secondry_unit}
+              >
                 <option hidden>Select alternate unit (optional)</option>
                 <option value="">NONE</option>
                 {allUnits.map((it, k) => (
@@ -164,7 +180,11 @@ function ProductForm({ state, setState }) {
           </AddingForm2>
           <AddingForm1 title="Tax info *">
             <div className="hinDa">
-              <select className="hinDaB" id="selling_tax">
+              <select
+                className="hinDaB"
+                id="selling_tax"
+                defaultValue={product?.selling_tax}
+              >
                 <option hidden>Select tax slab</option>
                 {allTax.map((it, k) => (
                   <option key={k} value={it.id}>
@@ -172,7 +192,11 @@ function ProductForm({ state, setState }) {
                   </option>
                 ))}
               </select>
-              <select className="hinDaB" id="tax_inclusion">
+              <select
+                className="hinDaB"
+                id="tax_inclusion"
+                defaultValue={product?.tax_inclusion}
+              >
                 <option hidden>Select tax type</option>
                 <option value="Inclusive">Inclusive</option>
                 <option value="Exclusive">Exclusive</option>
@@ -659,7 +683,7 @@ function ProductForm({ state, setState }) {
                 >
                   + ADD MODIFIERS
                 </div>
-                {product?.product_modifier.length !== 0 ? (
+                {product?.product_modifier?.length !== 0 ? (
                   <div className="hinDaH">
                     {product?.product_modifier?.map((it, k) => (
                       <div className="hinDaHa" key={k}>

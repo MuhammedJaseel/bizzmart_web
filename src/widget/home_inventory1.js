@@ -1,5 +1,5 @@
 import React, { StrictMode } from "react";
-import { getProducts } from "../method/home_inventory";
+import { getProduct, getProducts } from "../method/home_inventory";
 import { inventoryFormData } from "../module/home_inventory";
 import { inventoryStateData } from "../module/home_inventory";
 import { inventoryPopupsData } from "../module/home_inventory";
@@ -70,9 +70,9 @@ function ProductTable({ state, setState }) {
   };
 
   const tableOnclick = (k) => {
-    product = allProduct[k];
-    product.type = parseInt(allProduct[k].product_type);
-    console.log();
+    state.product = allProduct[k];
+    state.product.type = parseInt(allProduct[k].product_type);
+    getProduct(state, setState);
     setState({ product });
   };
 

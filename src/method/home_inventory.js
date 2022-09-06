@@ -4,7 +4,7 @@ import { getTodayType1 } from "../module/simple";
 
 export async function getProduct(state, setState) {
   const { product } = state;
-  await getHttp(`getProduct/${product.id}`)
+  await getHttp(`getProduct/${product?.id}`)
     .then((res) => setState({ product: res.data }))
     .catch((error) => setState({ error }));
   setState({ loading: false });
