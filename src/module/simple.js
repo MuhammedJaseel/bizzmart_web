@@ -33,6 +33,15 @@ export function getTodayType1() {
   return today;
 }
 
+export function getTodayType2() {
+  var today = new Date();
+  var y = today.getFullYear();
+  let m = today.getMonth() + 1;
+  let d = today.getDate();
+  today = `${y}-${m.toString().padStart(2, 0)}-${d.toString().padStart(2, 0)}`;
+  return today;
+}
+
 export function makeMyDate(d) {
   if (d === undefined) return "";
   if (d === "") return "";

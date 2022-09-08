@@ -1,4 +1,4 @@
-import React, { StrictMode, useState } from "react";
+import React, { StrictMode, useRef, useState } from "react";
 import { fullMonths, makeCalenderDigits } from "../module/widget";
 import { shortDays, typeDates } from "../module/widget";
 import "../style/zc.css";
@@ -353,5 +353,95 @@ export function PaymentButton1({ props }) {
       <div className="zc1Ea">+</div>
       <div className="zc1Eb">{title}</div>
     </div>
+  );
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////     INPUT SELECT DROPDOWN     //////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+export function WidgetInputSelect({ className, props }) {
+  var { onChange, list, clearlist, name, setValue, placeholder } = props;
+  const inputRef = useRef(null);
+  if (list === undefined || list === null) list = [];
+  return (
+    <StrictMode>
+      {list.length !== 0 ? <div className="zc1F_" onClick={clearlist} /> : null}
+      <div className={className}>
+        <div className={list.length !== 0 ? "zc1Fa_" : "zc1Fa"}>
+          <input
+            ref={inputRef}
+            className="zc1Fb default"
+            onChange={onChange}
+            placeholder={placeholder}
+          />
+          <div className="zc1Fc" onClick={clearlist}>
+            {list?.map((it, k) => (
+              <div
+                key={k}
+                className="zc1FcA"
+                onClick={() => {
+                  setValue(k);
+                  inputRef.current.value = it[name || "name"];
+                }}
+              >
+                {it[name || "name"]}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </StrictMode>
+  );
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////        INPUT DROPDOWN        ///////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+export function WidgetSelect({ className, props }) {
+  var { list, name, setValue } = props;
+
+  const [hidden, setHidden] = useState(true);
+  const inputRef = useRef(null);
+  if (list === undefined || list === null) list = [];
+  return (
+    <StrictMode>
+      {list.length !== 0 ? (
+        <div className="zc1F_" onClick={() => setHidden(true)} />
+      ) : null}
+      <div className={className}>
+        <div className={list.length !== 0 ? "zc1Fa_" : "zc1Fa"}>
+          <input
+            ref={inputRef}
+            id="name"
+            onFocus={() => setHidden(false)}
+            disabled={!hidden}
+          />
+          <div className="zc1Fc" onClick={() => setHidden(true)}>
+            {!hidden
+              ? list?.map((it, k) => (
+                  <div
+                    key={k}
+                    className="zc1FcA"
+                    onClick={() => {
+                      setValue(k);
+                      inputRef.current.value = it[name || "name"];
+                    }}
+                  >
+                    {it[name || "name"]}
+                  </div>
+                ))
+              : null}
+          </div>
+        </div>
+      </div>
+    </StrictMode>
   );
 }

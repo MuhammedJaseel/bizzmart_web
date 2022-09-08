@@ -1,7 +1,15 @@
 import { StrictMode, useRef, useState } from "react";
 import { postExpense } from "../method/home_expense";
-import { makeMyDate } from "../module/simple";
+import { postPurchaseList, postPurchaseOrder } from "../method/home_purchase";
+import {
+  postEstimate,
+  postInvoice,
+  salesSearchProduct,
+} from "../method/home_sales";
+import { calculateExpnseTax } from "../module/home_expense";
+import { getTodayType2, makeMyDate } from "../module/simple";
 import "../style/zf.css";
+import { WidgetInputSelect } from "./widget";
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -10,8 +18,8 @@ import "../style/zf.css";
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 export function MyForm1({ state, setState }) {
-  const { form, allExpenseHead, invoiceNumber, allAccounts, allTransferType } =
-    state;
+  const { form, allExpenseHead, invoiceNumber, allAccounts } = state;
+  const { allTax, allTransferType, lastInvoice } = state;
   const typeSaves = [
     { title: "Save Invoice", fun: null },
     { title: "Save & Add New", fun: null },
@@ -60,7 +68,12 @@ export function MyForm1({ state, setState }) {
             <div className="zfBaA">
               <div className="zfBaAa">
                 <div className="zfBaAaA">Ref/PO#</div>
-                <input className="zfBaAaC" id="invoice_number" />
+                <input
+                  className="zfBaAaC"
+                  disabled
+                  id="invoice_number"
+                  value={lastInvoice}
+                />
               </div>
               <div className="zfBaAa">
                 <div className="zfBaAaA">Supplier Invoice #</div>
@@ -117,7 +130,12 @@ export function MyForm1({ state, setState }) {
               </div>
               <div className="zfBaAa">
                 <div className="zfBaAaA">Date</div>
-                <input className="zfBaAaC" type="date" disabled />
+                <input
+                  className="zfBaAaC"
+                  value={getTodayType2()}
+                  type="date"
+                  disabled
+                />
               </div>
               <div className="zfBaAa">
                 <div className="zfBaAaA">Paid From Account</div>
@@ -139,7 +157,12 @@ export function MyForm1({ state, setState }) {
               </div>
               <div className="zfBaAa">
                 <div className="zfBaAaA">Payment Date*</div>
-                <input className="zfBaAaC" type="date" id="date" />
+                <input
+                  className="zfBaAaC"
+                  type="date"
+                  id="date"
+                  defaultValue={getTodayType2()}
+                />
               </div>
               <div className="zfBaAa">
                 <div className="zfBaAaA">Reference</div>
@@ -190,6 +213,7 @@ export function MyForm1({ state, setState }) {
                 form.items.push({});
               }
               form.items[k][e.target.id] = e.target.value;
+              calculateExpnseTax(it, state, setState);
               setState(form);
             }}
           >
@@ -219,22 +243,81 @@ export function MyForm1({ state, setState }) {
                 />
                 <select className="zfBbAd zfBbA_d" id="tax_id">
                   <option>Tax Slab</option>
+                  {allTax.map((it, k) => (
+                    <option key={k} value={it.id}>
+                      {it.name}
+                    </option>
+                  ))}
                 </select>
                 <select className="zfBbAd zfBbA_d" id="tax_type">
                   <option>Tax treatment</option>
-                  <option>Inclusive</option>
-                  <option>Exclusive</option>
+                  <option value="Inclusive">Inclusive</option>
+                  <option value="Exclusive">Exclusive</option>
                 </select>
-                <select className="zfBbAd zfBbA_d">
-                  <option>Tax Slab</option>
+                <select className="zfBbAd zfBbA_d" id="input_tax_eligible">
+                  <option>select type</option>
+                  <option value={true}>Eligiblle</option>
+                  <option value={false}>Non Eligiblle</option>
                 </select>
                 <div className="zfBbAg zfBbA_d">{it.tax_amount}</div>
-                <div className="zfBbAg zfBbA_d">
-                  {it?.rate * parseFloat(it?.quantity || 0)}
-                </div>
+                <div className="zfBbAg zfBbA_d">{it?.taxTotal}</div>
               </StrictMode>
             ) : (
-              <StrictMode></StrictMode>
+              <StrictMode>
+                <WidgetInputSelect
+                  className="zfBbAb zfBbA_d"
+                  props={{
+                    onChange: async (e) => {
+                      await salesSearchProduct(
+                        e.target.value,
+                        (v) => (it.list = v)
+                      );
+                      setState({ form });
+                    },
+                    list: it?.list || [],
+                    clearlist: () => {
+                      it.list = [];
+                      setState({ form });
+                    },
+                    setValue: (v) => {
+                      it.product_id = it.list[k].id;
+                      it.name = it.list[k].name;
+                      it.quantity = 1;
+                      it.price = it.list[k].cost;
+                      setState({ form });
+                    },
+                    placeholder: "Search your product",
+                  }}
+                />
+                <input
+                  className="zfBbAc zfBbBa zfBbA_d"
+                  type="number"
+                  id="quantity"
+                  placeholder="00"
+                />
+                <input
+                  className="zfBbAd zfBbA_d"
+                  type="number"
+                  id="price"
+                  placeholder="0.0"
+                />
+                <input
+                  className="zfBbAd zfBbA_d"
+                  id="tax_type"
+                  placeholder="0.00"
+                  type="number"
+                />
+                <select className="zfBbAd zfBbA_d" id="tax_id">
+                  <option>Tax Slab</option>
+                  {/* {allTax.map((it, k) => (
+                    <option key={k} value={it.id}>
+                      {it.name}
+                    </option>
+                  ))} */}
+                </select>
+                <div className="zfBbAg zfBbA_d">{it.tax_amount}</div>
+                <div className="zfBbAg zfBbA_d">{it?.taxTotal}</div>
+              </StrictMode>
             )}
           </form>
         ))}
@@ -259,15 +342,15 @@ export function MyForm1({ state, setState }) {
             <div className="zfBcB">
               <div className="zfBcBa">
                 <div>Subtotal</div>
-                <div>4,685.00</div>
+                <div>{form?.totalAmount}</div>
               </div>
               <div className="zfBcBa">
                 <div>Tax</div>
-                <div>0.00</div>
+                <div>{form?.totalTax}</div>
               </div>
               <div className="zfBcBc">
                 <div>Total</div>
-                <div>4,685.00</div>
+                <div>{form?.total_amount}</div>
               </div>
             </div>
           </div>
@@ -344,7 +427,16 @@ export function MyForm1({ state, setState }) {
             <div className="zfBdA">
               <div
                 className="zfBdAa"
-                onClick={() => postExpense(state, setState)}
+                onClick={() => {
+                  if ((form.formType = "invoice")) postInvoice(state, setState);
+                  if ((form.formType = "estimate"))
+                    postEstimate(state, setState);
+                  if ((form.formType = "purchaseList"))
+                    postPurchaseList(state, setState);
+                  if ((form.formType = "purchaseOrder"))
+                    postPurchaseOrder(state, setState);
+                  if ((form.formType = "expense")) postExpense(state, setState);
+                }}
               >
                 SAVE
               </div>

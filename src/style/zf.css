@@ -77,7 +77,7 @@
 .zfBbAa {
   width: 2.8%;
 }
-.zfBbAa_{
+.zfBbAa_ {
   background-image: url(../asset/ic_bin2.svg);
   background-position: center;
   background-size: 40%;
@@ -97,12 +97,14 @@
   width: 7%;
 }
 .zfBbAg {
-  width: 7%;
+  width: 6.5%;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 0.5%;
 }
 .zfBbB {
   display: flex;
   font-size: 0.88vw;
-  /* background-color: white; */
 }
 .zfBbB:nth-of-type(odd) {
   background-color: white;
@@ -110,29 +112,10 @@
 .zfBbB:last-child {
   border-bottom-left-radius: 0.22vw;
   border-bottom-right-radius: 0.22vw;
-  filter: opacity(50%);
 }
-/* .zfBbBa {
-  background-image: url(../asset/ic_bin2.svg);
-  background-position: center;
-  background-size: 40%;
-  background-repeat: no-repeat;
-  cursor: pointer;
+.zfBbB:last-child .zfBbAa_{
+  background-image: none;
 }
-.zfBbB:last-child .zfBbBa {
-  visibility: hidden;
-}
-.zfBbBf {
-  min-width: calc(8% - 0.4vw);
-  margin: 0.2vw;
-  padding: 0vw 0.5vw;
-  height: 2vw;
-  background-image: url(../asset/ic_drop_2.svg);
-  background-position: right;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-color: white;
-} */
 .zfBc {
   border: 0.07vw solid #ced0d3;
   border-radius: 0.16vw;

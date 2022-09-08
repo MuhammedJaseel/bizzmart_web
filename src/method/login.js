@@ -46,6 +46,7 @@ export async function branchLogin(e, state, setState) {
         window.localStorage.setItem("sessionId", res.data.session_id);
         window.localStorage.setItem("profilePic", res.data.image);
         window.localStorage.setItem("userName", res.data.phone);
+        window.localStorage.setItem("userId", res.data.id);
         state.setScreen("/dashboard");
       }
     })

@@ -37,6 +37,7 @@ export default class HomePurchase extends Component {
       allPurchaseOrder: [],
       purchasePaging: {},
       estimatePaging: {},
+      lastInvoice: null,
       form: null,
     };
   }

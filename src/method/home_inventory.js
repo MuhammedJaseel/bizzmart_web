@@ -14,9 +14,7 @@ export async function getProduct(state, setState) {
 export async function getProducts(state, setState) {
   const { productPaging } = state;
   await postHttp("products", productPaging)
-    .then((res) => {
-      setState({ allProduct: res.data, productPaging: res.page });
-    })
+    .then((res) => setState({ allProduct: res.data, productPaging: res.page }))
     .catch((error) => setState({ error }));
   setState({ loading: false });
   return;

@@ -11,3 +11,47 @@ export const salesGetSales = async (state, setState) => {
   });
   setState({ loading: false });
 };
+
+export async function salesSearchProduct(v, setData) {
+  if (v === "") setData([]);
+  else
+    await postHttp("getSearchProducts", { serach: v }).then((res) =>
+      setData(res.data)
+    );
+}
+
+export const postInvoice = async (state, setState) => {
+  const { form, succesPop } = state;
+  form.user_id = window.localStorage.getItem("userId");
+  setState({ loading: true, error: null });
+  await postHttp("addOrder", form)
+    .then(async () => {
+      await salesGetSales(state, setState);
+      setState({ form: null });
+      succesPop({
+        active: true,
+        title: "Succesfully Added",
+        desc: "Your Sales list was succesfully added",
+      });
+    })
+    .catch((error) => setState({ error }));
+  setState({ loading: false });
+};
+
+export const postEstimate = async (state, setState) => {
+  const { form, succesPop } = state;
+  form.user_id = window.localStorage.getItem("userId");
+  setState({ loading: true, error: null });
+  await postHttp("addOrder", form)
+    .then(async () => {
+      await salesGetSales(state, setState);
+      setState({ form: null });
+      succesPop({
+        active: true,
+        title: "Succesfully Added",
+        desc: "Your Sales list was succesfully added",
+      });
+    })
+    .catch((error) => setState({ error }));
+  setState({ loading: false });
+};

@@ -1,6 +1,6 @@
 import React, { Component, StrictMode } from "react";
 import { MyTable1, MyTableCounter1 } from "./widget_table";
-import { HeaderButtens1, TitleFilter1 } from "./widget";
+import { HeaderButtens1, TitleFilter1, WidgetSelect } from "./widget";
 import { Header1, Header2, Header4 } from "./widget";
 import { MyForm1 } from "./widget_form";
 import { expenseGetExpenses } from "../method/home_expense";
@@ -33,6 +33,7 @@ export default class HomeExpense extends Component {
       invoiceNumber: "",
       allAccounts: [],
       allTransferType: [],
+      allTax: [],
       form: null,
     };
   }
@@ -67,7 +68,7 @@ export default class HomeExpense extends Component {
 }
 
 function HomeExpenceTable({ state, setState }) {
-  const { form, allExpense } = state;
+  const { form, allExpense, expensesPaging } = state;
 
   const widths = [
     { width: 4 },
@@ -84,12 +85,12 @@ function HomeExpenceTable({ state, setState }) {
       const it = allExpense[i];
       body.push([
         { data: it.image, data2: "it.expenseCategory", type: 1 },
-        { data: it.invoice, type: 2 },
+        { data: it.invoice_no, type: 2 },
         { data: it.date },
-        { data: it.expenseCategory, data2: it.type, type: 2 },
-        { data: it.exenseDetails },
-        { data: it.paidFrom },
-        { data: it.amount },
+        { data: it.expense_head_name, type: 2 },
+        { data: it.notes },
+        { data: it.account_name },
+        { data: it.total_amount },
       ]);
     }
   if (form !== null) return null;
@@ -101,7 +102,7 @@ function HomeExpenceTable({ state, setState }) {
     <React.StrictMode>
       <Header4 title={"Expenses List"} desc={desc} body={filter} />
       <MyTable1 widths={widths} heads={heads} body={body} />
-      <MyTableCounter1 props={{ total: 100 }} />
+      <MyTableCounter1 props={expensesPaging} />
     </React.StrictMode>
   );
 }
