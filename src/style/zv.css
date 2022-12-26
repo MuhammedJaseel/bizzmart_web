@@ -533,40 +533,6 @@
   width: 48%;
 }
 /* This is for invoice */
-.zvDbHa {
-  background-color: #eeeeee;
-  display: flex;
-  align-items: center;
-  padding: 0.3vw 1vw;
-}
-.zvDbHaA {
-  border-radius: 0.3vw;
-  background-color: white;
-  border: 0.05vw solid #b3c3de;
-  padding: 0.5vw;
-  font-size: 0.9vw;
-  background-size: 1vw 1vw;
-  background-position: calc(100% - 1vw);
-  background-repeat: no-repeat;
-  background-image: url(../asset/ic_calender.svg);
-  color: #2d4c86;
-  font-weight: 500;
-  width: 100%;
-  margin-right: 0.8vw;
-}
-.zvDbHaB {
-  background-color: #2d4c86;
-  font-weight: 500;
-  color: white;
-  min-width: 8vw;
-  border-radius: 0.3vw;
-  background-size: 1vw 1vw;
-  background-position: calc(100% - 1vw);
-  background-repeat: no-repeat;
-  background-image: url(../asset/ic_arrow_d_2.svg);
-  padding: 0.5vw;
-  font-size: 0.9vw;
-}
 .zvDbHb {
   font-size: 0.75vw;
   font-weight: 500;

@@ -4,17 +4,18 @@ import { Header1, Header2, Header4 } from "./widget";
 import { HeaderButtens1, TitleFilter1 } from "./widget";
 import { DrawerForm1 } from "./widget_form";
 import { DrowerView2 } from "./widget_view";
+
 import {
-  getAllCustomers,
   getAllData,
-  getAllSuppliers,
+  getCustomer,
   updateCustomer,
-  updateSuplier,
 } from "../method/home_parties";
-import { postSuplier } from "../method/home_parties";
-import { postCustomer } from "../method/home_parties";
+import { getAllCustomers, getAllSuppliers } from "../method/home_parties";
+import { postSuplier, updateSuplier } from "../method/home_parties";
 import { partiesHeads0, partiesHeads1 } from "../module/home_parties";
 import { partiesTitles, patriesPageTitles } from "../module/home_parties";
+import { postCustomer } from "../method/home_parties";
+
 import "../style/hdb.css";
 
 const pTitles = patriesPageTitles;
@@ -49,7 +50,6 @@ export default class HomeParties extends Component {
     getAllCustomers(state, setState);
     getAllSuppliers(state, setState);
     getAllData(state, setState);
-    
   }
   render() {
     const state = this.state;
@@ -95,7 +95,7 @@ export default class HomeParties extends Component {
 function HomePartiesCoustomerTable({ state, setState }) {
   const { page, customerPaging, allCustomer } = state;
 
-  const onclick = (v) => setState({ partie: { ...allCustomer[v] } });
+  const onclick = (v) => getCustomer(allCustomer[v], state, setState);
 
   const widths = [
     { width: 4 },
@@ -243,6 +243,7 @@ function HomePartiesEditForm({ state, setState }) {
     allStates,
     allLoyaltyType,
     allSupplierType,
+    getItem: (from, to) => getCustomer(partie, state, setState, from, to),
   };
   return (
     <form

@@ -732,8 +732,8 @@ function ImagePicker({ state, setState }) {
   return (
     <div className="hinDd">
       <div className="hinDdA">
-        {image.length !== 0 ? (
-          image.map((it, k) => (
+        {image?.length !== 0 ? (
+          image?.map((it, k) => (
             <div
               key={k}
               className={k === 0 ? "hinDdAa_pr" : "hinDdAa"}

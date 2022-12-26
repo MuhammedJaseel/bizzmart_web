@@ -1,11 +1,13 @@
-import { type } from "@testing-library/user-event/dist/type";
 import { getHttp, postHttp } from "../module/api_int";
 import { getTodayType1 } from "../module/simple";
 
 export async function getProduct(state, setState) {
   const { product } = state;
   await getHttp(`getProduct/${product?.id}`)
-    .then((res) => setState({ product: res.data }))
+    .then((res) => {
+      res.data.image = [res.data.image].concat([]);
+      setState({ product: res.data });
+    })
     .catch((error) => setState({ error }));
   setState({ loading: false });
   return;

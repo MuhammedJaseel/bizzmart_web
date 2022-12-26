@@ -1,4 +1,5 @@
-import { postHttp } from "../module/api_int";
+import { getHttp, postHttp } from "../module/api_int";
+import { getToday } from "../widget/widgets/calender";
 
 export async function getAllCustomers(state, setState) {
   var customerPaging = state.customerPaging;
@@ -178,3 +179,25 @@ export async function updateSuplier(state, setState) {
     .catch((error) => setState({ error }));
   setState({ loading: false });
 }
+
+export const getCustomer = (item, state, setState, from, to) => {
+  var { partie } = state;
+  partie = item;
+
+  const body = {
+    customer_id: partie.id,
+    from_date: from || getToday(),
+    to_date: to || getToday(),
+  };
+
+  postHttp("getCustomerInvoices", body).then(
+    (res) => (partie.invoiceList = res.data.invoice_lists)
+  );
+  postHttp("report/member/memberStatements", body).then(
+    (res) => (partie.statmentList = res.data)
+  );
+  postHttp("getCustomerInvoices", { customer_id: partie.id }).then(
+    (res) => (partie.invoiceList2 = res.data.invoice_lists)
+  );
+  setState({ partie });
+};

@@ -1,0 +1,53 @@
+.body {
+  position: relative;
+}
+.zvDbHa {
+  background-color: #eeeeee;
+  display: flex;
+  align-items: center;
+  padding: 0.3vw 1vw;
+}
+.zvDbHaA {
+  height: 2vw;
+  display: flex;
+  align-items: center;
+  border-radius: 0.3vw;
+  background-color: white;
+  border: 0.05vw solid #b3c3de;
+  padding: 0 0.5vw;
+  font-size: 0.9vw;
+  background-size: 1vw 1vw;
+  background-position: calc(100% - 1vw);
+  background-repeat: no-repeat;
+  background-image: url(../../../asset/ic_calender.svg);
+  color: #2d4c86;
+  font-weight: 500;
+  width: 100%;
+  margin-right: 0.8vw;
+  cursor: pointer;
+}
+.zvDbHaB {
+  background-color: #2d4c86;
+  font-weight: 500;
+  color: white;
+  min-width: 8vw;
+  border-radius: 0.3vw;
+  background-size: 1vw 1vw;
+  background-position: calc(100% - 1vw);
+  background-repeat: no-repeat;
+  background-image: url(../../../asset/ic_arrow_d_2.svg);
+  padding: 0.5vw;
+  font-size: 0.9vw;
+  cursor: pointer;
+}
+.datePicker {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.datePicker input {
+  outline: none !important;
+  padding: 0.1vw;
+  border-color: red !important;
+  background-color: white;
+}

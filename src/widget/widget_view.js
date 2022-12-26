@@ -1,5 +1,6 @@
 import { StrictMode, useRef, useState } from "react";
 import "../style/zv.css";
+import { DatePicker } from "./widgets/calender";
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -138,7 +139,7 @@ export default function DrawerView1({ state, setState }) {
 }
 
 export function DrowerView2({ props }) {
-  const { show, close, item, error, loading, type } = props;
+  const { show, close, item, error, loading, type, getItem } = props;
   const { allPlaceofSupplay, allStates, allLoyaltyType } = props;
   const [page, setPage] = useState(0);
   const refForKey = useRef(null);
@@ -345,11 +346,8 @@ export function DrowerView2({ props }) {
         ) : null}
         {item !== null && page === 1 ? (
           <StrictMode>
-            <div className="zvDbHa">
-              <div className="zvDbHaA">01 Apr 2022 to 30 Apr 2022</div>
-              <div className="zvDbHaB">This Month</div>
-            </div>
-            {[1, 1, 1, 1, 1, 1, 1].map((it, k) => (
+            <DatePicker onChange={getItem} />
+            {item?.invoiceList?.map((it, k) => (
               <StrictMode key={k}>
                 <div className="zvDbHb">30 April 2022</div>
                 <div className="zvDbHc">
@@ -372,10 +370,7 @@ export function DrowerView2({ props }) {
         ) : null}
         {item !== null && page === 2 ? (
           <StrictMode>
-            <div className="zvDbHa">
-              <div className="zvDbHaA">01 Apr 2022 to 30 Apr 2022</div>
-              <div className="zvDbHaB">This Month</div>
-            </div>
+            <DatePicker onChange={getItem} />
             <div className="zvDbIa">
               <div className="zvDbIaA">Date</div>
               <div className="zvDbIaA">Reference</div>
@@ -383,19 +378,20 @@ export function DrowerView2({ props }) {
               <div className="zvDbIaB">Payment</div>
               <div className="zvDbIaB">Balance</div>
             </div>
-            {[1, 1, 1, 1].map((it, k) => (
+            {item?.statmentList?.map((it, k) => (
               <div className="zvDbIb" key={k}>
-                <div className="zvDbIaA">Date</div>
-                <div className="zvDbIaA">Reference</div>
-                <div className="zvDbIaB">Amount</div>
-                <div className="zvDbIaB">Payment</div>
-                <div className="zvDbIaB">Balance</div>
+                <div className="zvDbIaA">{it?.date}</div>
+                <div className="zvDbIaA">{it?.reference}</div>
+                <div className="zvDbIaB">{it?.to_pay}</div>
+                <div className="zvDbIaB">{it?.payment}</div>
+                <div className="zvDbIaB">{it?.current_balance}</div>
               </div>
             ))}
           </StrictMode>
         ) : null}
         {item !== null && page === 3 ? (
           <StrictMode>
+            {/* MULTIPLE PAYMENT RECORD */}
             <div className="zvDbJa">
               <div className="zvDbJaA">3,55,500.00</div>
               <div className="zvDbJaB">
@@ -421,16 +417,16 @@ export function DrowerView2({ props }) {
                 <div className="zvDbJaHb">CARD</div>
               </div>
             </div>
-            {[1, 1, 1, 1].map((it, k) => (
+            {item.invoiceList2?.map((it, k) => (
               <div key={k} className="zvDbJb">
                 <div className="zvDbJbA" />
                 <div className="zvDbJbB">
-                  <div className="zvDbJbBa">INV22-745</div>
-                  <div>12 Apr 2022</div>
+                  <div className="zvDbJbBa">{it.invoice_no}</div>
+                  <div>{it.credit_due_date}</div>
                   <div>2,92,700.00</div>
                 </div>
                 <div className="zvDbJbC">
-                  <div className="zvDbJbCa">30 Apr 2022</div>
+                  <div className="zvDbJbCa">{it.date}</div>
                 </div>
                 <div className="zvDbJbD">
                   <div>&nbsp;</div>
@@ -438,9 +434,9 @@ export function DrowerView2({ props }) {
                   <div className="zvDbJbDb">Balance:</div>
                 </div>
                 <div className="zvDbJbE">
-                  <div className="zvDbJbEa">2,00,000.00</div>
-                  <div>2,00,000.00</div>
-                  <div className="zvDbJbEa">2,00,000.00</div>
+                  <div className="zvDbJbEa">{it.total_amount}</div>
+                  <div>{it.total_amount - it.credit}</div>
+                  <div className="zvDbJbEa">{it.credit}</div>
                 </div>
               </div>
             ))}
