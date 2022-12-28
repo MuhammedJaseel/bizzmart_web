@@ -22,6 +22,7 @@ import {
   PromotionsTable,
   StockIssueTable,
   StockLabelsTable,
+  StockReceivedStockReturnTable,
   StockReceivedTable,
   StockReturnTable,
   StockTakingTable,
@@ -133,6 +134,7 @@ function HomeInventoryTables({ state, setState }) {
       <StockReceivedTable state={state} setState={setState} />
       <StockReturnTable state={state} setState={setState} />
       <StockTakingTable state={state} setState={setState} />
+      <StockReceivedStockReturnTable state={state} setState={setState} />
       <StockTrailTable state={state} setState={setState} />
       <StockLabelsTable state={state} setState={setState} />
       <PromotionsTable state={state} setState={setState} />

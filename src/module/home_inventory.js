@@ -102,7 +102,6 @@ export const inventoryPages = [
           t2: "PRICE LOOKUP",
           title: "Price Lookup",
           desc: "Shows prices across all the connected branches",
-          
         },
         {
           t: "Stock Lookup >",
@@ -317,6 +316,34 @@ export const inventoryPages = [
           d: "How you can initiate and manage a stoke taking both partially or wholly?",
           d1: "Initiate, manage and record a stock taking event at the branch level",
           path: "stockTaking",
+        },
+        {
+          t: "Stock Return > [From Stock Return]",
+          d: "How you can return a stock item to main branch or your supplier?",
+          d1: "Record a stock return transaction at the branch level",
+          path: "stockReceivedStockReturn",
+          title: "Stock Issue",
+          desc: "Issue stock from your main branch to connected branches",
+          heads: [
+            null,
+            "Transaction #",
+            "Date",
+            "Transfer To",
+            "Description",
+            "Count",
+            "Amount",
+            "Status",
+          ],
+          widths: [
+            { width: 1 },
+            { width: 15 },
+            { width: 15 },
+            { width: 15 },
+            { width: 15 },
+            { width: 15 },
+            { width: 15 },
+            { width: 8 },
+          ],
         },
         {
           t: "Stock Trail >",
