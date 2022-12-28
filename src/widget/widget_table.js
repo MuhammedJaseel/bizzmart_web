@@ -13,7 +13,7 @@ export function MyTable1({ widths, heads, body, onclick, lg }) {
   for (let i = 0; i < widths.length; i++)
     st.push({
       width: widths[i].width + "%",
-      textAlign: widths[i].right ? "right" : "left",
+      textAlign: widths[i].align || (widths[i].right ? "right" : "left"),
       paddingRight: widths[i].right ? "2vw" : "0",
     });
 
@@ -95,6 +95,7 @@ export function MyTableCounter1({ props }) {
             if (value !== "") {
               setSel(1);
               setLimit(value);
+              onTap(1, limit);
             }
           }}
           defaultValue={limit}
@@ -113,7 +114,7 @@ export function MyTableCounter1({ props }) {
           onClick={() => {
             if (sel !== 1) {
               setSel(sel - 1);
-              onTap(sel - 1);
+              onTap(sel - 1, limit);
             }
           }}
         >
@@ -125,7 +126,7 @@ export function MyTableCounter1({ props }) {
             onClick={() => {
               if (typeof i === "number") {
                 setSel(i);
-                onTap(i);
+                onTap(i, limit);
               }
             }}
             className={i === sel ? "zc1BbB zc1BbB_" : "zc1BbB"}

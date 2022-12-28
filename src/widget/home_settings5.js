@@ -8,6 +8,9 @@ import {
   updateCategory,
   deleteCategory,
   updateCategoryModifier,
+  postAssetCategory,
+  updateAssetCategory,
+  deleteAssetCategory,
 } from "../method/home_settings";
 import { Header1 } from "./widget";
 import { AddingForm1, AddingFormLayout } from "./widget_form";
@@ -133,6 +136,7 @@ export function HomeSettings5ProductCategory({ state, setState }) {
       </StrictMode>
     );
 }
+
 export function HomeSettings5CategotyAddModifiger({ state, setState }) {
   const { addCategoryModifier, loading, error } = state;
 
@@ -197,6 +201,73 @@ export function HomeSettings5CategotyAddModifiger({ state, setState }) {
   );
 }
 
+export function HomeSettings5AssetCategories({ state, setState }) {
+  const title = ` ASSET CATEGORIES`;
+  const desc = `Add the asset categories for your business, these will be available when you are adding or purchasing assets`;
+  const { page, loading, allAssetCategory } = state;
+  if (page?.path === "assetCategories")
+    return (
+      <StrictMode>
+        <Header1
+          title="MASTERDATA SETTINGS"
+          bodyL="PRODUCTION CATEGORIES"
+          onTap={() => {
+            setState({ page: null });
+            getMasterData(state, setState);
+          }}
+        />
+        <div className="hstN">
+          <AddingFormLayout title={title} desc={desc}>
+            <AddingForm1 title="Asset Category Settings">
+              <form onSubmit={(e) => postAssetCategory(e, state, setState)}>
+                <button className="hstNaA" type="submit" />
+                <input
+                  className="hstNaB"
+                  id="stationName"
+                  disabled={loading}
+                  placeholder="Type category heads separated by comma and add"
+                />
+              </form>
+              <div className="hstNb">
+                <div className="hstNbA">
+                  <div className="hstNbAa">Category Head</div>Discription
+                </div>
+                {allAssetCategory?.map((it, k) => (
+                  <div className="hstNbB" key={k}>
+                    <input
+                      defaultValue={it.title}
+                      className="hstNbBa"
+                      onChange={(e) => {
+                        it.name = e.target.value;
+                        it.updated = true;
+                        setState({ allAssetCategory });
+                      }}
+                    />
+                    <input
+                      defaultValue={it.description}
+                      className="hstNbBb_1"
+                      onChange={(e) => {
+                        it.description = e.target.value;
+                        it.updated = true;
+                        setState({ allAssetCategory });
+                      }}
+                    />
+                    <div
+                      className={it?.updated ? "hstNbBc_" : "hstNbBc"}
+                      onClick={() => {
+                        if (it.updated) updateAssetCategory(k, state, setState);
+                        else deleteAssetCategory(k, state, setState);
+                      }}
+                    />
+                  </div>
+                ))}
+              </div>
+            </AddingForm1>
+          </AddingFormLayout>
+        </div>
+      </StrictMode>
+    );
+}
 export function HomeSettings5SalesTaxes({ state, setState }) {
   const title = `SALES TAXES`;
   const desc = `Add your prodect station here`;
@@ -260,6 +331,7 @@ export function HomeSettings5SalesTaxes({ state, setState }) {
       </StrictMode>
     );
 }
+
 export function HomeSettings5ProdectionStations({ state, setState }) {
   const title = `PRODUCTION STATION`;
   const desc = `Add your prodect station here`;

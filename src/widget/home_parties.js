@@ -8,6 +8,8 @@ import { DrowerView2 } from "./widget_view";
 import {
   getAllData,
   getCustomer,
+  postMultiplePaymentRecord,
+  reduceCreditOneByOne,
   updateCustomer,
 } from "../method/home_parties";
 import { getAllCustomers, getAllSuppliers } from "../method/home_parties";
@@ -115,7 +117,7 @@ function HomePartiesCoustomerTable({ state, setState }) {
       body.push([
         { data: it.image, data2: it.name, type: 1 },
         { data: it.name },
-        { data: [statDot("y"), it.loyaltyTire], type: 2 },
+        { data: [statDot("y"), it.loyality_tier], type: 2 },
         { data: [statDot("g"), it.status], type: 2 },
         { data: it.phone },
         { data: it.email },
@@ -244,6 +246,11 @@ function HomePartiesEditForm({ state, setState }) {
     allLoyaltyType,
     allSupplierType,
     getItem: (from, to) => getCustomer(partie, state, setState, from, to),
+    setPaymentMethord: (v) => {
+      partie.paymentRecord.payment_method_id = v;
+      setState({ partie });
+    },
+    reduceCreditOneByOne: (v) => reduceCreditOneByOne(v, state, setState),
   };
   return (
     <form
@@ -253,9 +260,11 @@ function HomePartiesEditForm({ state, setState }) {
       }}
       onSubmit={(e) => {
         e.preventDefault();
-        page === 0
-          ? updateCustomer(state, setState)
-          : updateSuplier(state, setState);
+        if (e.target[e.target.length - 1].id === "0") {
+          page === 0
+            ? updateCustomer(state, setState)
+            : updateSuplier(state, setState);
+        } else postMultiplePaymentRecord(state, setState);
       }}
     >
       <DrowerView2 props={body} />

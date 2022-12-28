@@ -8,7 +8,8 @@ import "../style/zp.css";
 //////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////
 export function WidgetPopUp1({ props, children }) {
-  const { close, title, desc, btnTitle, submit, error, loading, small } = props;
+  const { close, title, desc, btnTitle, submit } = props;
+  const { error, loading, small, medium } = props;
   const { onChange } = props;
   return (
     <form
@@ -16,7 +17,10 @@ export function WidgetPopUp1({ props, children }) {
       onChange={onChange}
       onSubmit={(e) => e.preventDefault()}
     >
-      <div className={small ? "zpAa_" : "zpAa"}>
+      <div
+        className={small ? "zpAa_" : "zpAa"}
+        style={medium ? { width: "38vw" } : {}}
+      >
         <div className="zpAb">
           <div className="zpAbA">{title}</div>
           <div className="zpAbB" onClick={close} />

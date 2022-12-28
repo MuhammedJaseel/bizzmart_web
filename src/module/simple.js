@@ -49,3 +49,9 @@ export function makeMyDate(d) {
   if (ds.length < 3) return "";
   return `${ds[2]}-${ds[1]}-${ds[0]}`;
 }
+
+export function addNumberList(list, name) {
+  var value = 0;
+  for (let i = 0; i < list?.length; i++) value += Number(list[i][name]);
+  return value;
+}

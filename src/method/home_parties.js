@@ -1,4 +1,5 @@
 import { getHttp, postHttp } from "../module/api_int";
+import { addNumberList } from "../module/simple";
 import { getToday } from "../widget/widgets/calender";
 
 export async function getAllCustomers(state, setState) {
@@ -180,24 +181,101 @@ export async function updateSuplier(state, setState) {
   setState({ loading: false });
 }
 
-export const getCustomer = (item, state, setState, from, to) => {
+export const getCustomer = async (item, state, setState, from, to) => {
   var { partie } = state;
   partie = item;
 
   const body = {
     customer_id: partie.id,
+    member_id: partie.id,
     from_date: from || getToday(),
     to_date: to || getToday(),
+    type: "customer",
   };
 
-  postHttp("getCustomerInvoices", body).then(
-    (res) => (partie.invoiceList = res.data.invoice_lists)
+  await postHttp("getPaymentMethod", { customer_id: partie.id }).then(
+    (res) => (partie.paymentList = res.data)
+  );
+  postHttp("report/member/memberSummaryDetails", body).then(
+    (res) => (partie.invoiceList = res.data)
   );
   postHttp("report/member/memberStatements", body).then(
     (res) => (partie.statmentList = res.data)
   );
-  postHttp("getCustomerInvoices", { customer_id: partie.id }).then(
-    (res) => (partie.invoiceList2 = res.data.invoice_lists)
-  );
+  postHttp("getCustomerInvoices", { customer_id: partie.id }).then((res) => {
+    partie.paymentRecord = {
+      orders: res.data.invoice_lists,
+      ordersTemp: res.data.invoice_lists,
+      payment_method_id: partie?.paymentList[0]?.id ?? "",
+      balance: addNumberList(res.data.invoice_lists, "credit"),
+    };
+  });
+
   setState({ partie });
+};
+
+export const reduceCreditOneByOne = (v, state, setState) => {
+  const { ordersTemp } = state.partie.paymentRecord;
+
+  state.partie.paymentRecord.orders = JSON.parse(JSON.stringify(ordersTemp));
+
+  for (let i = 0; i < state.partie.paymentRecord.orders.length; i++) {
+    if (v > 0) state.partie.paymentRecord.orders[i].redused = true;
+    if (state.partie.paymentRecord.orders[i].credit > v) {
+      state.partie.paymentRecord.orders[i].credit -= v;
+      break;
+    } else {
+      v = v - state.partie.paymentRecord.orders[i].credit;
+      state.partie.paymentRecord.orders[i].credit = 0;
+    }
+  }
+  setState({ partie: state.partie });
+};
+
+export const postMultiplePaymentRecord = async (state, setState) => {
+  const { loading, succesPop, partie } = state;
+  if (loading) return;
+  setState({ loading: true, error: null });
+
+  const body = {
+    orders: [],
+    payment_method_id: partie.paymentRecord.payment_method_id,
+    supplier_id: null,
+    opening_balance_settled: 0,
+  };
+
+  for (let i = 0; i < partie?.paymentRecord?.orders?.length; i++) {
+    if (partie?.paymentRecord?.orders[i].redused)
+      body.orders.push({
+        id: partie?.paymentRecord?.orders[i].id,
+        invoice_no: partie?.paymentRecord?.orders[i].invoice_no,
+        amount:
+          partie?.paymentRecord?.orders[i].total_amount -
+          partie?.paymentRecord?.orders[i].credit,
+        payment_method_id: partie.paymentRecord.payment_method_id,
+        account_id:
+          partie.paymentList.filter(
+            (it) => it.id === partie?.paymentRecord?.payment_method_id
+          )[0]?.target_account_id || "",
+        method_name:
+          partie.paymentList.filter(
+            (it) => it.id === partie?.paymentRecord?.payment_method_id
+          )[0]?.name || "",
+        note: partie.paymentRecord.note || "",
+      });
+  }
+
+  console.log(body);
+
+  await postHttp("multiRecordPayment", body)
+    .then(async (res) => {
+      setState({ addPage: false, addParties: {}, partie: null });
+      succesPop({
+        active: true,
+        title: "Succesfully Updated",
+        desc: "The supplier payment record has succesfully updated",
+      });
+    })
+    .catch((error) => setState({ error }));
+  setState({ loading: false });
 };

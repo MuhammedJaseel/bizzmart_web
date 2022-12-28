@@ -76,10 +76,12 @@ export async function postBussinessSettings(state, setState) {
 export async function getMasterData(state, setState) {
   var getCat = postHttp("getCategories", {});
   var getKot = postHttp("getKOT", {});
-  await Promise.all([getCat, getKot])
+  var getAssetCat = postHttp("getAssetCategories", {});
+  await Promise.all([getCat, getKot, getAssetCat])
     .then((res) => {
       setState({ allCategory: res[0].data });
       setState({ allKot: res[1].data });
+      setState({ allAssetCategory: res[2].data });
     })
     .catch((error) => setState({ error }));
 }
@@ -94,6 +96,30 @@ export async function postCategory(e, state, setState) {
 
   setState({ loading: true, error: null });
   await postHttp("addCategory", { category })
+    .then(async () => {
+      await getMasterData(state, setState);
+      e.target.reset();
+      succesPop({
+        active: true,
+        title: "Succesfully Added",
+        desc: "Your Category list was succesfully added",
+      });
+    })
+    .catch((error) => setState({ error }));
+  setState({ loading: false });
+}
+
+export async function postAssetCategory(e, state, setState) {
+  e.preventDefault();
+  const { succesPop, loading } = state;
+  if (loading) return;
+  var v = e.target.stationName.value.split(",");
+  const body = { title: [] };
+  for (let i = 0; i < v.length; i++)
+    body.title.push(v[i].replace(/^\s+|\s+$/gm, ""));
+
+  setState({ loading: true, error: null });
+  await postHttp("addAssetCategory", body)
     .then(async () => {
       await getMasterData(state, setState);
       e.target.reset();
@@ -122,11 +148,43 @@ export async function updateCategory(k, state, setState) {
     .catch((error) => setState({ error }));
   setState({ loading: false });
 }
+export async function updateAssetCategory(k, state, setState) {
+  const { succesPop, loading, allAssetCategory } = state;
+  if (loading) return;
+  setState({ loading: true, error: null });
+  await postHttp("updateAssetCategory", allAssetCategory[k])
+    .then(async () => {
+      await getMasterData(state, setState);
+      succesPop({
+        active: true,
+        title: "Succesfully Added",
+        desc: "Your Category list was succesfully updated",
+      });
+    })
+    .catch((error) => setState({ error }));
+  setState({ loading: false });
+}
 export async function deleteCategory(k, state, setState) {
   const { succesPop, loading, allCategory } = state;
   if (loading) return;
   setState({ loading: true, error: null });
   await postHttp("deleteCategory", allCategory[k])
+    .then(async () => {
+      await getMasterData(state, setState);
+      succesPop({
+        active: true,
+        title: "Succesfully Deleted",
+        desc: "Your Category was succesfully deleted",
+      });
+    })
+    .catch((error) => setState({ error }));
+  setState({ loading: false });
+}
+export async function deleteAssetCategory(k, state, setState) {
+  const { succesPop, loading, allAssetCategory } = state;
+  if (loading) return;
+  setState({ loading: true, error: null });
+  await postHttp("deleteAssetCategory", allAssetCategory[k])
     .then(async () => {
       await getMasterData(state, setState);
       succesPop({

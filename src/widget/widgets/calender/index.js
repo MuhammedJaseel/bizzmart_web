@@ -47,7 +47,10 @@ export class DatePicker extends Component {
               <form
                 className="datePicker"
                 onFocus={() => setState({ clicked: true })}
-                onBlur={() => setState({ clicked: false })}
+                onBlur={() => {
+                  setState({ clicked: false });
+                  this.props.onChange(selectedFrom, selectedTo);
+                }}
                 onChange={(e) => {
                   if (e.target.id === "from") selectedFrom = e.target.value;
                   else selectedTo = e.target.value;

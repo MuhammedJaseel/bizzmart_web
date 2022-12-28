@@ -22,6 +22,8 @@ export async function getProducts(state, setState) {
   return;
 }
 
+
+
 export async function inventorySearchProduct(v, state, setState) {
   if (v === "") {
     setState({ loading: false, error: null, allProductSearches: [] });

@@ -268,14 +268,16 @@ export function HeaderButtens1({ props }) {
         <div className="zcNb" onClick={onShare} />
       ) : null}
       <div className="zcNc">
-        <div
-          className={drowelList === null ? "zcNcA_" : "zcNcA"}
-          onClick={() =>
-            makeAdd === undefined ? setIsDrower(true) : makeAdd()
-          }
-        >
-          {title}
-        </div>
+        {title !== undefined ? (
+          <div
+            className={drowelList === null ? "zcNcA_" : "zcNcA"}
+            onClick={() =>
+              makeAdd === undefined ? setIsDrower(true) : makeAdd()
+            }
+          >
+            {title}
+          </div>
+        ) : null}
         {drowelList !== null ? (
           <div className="zcNcB" onClick={() => setIsDrower(!isDrower)} />
         ) : null}

@@ -9,6 +9,7 @@ import { HomeSettings1BussinessSettings } from "./home_settings1";
 import { HomeSettingsBody3, HomeSettingsBody4 } from "./home_settings1";
 import { getAllCashandBank } from "../method/home_cashbank";
 import {
+  HomeSettings5AssetCategories,
   HomeSettings5CategotyAddModifiger,
   HomeSettings5ExpenseCategory,
 } from "./home_settings5";
@@ -83,6 +84,7 @@ export default class HomeSettings extends Component {
         <HomeSettings5ProductCategory state={state} setState={setState} />
         <HomeSettings5SalesTaxes state={state} setState={setState} />
         <HomeSettings5ProdectionStations state={state} setState={setState} />
+        <HomeSettings5AssetCategories state={state} setState={setState} />
         <HomeSettings5CategotyAddModifiger state={state} setState={setState} />
         <HomeSettings6AssetsExpenses state={state} setState={setState} />
         <HomeSettings6EquityEarnings state={state} setState={setState} />

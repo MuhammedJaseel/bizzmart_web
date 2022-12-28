@@ -103,6 +103,11 @@ export const allSettings = [
         path: "productCategories",
       },
       {
+        title: "Asset Categories",
+        desc: "Manage your business details here, you ran customize informations showing to your customers on that invoices and other documents.",
+        path: "assetCategories",
+      },
+      {
         title: "Sales Taxes",
         desc: "Manage your business details here, you ran customize informations showing to your customers on that invoices and other documents.",
         path: "salesTaxes",
