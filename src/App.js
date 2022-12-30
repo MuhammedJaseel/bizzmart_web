@@ -20,6 +20,7 @@ export default function App() {
   return <StrictMode>Hallow, its 404</StrictMode>;
 }
 
+// npm run build
 // git add .
 // git commit -m "Ordinery Push"
 // git push origin main
