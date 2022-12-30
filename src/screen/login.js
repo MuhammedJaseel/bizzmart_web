@@ -68,6 +68,7 @@ export default class LoginScreen extends Component {
                 className={logintype === "hoslogin" ? "lnBbF_" : "lnBbF"}
               >
                 <div>Branch Login</div>
+                
                 {logintype !== "hoslogin" ? <div className="lnBbH" /> : null}
               </div>
               <div
