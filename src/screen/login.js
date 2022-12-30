@@ -61,7 +61,7 @@ export default class LoginScreen extends Component {
               <img className="lnBbB" alt="img" src={bizzMartLogo} />
             </div>
             <div className="lnBbC">{logintitle}</div>
-            <div className="lnBbD">Login_</div>
+            <div className="lnBbD">Login</div>
             <div className="lnBbE">
               <div
                 onClick={() => this.setState({ logintype: "branch" })}
