@@ -51,7 +51,7 @@ export default class HomeCalender extends Component {
     };
     return (
       <StrictMode>
-        <Header1 title="CALENDARR" />
+        <Header1 title="CALENDAR" />
         <Header2 titles={["Calendar"]} page={0} />
         <Header4
           title="5th July, Tuesday"

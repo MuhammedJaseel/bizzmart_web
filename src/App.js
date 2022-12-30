@@ -24,7 +24,7 @@ export default function App() {
 // git add .
 // git commit -m "Ordinery Push"
 // git push origin main
-
+// sh /var/www/html/run_bizzmart.sh
 
 function Cal() {
   return (
