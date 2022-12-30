@@ -1,5 +1,5 @@
 import React, { StrictMode, useRef, useState } from "react";
-import { inventorySearchProduct } from "../method/home_inventory";
+import { inventorySearchProduct } from "../method/homeInventory";
 import { WidgetPopUp1, WidgetPopUp2Body } from "./widget_popup";
 
 export function HomeInventoryModifersPopup({ state, setState }) {

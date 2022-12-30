@@ -66,10 +66,25 @@
 .myInput .input {
   width: 100%;
 }
-.myInput .unit {
+.myInput .unit,
+.unit_,
+.unit__ {
   font-size: 0.9vw;
   color: #7f7f7f;
   position: absolute;
   right: 0.5vw;
   top: calc(50% - 0.5vw);
+  min-width: 1vw;
+  height: 1vw;
+  background-size: 1vw;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.myInput .unit_ {
+  background-image: url(../../asset/ic_eye.svg);
+  cursor: pointer;
+}
+.myInput .unit__ {
+  background-image: url(../../asset/ic_eyeClose.svg);
+  cursor: pointer;
 }

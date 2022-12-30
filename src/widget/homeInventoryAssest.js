@@ -1,5 +1,5 @@
 import { StrictMode, useState } from "react";
-import { inventoryFormData } from "../module/home_inventory";
+import { inventoryFormData } from "../module/homeInventory";
 import { Header1, Header2, Header4, HeaderButtens1 } from "./widget";
 import { MyTable1, MyTableCounter1 } from "./widget_table";
 import "../style/hia.css";
@@ -16,7 +16,7 @@ import {
   postAssetPurchase,
   postExistingAsset,
   postTransferAsset,
-  postWriteOffAsset,  
+  postWriteOffAsset,
 } from "../method/homeInventoryAssest";
 import { getTodayType2 } from "../module/simple";
 
@@ -662,8 +662,10 @@ function AssetWriteOffPoup({ state, setState }) {
   );
 }
 
+
 export function InventoryAddAssetPurchase({ state, setState }) {
-  const { page, addAssetPurchase, allAssets } = state;
+  const { page, addAssetPurchase, allAssets, allPaymenyMode } = state;
+  const { allSuppliers } = state;
   const [saveBtn, setsaveBtn] = useState(false);
 
   if (page?.path !== "addAssetPurchase") return null;
@@ -679,17 +681,17 @@ export function InventoryAddAssetPurchase({ state, setState }) {
       <div style={{ overflow: "scroll", maxHeight: "calc(100vh - 5vw)" }}>
         <Header4 title={title} desc={desc} />
         <div className="hiaB">
-          <div style={{ width: "8%" }}>
-            Supplier Invoice
-            <br />
-            <input />
-          </div>
-          <div style={{ width: "20%" }}>
+          <div style={{ width: "25%" }}>
             Supplier *<br />
             <select
               onChange={(e) => (addAssetPurchase.supplier_id = e.target.value)}
             >
               <option hidden>Select Supplier</option>
+              {allSuppliers?.map((it, k) => (
+                <option key={k} value={it.id}>
+                  {it.name}
+                </option>
+              ))}
             </select>
           </div>
           <div style={{ width: "11%" }}>
@@ -715,6 +717,11 @@ export function InventoryAddAssetPurchase({ state, setState }) {
               onChange={(e) => (addAssetPurchase.payment_mode = e.target.value)}
             >
               <option hidden>Select payment</option>
+              {allPaymenyMode?.map((it, k) => (
+                <option key={k} value={it.id}>
+                  {it.title}
+                </option>
+              ))}
             </select>
           </div>
           <div style={{ width: "11%" }}>
@@ -726,7 +733,7 @@ export function InventoryAddAssetPurchase({ state, setState }) {
               onChange={(e) => (addAssetPurchase.due_date = e.target.value)}
             />
           </div>
-          <div style={{ width: "20%" }}>
+          <div style={{ width: "23%" }}>
             Reference
             <br />
             <input

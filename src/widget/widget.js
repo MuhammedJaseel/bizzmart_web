@@ -366,7 +366,7 @@ export function PaymentButton1({ props }) {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 export function WidgetInputSelect({ className, props }) {
-  var { onChange, list, clearlist, name, setValue, placeholder } = props;
+  var { onChange, list, clearlist, name, setValue, placeholder, style } = props;
   const inputRef = useRef(null);
   if (list === undefined || list === null) list = [];
   return (

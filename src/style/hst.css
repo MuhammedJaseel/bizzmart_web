@@ -1,9 +1,10 @@
 .hstA {
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
+  padding: 0 4vw;
   flex-wrap: wrap;
   overflow: auto;
-  height: calc(100vh - 6.8vw);
+  /* height: calc(100vh - 6.8vw); */
   color: #000120;
 }
 .hstAa {

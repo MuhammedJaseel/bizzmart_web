@@ -42,13 +42,13 @@ import HomeSettings from "../widget/home_settings";
 import HomeAbout from "../widget/home_about";
 
 const sidebarIc = [
-  {
-    title: "Dashboard",
-    icon: icDashbord,
-    iconW: icDashbordW,
-    path: "dashboard",
-    widget: HomeDashboard,
-  },
+  // {
+  //   title: "Dashboard",
+  //   icon: icDashbord,
+  //   iconW: icDashbordW,
+  //   path: "dashboard",
+  //   widget: HomeDashboard,
+  // },
   {
     title: "Calendar",
     icon: icCalendar,
@@ -91,20 +91,20 @@ const sidebarIc = [
     path: "inventory",
     widget: HomeInventory,
   },
-  {
-    title: "Job card",
-    icon: icJob,
-    iconW: icJobW,
-    path: "jobcard",
-    widget: HomeJobcard,
-  },
-  {
-    title: "Online",
-    icon: icOnline,
-    iconW: icOnlineW,
-    path: "online",
-    widget: HomeOnline,
-  },
+  // {
+  //   title: "Job card",
+  //   icon: icJob,
+  //   iconW: icJobW,
+  //   path: "jobcard",
+  //   widget: HomeJobcard,
+  // },
+  // {
+  //   title: "Online",
+  //   icon: icOnline,
+  //   iconW: icOnlineW,
+  //   path: "online",
+  //   widget: HomeOnline,
+  // },
   {
     title: "Cash & bank",
     icon: icCash,
@@ -133,13 +133,13 @@ const sidebarIc = [
     path: "settings",
     widget: HomeSettings,
   },
-  {
-    title: "About",
-    icon: icAbout,
-    iconW: icAboutW,
-    path: "about",
-    widget: HomeAbout,
-  },
+  // {
+  //   title: "About",
+  //   icon: icAbout,
+  //   iconW: icAboutW,
+  //   path: "about",
+  //   widget: HomeAbout,
+  // },
 ];
 
 export default sidebarIc;

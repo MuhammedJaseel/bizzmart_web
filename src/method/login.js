@@ -13,6 +13,11 @@ export async function branchFind(e, state, setState) {
   await postHttpStatic("branchLogin", body)
     .then((res) => {
       window.localStorage.setItem("branchId", res.data.branch_id);
+      window.localStorage.setItem(
+        "idDefaultBranch",
+        res.data.is_default_branch ? "yes" : "no"
+      );
+      window.localStorage.setItem("branchName", res.data?.name ?? "");
       setState({
         logintitle: res.data.name,
         branch_id: res.data.branch_id,
@@ -47,7 +52,9 @@ export async function branchLogin(e, state, setState) {
         window.localStorage.setItem("profilePic", res.data.image);
         window.localStorage.setItem("userName", res.data.phone);
         window.localStorage.setItem("userId", res.data.id);
-        state.setScreen("/dashboard");
+        if (window.localStorage.getItem("idDefaultBranch") === "yes")
+          state.setScreen("/branches");
+        else state.setScreen("/calendar");
       }
     })
     .catch((error) => setState({ error }));

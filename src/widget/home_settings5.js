@@ -296,8 +296,8 @@ export function HomeSettings5SalesTaxes({ state, setState }) {
                 <div className="hstNbA">
                   <div className="hstNbAa">Station (Kitchen)</div>Station IP
                 </div>
-                {allKot.map((it, k) =>
-                  deleteKot.filter((it1) => it1 === it.id).length > 0 ? null : (
+                {allKot?.map((it, k) =>
+                  deleteKot?.filter((it1) => it1 === it.id).length > 0 ? null : (
                     <div className="hstNbB" key={k}>
                       <div className="hstNbBa">{it.title}</div>
                       <div className="hstNbBb">192.168.1.212</div>
@@ -311,7 +311,7 @@ export function HomeSettings5SalesTaxes({ state, setState }) {
                     </div>
                   )
                 )}
-                {addKot.map((it, k) => (
+                {addKot?.map((it, k) => (
                   <div className="hstNbB" key={k}>
                     <div className="hstNbBa">{it}</div>
                     <div className="hstNbBb">...</div>

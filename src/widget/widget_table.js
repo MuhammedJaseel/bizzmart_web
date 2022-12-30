@@ -43,7 +43,7 @@ export function MyTable1({ widths, heads, body, onclick, lg }) {
                   it2.data === null ||
                   it2.data === undefined ? (
                     <div className="zc1AbB1A">
-                      {it2.data2.substring(0, 2).toUpperCase()}
+                      {(it2.data2 || "**").substring(0, 2).toUpperCase()}
                     </div>
                   ) : (
                     <img className="zc1AbB1A" src={it2.data} />

@@ -1,4 +1,4 @@
-import React, { Component, StrictMode } from "react";
+import React, { Component, StrictMode, useState } from "react";
 import "./index.css";
 
 export class Select extends Component {
@@ -67,7 +67,10 @@ export function Input({
   onChange,
   unit,
   id,
+  type,
 }) {
+  const [view, setview] = useState(false);
+
   return (
     <div className="myInput" style={style}>
       <input
@@ -77,8 +80,14 @@ export function Input({
         defaultValue={defaultValue}
         onChange={onChange}
         id={id}
+        type={type === "password" ? (view ? "text" : type) : type}
       />
-      <div className="unit">{unit}</div>
+      <div
+        className={type === "password" ? (view ? "unit__" : "unit_") : "unit"}
+        onClick={() => setview(!view)}
+      >
+        {unit}
+      </div>
     </div>
   );
 }

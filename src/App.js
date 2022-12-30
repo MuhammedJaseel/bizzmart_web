@@ -21,7 +21,7 @@ export default function App() {
 }
 
 // git add .
-// git commit -m "Ui finel tuchup started"
+// git commit -m "Ordinery Push"
 // git push origin main
 
 function Cal() {

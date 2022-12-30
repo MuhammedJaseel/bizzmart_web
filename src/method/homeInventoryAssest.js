@@ -9,8 +9,12 @@ export const getAllAssetsList = async (state, setState) => {
     setState({ allAssignedAssets: res.data });
     // console.log(res.data);
   });
+  await postHttp("getSuppliersLists", {}).then((res) => {
+    setState({ allSuppliers: res.data });
+    // console.log(res.data);
+  });
 
-  console.log(state.allFixedAssets);
+  // console.log(state.allFixedAssets);
 };
 
 export const getAllassets = async (state, setState) => {
@@ -22,6 +26,9 @@ export const getAllassets = async (state, setState) => {
   );
   await postHttp("allBranchLists", {}).then((res) =>
     setState({ allBranches: res.data })
+  );
+  await postHttp("getPaymentModeLsist", {}).then((res) =>
+    setState({ allPaymenyMode: res.data })
   );
 };
 

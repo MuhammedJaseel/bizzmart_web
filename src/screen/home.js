@@ -1,7 +1,7 @@
 import React, { Component, StrictMode } from "react";
 import { quickButtons } from "../module/home";
 import bizzMartLogo2 from "../asset/bizzmart_logo2.png";
-import sidebarIc from "../module/sidebar_ic";
+import sidebarIc from "../module/sidebarItems";
 import icBack from "../asset/icon/ic_back.png";
 import "../style/hm.css";
 import { WidgetSuccesPopup } from "../widget/widget_popup";
@@ -134,7 +134,7 @@ export default class HomeScreen extends Component {
                   </div>
                   <div className="hmBk">{ic.title}</div>
                 </div>
-                {k === 2 || k === 11 ? <div className="hmBi_a" /> : null}
+                {k === 1 || k === 8 ? <div className="hmBi_a" /> : null}
               </React.StrictMode>
             ))}
           </div>

@@ -1,17 +1,17 @@
 import { StrictMode, Component } from "react";
-import { inventoryPages } from "../module/home_inventory";
+import { inventoryPages } from "../module/homeInventory";
 import {
   getCategoryList,
   getProducts,
   getServices,
-} from "../method/home_inventory";
+} from "../method/homeInventory";
 import { Header1, TitleTable1 } from "./widget";
 import {
   HomeInventoryModifersPopup,
   InventoryAddToppingsPop,
-} from "./home_inventory3";
-import { InventoryAddProdectPop } from "./home_inventory3";
-import HomeInventoryForms from "./homeInventoryProduct2";
+} from "./homeInventoryProductService3";
+import { InventoryAddProdectPop } from "./homeInventoryProductService3";
+import HomeInventoryForms from "./homeInventoryProductService2";
 import "../style/hin.css";
 import { getAllassets, getAllAssetsList } from "../method/homeInventoryAssest";
 import { InventoryAddAssetPurchase } from "./homeInventoryAssest";
@@ -31,7 +31,12 @@ import {
 } from "./homeInventoryInventoryMgmnt";
 import { MslLookupTable, PriceChargeTable } from "./homeInventoryPriceMgmnt";
 import { PriceLookupTable, StockLookupTable } from "./homeInventoryPriceMgmnt";
-import { ProductTable, ServiceTable } from "./homeInventoryProduct1";
+import { ProductTable, ServiceTable } from "./homeInventoryProductService1";
+import { getInventoryManagment } from "../method/homeInventoryInventoryMgmnt";
+import {
+  InventoryAddIssueStock,
+  InventoryAddStockReturn,
+} from "./homeInventoryInventoryMgmnt1";
 
 export default class HomeInventory extends Component {
   constructor(props) {
@@ -53,6 +58,7 @@ export default class HomeInventory extends Component {
       allKot: [],
       allTax: [],
       allToppings: [],
+      allBranches: [],
       product: null,
       productPaging: {},
       servicesPaging: {},
@@ -60,10 +66,20 @@ export default class HomeInventory extends Component {
       addToppings: null,
       allFixedAssets: [],
       allAssignedAssets: [],
-      // ////////////////////////
+      allPaymenyMode: [],
+      allSuppliers: [],
+      // ///////////////////////////////////////////
       priceLookupList: {},
       stockLookupList: {},
       maslLookupList: {},
+      // ////////////////////////////////////////////////////
+      allStockIssue: {},
+      allStockRecevied: {},
+      allStockAcknowledged: {},
+      allStockReturn: {},
+      addIssueStock: {},
+      addStockTransfer: {},
+      addStockReturn: {},
       // FUNCTION ///////////////////////////////////////////////////
       succesPop: props.succesPop,
     };
@@ -75,10 +91,10 @@ export default class HomeInventory extends Component {
     getServices(state, setState);
     getCategoryList(state, setState);
     getAllassets(state, setState);
-    getAllassets(state, setState);
     getAllAssetsList(state, setState);
     // ///////////////////////////
     getPriceManagment(state, setState);
+    getInventoryManagment(state, setState);
   }
   render() {
     const setState = (v) => this.setState(v);
@@ -92,6 +108,8 @@ export default class HomeInventory extends Component {
         <InventoryAddProdectPop state={state} setState={setState} />
         <InventoryAddToppingsPop state={state} setState={setState} />
         <InventoryAddAssetPurchase state={state} setState={setState} />
+        <InventoryAddIssueStock state={state} setState={setState} />
+        <InventoryAddStockReturn state={state} setState={setState} />
       </StrictMode>
     );
   }

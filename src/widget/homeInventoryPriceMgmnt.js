@@ -140,10 +140,10 @@ export function PriceChargeTable({ state, setState }) {
       addPriceChange: {
         name: allProduct[k].name,
         product_id: allProduct[k].id,
-        // mrp: allProduct[k].MRP,
-        // rrp: allProduct[k].rrp,
-        // online: allProduct[k].online,
-        // purchase_price: allProduct[k].purchase_price,
+        mrp: allProduct[k].MRP,
+        rrp: allProduct[k].rrp,
+        online: allProduct[k].online_price,
+        purchase_price: allProduct[k].purchase_price,
       },
     });
 
@@ -238,7 +238,7 @@ function PriceChangePopup({ state, setState }) {
             style={{ width: "100%" }}
             unit="INR"
             id="mrp"
-            // defaultValue={addPriceChange?.mrp}
+            defaultValue={addPriceChange?.mrp}
           />
         </WidgetPopUp1In1>
         <WidgetPopUp1In1 title="Online Price">
@@ -247,7 +247,7 @@ function PriceChangePopup({ state, setState }) {
             style={{ width: "100%" }}
             unit="INR"
             id="online"
-            // defaultValue={addPriceChange?.online}
+            defaultValue={addPriceChange?.online}
           />
         </WidgetPopUp1In1>
       </WidgetPopUp1Body>

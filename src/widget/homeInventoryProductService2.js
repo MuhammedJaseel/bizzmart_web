@@ -1,7 +1,7 @@
 import React, { StrictMode, useRef } from "react";
-import { postInventoryProduct, setInventory } from "../method/home_inventory";
-import { prodectTypes } from "../module/home_inventory";
-import { addProdectTitles } from "../module/home_inventory1";
+import { postInventoryProduct, setInventory } from "../method/homeInventory";
+import { prodectTypes } from "../module/homeInventory";
+import { addProdectTitles } from "../module/homeInventory1";
 import { AssetForm } from "./homeInventoryAssest";
 import { Header1, Header4 } from "./widget";
 import WidgetFooterSubmit from "./widget_footer";
@@ -259,7 +259,7 @@ function ProductForm({ state, setState }) {
           title={addProdectTitles?.inventory?.t}
           desc={addProdectTitles?.inventory?.d}
         >
-          {product?.is_service === 0 ? (
+          {/* {product?.is_service === 0 ? (
             <AddingForm1 title="Product type*">
               <SelectButton
                 isEdit
@@ -271,7 +271,7 @@ function ProductForm({ state, setState }) {
                 }
               />
             </AddingForm1>
-          ) : null}
+          ) : null} */}
           {/*///////////////////////////////////////////////////////////////////////////////////////
             //////////////////////////////////////////////////////////////////////////////////////////
             //////////////////////////////      STARNDERD PRODUCT      ///////////////////////////////
@@ -738,7 +738,11 @@ function ImagePicker({ state, setState }) {
             <div
               key={k}
               className={k === 0 ? "hinDdAa_pr" : "hinDdAa"}
-              style={{ backgroundImage: `url( ${URL.createObjectURL(it)})` }}
+              style={{
+                backgroundImage: `url( ${
+                  typeof it === "string" ? it : URL.createObjectURL(it)
+                })`,
+              }}
               draggable
             >
               <div className="hinDdAaA">

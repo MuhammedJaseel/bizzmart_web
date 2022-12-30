@@ -1,25 +1,32 @@
-import { postHttp } from "../module/api_int";
+import { getHttp, postHttp } from "../module/api_int";
 import { getProducts } from "./homeInventory";
 
 // //////////////////////
-export async function getPriceManagment(state, setState) {
+export async function getInventoryManagment(state, setState) {
   const { productPaging } = state;
-  await postHttp("getPriceLookupLists", productPaging)
+  await postHttp("getStockIssueLists", productPaging)
     .then((res) => {
-      setState({ priceLookupList: res });
+      setState({ allStockIssue: res });
       // console.log(res.data);
     })
     .catch((error) => setState({ error }));
-  await postHttp("getStockLookupLists", productPaging)
+  await postHttp("stockReceivedLists", productPaging)
     .then((res) => {
-      setState({ stockLookupList: res });
+      setState({ allStockRecevied: res });
       // console.log("Stock ");
-      console.log(res.data);
+      // console.log(res.data);
+    })
+    .catch((error) => setState({ error }));
+  await postHttp("stockAcknowledged", productPaging)
+    .then((res) => {
+      setState({ allStockAcknowledged: res });
+      // console.log("Stock ");
+      // console.log(res.data);
     })
     .catch((error) => setState({ error }));
   await postHttp("getMSLLookupLists", productPaging)
     .then((res) => {
-      setState({ maslLookupList: res });
+      setState({ allStockReturn: res });
       // console.log("msl ");
       // console.log(res.data);
     })
@@ -52,4 +59,25 @@ export async function postPriceChange(state, setState) {
     })
     .catch(() => setState({ error: "Error On changing price" }));
   setState({ loading: false });
+}
+
+export async function inventorySearchProductStockIssue(v, setData) {
+  if (v === "") setData([]);
+  else
+    await postHttp("getSearchProducts", { serach: v }).then((res) =>
+      setData(res.data)
+    );
+}
+export async function inventorySetSearchProductStockIssue(id, setCost) {
+  await getHttp("getProduct/" + id).then((res) => {
+    setCost({
+      price: res.data?.selling_price,
+      selling_price: res.data?.selling_price,
+      actual_price: res.data?.selling_price,
+      product_type: res.data?.product_type,
+      unit: res.data?.primary_unit,
+      variant: res.data?.variant,
+    });
+  });
+  return;
 }

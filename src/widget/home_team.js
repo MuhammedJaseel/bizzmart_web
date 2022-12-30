@@ -78,18 +78,19 @@ export default class HomeTeam extends Component {
     const bodyRBody = {
       makeAdd: () => setState({ addPage: true, addMember: teamDummyData }),
       title: page === 0 ? "+ NEW EMPLOYEE" : "+ ADD PARTNER",
-      drowelList:
-        page === 0
-          ? [
-              { title: "New Employee", fun: () => setState({ addPage: true }) },
-              { title: "Payslip", fun: () => setState({ page: 2 }) },
-              { title: "Payrun", fun: () => setState({ page: 3 }) },
-              {
-                title: "Paytoll Advance",
-                fun: () => setState({ payrollAdvance: {} }),
-              },
-            ]
-          : null,
+      drowelList: null,
+      // drowelList:
+      //   page === 0
+      //     ? [
+      //         { title: "New Employee", fun: () => setState({ addPage: true }) },
+      //         { title: "Payslip", fun: () => setState({ page: 2 }) },
+      //         { title: "Payrun", fun: () => setState({ page: 3 }) },
+      //         {
+      //           title: "Paytoll Advance",
+      //           fun: () => setState({ payrollAdvance: {} }),
+      //         },
+      //       ]
+      //     : null,
     };
     const bodyR = <HeaderButtens1 props={bodyRBody} />;
 

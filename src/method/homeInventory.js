@@ -22,8 +22,6 @@ export async function getProducts(state, setState) {
   return;
 }
 
-
-
 export async function inventorySearchProduct(v, state, setState) {
   if (v === "") {
     setState({ loading: false, error: null, allProductSearches: [] });
@@ -56,13 +54,15 @@ export async function getCategoryList(state, setState) {
   var getKot = postHttp("getKOT", {});
   var getTax = postHttp("taxLists", {});
   var getToppings = postHttp("getToppingsProducts", {});
-  await Promise.all([getCat, getUnit, getKot, getTax, getToppings])
+  var getBranches = postHttp("allBranchLists", {});
+  await Promise.all([getCat, getUnit, getKot, getTax, getToppings, getBranches])
     .then((res) => {
       setState({ allCategoty: res[0].data });
       setState({ allUnits: res[1].data });
       setState({ allKot: res[2].data });
       setState({ allTax: res[3].data });
       setState({ allToppings: res[4].data });
+      setState({ allBranches: res[5].data });
     })
     .catch((error) => setState({ error }));
 }

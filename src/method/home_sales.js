@@ -1,9 +1,9 @@
-import { postHttp } from "../module/api_int";
+import { getHttp, postHttp } from "../module/api_int";
 
 export const salesGetSales = async (state, setState) => {
   const { invoicePaging, estimatePaging } = state;
   setState({ loading: true, error: null });
-  await postHttp("orderLastInvoiceNo", invoicePaging).then((res) => {
+  await postHttp("getOrders", invoicePaging).then((res) => {
     setState({ allInvoice: res.data, invoicePaging: res.page });
   });
   await postHttp("orderLastInvoiceNo", estimatePaging).then((res) => {
@@ -12,12 +12,25 @@ export const salesGetSales = async (state, setState) => {
   setState({ loading: false });
 };
 
+export const salesGetSale = async (k, state, setState) => {
+  const { allInvoice } = state;
+  setState({ selected: allInvoice[k] });
+  await postHttp("getInvoice", { order_id: allInvoice[k].id }).then((res) => {
+    setState({ selected: { ...allInvoice[k], ...res.data } });
+  });
+};
+
 export async function salesSearchProduct(v, setData) {
   if (v === "") setData([]);
   else
     await postHttp("getSearchProducts", { serach: v }).then((res) =>
       setData(res.data)
     );
+}
+export async function salesSetSearchProduct(id, { setCost }) {
+  await getHttp("getProduct/" + id).then((res) => {
+    setCost(res.data?.cost_price);
+  });
 }
 
 export const postInvoice = async (state, setState) => {

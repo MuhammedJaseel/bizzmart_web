@@ -6,7 +6,7 @@ import { HeaderButtens1, TitleFilter1 } from "./widget";
 import { MyForm1 } from "./widget_form";
 import DrawerView1 from "./widget_view";
 import "../style/hsl.css";
-import { salesGetSales } from "../method/home_sales";
+import { salesGetSale, salesGetSales } from "../method/home_sales";
 
 const pTitles = ["Sales Invoices", "Sales Estimates"];
 const titS = {
@@ -50,7 +50,7 @@ export default class HomeSales extends Component {
       invoicePaging: {},
       estimatePaging: {},
       form: null,
-      item: null,
+      selected: null,
     };
   }
 
@@ -119,20 +119,20 @@ function HomeSalesInvoicesTable({ state, setState }) {
     { width: 8 },
   ];
   const body = [];
-  // for (let i = 0; i < allInvoice.length; i++) {
-  //   const it = allInvoice[i];
-  body.push([
-    { data: "it.image", data2: "it.customer", type: 1 },
-    { data: "it.invoice" },
-    { data: "it.date", type: 2 },
-    { data: "it.customer", data2: "it.type", type: 2 },
-    { data: "it.phoneNumber" },
-    { data: "it.total" },
-    { data: "it.action" },
-    { data: "it.status" },
-  ]);
-  // }
-  const onclick = (v) => setState({ item: v });
+  for (let i = 0; i < allInvoice.length; i++) {
+    const it = allInvoice[i];
+    body.push([
+      { data: it?.image, data2: it?.customer_name, type: 1 },
+      { data: it?.invoice_no },
+      { data: it.invoice_date, type: 2 },
+      { data: it.customer_name, data2: it.customer_type, type: 2 },
+      { data: it.customer_phone },
+      { data: it.total_amount },
+      { data: it.balance_amount },
+      { data: it.status },
+    ]);
+  }
+  const onclick = (v) => salesGetSale(v, state, setState);
   if (page !== 0 || form !== null) return null;
   return [
     <MyTable1 widths={widths} heads={heads0} body={body} onclick={onclick} />,
@@ -176,14 +176,3 @@ function HomeSalesForm({ state, setState }) {
   if (form === null) return null;
   return <MyForm1 state={state} setState={setState} />;
 }
-
-// [{"variant_name": "el","bar_code": "asa","hsncode": "sas","ean": "12","purchase_price": "21",
-// "cost_price": "21",
-// "cost_with_tax": "21",
-// "selling_price": "21",
-// "online_price": "1",
-// "cost_tax_amount": "1",
-// "mrp": "21",
-// "stock_price": "12",
-// "opening_stock": "21",
-// "min_stock_level": "21",}]

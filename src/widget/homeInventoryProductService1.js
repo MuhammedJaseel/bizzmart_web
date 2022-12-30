@@ -1,6 +1,6 @@
 import React, { StrictMode } from "react";
-import { getProduct, getProducts } from "../method/home_inventory";
-import { inventoryStateData } from "../module/home_inventory";
+import { getProduct, getProducts } from "../method/homeInventory";
+import { inventoryStateData } from "../module/homeInventory";
 
 import { Header1, Header4, HeaderButtens1 } from "./widget";
 import { MyTable1, MyTableCounter1 } from "./widget_table";

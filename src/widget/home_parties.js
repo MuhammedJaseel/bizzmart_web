@@ -4,20 +4,14 @@ import { Header1, Header2, Header4 } from "./widget";
 import { HeaderButtens1, TitleFilter1 } from "./widget";
 import { DrawerForm1 } from "./widget_form";
 import { DrowerView2 } from "./widget_view";
-
-import {
-  getAllData,
-  getCustomer,
-  postMultiplePaymentRecord,
-  reduceCreditOneByOne,
-  updateCustomer,
-} from "../method/home_parties";
+import { reduceCreditOneByOne, getAllData } from "../method/home_parties";
+import { postMultiplePaymentRecord } from "../method/home_parties";
+import { getCustomer, updateCustomer } from "../method/home_parties";
 import { getAllCustomers, getAllSuppliers } from "../method/home_parties";
 import { postSuplier, updateSuplier } from "../method/home_parties";
 import { partiesHeads0, partiesHeads1 } from "../module/home_parties";
 import { partiesTitles, patriesPageTitles } from "../module/home_parties";
 import { postCustomer } from "../method/home_parties";
-
 import "../style/hdb.css";
 
 const pTitles = patriesPageTitles;
