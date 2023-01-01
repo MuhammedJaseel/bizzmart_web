@@ -9,6 +9,9 @@ export const purchaseGetPurchase = async (state, setState) => {
   await postHttp("purchaseLastInvoiceNumber", estimatePaging).then((res) =>
     setState({ lastInvoice: "API Pending" })
   );
+  postHttp("getSuppliersLists", estimatePaging).then((res) =>
+    setState({ allSuppliers: res.data })
+  );
   setState({ loading: false });
 };
 

@@ -1,4 +1,5 @@
 import { StrictMode, useRef, useState } from "react";
+import { postSalesPaymentRecord } from "../method/home_sales";
 import { addNumberList } from "../module/simple";
 import "../style/zv.css";
 import { DatePicker } from "./widgets/calender";
@@ -29,7 +30,7 @@ function DrawerLayout2({ show, children }) {
 }
 
 export default function DrawerView1({ state, setState }) {
-  const { selected } = state;
+  const { selected, allPaymentMethod, addPaymentRecord, error } = state;
   return (
     <DrawerLayout1 show={selected !== null}>
       <div className="zvBa">
@@ -106,47 +107,111 @@ export default function DrawerView1({ state, setState }) {
           <div className="zvBdB">
             <div className="zvBdBc">
               <div className="zvBdBcA">Subtotal:</div>
-              <div className="zvBdBcB">4,46,760.00</div>
+              <div className="zvBdBcB">
+                {selected?.total_amount - selected?.CGST - selected?.SCGST}
+              </div>
             </div>
             <div className="zvBdBd">Tax Breakdown</div>
             <div className="zvBdBe">
               <div className="zvBdBeA">SGST</div>
-              <div className="zvBdBeB">22,560.00</div>
+              <div className="zvBdBeB">{selected?.SCGST}</div>
+            </div>
+            <div className="zvBdBe">
+              <div className="zvBdBeA">CGST</div>
+              <div className="zvBdBeB">{selected?.CGST}</div>
             </div>
             <div className="zvBdBf">
               <div>
                 <div className="zvBdBfAa">Total:</div>
-                <div className="zvBdBfAb">4 Items</div>
+                <div className="zvBdBfAb">{selected?.items?.length} Items</div>
               </div>
-              <div className="zvBdBfB">4,46,760.00</div>
+              <div className="zvBdBfB">{selected?.total_amount}</div>
             </div>
           </div>
         </div>
         <div className="zvBe">
           <div className="zvBeA">Record Payment</div>
-          <div className="zvBeB">
+          <form
+            className="zvBeB"
+            onSubmit={(e) => postSalesPaymentRecord(e, state, setState)}
+            onChange={(e) => setState(addPaymentRecord)}
+          >
             <div className="zvBeBc">
               <div className="zvBeBcA">
                 <div className="zvBeBcAa">Amount Outstanding</div>
-                <div className="zvBeBcAb">INR 46,760.00</div>
+                <div className="zvBeBcAb">{selected?.balance_amount}</div>
               </div>
               <div className="zvBeBcB">
                 <div className="zvBeBcBa">Amount received</div>
-                <input placeholder="0.0" />
+                <input
+                  placeholder="0.0"
+                  className="zvBeBcBb"
+                  id="amount"
+                  value={addPaymentRecord?.amount || ""}
+                  onChange={(e) => {
+                    if (e.target.value > Number(selected?.balance_amount))
+                      e.target.value = Number(selected?.balance_amount);
+                    addPaymentRecord.amount = e.target.value;
+                  }}
+                  type="number"
+                />
+              </div>
+              <div className="zvBeBcB">
+                <div className="zvBeBcBa">Payment Method</div>
+                <select
+                  placeholder="0.0"
+                  className="zvBeBcBb"
+                  onChange={(e) => {
+                    addPaymentRecord.payment_id = e.target.value;
+                    addPaymentRecord.paymemt_method_name =
+                      allPaymentMethod.filter(
+                        (it1) => it1.id.toString() === e.target.value
+                      )[0]?.name;
+                  }}
+                  defaultValue={addPaymentRecord?.patment_methord_id || ""}
+                >
+                  <option hidden>Select payment method</option>
+                  {allPaymentMethod?.map((it, k) => (
+                    <option key={k} value={it.id}>
+                      {it.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="zvBeBcB">
+                <div className="zvBeBcBa">Reference</div>
+                <input
+                  placeholder="Enter reference / note"
+                  className="zvBeBcBb"
+                  onChange={(e) =>
+                    (addPaymentRecord.reference = e.target.value)
+                  }
+                  value={addPaymentRecord?.reference || ""}
+                />
               </div>
             </div>
             <div className="zvBeBd">
-              <div className="zvBeBdA">CANCEL</div>
-              <div className="zvBeBdB">SAVE</div>
+              <div className="imaError">{error}</div> &nbsp;
+              {/* <div
+                className="zvBeBdA"
+                onClick={() => setState({ addPaymentRecord: {} })}
+              >
+                CANCEL
+              </div> */}
+              <button className="zvBeBdB" type="submit">
+                SAVE
+              </button>
             </div>
-          </div>
+          </form>
         </div>
       </div>
       <div className="zvBf">
         <div className="zvBfA">
           <div className="zvBfAa" />
         </div>
-        <div className="zvBfB">OK</div>
+        <div className="zvBfB" onClick={() => setState({ selected: null })}>
+          OK
+        </div>
       </div>
     </DrawerLayout1>
   );

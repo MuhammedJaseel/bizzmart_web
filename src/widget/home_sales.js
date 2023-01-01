@@ -1,5 +1,4 @@
 import React, { Component, StrictMode } from "react";
-import { estimateList, invoiceList } from "../module/dummydata";
 import { MyTable1, MyTableCounter1 } from "./widget_table";
 import { Header1, Header2, Header4 } from "./widget";
 import { HeaderButtens1, TitleFilter1 } from "./widget";
@@ -37,8 +36,8 @@ const heads1 = [
 ];
 
 export default class HomeSales extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       page: 0,
       error: null,
@@ -49,8 +48,12 @@ export default class HomeSales extends Component {
       allEstimate: [],
       invoicePaging: {},
       estimatePaging: {},
+      allPaymentMethod: [],
       form: null,
       selected: null,
+      addPaymentRecord: {},
+      // FUNCTION ///////////////////////////////////////////////////
+      succesPop: props.succesPop,
     };
   }
 
@@ -72,17 +75,18 @@ export default class HomeSales extends Component {
     const bodyRBody = {
       makeAdd: () =>
         setState({ form: { formType: page === 0 ? "invoice" : "estimate" } }),
-      title: page === 0 ? "+ New Invoice" : "+ New Estimates",
-      drowelList: [
-        {
-          title: "Add New Invoice",
-          fun: () => setState({ form: { formType: "invoice" } }),
-        },
-        {
-          title: "Add New Estimate",
-          fun: () => setState({ form: { formType: "estimate" } }),
-        },
-      ],
+      // title: page === 0 ? "+ New Invoice" : "+ New Estimates",
+      drowelList: null,
+      // drowelList: [
+      //   {
+      //     title: "Add New Invoice",
+      //     fun: () => setState({ form: { formType: "invoice" } }),
+      //   },
+      //   {
+      //     title: "Add New Estimate",
+      //     fun: () => setState({ form: { formType: "estimate" } }),
+      //   },
+      // ],
       onShare: null,
       onDownload: null,
     };
@@ -139,6 +143,7 @@ function HomeSalesInvoicesTable({ state, setState }) {
     <MyTableCounter1 props={{ total: 100 }} />,
   ];
 }
+
 function HomeSalesEstimatesTable({ state, setState }) {
   const { page, form, allEstimate } = state;
   const widths = [

@@ -19,7 +19,7 @@ import { WidgetInputSelect } from "./widget";
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 export function MyForm1({ state, setState }) {
   const { form, allExpenseHead, invoiceNumber, allAccounts } = state;
-  const { allTax, allTransferType, lastInvoice } = state;
+  const { allTax, allTransferType, lastInvoice, allSuppliers } = state;
   const typeSaves = [
     { title: "Save Invoice", fun: null },
     { title: "Save & Add New", fun: null },
@@ -29,7 +29,7 @@ export function MyForm1({ state, setState }) {
   const [isDrower, setIsDrower] = useState(false);
   return (
     <div className="zfB">
-      <form onChange={(e) => (form[e.target.id] = e.target.value)}>
+      <form onChange={(e) => setState(form)}>
         {/* ///////////////////////////////////////////////////////////////////////// */}
         {/* ///////////////////////////////////////////////////////////////////////// */}
         {/* ///////////////////////////////////////////////////////////////////////// */}
@@ -66,7 +66,7 @@ export function MyForm1({ state, setState }) {
         form.formType === "purchaseOrder" ? (
           <div className="zfBa">
             <div className="zfBaA">
-              <div className="zfBaAa">
+              {/* <div className="zfBaAa">
                 <div className="zfBaAaA">Ref/PO#</div>
                 <input
                   className="zfBaAaC"
@@ -74,15 +74,24 @@ export function MyForm1({ state, setState }) {
                   id="invoice_number"
                   value={lastInvoice}
                 />
-              </div>
-              <div className="zfBaAa">
+              </div> */}
+              {/* <div className="zfBaAa">
                 <div className="zfBaAaA">Supplier Invoice #</div>
                 <input className="zfBaAaC" id="supplier_invoice_no" />
-              </div>
+              </div> */}
               <div className="zfBaAa">
                 <div className="zfBaAaA">Supplier*</div>
-                <select className="zfBaAaB" id="supplier_id">
-                  <option>Name</option>
+                <select
+                  className="zfBaAaB"
+                  id="supplier_id"
+                  onChange={(e) => {}}
+                >
+                  <option hidden>Select Supplier</option>
+                  {allSuppliers?.map((it, k) => (
+                    <option key={k} value={it.id}>
+                      {it.name}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div className="zfBaAa">
@@ -476,7 +485,7 @@ export function MyForm1({ state, setState }) {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
- export function DrawerLayout1({ show, body }) {
+export function DrawerLayout1({ show, body }) {
   return (
     <StrictMode>
       <div className={show ? "zfDa" : "zfDa_"}></div>

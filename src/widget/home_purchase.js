@@ -37,6 +37,7 @@ export default class HomePurchase extends Component {
       allPurchaseOrder: [],
       purchasePaging: {},
       estimatePaging: {},
+      allSuppliers: [],
       lastInvoice: null,
       form: null,
     };
@@ -51,7 +52,7 @@ export default class HomePurchase extends Component {
   render() {
     const state = this.state;
     const setState = (v) => this.setState(v);
-    const { page, addPage } = state;
+    const { page, form } = state;
 
     const bodyRBody = {
       makeAdd: () =>
@@ -74,7 +75,12 @@ export default class HomePurchase extends Component {
 
     return (
       <React.StrictMode>
-        <Header1 title="PURCHASE" bodyR={addPage ? null : bodyR} />
+        <Header1
+          title="PURCHASE"
+          onTap={() => setState({ form: null })}
+          bodyR={form !== null ? null : bodyR}
+          bodyL={form !== null ? "INVOICE" : null}
+        />
         <HomePurchaseListTable state={state} setState={setState} />
         <HomePurchaseOrderTable state={state} setState={setState} />
         <HomePurchaseForm state={state} setState={setState} />

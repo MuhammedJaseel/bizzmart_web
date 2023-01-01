@@ -13,10 +13,15 @@ export const salesGetSales = async (state, setState) => {
 };
 
 export const salesGetSale = async (k, state, setState) => {
-  const { allInvoice } = state;
-  setState({ selected: allInvoice[k] });
+  var { allInvoice, addPaymentRecord } = state;
+  addPaymentRecord = {};
+  setState({ selected: allInvoice[k], addPaymentRecord });
   await postHttp("getInvoice", { order_id: allInvoice[k].id }).then((res) => {
+    addPaymentRecord.order_id = res.data?.id;
     setState({ selected: { ...allInvoice[k], ...res.data } });
+  });
+  postHttp("getPaymentMethod", {}).then((res) => {
+    setState({ allPaymentMethod: res.data });
   });
 };
 
@@ -63,6 +68,43 @@ export const postEstimate = async (state, setState) => {
         active: true,
         title: "Succesfully Added",
         desc: "Your Sales list was succesfully added",
+      });
+    })
+    .catch((error) => setState({ error }));
+  setState({ loading: false });
+};
+
+export const postSalesPaymentRecord = async (e, state, setState) => {
+  e.preventDefault();
+  const { addPaymentRecord, loding, succesPop } = state;
+  if (loding) return 0;
+
+  // --START-- Form validation
+  if (addPaymentRecord.amount === undefined || addPaymentRecord.amount === "") {
+    setState({ error: "Enter amount recived" });
+    return;
+  }
+  if (
+    addPaymentRecord.payment_id === undefined ||
+    addPaymentRecord.payment_id === ""
+  ) {
+    setState({ error: "Select payment mode" });
+    return;
+  }
+  // --END-- Form validation end
+  //
+
+  setState({ loading: true, error: null });
+  await postHttp("recordPayment", addPaymentRecord)
+    .then(async () => {
+      setState({ addPaymentRecord: {} });
+      await postHttp("getInvoice", {
+        order_id: addPaymentRecord?.order_id,
+      }).then((res) => setState({ selected: res.data }));
+      succesPop({
+        active: true,
+        title: "Succesfully Added",
+        desc: "Your sales list was succesfully updated",
       });
     })
     .catch((error) => setState({ error }));
