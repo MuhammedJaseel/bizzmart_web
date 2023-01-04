@@ -1,7 +1,11 @@
 import { Component, StrictMode } from "react";
 import { allSettings } from "../module/home_settings";
 import { Header1 } from "./widget";
-import { getAllPayments, getBussinessSettings } from "../method/home_settings";
+import {
+  getAllOtherSettings,
+  getAllPayments,
+  getBussinessSettings,
+} from "../method/home_settings";
 import { getMasterData } from "../method/home_settings";
 import { HomeSettings1AddPaymentPopup } from "./home_settings1";
 import { HomeSettings1CashAndBank } from "./home_settings1";
@@ -44,9 +48,14 @@ export default class HomeSettings extends Component {
       allAccounts: [],
       allPayments: [],
       allBusinessType: [],
+      allTax: [],
       addAccount: null,
       addPayment: null,
       confirmPop: null,
+      addTax: {},
+      // ////////////////////////////////////////////////////////////
+      assetAndRecExpense: {},
+      allEquity: [],
       // ////////////////////////////////////////////////////////////
       allKot: [],
       allCategory: [],
@@ -111,7 +120,10 @@ function HomeSettingsLanding({ state, setState }) {
               <div
                 className="hstAd"
                 key={k}
-                onClick={() => setState({ page: it1 })}
+                onClick={() => {
+                  setState({ page: it1, error: null });
+                  it1?.myFunction(state, setState);
+                }}
               >
                 <div className="hstAe">{it1.title}</div>
                 <div className="hstAf">{it1.desc}</div>

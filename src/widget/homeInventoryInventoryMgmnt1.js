@@ -1,14 +1,8 @@
 import { StrictMode, useState } from "react";
-import { inventorySearchProduct } from "../method/homeInventory";
 import {
   inventorySearchProductStockIssue,
-  inventorySetSearchProduct,
   inventorySetSearchProductStockIssue,
 } from "../method/homeInventoryInventoryMgmnt";
-import {
-  salesSearchProduct,
-  salesSetSearchProduct,
-} from "../method/home_sales";
 import { addStockIssueItemStruct } from "../module/homeInventoryInventoryMgmnt";
 import { Select } from "./interface";
 import { Header1, Header4, WidgetInputSelect } from "./widget";

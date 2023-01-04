@@ -11,6 +11,8 @@ import {
   postAssetCategory,
   updateAssetCategory,
   deleteAssetCategory,
+  postTax,
+  updateOrDeleateTax,
 } from "../method/home_settings";
 import { Header1 } from "./widget";
 import { AddingForm1, AddingFormLayout } from "./widget_form";
@@ -271,58 +273,107 @@ export function HomeSettings5AssetCategories({ state, setState }) {
 export function HomeSettings5SalesTaxes({ state, setState }) {
   const title = `SALES TAXES`;
   const desc = `Add your prodect station here`;
-  const { page, allKot, addKot, deleteKot, loading, error } = state;
+  const { page, allTax, addTax, loading } = state;
   if (page?.path === "salesTaxes")
     return (
       <StrictMode>
+        <Header1
+          title="DOCUMENT SETTINGS"
+          bodyL="SALES TAXES"
+          onTap={() => setState({ page: null })}
+        />
         <div className="hstN">
           <AddingFormLayout title={title} desc={desc}>
-            <AddingForm1 title="All Stations">
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  setState({ addKot: e.target.stationName.value.split(",") });
-                  e.target.reset();
+            <AddingForm1 title="Sales Tax Settings">
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  fontSize: ".8vw",
+                  fontWeight: "bold",
+                  marginBottom: ".3vw",
                 }}
               >
-                <button className="hstNaA" type="submit" />
+                <span style={{ width: "40%" }}>Tax Head</span>
+                <span style={{ width: "22%" }}>GST</span>
+                <span style={{ width: "22%" }}>CESS</span>
+                <span style={{ width: "2vw" }} />
+              </div>
+              <form
+                style={{ display: "flex", justifyContent: "space-between" }}
+                onChange={(e) => {
+                  addTax[e.target.id] = e.target.value;
+                  setState(addTax);
+                }}
+              >
                 <input
-                  className="hstNaB"
-                  id="stationName"
-                  placeholder="Type station names separated by comma and add"
+                  id="title"
+                  style={{ width: "40%" }}
+                  placeholder="Type..."
+                  value={addTax?.title || ""}
+                />
+                <input
+                  id="gst"
+                  style={{ width: "22%" }}
+                  placeholder="0.00%"
+                  value={addTax?.gst || ""}
+                  type="number"
+                />
+                <input
+                  style={{ width: "22%" }}
+                  id="css"
+                  placeholder="0.00%"
+                  value={addTax?.css || ""}
+                  type="number"
+                />
+                <div
+                  className="hstNaC"
+                  style={loading ? { cursor: "progress" } : {}}
+                  onClick={() => postTax(state, setState)}
                 />
               </form>
               <div className="hstNb">
                 <div className="hstNbA">
-                  <div className="hstNbAa">Station (Kitchen)</div>Station IP
+                  <span style={{ width: "44%" }}>Tax Head</span>
+                  <span style={{ width: "26%" }}>GST</span>
+                  <span style={{ width: "22%" }}>CESS</span>
                 </div>
-                {allKot?.map((it, k) =>
-                  deleteKot?.filter((it1) => it1 === it.id).length > 0 ? null : (
-                    <div className="hstNbB" key={k}>
-                      <div className="hstNbBa">{it.title}</div>
-                      <div className="hstNbBb">192.168.1.212</div>
-                      <div
-                        className="hstNbBc"
-                        onClick={() => {
-                          deleteKot.push(it.id);
-                          setState({ deleteKot });
-                        }}
-                      />
-                    </div>
-                  )
-                )}
-                {addKot?.map((it, k) => (
-                  <div className="hstNbB" key={k}>
-                    <div className="hstNbBa">{it}</div>
-                    <div className="hstNbBb">...</div>
-                    <div
-                      className="hstNbBc"
-                      onClick={() => {
-                        addKot.splice(k, 1);
-                        setState({ addKot });
-                      }}
+                {allTax?.map((it, k) => (
+                  <form
+                    className="hstNbB"
+                    key={k}
+                    onChange={(e) => {
+                      it[e.target.id] = e.target.value;
+                      it.edited = true;
+                      setState(allTax);
+                    }}
+                  >
+                    <input
+                      id="title"
+                      style={{ width: "40%" }}
+                      placeholder="Type..."
+                      defaultValue={it.name}
                     />
-                  </div>
+                    <input
+                      id="rate"
+                      style={{ width: "22%" }}
+                      placeholder="0.00%"
+                      defaultValue={it.rate}
+                      type="number"
+                    />
+                    <input
+                      style={{ width: "22%" }}
+                      id="cess"
+                      placeholder="0.00%"
+                      defaultValue={it.cess}
+                      type="number"
+                    />
+                    <div
+                      className={it?.edited ? "hstNbBc_" : "hstNbBc"}
+                      style={loading ? { cursor: "progress" } : {}}
+                      onClick={() => updateOrDeleateTax(it, state, setState)}
+                    />
+                  </form>
                 ))}
               </div>
             </AddingForm1>

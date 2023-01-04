@@ -85,6 +85,13 @@ export async function getMasterData(state, setState) {
     })
     .catch((error) => setState({ error }));
 }
+export async function getAllSalesTaxes(state, setState) {
+  setState({ loading: true });
+  await postHttp("taxLists", {})
+    .then((res) => setState({ allTax: res.data }))
+    .catch((error) => setState({ error }));
+  setState({ loading: false });
+}
 export async function postCategory(e, state, setState) {
   e.preventDefault();
   const { succesPop, loading } = state;
@@ -213,6 +220,51 @@ export async function updateCategoryModifier(state, setState) {
     .catch((error) => setState({ error }));
   setState({ loading: false });
 }
+
+export async function postTax(state, setState) {
+  const { succesPop, loading, addTax } = state;
+  if (loading) return;
+  setState({ loading: true, error: null });
+  await postHttp("addTax", addTax)
+    .then(async () => {
+      await getAllSalesTaxes(state, setState);
+      succesPop({
+        active: true,
+        title: "Succesfully Added",
+        desc: "New tax is succesfully added",
+      });
+      setState({ addTax: {} });
+    })
+    .catch((error) => setState({ error }));
+  setState({ loading: false });
+}
+
+export async function updateOrDeleateTax(it, state, setState) {
+  const { succesPop, loading, addTax } = state;
+  if (loading) return;
+  setState({ loading: true, error: null });
+
+  const body = {
+    tax_id: it.id,
+    title: it.title,
+    gst: it.rate,
+    css: it.cess,
+  };
+
+  await postHttp(it.edited ? "updateTax" : "deleteTax", body)
+    .then(async () => {
+      it.edited = false;
+      await getAllSalesTaxes(state, setState);
+      succesPop({
+        active: true,
+        title: "Succesfully Updated",
+        desc: "Tax list is succesfully updated",
+      });
+    })
+    .catch((error) => setState({ error }));
+  setState({ loading: false });
+}
+
 // ////////////////////////////////////////////////////////////////////////////
 // ////////////////////////////////////////////////////////////////////////////
 // ////////////////////////////////////////////////////////////////////////////
@@ -305,5 +357,55 @@ export async function deletePayments(id, state, setState) {
       setState({ addPaymentConfirmPop: null });
     })
     .catch((error) => setState({ error }));
+  setState({ loading: false });
+}
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+////////////////////////////    OTHER SETTINGS    /////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+export async function getAllAssetAndRecExpense(state, setState) {
+  setState({ loading: true });
+  await postHttp("getAssetAndRecExpense", {}).then((res) => {
+    setState({ assetAndRecExpense: res.data });
+  });
+  setState({ loading: false });
+}
+export async function getAllEquity(state, setState) {
+  setState({ loading: true });
+  await postHttp("getEquity", {}).then((res) => {
+    setState({ allEquity: res.data });
+  });
+  setState({ loading: false });
+}
+export async function updateAssetAndRecExpense(state, setState) {
+  const { succesPop, assetAndRecExpense } = state;
+  setState({ loading: true });
+  await postHttp("updateAssetAndRecExpense", assetAndRecExpense)
+    .then((res) =>
+      succesPop({
+        active: true,
+        title: "Succesfully Updated",
+        desc: "Your asset and Expence is succesfully updated",
+      })
+    )
+    .catch(() => setState({ error: "Error on updating " }));
+  setState({ loading: false });
+}
+
+export async function updateEquity(state, setState) {
+  const { succesPop, allEquity } = state;
+  setState({ loading: true });
+  await postHttp("updateEquity", { equity: allEquity })
+    .then((res) =>
+      succesPop({
+        active: true,
+        title: "Succesfully Updated",
+        desc: "Your asset and Expence is succesfully updated",
+      })
+    )
+    .catch(() => setState({ error: "Error on updating " }));
   setState({ loading: false });
 }

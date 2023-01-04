@@ -113,7 +113,7 @@
   border-bottom-left-radius: 0.22vw;
   border-bottom-right-radius: 0.22vw;
 }
-.zfBbB:last-child .zfBbAa_{
+.zfBbB:last-child .zfBbAa_ {
   background-image: none;
 }
 .zfBc {
@@ -239,6 +239,7 @@
   font-size: 0.8vw;
   font-weight: 500;
   margin-left: 1vw;
+  cursor: pointer;
 }
 /* ////////////////////////////////////////////////////////////////////////////////////////////////// */
 /* ////////////////////////////////////////////////////////////////////////////////////////////////// */

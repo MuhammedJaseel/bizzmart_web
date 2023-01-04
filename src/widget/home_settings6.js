@@ -1,10 +1,14 @@
 import React, { StrictMode } from "react";
+import {
+  updateAssetAndRecExpense,
+  updateEquity,
+} from "../method/home_settings";
 import { Header1 } from "./widget";
 import WidgetFooterSubmit from "./widget_footer";
 import { AddingForm1, AddingForm2, AddingFormLayout } from "./widget_form";
 
 export function HomeSettings6AssetsExpenses({ state, setState }) {
-  const { page, loading, error } = state;
+  const { page, loading, error, assetAndRecExpense } = state;
   if (page?.path !== "assetsAndExpenses") return null;
   const title = "FIXED ACCETS";
   const desc =
@@ -22,72 +26,38 @@ export function HomeSettings6AssetsExpenses({ state, setState }) {
       />
       <div className="hst2_6A">
         <AddingFormLayout title={title} desc={desc}>
-          <AddingForm2>Amount</AddingForm2>
-          <AddingForm1 title="Security Deposits">
-            <input placeholder="0.00" />
-          </AddingForm1>
-          <AddingForm2>Amount</AddingForm2>
-          <AddingForm1 title="Furnishings">
-            <input placeholder="0.00" />
-          </AddingForm1>
-          <AddingForm2>Amount</AddingForm2>
-          <AddingForm1 title="Computer & Accessories">
-            <input placeholder="0.00" />
-          </AddingForm1>
-          <AddingForm2>Amount</AddingForm2>
-          <AddingForm1 title="Tools">
-            <input placeholder="0.00" />
-          </AddingForm1>
-          <AddingForm2>Amount</AddingForm2>
-          <AddingForm1 title="Vehicles">
-            <input placeholder="0.00" />
-          </AddingForm1>
-          <AddingForm2>Amount</AddingForm2>
-          <AddingForm1 title="Promotion Expenses">
-            <input placeholder="0.00" />
-          </AddingForm1>
-          <AddingForm2>Amount</AddingForm2>
-          <AddingForm1 title="Other Fixed Assets">
-            <input placeholder="0.00" />
-          </AddingForm1>
+          {assetAndRecExpense?.fixed_assets?.map((it, k) => (
+            <StrictMode key={k}>
+              <AddingForm2>{it.title}</AddingForm2>
+              <AddingForm1 title={it.description}>
+                <input
+                  placeholder="0.00"
+                  defaultValue={it.amount}
+                  onChange={(e) => (it.amount = e.target.value)}
+                />
+              </AddingForm1>
+            </StrictMode>
+          ))}
         </AddingFormLayout>
         <AddingFormLayout title={title1} desc={desc1}>
-          <AddingForm2></AddingForm2>
-          <AddingForm2>Amount</AddingForm2>
-          <AddingForm1 title="Rent & Rates">
-            <input placeholder="0.00" />
-          </AddingForm1>
-          <AddingForm2></AddingForm2>
-          <AddingForm2>Amount</AddingForm2>
-          <AddingForm1 title="Employee Wages">
-            <input placeholder="0.00" />
-          </AddingForm1>
-          <AddingForm2>Amount</AddingForm2>
-          <AddingForm1 title="Electricity & Water">
-            <input placeholder="0.00" />
-          </AddingForm1>
-          <AddingForm2>Amount</AddingForm2>
-          <AddingForm1 title="Telephone & Internet">
-            <input placeholder="0.00" />
-          </AddingForm1>
-          <AddingForm2>Amount</AddingForm2>
-          <AddingForm1 title="Transportation ">
-            <input placeholder="0.00" />
-          </AddingForm1>
-          <AddingForm2>Amount</AddingForm2>
-          <AddingForm1 title="Subscriptions">
-            <input placeholder="0.00" />
-          </AddingForm1>
-          <AddingForm2>Amount</AddingForm2>
-          <AddingForm1 title="Other Ezpenses">
-            <input placeholder="0.00" />
-          </AddingForm1>
+          {assetAndRecExpense?.recurring_expense?.map((it, k) => (
+            <StrictMode key={k}>
+              <AddingForm2>{it.title}</AddingForm2>
+              <AddingForm1 title={it.description}>
+                <input
+                  placeholder="0.00"
+                  defaultValue={it.amount}
+                  onChange={(e) => (it.amount = e.target.value)}
+                />
+              </AddingForm1>
+            </StrictMode>
+          ))}
         </AddingFormLayout>
       </div>
       <WidgetFooterSubmit
         props={{
-          // onTap: () => submitCategorys(state, setState),
-          onCancel: () => state.setPage(null),
+          onTap: () => updateAssetAndRecExpense(state, setState),
+          onCancel: () => setState({ page: null }),
           loading,
           error,
         }}
@@ -97,7 +67,7 @@ export function HomeSettings6AssetsExpenses({ state, setState }) {
 }
 
 export function HomeSettings6EquityEarnings({ state, setState }) {
-  const { page, loading, error } = state;
+  const { page, loading, error, allEquity } = state;
   if (page?.path !== "equityEarnings") return null;
   const title = "EQUITY & EARNINGS";
   const desc =
@@ -112,20 +82,24 @@ export function HomeSettings6EquityEarnings({ state, setState }) {
       />
       <div className="hst2_6B">
         <AddingFormLayout title={title} desc={desc}>
-          <AddingForm2>Amount</AddingForm2>
-          <AddingForm1 title="Equity Investment">
-            <input placeholder="0.00" />
-          </AddingForm1>
-          <AddingForm2>Amount</AddingForm2>
-          <AddingForm1 title="Retained Earnings">
-            <input placeholder="0.00" />
-          </AddingForm1>
+          {allEquity?.map((it, k) => (
+            <StrictMode key={k}>
+              <AddingForm2>{it.title}</AddingForm2>
+              <AddingForm1 title={it.description}>
+                <input
+                  placeholder="0.00"
+                  defaultValue={it.amount}
+                  onChange={(e) => (it.amount = e.target.value)}
+                />
+              </AddingForm1>
+            </StrictMode>
+          ))}
         </AddingFormLayout>
       </div>
       <WidgetFooterSubmit
         props={{
-          // onTap: () => submitCategorys(state, setState),
-          onCancel: () => state.setPage(null),
+          onTap: () => updateEquity(state, setState),
+          onCancel: () => setState({ page: null }),
           loading,
           error,
         }}

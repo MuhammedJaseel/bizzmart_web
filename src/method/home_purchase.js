@@ -1,28 +1,31 @@
-import { postHttp } from "../module/api_int";
+import { getHttp, postHttp } from "../module/api_int";
 
-export const purchaseGetPurchase = async (state, setState) => {
-  const { purchasePaging, estimatePaging } = state;
+export const purchaseGetAllPurchase = async (state, setState) => {
+  const { purchasePaging } = state;
   setState({ loading: true, error: null });
   await postHttp("getPurchase", purchasePaging).then((res) => {
     setState({ allPurchaseList: res.data, purchasePaging: res.page });
   });
-  await postHttp("purchaseLastInvoiceNumber", estimatePaging).then((res) =>
+  await postHttp("purchaseLastInvoiceNumber", {}).then((res) =>
     setState({ lastInvoice: "API Pending" })
   );
-  postHttp("getSuppliersLists", estimatePaging).then((res) =>
+  postHttp("getSuppliersLists", {}).then((res) =>
     setState({ allSuppliers: res.data })
   );
+  postHttp("taxLists", {}).then((res) => setState({ allTax: res.data }));
+  postHttp("getAccounts", {}).then((res) => setState({ allAccount: res.data }));
   setState({ loading: false });
 };
 
-export const postPurchaseList = async (state, setState) => {
+export const postPurchaseList = async (flag, state, setState) => {
   const { form, succesPop } = state;
   form.user_id = window.localStorage.getItem("userId");
   setState({ loading: true, error: null });
   await postHttp("addPurchase", form)
     .then(async () => {
-      await purchaseGetPurchase(state, setState);
-      setState({ form: null });
+      await purchaseGetAllPurchase(state, setState);
+      if (flag === "payment") setState({ form: null });
+      else setState({ addPayment: {} });
       succesPop({
         active: true,
         title: "Succesfully Added",
@@ -39,7 +42,7 @@ export const postPurchaseOrder = async (state, setState) => {
   setState({ loading: true, error: null });
   await postHttp("addPurchase", form)
     .then(async () => {
-      await purchaseGetPurchase(state, setState);
+      await purchaseGetAllPurchase(state, setState);
       setState({ form: null });
       succesPop({
         active: true,
@@ -49,4 +52,23 @@ export const postPurchaseOrder = async (state, setState) => {
     })
     .catch((error) => setState({ error }));
   setState({ loading: false });
+};
+
+export const getSingleProdect = async (id) => {
+  return await getHttp("getProduct/" + id);
+};
+
+export const purchaseGetPurchase = async (k, state, setState) => {
+  var { allPurchaseList, addPaymentRecord } = state;
+  addPaymentRecord = {};
+  setState({ selected: allPurchaseList[k], addPaymentRecord });
+  await postHttp("getPurchaseDetails", { id: allPurchaseList[k].id }).then(
+    (res) => {
+      addPaymentRecord.purchase_id = res.data?.id;
+      setState({ selected: { ...allPurchaseList[k], ...res.data } });
+    }
+  );
+  postHttp("getPaymentMethod", {}).then((res) => {
+    setState({ allPaymentMethod: res.data });
+  });
 };

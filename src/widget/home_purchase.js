@@ -2,11 +2,16 @@ import React, { Component } from "react";
 import { MyTable1, MyTableCounter1 } from "./widget_table";
 import { Header1, Header2, Header4 } from "./widget";
 import { HeaderButtens1, TitleFilter1 } from "./widget";
-import { MyForm1 } from "./widget_form";
+import { purchaseGetAllPurchase } from "../method/home_purchase";
 import { purchaseGetPurchase } from "../method/home_purchase";
+import { FormNewPurchase, newPurchaseStructure } from "./widgetFormPurchase";
+import { DrawerViewPurchase } from "./widget_view";
 import "../style/hpr.css";
 
-const pTitles = ["Purchase List", "Purchase Order"];
+const pTitles = [
+  "Purchase List",
+  //  "Purchase Order"
+];
 const desc = [
   `Shows all the recorded purchase entries against the selected date range`,
   `Shows all the recorded purchase order  against the selected date range`,
@@ -31,22 +36,24 @@ export default class HomePurchase extends Component {
       page: 0,
       error: null,
       loading: false,
-      addPage: false,
       // /////////////////////////////
       allPurchaseList: [],
       allPurchaseOrder: [],
       purchasePaging: {},
       estimatePaging: {},
       allSuppliers: [],
-      lastInvoice: null,
+      allTax: [],
+      allAccount: [],
       form: null,
+      selected: null,
+      addPayment: null,
     };
   }
 
   componentDidMount() {
     const state = this.state;
     const setState = (v) => this.setState(v);
-    purchaseGetPurchase(state, setState);
+    purchaseGetAllPurchase(state, setState);
   }
 
   render() {
@@ -55,21 +62,29 @@ export default class HomePurchase extends Component {
     const { page, form } = state;
 
     const bodyRBody = {
-      makeAdd: () =>
+      makeAdd: () => {
         setState({
-          form: { formType: page === 0 ? "purchaseList" : "purchaseOrder" },
-        }),
+          form: JSON.parse(JSON.stringify(newPurchaseStructure)),
+        });
+      },
       title: page === 0 ? "+ New Purchase" : "+ New Purchase Order",
-      drowelList: [
-        {
-          title: "Add Purchase",
-          fun: () => setState({ form: { formType: "purchaseList" } }),
-        },
-        {
-          title: "Add Purchase Order",
-          fun: () => setState({ form: { formType: "purchaseOrder" } }),
-        },
-      ],
+      drowelList: null,
+      // drowelList: [
+      //   {
+      //     title: "Add Purchase",
+      //     fun: () =>
+      //       setState({
+      //         form: JSON.parse(JSON.stringify(newPurchaseStructure)),
+      //       }),
+      //   },
+      //   {
+      //     title: "Add Purchase Order",
+      //     fun: () =>
+      //       setState({
+      //         form: JSON.parse(JSON.stringify(newPurchaseStructure)),
+      //       }),
+      //   },
+      // ],
     };
     const bodyR = <HeaderButtens1 props={bodyRBody} />;
 
@@ -120,6 +135,7 @@ function HomePurchaseListTable({ state, setState }) {
         { data: it.status },
       ]);
     }
+  const onclick = (v) => purchaseGetPurchase(v, state, setState);
   if (page !== 0 || form !== null) return null;
   return (
     <React.StrictMode>
@@ -129,8 +145,9 @@ function HomePurchaseListTable({ state, setState }) {
         onTap={(k) => setState({ page: k, addPage: false })}
       />
       <Header4 title={pTitles[page]} desc={desc[page]} body={filter} />
-      <MyTable1 widths={widths} heads={heads0} body={body} />
+      <MyTable1 widths={widths} heads={heads0} body={body} onclick={onclick} />
       <MyTableCounter1 props={{ total: 100 }} />
+      <DrawerViewPurchase state={state} setState={setState} />
     </React.StrictMode>
   );
 }
@@ -161,14 +178,13 @@ function HomePurchaseOrderTable({ state, setState }) {
         { data: it.action, type: 2 },
       ]);
     }
+
+  const onclick = (v) => purchaseGetPurchase(v, state, setState);
+
   if (page !== 1 || form !== null) return null;
   return (
     <React.StrictMode>
-      <Header2
-        titles={pTitles}
-        page={page}
-        onTap={(k) => setState({ page: k, addPage: false })}
-      />
+      <Header2 titles={pTitles} page={page} onTap={onclick} />
       <Header4 title={pTitles[page]} desc={desc[page]} body={filter} />
       <MyTable1 widths={widths} heads={heads1} body={body} />
       <MyTableCounter1 props={{ total: 100 }} />
@@ -185,7 +201,7 @@ function HomePurchaseForm({ state, setState }) {
         title={"New Purchase Invoice"}
         desc={"Record a new purchase entry from your supplier"}
       />
-      <MyForm1 state={state} setState={setState} />
+      <FormNewPurchase state={state} setState={setState} />
     </React.StrictMode>
   );
 }

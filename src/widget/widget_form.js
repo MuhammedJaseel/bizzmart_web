@@ -84,7 +84,16 @@ export function MyForm1({ state, setState }) {
                 <select
                   className="zfBaAaB"
                   id="supplier_id"
-                  onChange={(e) => {}}
+                  onChange={(e) => {
+                    form.supplier_id = e.target.value;
+                    form.supplier_name = allSuppliers.filter(
+                      (it) => it.id.toString() === e.target.value
+                    )[0]?.name;
+                    form.supplier_address = allSuppliers.filter(
+                      (it) => it.id.toString() === e.target.value
+                    )[0]?.address;
+                    console.log(form);
+                  }}
                 >
                   <option hidden>Select Supplier</option>
                   {allSuppliers?.map((it, k) => (
@@ -100,7 +109,7 @@ export function MyForm1({ state, setState }) {
               </div>
               <div className="zfBaAa">
                 <div className="zfBaAaA">Due Date</div>
-                <input className="zfBaAaC" />
+                <input type="date" className="zfBaAaC" id="due_date" />
               </div>
               <div className="zfBaAa">
                 <div className="zfBaAaA">Contact Person</div>
@@ -109,10 +118,7 @@ export function MyForm1({ state, setState }) {
             </div>
             <div className="zfBaB">
               <div className="zfBaBa">Address</div>
-              <div className="zfBaBb">
-                Jack Dorsea, 102A, Jami’a Street, New Delhi 12, India. GST:
-                AAA456AE3423AZ Phone: 974 523 6674
-              </div>
+              <div className="zfBaBb">{form.supplier_address}</div>
             </div>
           </div>
         ) : null}
@@ -293,7 +299,8 @@ export function MyForm1({ state, setState }) {
                       it.name = it.list[k].name;
                       it.quantity = 1;
                       it.price = it.list[k].cost;
-                      setState({ form });
+                      it.discount_amount = 0;
+                      setState(form);
                     },
                     placeholder: "Search your product",
                   }}
@@ -303,26 +310,29 @@ export function MyForm1({ state, setState }) {
                   type="number"
                   id="quantity"
                   placeholder="00"
+                  value={it.quantity}
                 />
                 <input
                   className="zfBbAd zfBbA_d"
                   type="number"
                   id="price"
+                  value={it.price}
                   placeholder="0.0"
                 />
                 <input
                   className="zfBbAd zfBbA_d"
-                  id="tax_type"
+                  id="discount_amount"
                   placeholder="0.00"
                   type="number"
+                  value={it.discount_amount}
                 />
                 <select className="zfBbAd zfBbA_d" id="tax_id">
                   <option>Tax Slab</option>
-                  {/* {allTax.map((it, k) => (
+                  {allTax.map((it, k) => (
                     <option key={k} value={it.id}>
                       {it.name}
                     </option>
-                  ))} */}
+                  ))}
                 </select>
                 <div className="zfBbAg zfBbA_d">{it.tax_amount}</div>
                 <div className="zfBbAg zfBbA_d">{it?.taxTotal}</div>
@@ -404,6 +414,7 @@ export function MyForm1({ state, setState }) {
               <div className="zfBcAa">Purchase Note</div>
               <textarea
                 className="zfBcAc"
+                id="notes"
                 placeholder="Enter invoice terms / notes here"
               />
             </div>
@@ -477,6 +488,8 @@ export function MyForm1({ state, setState }) {
     </div>
   );
 }
+
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

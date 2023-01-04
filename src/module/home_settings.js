@@ -1,3 +1,9 @@
+import {
+  getAllAssetAndRecExpense,
+  getAllEquity,
+  getAllSalesTaxes,
+} from "../method/home_settings";
+
 export const allSettings = [
   {
     title: "General Settings",
@@ -111,6 +117,7 @@ export const allSettings = [
         title: "Sales Taxes",
         desc: "Manage your business details here, you ran customize informations showing to your customers on that invoices and other documents.",
         path: "salesTaxes",
+        myFunction: getAllSalesTaxes,
       },
       // {
       //   title: "Productions Stations",
@@ -127,12 +134,14 @@ export const allSettings = [
         title: "Assets & Recurring Expenses",
         desc: "Manage your business details here, you can customize informations showing for your customers on the invoices and other documents.",
         path: "assetsAndExpenses",
+        myFunction: getAllAssetAndRecExpense,
       },
-      // {
-      //   title: "Equity & Earnings",
-      //   desc: "Manage your business details here, you can customize informations showing for your customers on the invoices and other documents.",
-      //   path: "equityEarnings",
-      // },
+      {
+        title: "Equity & Earnings",
+        desc: "Manage your business details here, you can customize informations showing for your customers on the invoices and other documents.",
+        path: "equityEarnings",
+        myFunction: getAllEquity,
+      },
       // {
       //   title: "Discount Settings",
       //   desc: "Manage your business details here, you can customize informations showing for your customers on the invoices and other documents.",

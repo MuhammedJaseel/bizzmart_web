@@ -173,6 +173,15 @@
   width: 100%;
   height: 2vw;
 }
+.hstNaC {
+  width: 2vw;
+  height: 2vw;
+  background-image: url(../asset/ic_+.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+}
 .hstNb {
   margin: 1vw 0;
   padding: 1vw 0.8vw;
