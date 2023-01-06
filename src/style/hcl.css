@@ -54,7 +54,8 @@
   display: flex;
   flex-wrap: wrap;
   overflow: auto;
-  max-height: calc(100vh - 18vw);
+  /* max-height: calc(100vh - 18vw); */
+  max-height: calc(100vh - 15vw);
 }
 .hclFd {
   width: calc(100% / 7 - 0.605vw);
@@ -110,7 +111,9 @@
   font-size: 0.6vw;
   width: 80%;
 }
-.hclFh {
+.hclFh,
+.hclFh1,
+.hclFh2 {
   display: flex;
   justify-content: space-between;
   border-radius: 0.16vw;
@@ -124,12 +127,12 @@
   text-overflow: ellipsis;
   color: #123347;
 }
-.hclFh:nth-last-child(2) {
+.hclFh1 {
   background-color: #eaf6f4;
   border-left: 0.19vw solid #5db676;
   color: #5db676;
 }
-.hclFh:nth-last-child(3) {
+.hclFh2 {
   background-color: #f1ebfb;
   border-left: 0.19vw solid #8145b1;
   color: #8145b1;

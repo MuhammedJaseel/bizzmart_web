@@ -59,7 +59,7 @@ export default class HomeCashbank extends Component {
         { title: "Fund Transfer", fun: () => setState({ fundTransfer: {} }) },
         { title: "Receive Money", fun: () => setState({ receiveMoney: {} }) },
         { title: "Spend Money", fun: () => setState({ spendMoney: {} }) },
-        { title: "PDC Tracking", fun: () => setState({ page: 2 }) },
+        // { title: "PDC Tracking", fun: () => setState({ page: 2 }) },
       ],
     };
     const bodyR = page === 0 ? <HeaderButtens1 props={bodyRBody} /> : null;

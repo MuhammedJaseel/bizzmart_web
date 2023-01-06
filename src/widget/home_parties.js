@@ -4,7 +4,8 @@ import { Header1, Header2, Header4 } from "./widget";
 import { HeaderButtens1, TitleFilter1 } from "./widget";
 import { DrawerForm1 } from "./widget_form";
 import { DrowerView2 } from "./widget_view";
-import { reduceCreditOneByOne, getAllData } from "../method/home_parties";
+import { getAllData, getSupplier } from "../method/home_parties";
+import { reduceCreditOneByOne } from "../method/home_parties";
 import { postMultiplePaymentRecord } from "../method/home_parties";
 import { getCustomer, updateCustomer } from "../method/home_parties";
 import { getAllCustomers, getAllSuppliers } from "../method/home_parties";
@@ -138,7 +139,7 @@ function HomePartiesCoustomerTable({ state, setState }) {
 function HomePartiesSuppliersTable({ state, setState }) {
   const { page, supplierPaging, allSupplier } = state;
 
-  const onclick = (v) => setState({ partie: { ...allSupplier[v] } });
+  const onclick = (v) => getSupplier(allSupplier[v], state, setState);
 
   const widths = [
     { width: 4 },
@@ -254,11 +255,13 @@ function HomePartiesEditForm({ state, setState }) {
       }}
       onSubmit={(e) => {
         e.preventDefault();
-        if (e.target[e.target.length - 1].id === "0") {
+        const thisPage = e.target[e.target.length - 1].id;
+        if (thisPage === "0") {
           page === 0
             ? updateCustomer(state, setState)
             : updateSuplier(state, setState);
-        } else postMultiplePaymentRecord(state, setState);
+        } else if (thisPage === "3") postMultiplePaymentRecord(state, setState) 
+        else setState({ partie: null, error: null });
       }}
     >
       <DrowerView2 props={body} />

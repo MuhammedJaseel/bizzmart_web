@@ -28,7 +28,7 @@ import icAbout from "../asset/icon/ic_about.png";
 import icAboutW from "../asset/icon/ic_about-w.png";
 import HomeDashboard from "../widget/home_dashboard";
 import HomeInventory from "../widget/homeInventory";
-import HomeCalender from "../widget/home_calendar";
+import HomeCalender from "../widget/homeCalendar";
 import HomeOnline from "../widget/home_online";
 import HomeReports from "../widget/home_reports";
 import HomeSales from "../widget/home_sales";

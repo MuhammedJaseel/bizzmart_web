@@ -214,6 +214,41 @@ export const getCustomer = async (item, state, setState, from, to) => {
   setState({ partie });
 };
 
+export const getSupplier = async (item, state, setState, from, to) => {
+  var { partie } = state;
+  partie = item;
+
+  const body = {
+    supplier_id: partie.id,
+    member_id: partie.id,
+    from_date: from || getToday(),
+    to_date: to || getToday(),
+    type: "customer",
+  };
+
+  await postHttp("getPaymentMethod", { customer_id: partie.id }).then(
+    (res) => (partie.paymentList = res.data)
+  );
+  postHttp("report/member/memberSummaryDetails", body).then(
+    (res) => (partie.invoiceList = res.data)
+  );
+  postHttp("report/purchase/memberStatements", body).then(
+    (res) => (partie.statmentList = res.data)
+  );
+  postHttp("getSupplierPendingInvoices", {
+    customer_id: partie.id,
+  }).then((res) => {
+    partie.paymentRecord = {
+      orders: res.data.invoice_lists,
+      ordersTemp: res.data.invoice_lists,
+      payment_method_id: partie?.paymentList[0]?.id ?? "",
+      balance: addNumberList(res.data.invoice_lists, "credit"),
+    };
+  });
+
+  setState({ partie });
+};
+
 export const reduceCreditOneByOne = (v, state, setState) => {
   const { ordersTemp } = state.partie.paymentRecord;
 
@@ -233,7 +268,7 @@ export const reduceCreditOneByOne = (v, state, setState) => {
 };
 
 export const postMultiplePaymentRecord = async (state, setState) => {
-  const { loading, succesPop, partie } = state;
+  const { page, loading, succesPop, partie } = state;
   if (loading) return;
   setState({ loading: true, error: null });
 
@@ -267,13 +302,18 @@ export const postMultiplePaymentRecord = async (state, setState) => {
 
   console.log(body);
 
-  await postHttp("multiRecordPayment", body)
+  await postHttp(
+    page === 0 ? "multiRecordPayment" : "purchaseMultyMakePayment",
+    body
+  )
     .then(async (res) => {
       setState({ addPage: false, addParties: {}, partie: null });
       succesPop({
         active: true,
         title: "Succesfully Updated",
-        desc: "The supplier payment record has succesfully updated",
+        desc: `The ${
+          page === 0 ? "custmer" : "supplier"
+        } payment record has succesfully updated`,
       });
     })
     .catch((error) => setState({ error }));
