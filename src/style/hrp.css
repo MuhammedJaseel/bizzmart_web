@@ -48,13 +48,6 @@
   padding-bottom: 0.8vw;
   border-bottom: 0.15vw solid #b0b0b0;
 }
-.hrpBcA {
-  width: 18%;
-}
-.hrpBcB {
-  width: 18%;
-  text-align: right;
-}
 .hrpBd {
   max-height: calc(100vh - 26vw);
   overflow: auto;

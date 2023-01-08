@@ -1,8 +1,9 @@
 import React, { Component, StrictMode } from "react";
-import { reportPages } from "../module/home_reports";
+import { reportPages } from "../module/homeReports";
 import { Header1, Header2, HeaderButtens1 } from "./widget";
 import { TitleFilter1, TitleTable1 } from "./widget";
 import "../style/hrp.css";
+import { gerReport } from "../method/homeReports";
 
 const pTitles = [
   "All Report",
@@ -19,7 +20,7 @@ const pTitles = [
 export default class HomeReports extends Component {
   constructor() {
     super();
-    this.state = { page: 0, viewPage: null };
+    this.state = { page: 0, viewPage: null, report: {} };
   }
 
   // componentDidMount() {
@@ -51,7 +52,11 @@ export default class HomeReports extends Component {
     const setState = (v) => this.setState(v);
     return (
       <React.StrictMode>
-        <Header1 title="REPORTS" bodyL={""} />
+        <Header1
+          title="REPORTS"
+          bodyL={""}
+          onTap={() => setState({ viewPage: null })}
+        />
         <HomeReportLandingPage state={state} setState={setState} />
         <HomeReportPage state={state} setState={setState} />
       </React.StrictMode>
@@ -65,23 +70,24 @@ function HomeReportLandingPage({ state, setState }) {
   const setPage = (v) => {
     setState({ viewPage: v });
     window.history.replaceState("home", "home", "/dashboard/reports/" + v.path);
+    gerReport(v.apiPath, state, setState);
   };
 
   if (viewPage !== null) return null;
   return (
     <StrictMode>
-      <Header2
+      {/* <Header2
         titles={pTitles}
         page={page}
         onTap={(k) => setState({ page: k, addPage: false })}
-      />
+      /> */}
       <TitleTable1 data={reportPages[page]} setPage={setPage} />
     </StrictMode>
   );
 }
 
 function HomeReportPage({ state, setState }) {
-  const { viewPage } = state;
+  const { viewPage, report } = state;
   const bodyRBody = {
     title: "Sales Summery",
     drowelList: [
@@ -95,6 +101,12 @@ function HomeReportPage({ state, setState }) {
   const bodyR = <HeaderButtens1 props={bodyRBody} />;
   const filterBody = { onlyDate: true };
   const filter = <TitleFilter1 props={filterBody} />;
+
+  const getTotal = (list, name) => {
+    var value = 0;
+    for (let i = 0; i < list?.length; i++) value += Number(list[i][name]);
+    return value;
+  };
 
   if (viewPage === null) return null;
   return (
@@ -110,29 +122,39 @@ function HomeReportPage({ state, setState }) {
         </div>
         <div className="hrpBb">13 Feb 2022 to 16 Feb 2022</div>
         <div className="hrpBc">
-          <div className="hrpBcA">Date </div>
-          <div className="hrpBcA">Invoices</div>
-          <div className="hrpBcB">Credit</div>
-          <div className="hrpBcB">Cash</div>
-          <div className="hrpBcB">Total</div>
-        </div>
-        <div className="hrpBd">
-          {[1, 1, 1, 1].map(() => (
-            <div className="hrpBdA">
-              <div className="hrpBcA">13 Feb 2023</div>
-              <div className="hrpBcA">Invoices</div>
-              <div className="hrpBcB">Credit</div>
-              <div className="hrpBcB">Cash</div>
-              <div className="hrpBcB">Total</div>
+          {viewPage?.table?.map((it, k) => (
+            <div key={k} style={{ width: it.width, textAlign: it?.align }}>
+              {it.title}
             </div>
           ))}
-          <div className="hrpBdB">
+        </div>
+        <div className="hrpBd">
+          {report?.items?.map((it, k) => (
+            <div className="hrpBdA" key={k}>
+              {viewPage?.table?.map((it1, k) => (
+                <div
+                  key={k}
+                  style={{ width: it1.width, textAlign: it1?.align }}
+                >
+                  {it[it1.name]}
+                </div>
+              ))}
+            </div>
+          ))}
+          <div className="hrpBc" style={{ paddingTop: ".4vw" }}>
+            {viewPage?.table?.map((it, k) => (
+              <div key={k} style={{ width: it.width, textAlign: it?.align }}>
+                {it.sum ? getTotal(report?.items, it.name) : null}
+              </div>
+            ))}
+          </div>
+          {/* <div className="hrpBdB">
             <div className="hrpBcA" />
             <div className="hrpBcA" />
             <div className="hrpBcB">Credit</div>
             <div className="hrpBcB">Cash</div>
             <div className="hrpBcB">Total</div>
-          </div>
+          </div> */}
           <div className="hrpBdC">
             <div>Cash</div>
             <div>Total</div>
