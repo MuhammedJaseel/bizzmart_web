@@ -5,6 +5,7 @@ import sidebarIc from "../module/sidebarItems";
 import icBack from "../asset/icon/ic_back.png";
 import "../style/hm.css";
 import { WidgetSuccesPopup } from "../widget/widget_popup";
+import { onClickUserLogout } from "../method/login";
 
 export default class HomeScreen extends Component {
   constructor(props) {
@@ -42,12 +43,16 @@ export default class HomeScreen extends Component {
                 <div className="hmAaC" />
               </div>
               <div className="hmAaD">
-                <div className="hmAaE">Sharma Mobiile World</div>
-                <div className="hmAaF">Phonix mall, Mumbai</div>
+                <div className="hmAaE">
+                  {window.localStorage.getItem("buisnessName")}
+                </div>
+                <div className="hmAaF">
+                  {window.localStorage.getItem("address")}
+                </div>
               </div>
             </div>
             <div className="hmAaG">
-              <div
+              {/* <div
                 className="hmAaH"
                 onClick={() => setState({ isQuickPop: !isQuickPop })}
               >
@@ -84,14 +89,20 @@ export default class HomeScreen extends Component {
               />
               <div className="hmAaM">
                 <div className="hmAaO">Help</div>
-              </div>
+              </div> */}
               <div className="hmAaQ">
                 <img
                   alt="ic"
                   className="hmAaR"
-                  src="https://shotkit.com/wp-content/uploads/2021/06/cool-profile-pic-matheus-ferrero.jpeg"
-                  // src={window.localStorage.getItem("profile_pic")}
+                  // src="https://shotkit.com/wp-content/uploads/2021/06/cool-profile-pic-matheus-ferrero.jpeg"
+                  src={window.localStorage.getItem("profilePic")}
                 />
+                <div
+                  className="hmAaQa"
+                  onClick={() => onClickUserLogout(state)}
+                >
+                  Logout
+                </div>
               </div>
             </div>
           </div>

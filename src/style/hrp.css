@@ -10,6 +10,33 @@
   padding: 0.5vw 0.7vw;
   background-color: white;
 }
+.hrpAa {
+  border-radius: 0.28vw;
+  font-size: 0.88vw;
+  border: 0.05vw solid #b3c3de;
+  color: #2d4c86;
+  font-weight: 500;
+  padding: 0.4vw;
+  /* padding-right: 2.3vw; */
+  /* background-image: url(../asset/ic_calender.svg);
+  background-repeat: no-repeat;
+  background-size: 1.16vw;
+  background-position: calc(100% - 0.8vw); */
+  display: flex;
+  align-items: center;
+}
+.hrpAaA {
+  font-size: 0.88vw;
+  color: #2d4c86;
+  font-weight: 500;
+  padding: 0 ;
+  border: 0;
+  font-family: Mic32NewRounded;
+  box-shadow: none;
+}
+.hrpAaA:focus {
+  box-shadow: none;
+}
 .hrpB {
   margin: 1vw 10vw;
   padding: 0 6vw;

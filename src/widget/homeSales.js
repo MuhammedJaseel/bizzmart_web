@@ -67,9 +67,10 @@ export default class HomeSales extends Component {
     const state = this.state;
     const setState = (v) => this.setState(v);
     const { page, form } = state;
-
     const filterBody = {
       searchPh: page === 0 ? "Search an invoices" : "Search an estimates",
+      noDate: true,
+      onlyDate: true,
     };
     const filter = form === null ? <TitleFilter1 props={filterBody} /> : null;
     const bodyRBody = {
@@ -91,7 +92,6 @@ export default class HomeSales extends Component {
       onDownload: null,
     };
     const bodyR = form === null ? <HeaderButtens1 props={bodyRBody} /> : null;
-
     return (
       <StrictMode>
         <Header1 title="SALES" bodyL={pTitles[page]} bodyR={bodyR} />
@@ -111,7 +111,7 @@ export default class HomeSales extends Component {
 }
 
 function HomeSalesInvoicesTable({ state, setState }) {
-  const { page, form, allInvoice } = state;
+  const { page, form, allInvoice, invoicePaging } = state;
   const widths = [
     { width: 4 },
     { width: 10 },
@@ -138,14 +138,22 @@ function HomeSalesInvoicesTable({ state, setState }) {
   }
   const onclick = (v) => salesGetSale(v, state, setState);
   if (page !== 0 || form !== null) return null;
+  const counterProps = {
+    total: invoicePaging.totalCount,
+    onTap: (v, limit) => {
+      invoicePaging.page_number = v;
+      invoicePaging.limit = limit;
+      salesGetSales(state, setState);
+    },
+  };
   return [
     <MyTable1 widths={widths} heads={heads0} body={body} onclick={onclick} />,
-    <MyTableCounter1 props={{ total: 100 }} />,
+    <MyTableCounter1 props={counterProps} />,
   ];
 }
 
 function HomeSalesEstimatesTable({ state, setState }) {
-  const { page, form, allEstimate } = state;
+  const { page, form, allEstimate, estimatePaging } = state;
   const widths = [
     { width: 4 },
     { width: 10 },
@@ -170,9 +178,17 @@ function HomeSalesEstimatesTable({ state, setState }) {
       ]);
     }
   if (page !== 1 || form !== null) return null;
+  const counterProps = {
+    total: estimatePaging.totalCount,
+    onTap: (v, limit) => {
+      estimatePaging.page_number = v;
+      estimatePaging.limit = limit;
+      salesGetSales(state, setState);
+    },
+  };
   return [
     <MyTable1 widths={widths} heads={heads1} body={body} />,
-    <MyTableCounter1 props={{ total: 100 }} />,
+    <MyTableCounter1 props={counterProps} />,
   ];
 }
 

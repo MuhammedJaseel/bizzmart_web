@@ -6,6 +6,7 @@ import {
   getFormListes,
   postNewBranch,
 } from "../method/branch";
+import { onClickUserLogout } from "../method/login";
 import "../style/br.css";
 import { Input } from "../widget/interface";
 import { DrawerLayout1 } from "../widget/widget_form";
@@ -49,27 +50,33 @@ export default class BranchScreen extends Component {
               </select>
             </div>
             <div className="br_J">
-              <div className="hmAaJ"></div>
+              {/* <div className="hmAaJ"></div>
               <div className="hmAaM">
                 <div className="hmAaO">Help</div>
-              </div>
+              </div> */}
               <div className="hmAaQ">
                 <img
                   alt="ic"
                   className="hmAaR"
-                  src="https://shotkit.com/wp-content/uploads/2021/06/cool-profile-pic-matheus-ferrero.jpeg"
-                  // src={window.localStorage.getItem("profile_pic")}
+                  // src="https://shotkit.com/wp-content/uploads/2021/06/cool-profile-pic-matheus-ferrero.jpeg"
+                  src={window.localStorage.getItem("profilePic")}
                 />
+                <div
+                  className="hmAaQa"
+                  onClick={() => onClickUserLogout(this.state)}
+                >
+                  Logout
+                </div>
               </div>
             </div>
           </div>
           <div className="br_O">My Branches</div>
-          <div className="br_P">
+          {/* <div className="br_P">
             <select className="br_Q">
               <option>Show: All Branches</option>
             </select>
             <input className="br_R" placeholder="Search Branch" />
-          </div>
+          </div> */}
 
           <div className="br_S">
             <div className="br_T">

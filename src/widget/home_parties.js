@@ -57,6 +57,7 @@ export default class HomeParties extends Component {
     const filterBody = {
       searchPh: "Search a " + (page === 0 ? "customer" : "sippliers"),
       noDate: true,
+      onlyDate: true,
     };
     const filter = !addPage ? <TitleFilter1 props={filterBody} /> : null;
     const bodyRBody = {
@@ -123,8 +124,9 @@ function HomePartiesCoustomerTable({ state, setState }) {
     }
   const counterProps = {
     total: customerPaging.totalCount,
-    onTap: (v) => {
+    onTap: (v, limit) => {
       customerPaging.page_number = v;
+      customerPaging.limit = limit;
       getAllCustomers(state, setState);
     },
   };
@@ -175,8 +177,9 @@ function HomePartiesSuppliersTable({ state, setState }) {
 
   const counterProps = {
     total: supplierPaging.totalCount,
-    onTap: (v) => {
-      supplierPaging.page_number = v;
+    onTap: (page, limit) => {
+      supplierPaging.page_number = page;
+      supplierPaging.limit = limit;
       getAllSuppliers(state, setState);
     },
   };
@@ -260,7 +263,7 @@ function HomePartiesEditForm({ state, setState }) {
           page === 0
             ? updateCustomer(state, setState)
             : updateSuplier(state, setState);
-        } else if (thisPage === "3") postMultiplePaymentRecord(state, setState) 
+        } else if (thisPage === "3") postMultiplePaymentRecord(state, setState);
         else setState({ partie: null, error: null });
       }}
     >

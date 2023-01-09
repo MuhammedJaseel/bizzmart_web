@@ -2,30 +2,18 @@ import React, { Component, StrictMode } from "react";
 import { MyTable1, MyTableCounter1 } from "./widget_table";
 import { Header1, Header2, Header4 } from "./widget";
 import { HeaderButtens1, TitleFilter1 } from "./widget";
-import {
-  deletePartner,
-  getAllMembers,
-  getAllPartners,
-  getAllTeamData,
-  postMember,
-  postPartner,
-  updatedPartner,
-} from "../method/home_team";
+import { deletePartner, getAllMembers } from "../method/home_team";
+import { getAllPartners, getAllTeamData } from "../method/home_team";
+import { postMember, postPartner, updatedPartner } from "../method/home_team";
 import { teamDummyData, teamHeads0, teamHeads1 } from "../module/home_team";
 import { teamPTitles, teamTitles } from "../module/home_team";
 import { DrawerForm1 } from "./widget_form";
-import {
-  WidgetConfirmPopup,
-  WidgetPopUp1,
-  WidgetPopUp1Body,
-} from "./widget_popup";
+import { WidgetConfirmPopup } from "./widget_popup";
+import { WidgetPopUp1, WidgetPopUp1Body } from "./widget_popup";
 import { WidgetPopUp1In1 } from "./widget_popup";
+import { HomeTeamPayAdpancePop } from "./home_team1";
+import { HomeTeamPayRoll, HomeTeamPaySlip } from "./home_team1";
 import "../style/htm.css";
-import {
-  HomeTeamPayAdpancePop,
-  HomeTeamPayRoll,
-  HomeTeamPaySlip,
-} from "./home_team1";
 
 const pTitles = teamPTitles;
 const titles = teamTitles;
@@ -51,6 +39,8 @@ export default class HomeTeam extends Component {
       member: null,
       addMember: {},
       addPartner: {},
+      memberPaging: {},
+      partnerPaging: {},
       payrollAdvance: null,
       succesPop: props.succesPop,
       deletePartnerConfirmPop: null,
@@ -72,6 +62,7 @@ export default class HomeTeam extends Component {
     const filterBody = {
       searchPh: "Search " + (page === 0 ? "team members" : "partners"),
       noDate: true,
+      onlyDate: true,
     };
     const filter = !addPage ? <TitleFilter1 props={filterBody} /> : null;
     const titleL = page === 0 ? "TEAM LIST" : "PARTNERS";
@@ -125,7 +116,7 @@ export default class HomeTeam extends Component {
 }
 
 function HomeTeamMembersTable({ state, setState }) {
-  const { page, allMember } = state;
+  const { page, allMember, memberPaging } = state;
 
   const widths = [
     { width: 4 },
@@ -161,6 +152,16 @@ function HomeTeamMembersTable({ state, setState }) {
       ]);
     }
   if (page !== 0) return null;
+
+  const counterProps = {
+    total: memberPaging?.totalCount,
+    onTap: (v, limit) => {
+      memberPaging.page_number = v;
+      memberPaging.limit = limit;
+      getAllMembers(state, setState);
+    },
+  };
+
   return (
     <React.StrictMode>
       <MyTable1
@@ -169,12 +170,12 @@ function HomeTeamMembersTable({ state, setState }) {
         body={body}
         onclick={(v) => setState({ addPage: true, addMember: allMember[v] })}
       />
-      <MyTableCounter1 props={{ total: 100 }} />
+      <MyTableCounter1 props={counterProps} />
     </React.StrictMode>
   );
 }
 function HomeTeamPartnersTable({ state, setState }) {
-  const { page, allPartner, error, loading } = state;
+  const { page, allPartner, error, loading, partnerPaging } = state;
 
   const widths = [
     { width: 4 },
@@ -239,10 +240,20 @@ function HomeTeamPartnersTable({ state, setState }) {
       ]);
     }
   if (page !== 1) return null;
+
+  const counterProps = {
+    total: partnerPaging?.totalCount,
+    onTap: (v, limit) => {
+      partnerPaging.page_number = v;
+      partnerPaging.limit = limit;
+      getAllPartners(state, setState);
+    },
+  };
+
   return (
     <React.StrictMode>
       <MyTable1 widths={widths} heads={heads1} body={body} onclick={null} />
-      <MyTableCounter1 props={{ total: 100 }} />
+      <MyTableCounter1 props={counterProps} />
     </React.StrictMode>
   );
 }
@@ -287,7 +298,12 @@ function HomeTeamMembersForm({ state, setState }) {
     form: addMember,
   };
   return (
-    <form onChange={(e) => (addMember[e.target.id] = e.target.value)}>
+    <form
+      onChange={(e) => {
+        if (e.target.id === "image") addMember.image = e.target.files[0];
+        else addMember[e.target.id] = e.target.value;
+      }}
+    >
       <DrawerForm1 props={body} />
     </form>
   );

@@ -14,7 +14,8 @@ export async function getAllCustomers(state, setState) {
   });
 }
 export async function getAllSuppliers(state, setState) {
-  await postHttp("getSuppliers", {}).then((res) => {
+  const { supplierPaging } = state;
+  await postHttp("getSuppliers", supplierPaging).then((res) => {
     setState({ allSupplier: res.data, supplierPaging: res.page });
   });
 }
@@ -54,6 +55,7 @@ export async function postCustomer(state, setState) {
   formData.append("state", addParties.state);
   formData.append("loyality_tier", addParties.loyality_tier);
   formData.append("image[]", addParties.image);
+  formData.append("thumbnail", addParties.image);
   setState({ loading: true, error: null });
   await postHttp("addCustomer", addParties, true)
     .then(async (res) => {
@@ -70,7 +72,7 @@ export async function postCustomer(state, setState) {
 }
 
 export async function postSuplier(state, setState) {
-  const { loading, succesPop, addParties, partie } = state;
+  const { loading, succesPop, addParties } = state;
   if (loading) return;
   if (addParties?.isToPay) addParties.opening_balance *= -1;
   const formData = new FormData();
@@ -91,8 +93,10 @@ export async function postSuplier(state, setState) {
   formData.append("state_id", addParties.state_id);
   formData.append("supplier_type", addParties.supplier_type);
   formData.append("balance_type", addParties.balance_type);
-  if (typeof addParties.image === "object")
+  if (typeof addParties.image === "object") {
     formData.append("image[]", addParties.image, "[PROXY]");
+    formData.append("thumbnail[]", addParties.image, "[PROXY]");
+  }
   setState({ loading: true, error: null });
   await postHttp("addSupplier", addParties, true)
     .then(async (res) => {
@@ -127,6 +131,7 @@ export async function updateCustomer(state, setState) {
   formData.append("state", partie.state);
   formData.append("loyality_tier", partie.loyality_tier);
   formData.append("image", partie.image);
+  formData.append("thumbnail", partie.image);
   setState({ loading: true, error: null });
   await postHttp("updateCustomer", partie, true)
     .then(async (res) => {
@@ -164,8 +169,10 @@ export async function updateSuplier(state, setState) {
   formData.append("state_id", partie.state_id);
   formData.append("supplier_type", partie.supplier_type);
   formData.append("balance_type", partie.balance_type);
-  if (typeof partie.image === "object")
+  if (typeof partie.image === "object") {
     formData.append("image[]", partie.image, "[PROXY]");
+    formData.append("thumbnail[]", partie.image);
+  }
   setState({ loading: true, error: null });
   await postHttp("updateSupplier", partie, true)
     .then(async (res) => {
@@ -236,7 +243,7 @@ export const getSupplier = async (item, state, setState, from, to) => {
     (res) => (partie.statmentList = res.data)
   );
   postHttp("getSupplierPendingInvoices", {
-    customer_id: partie.id,
+    supplier_id: partie.id,
   }).then((res) => {
     partie.paymentRecord = {
       orders: res.data.invoice_lists,
@@ -299,8 +306,6 @@ export const postMultiplePaymentRecord = async (state, setState) => {
         note: partie.paymentRecord.note || "",
       });
   }
-
-  console.log(body);
 
   await postHttp(
     page === 0 ? "multiRecordPayment" : "purchaseMultyMakePayment",

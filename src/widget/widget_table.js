@@ -92,10 +92,10 @@ export function MyTableCounter1({ props }) {
         <input
           onChange={(e) => {
             const value = e.target.value;
-            if (value !== "") {
+            if (value !== "" && value !== "1") {
               setSel(1);
               setLimit(value);
-              onTap(1, limit);
+              onTap(1, value);
             }
           }}
           defaultValue={limit}

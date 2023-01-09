@@ -1,13 +1,15 @@
 import { postHttp } from "../module/api_int";
 
 export async function getAllMembers(state, setState) {
-  await postHttp("getTeam", {}).then((res) => {
-    setState({ allMember: res.data });
+  const { memberPaging } = state;
+  await postHttp("getTeam", memberPaging).then((res) => {
+    setState({ allMember: res.data, memberPaging: res.page });
   });
 }
 export async function getAllPartners(state, setState) {
-  await postHttp("getPartners", {}).then((res) => {
-    setState({ allPartner: res.data });
+  const { partnerPaging } = state;
+  await postHttp("getPartners", partnerPaging).then((res) => {
+    setState({ allPartner: res.data, partnerPaging: res.page });
   });
 }
 
@@ -45,6 +47,9 @@ export async function postMember(state, setState) {
   formData.append("password", addMember.password);
   formData.append("join_date", addMember.join_date);
   formData.append("dob", addMember.dob);
+
+  console.log(typeof addMember.image);
+
   if (typeof addMember.image === "object") {
     formData.append("image", addMember.image);
     formData.append("thumbnail", addMember.image);

@@ -87,8 +87,8 @@ export function TitleTable1({ data, setPage }) {
                 <div className="zcIaA">{item1.t}</div>
                 <div className="zcIaB">{item1.t1}</div>
               </div>
-              {item1.data.map((it, k) => (
-                <div className="zcIc" key={k} onClick={() => setPage(it)}>
+              {item1.data.map((it, k1) => (
+                <div className="zcIc" key={k1} onClick={() => setPage(it, k)}>
                   <div className="zcIc_">
                     <div className="zcIcA">
                       <div className="zcIcB">{it.t}</div>
@@ -152,6 +152,7 @@ export function TitleFilter1({ props }) {
                       add={add}
                       selected={selected}
                       setSelected={setSelected}
+                      title="From Date"
                     />
                     <FilterCalender1
                       v={1}
@@ -160,6 +161,7 @@ export function TitleFilter1({ props }) {
                       add={add}
                       selected={selected}
                       setSelected={setSelected}
+                      title="To Date"
                     />
                   </div>
                   <div className="zcKeCd">Update</div>
@@ -184,11 +186,16 @@ export function TitleFilter1({ props }) {
   );
 }
 
-function FilterCalender1({ v, y, m, add, selected, setSelected }) {
+function FilterCalender1({ v, y, m, add, selected, setSelected, title }) {
   let dragger = null;
   let dropper = null;
   return (
     <div className="zcL">
+      {/* <div
+        style={{ fontSize: ".8vw", fontWeight: "bold", marginBottom: ".6vw" }}
+      >
+        {title}
+      </div> */}
       <div className="zcL_">
         <div className="zcLa">
           <div className="zcLb" onClick={() => add(-1)} />
@@ -291,7 +298,7 @@ export function HeaderButtens1({ props }) {
         >
           {drowelList?.map((it, k) => (
             <div className="zcNcE" onClick={it.fun}>
-              {it.title}
+              {it?.t}
             </div>
           ))}
         </div>

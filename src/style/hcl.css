@@ -220,7 +220,10 @@
   border-radius: 0.22vw;
 }
 .hclGaBaB {
-  height: 1vw;
+  height: 3vw;
+  width: 3vw;
+  border-radius: 50%;
+  margin-right: 0.8vw;
 }
 .hclGaBaD {
   font-size: 1.13vw;

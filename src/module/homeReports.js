@@ -378,26 +378,26 @@ const allPage = [
       ],
     },
 
-    {
-      t: "Aging reports",
-      t1: "Detailed report to show how your sales performing",
-      data: [
-        {
-          t: "Inventory Aging Report",
-          d: "What all are my inventories and how old are they?",
-          d1: "Shows income, expense and profit for a given date range",
-          path: "inventoryAging",
-          apiPath: "report/sales/saleSummary",
-        },
-        {
-          t: "Aged Payments",
-          d: "How much money owed and how old they are?",
-          d1: "Shows income, expense and profit for a given date range",
-          path: "agedPayments",
-          apiPath: "report/sales/saleSummary",
-        },
-      ],
-    },
+    // {
+    //   t: "Aging reports",
+    //   t1: "Detailed report to show how your sales performing",
+    //   data: [
+    //     {
+    //       t: "Inventory Aging Report",
+    //       d: "What all are my inventories and how old are they?",
+    //       d1: "Shows income, expense and profit for a given date range",
+    //       path: "inventoryAging",
+    //       apiPath: "report/sales/saleSummary",
+    //     },
+    //     {
+    //       t: "Aged Payments",
+    //       d: "How much money owed and how old they are?",
+    //       d1: "Shows income, expense and profit for a given date range",
+    //       path: "agedPayments",
+    //       apiPath: "report/sales/saleSummary",
+    //     },
+    //   ],
+    // },
 
     // {
     //   t: "Tax reports",
@@ -641,13 +641,13 @@ const allPage = [
           path: "expenseCategory",
           apiPath: "report/sales/saleSummary",
         },
-        {
-          t: "Expense Rank",
-          d: "How much profit I have made from my business?",
-          d1: "Shows income, expense and profit for a given date range",
-          path: "expenseRank",
-          apiPath: "report/sales/saleSummary",
-        },
+        // {
+        //   t: "Expense Rank",
+        //   d: "How much profit I have made from my business?",
+        //   d1: "Shows income, expense and profit for a given date range",
+        //   path: "expenseRank",
+        //   apiPath: "report/sales/saleSummary",
+        // },
       ],
     },
 
@@ -655,13 +655,13 @@ const allPage = [
       t: "Cash reports",
       t1: "Detailed report to show how your sales performing",
       data: [
-        {
-          t: "Cashflow Summary",
-          d: "How much actual cash came in and out?",
-          d1: "Shows income, expense and profit for a given date range",
-          path: "cashflowSummary",
-          apiPath: "report/sales/saleSummary",
-        },
+        // {
+        //   t: "Cashflow Summary",
+        //   d: "How much actual cash came in and out?",
+        //   d1: "Shows income, expense and profit for a given date range",
+        //   path: "cashflowSummary",
+        //   apiPath: "report/sales/saleSummary",
+        // },
         {
           t: "Cash Transactions",
           d: "What are the cash transactions and running balance for a selected cash accoun?",
@@ -676,13 +676,13 @@ const allPage = [
           path: "bankTransactions",
           apiPath: "report/sales/saleSummary",
         },
-        {
-          t: "Aggregator Transactions",
-          d: "What are the transactions and running balance for a selected aggregator accoun?",
-          d1: "Shows income, expense and profit for a given date range",
-          path: "aggregatorTransactions",
-          apiPath: "report/sales/saleSummary",
-        },
+        // {
+        //   t: "Aggregator Transactions",
+        //   d: "What are the transactions and running balance for a selected aggregator accoun?",
+        //   d1: "Shows income, expense and profit for a given date range",
+        //   path: "aggregatorTransactions",
+        //   apiPath: "report/sales/saleSummary",
+        // },
       ],
     },
 

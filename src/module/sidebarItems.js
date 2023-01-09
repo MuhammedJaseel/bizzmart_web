@@ -31,7 +31,7 @@ import HomeInventory from "../widget/homeInventory";
 import HomeCalender from "../widget/homeCalendar";
 import HomeOnline from "../widget/home_online";
 import HomeReports from "../widget/homeReports";
-import HomeSales from "../widget/home_sales";
+import HomeSales from "../widget/homeSales";
 import HomePurchase from "../widget/home_purchase";
 import HomeExpense from "../widget/home_expense";
 import HomeJobcard from "../widget/home_jobcard";

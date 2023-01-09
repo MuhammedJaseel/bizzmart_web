@@ -3,7 +3,8 @@ import { reportPages } from "../module/homeReports";
 import { Header1, Header2, HeaderButtens1 } from "./widget";
 import { TitleFilter1, TitleTable1 } from "./widget";
 import "../style/hrp.css";
-import { gerReport } from "../method/homeReports";
+import { getReport } from "../method/homeReports";
+import { getTodayType1, getTodayType2 } from "../module/simple";
 
 const pTitles = [
   "All Report",
@@ -20,32 +21,14 @@ const pTitles = [
 export default class HomeReports extends Component {
   constructor() {
     super();
-    this.state = { page: 0, viewPage: null, report: {} };
+    this.state = {
+      page: 0,
+      viewPage: null,
+      report: {},
+      categoryIndex: 0,
+      selectedDate: { from: "", to: "" },
+    };
   }
-
-  // componentDidMount() {
-  //   let path = window.location.pathname.split("/");
-  //   let done = false;
-  //   if (path.length > 3) {
-  //     path = path[3];
-  //     for (let j = 0; j < inventoryPages[0].length; j++)
-  //       for (let i = 0; i < inventoryPages[0][j].data.length; i++) {
-  //         if (inventoryPages[0][j].data[i].path === path) {
-  //           this.setState({ page: inventoryPages[0][j].data[i].widget });
-  //           done = true;
-  //           break;
-  //         }
-  //       }
-  //     if (!done)
-  //       for (let j = 0; j < inventoryPages[1].length; j++)
-  //         for (let i = 0; i < inventoryPages[1][j].data.length; i++) {
-  //           if (inventoryPages[1][j].data[i].path === path) {
-  //             this.setState({ page: inventoryPages[1][j].data[i].widget });
-  //             break;
-  //           }
-  //         }
-  //   } else this.setState({ page: null });
-  // }
 
   render() {
     const state = this.state;
@@ -54,7 +37,7 @@ export default class HomeReports extends Component {
       <React.StrictMode>
         <Header1
           title="REPORTS"
-          bodyL={""}
+          bodyL={state.viewPage?.t || ""}
           onTap={() => setState({ viewPage: null })}
         />
         <HomeReportLandingPage state={state} setState={setState} />
@@ -67,10 +50,10 @@ export default class HomeReports extends Component {
 function HomeReportLandingPage({ state, setState }) {
   const { viewPage, page } = state;
 
-  const setPage = (v) => {
-    setState({ viewPage: v });
+  const setPage = (v, i) => {
+    setState({ viewPage: v, categoryIndex: i });
     window.history.replaceState("home", "home", "/dashboard/reports/" + v.path);
-    gerReport(v.apiPath, state, setState);
+    getReport(v.apiPath, state, setState);
   };
 
   if (viewPage !== null) return null;
@@ -87,20 +70,15 @@ function HomeReportLandingPage({ state, setState }) {
 }
 
 function HomeReportPage({ state, setState }) {
-  const { viewPage, report } = state;
+  const { viewPage, report, categoryIndex, selectedDate } = state;
   const bodyRBody = {
     title: "Sales Summery",
-    drowelList: [
-      { title: "Sales Summary", fun: () => alert() },
-      { title: "Sales Invoices", fun: () => alert() },
-      { title: "Sales Rank", fun: () => alert() },
-      { title: "Sales Comparison", fun: () => alert() },
-      { title: "Profit Analysis", fun: () => alert() },
-    ],
+    drowelList: [],
   };
+
   const bodyR = <HeaderButtens1 props={bodyRBody} />;
-  const filterBody = { onlyDate: true };
-  const filter = <TitleFilter1 props={filterBody} />;
+  // const filterBody = { onlyDate: true };
+  // const filter = <TitleFilter1 props={filterBody} />;
 
   const getTotal = (list, name) => {
     var value = 0;
@@ -112,15 +90,44 @@ function HomeReportPage({ state, setState }) {
   return (
     <StrictMode>
       <div className="hrpA">
-        {bodyR}
-        {filter}
+        {/* {bodyR} */}
+        <div />
+        {/* {filter} */}
+        <div className="hrpAa">
+          <input
+            type="date"
+            className="hrpAaA"
+            defaultValue={getTodayType2()}
+            onChange={(e) => {
+              selectedDate.from = e.target.value;
+              setState(selectedDate);
+              getReport(null, state, setState);
+            }}
+          />
+          &ensp; to &ensp;
+          <input
+            type="date"
+            className="hrpAaA"
+            defaultValue={getTodayType2()}
+            onChange={(e) => {
+              selectedDate.from = e.target.value;
+              setState(selectedDate);
+              getReport(null, state, setState);
+            }}
+          />
+        </div>
       </div>
       <div className="hrpB">
         <div className="hrpBa">
           {viewPage.t}
-          <div className="hrpBaB">Sharma Mobiworld Pvt Ltd</div>
+          <div className="hrpBaB">
+            {window.localStorage.getItem("buisnessName")}
+          </div>
         </div>
-        <div className="hrpBb">13 Feb 2022 to 16 Feb 2022</div>
+        <div className="hrpBb">
+          {selectedDate?.from || getTodayType1()} to{" "}
+          {selectedDate?.to || getTodayType1()}
+        </div>
         <div className="hrpBc">
           {viewPage?.table?.map((it, k) => (
             <div key={k} style={{ width: it.width, textAlign: it?.align }}>
@@ -148,19 +155,14 @@ function HomeReportPage({ state, setState }) {
               </div>
             ))}
           </div>
-          {/* <div className="hrpBdB">
-            <div className="hrpBcA" />
-            <div className="hrpBcA" />
-            <div className="hrpBcB">Credit</div>
-            <div className="hrpBcB">Cash</div>
-            <div className="hrpBcB">Total</div>
-          </div> */}
           <div className="hrpBdC">
             <div>Cash</div>
             <div>Total</div>
           </div>
         </div>
-        <div className="hrpBb">Currency: INR (Indian Rupee)</div>
+        <div className="hrpBb">
+          Currency: {window.localStorage.getItem("branchCurrency")}
+        </div>
       </div>
     </StrictMode>
   );

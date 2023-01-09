@@ -38,12 +38,12 @@ export default class HomeCalender extends Component {
             tD.getDay()
           )}`}
           desc="Shows all the recorded purchase enteries the selected date range"
-          // body={
-          //   <StrictMode>
-          //     <div className="hclEc" />
-          //     <div className="hclEd" />
-          //   </StrictMode>
-          // }
+          body={
+            <StrictMode>
+              {/* <div className="hclEc" />
+              <div className="hclEd" /> */}
+            </StrictMode>
+          }
         />
         <div className="hclF">
           <div className="hclF_">
@@ -124,10 +124,12 @@ function HomeCalenderDetailsPop({ state, setState }) {
               <div className="hclGaBa">
                 {day?.events?.team_birthday?.map((d, k) => (
                   <div key={k} className="hclGaBaA">
-                    <div className="hclGaBaB"></div>
+                    {d?.image !== "" ? (
+                      <img className="hclGaBaB" alt="er" src={d.image} />
+                    ) : null}
                     <div>
-                      <div className="hclGaBaD">{"mna"}</div>
-                      <div className="hclGaBaE">{"sdsdsdsd"}</div>
+                      <div className="hclGaBaD">{d.name}</div>
+                      <div className="hclGaBaE">Birthday</div>
                     </div>
                   </div>
                 ))}
