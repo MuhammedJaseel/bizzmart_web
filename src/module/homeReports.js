@@ -14,7 +14,7 @@ const allPage = [
             { width: "18%", title: "Date", name: "date" },
             {
               width: "18%",
-              title: "product_name",
+              title: "Invoice",
               name: "invoice_count",
               align: "right",
             },
@@ -40,6 +40,8 @@ const allPage = [
               sum: true,
             },
           ],
+          bottamTitle: "Cash",
+          bottamValue: "total_sales",
         },
         {
           t: "Sales Invoices",
@@ -49,19 +51,8 @@ const allPage = [
           apiPath: "report/sales/salesInvoices",
           table: [
             { width: "15%", title: "Date ", name: "invoice_date" },
-            {
-              width: "15%",
-              title: "Invoice",
-              name: "invoice_no",
-              align: "right",
-            },
-            {
-              width: "15%",
-              title: "Customer",
-              name: "customer_name",
-              align: "right",
-              sum: true,
-            },
+            { width: "15%", title: "Invoice", name: "invoice_no" },
+            { width: "15%", title: "Customer", name: "customer_name" },
             {
               width: "15%",
               title: "Credit",
@@ -72,7 +63,7 @@ const allPage = [
             {
               width: "15%",
               title: "Cash",
-              name: "paid_sales",
+              name: "cash",
               align: "right",
               sum: true,
             },
@@ -84,6 +75,8 @@ const allPage = [
               sum: true,
             },
           ],
+          bottamTitle: "Total Sale",
+          bottamValue: "total",
         },
         {
           t: "Sales Rank",
@@ -92,7 +85,7 @@ const allPage = [
           path: "salesRank",
           apiPath: "report/sales/saleRank",
           table: [
-            { width: "15%", title: "Rank ", name: "invoice_date" },
+            { width: "15%", title: "Rank", name: "invoice_date" },
             {
               width: "24%",
               title: "Product",
@@ -119,6 +112,8 @@ const allPage = [
               sum: true,
             },
           ],
+          bottamTitle: "Sales Total",
+          bottamValue: "total",
         },
         {
           t: "Sales Comparison",
@@ -136,24 +131,34 @@ const allPage = [
             },
             {
               width: "18%",
-              title: "Category",
+              title: "Amount",
+              name: "current_tenure_sales",
+              align: "right",
+              sum: true,
+            },
+            {
+              width: "24%",
+              title: "Last Mth",
+              name: "last_tenure_stock",
+              align: "right",
+            },
+            {
+              width: "18%",
+              title: "Amount",
+              name: "last_tenure_sales",
+              align: "right",
+              sum: true,
+            },
+            {
+              width: "18%",
+              title: "Change",
               name: "category",
-              align: "right",
-            },
-            {
-              width: "15%",
-              title: "Quantity",
-              name: "sale_count",
-              align: "right",
-            },
-            {
-              width: "15%",
-              title: "Total",
-              name: "sales_amount",
               align: "right",
               sum: true,
             },
           ],
+          bottamTitle: "Sales Total",
+          bottamValue: "current_total_sales",
         },
         {
           t: "Profit Analysis",
@@ -191,6 +196,8 @@ const allPage = [
               sum: true,
             },
           ],
+          bottamTitle: "Sales Total",
+          bottamValue: "total_sales",
         },
       ],
     },
@@ -235,13 +242,15 @@ const allPage = [
               sum: true,
             },
           ],
+          bottamTitle: "Invoice Total",
+          bottamValue: "total_purchase",
         },
         {
           t: "Purchase Invoices (GRN)",
           d: "How much profit I have made from my business?",
           d1: "Shows income, expense and profit for a given date range",
           path: "purchaseInvoices",
-          apiPath: "report/sales/saleSummary",
+          apiPath: "report/purchase/purchaseIvoiceLists",
           table: [
             { width: "18%", title: "Date ", name: "date" },
             {
@@ -272,6 +281,8 @@ const allPage = [
               sum: true,
             },
           ],
+          bottamTitle: "Invoice Total",
+          bottamValue: "total_sales",
         },
         {
           t: "Purchase Rank",
@@ -279,6 +290,34 @@ const allPage = [
           d1: "Shows income, expense and profit for a given date range",
           path: "purchaseRank",
           apiPath: "report/purchase/purchaseRank",
+          table: [
+            { width: "15%", title: "Rank", name: "invoice_date" },
+            {
+              width: "24%",
+              title: "Product",
+              name: "product_name",
+              align: "right",
+            },
+            {
+              width: "18%",
+              title: "Category",
+              name: "category",
+              align: "right",
+            },
+            {
+              width: "15%",
+              title: "Quantity",
+              name: "sale_count",
+              align: "right",
+            },
+            {
+              width: "15%",
+              title: "Total",
+              name: "sales_amount",
+              align: "right",
+              sum: true,
+            },
+          ],
         },
         {
           t: "Cost Variance",

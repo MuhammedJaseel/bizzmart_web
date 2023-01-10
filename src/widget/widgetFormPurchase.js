@@ -1,14 +1,12 @@
 import { StrictMode, useState } from "react";
-import { getSingleProdect, postPurchaseList } from "../method/home_purchase";
-import { postEstimate, postInvoice } from "../method/home_sales";
-import { postExpense } from "../method/home_expense";
-import { postPurchaseOrder } from "../method/home_purchase";
+import { getSingleProdect, postPurchaseList } from "../method/homePurchase";
 import { salesSearchProduct } from "../method/home_sales";
 import { WidgetInputSelect } from "./widget";
 import "../style/zf.css";
+import { calculatePurchaseTax } from "../module/homePurchase";
 
 export const newPurchaseStructure = {
-  invoice_number: null,
+  invoice_number: "ab12dcd",
   purchase_order_id: null,
   purchase_order_invoice_no: null,
   due_in: null,
@@ -22,9 +20,9 @@ export const newPurchaseStructure = {
   due_date: "",
   supplier_id: "",
   supplier_name: "",
-  cashier_id: "", //Logined person name and ID
+  cashier_id: "",
   cashier_name: "", //Logined person name and I
-  discount: "",
+  discount: 0,
   round_off: 0,
   paid: 0,
   total_amount: 0,
@@ -77,7 +75,7 @@ export function FormNewPurchase({ state, setState }) {
   const [isDrower, setIsDrower] = useState(false);
   return (
     <div className="zfB">
-      <form onChange={(e) => setState(form)}>
+      <form onChange={() => setState(form)}>
         <div className="zfBa">
           <div className="zfBaA">
             {/* <div className="zfBaAa">
@@ -91,13 +89,15 @@ export function FormNewPurchase({ state, setState }) {
               </div> */}
             <div className="zfBaAa">
               <div className="zfBaAaA">Supplier Invoice #</div>
-              <input className="zfBaAaC" id="supplier_invoice_no" />
+              <input
+                className="zfBaAaC"
+                onChange={(e) => (form.supplier_invoice_no = e.target.value)}
+              />
             </div>
             <div className="zfBaAa">
               <div className="zfBaAaA">Supplier*</div>
               <select
                 className="zfBaAaB"
-                id="supplier_id"
                 onChange={(e) => {
                   form.supplier_id = e.target.value;
                   form.supplier_name = allSuppliers.filter(
@@ -119,16 +119,24 @@ export function FormNewPurchase({ state, setState }) {
             </div>
             <div className="zfBaAa">
               <div className="zfBaAaA">Purchase Date*</div>
-              <input type="date" className="zfBaAaC" id="purchase_date" />
+              <input
+                type="date"
+                className="zfBaAaC"
+                onChange={(e) => (form.purchase_date = e.target.value)}
+              />
             </div>
             <div className="zfBaAa">
               <div className="zfBaAaA">Due Date</div>
-              <input type="date" className="zfBaAaC" id="due_date" />
+              <input
+                type="date"
+                className="zfBaAaC"
+                onChange={(e) => (form.due_date = e.target.value)}
+              />
             </div>
-            <div className="zfBaAa">
+            {/* <div className="zfBaAa">
               <div className="zfBaAaA">Contact Person</div>
               <input className="zfBaAaC" />
-            </div>
+            </div> */}
           </div>
           <div className="zfBaB">
             <div className="zfBaBa">Address</div>
@@ -150,7 +158,11 @@ export function FormNewPurchase({ state, setState }) {
           </StrictMode>
         </div>
         {(form?.items || [])?.map((it, k) => (
-          <div key={k} className="zfBbB">
+          <form
+            key={k}
+            className="zfBbB"
+            onChange={() => calculatePurchaseTax(it, state, setState)}
+          >
             <div
               className="zfBbAa zfBbA_d zfBbAa_"
               onClick={() => {
@@ -178,20 +190,17 @@ export function FormNewPurchase({ state, setState }) {
                   },
                   setValue: (v) => {
                     getSingleProdect(it.list[k].id).then((res) => {
-                      console.log(res.data);
                       it.product_id = res.data.id;
                       it.name = res.data.name;
                       it.unit_name = res.data.primary_unit;
                       it.unit_converion = res.data.conversion;
+                      it.tax_type = res.data.tax_inclusion;
+                      it.tax_id = res.data.selling_tax.toString();
                       it.quantity = 1;
                       it.discount_amount = 0;
+                      it.price = res.data.purchase_price;
 
-                      if (res.data.tax_inclusion === "Inclusive") {
-                        it.price = res.data.purchase_price;
-                      } else {
-                        it.price = res.data.purchase_price;
-                      }
-
+                      calculatePurchaseTax(it, state, setState);
                       if (k + 1 === form.items.length)
                         form.items.push(
                           JSON.parse(
@@ -225,7 +234,7 @@ export function FormNewPurchase({ state, setState }) {
                 type="number"
                 value={it.discount_amount}
               />
-              <select className="zfBbAd zfBbA_d" id="tax_id">
+              <select className="zfBbAd zfBbA_d" id="tax_id" value={it.tax_id}>
                 <option>Tax Slab</option>
                 {allTax.map((it, k) => (
                   <option key={k} value={it.id}>
@@ -233,10 +242,10 @@ export function FormNewPurchase({ state, setState }) {
                   </option>
                 ))}
               </select>
-              <div className="zfBbAg zfBbA_d">{it.tax_amount}</div>
+              <div className="zfBbAg zfBbA_d">{it?.tax_amount}</div>
               <div className="zfBbAg zfBbA_d">{it?.taxTotal}</div>
             </StrictMode>
-          </div>
+          </form>
         ))}
       </div>
       {/* ///////////////////////////////////////////////////////////////////////// */}
@@ -282,9 +291,18 @@ export function FormNewPurchase({ state, setState }) {
             </div>
           </div>
         </div>
-        {addPayment !== null ? (
+        {addPayment === null ? (
           <div className="zfBd">
             <div className="zfBdA">
+              <div
+                style={{
+                  color: "red",
+                  fontSize: ".8vw",
+                  padding: ".3vw .5vw",
+                }}
+              >
+                {error}
+              </div>
               <div
                 className="zfBdAa"
                 onClick={() => postPurchaseList("save", state, setState)}

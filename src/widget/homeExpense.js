@@ -1,11 +1,12 @@
 import React, { Component, StrictMode } from "react";
 import { MyTable1, MyTableCounter1 } from "./widget_table";
-import { HeaderButtens1, TitleFilter1, WidgetSelect } from "./widget";
+import { HeaderButtens1 } from "./widget";
 import { Header1, Header2, Header4 } from "./widget";
 import { MyForm1 } from "./widget_form";
-import { expenseGetExpenses } from "../method/home_expense";
-import { expenseGetAllDetails } from "../method/home_expense";
+import { expenseGetExpenses } from "../method/homeExpense";
+import { expenseGetAllDetails } from "../method/homeExpense";
 import "../style/hdb.css";
+import DrawerView1 from "./widget_view";
 
 const pTitles = ["Expense Enteries"];
 const desc =
@@ -35,6 +36,9 @@ export default class HomeExpense extends Component {
       allTransferType: [],
       allTax: [],
       form: null,
+      selected: null,
+      // FUNCTION ///////////////////////////////////////////////////
+      succesPop: props.succesPop,
     };
   }
   componentDidMount() {
@@ -62,6 +66,7 @@ export default class HomeExpense extends Component {
         <Header2 titles={pTitles} page={0} setState={setState} />
         <HomeExpenceTable state={state} setState={setState} />
         <HomeExpenceForm state={state} setState={setState} />
+        <DrawerView1 state={state} setState={setState} />
       </React.StrictMode>
     );
   }
@@ -96,13 +101,24 @@ function HomeExpenceTable({ state, setState }) {
   if (form !== null) return null;
 
   const filterBody = { searchPh: "Search an expenses" };
-  const filter = <TitleFilter1 props={filterBody} />;
+  const filter = ""; // <TitleFilter1 props={filterBody} />;
+
+  const counterProps = {
+    total: expensesPaging?.totalCount,
+    onTap: (v, limit) => {
+      expensesPaging.page_number = v;
+      expensesPaging.limit = limit;
+      expenseGetExpenses(state, setState);
+    },
+  };
+
+  const _onclick = (v) => setState({ selected: allExpense[v] });
 
   return (
     <React.StrictMode>
       <Header4 title={"Expenses List"} desc={desc} body={filter} />
-      <MyTable1 widths={widths} heads={heads} body={body} />
-      <MyTableCounter1 props={expensesPaging} />
+      <MyTable1 widths={widths} heads={heads} body={body} onclick={_onclick} />
+      <MyTableCounter1 props={counterProps} />
     </React.StrictMode>
   );
 }

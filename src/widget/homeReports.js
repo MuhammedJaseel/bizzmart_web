@@ -1,10 +1,11 @@
 import React, { Component, StrictMode } from "react";
 import { reportPages } from "../module/homeReports";
-import { Header1, Header2, HeaderButtens1 } from "./widget";
-import { TitleFilter1, TitleTable1 } from "./widget";
-import "../style/hrp.css";
-import { getReport } from "../method/homeReports";
+import { Header1, WidgetInputSelect } from "./widget";
+import { TitleTable1 } from "./widget";
+import { getReport, reportSearchProduct } from "../method/homeReports";
 import { getTodayType1, getTodayType2 } from "../module/simple";
+import { WidgetPopUp1, WidgetPopUp1In1 } from "./widget_popup";
+import "../style/hrp.css";
 
 const pTitles = [
   "All Report",
@@ -25,8 +26,10 @@ export default class HomeReports extends Component {
       page: 0,
       viewPage: null,
       report: {},
+      error: null,
       categoryIndex: 0,
       selectedDate: { from: "", to: "" },
+      selectedProdect: null,
     };
   }
 
@@ -42,6 +45,7 @@ export default class HomeReports extends Component {
         />
         <HomeReportLandingPage state={state} setState={setState} />
         <HomeReportPage state={state} setState={setState} />
+        <SelectProdectPopup state={state} setState={setState} />
       </React.StrictMode>
     );
   }
@@ -52,8 +56,12 @@ function HomeReportLandingPage({ state, setState }) {
 
   const setPage = (v, i) => {
     setState({ viewPage: v, categoryIndex: i });
-    window.history.replaceState("home", "home", "/dashboard/reports/" + v.path);
-    getReport(v.apiPath, state, setState);
+    if (v.path === "salesComparison ") {
+      setState({ selectedProdect: { apiPath: v.apiPath } });
+    } else {
+      getReport(v.apiPath, state, setState);
+    }
+    // window.history.replaceState("home", "home", "/dashboard/reports/" + v.path);
   };
 
   if (viewPage !== null) return null;
@@ -71,12 +79,12 @@ function HomeReportLandingPage({ state, setState }) {
 
 function HomeReportPage({ state, setState }) {
   const { viewPage, report, categoryIndex, selectedDate } = state;
-  const bodyRBody = {
-    title: "Sales Summery",
-    drowelList: [],
-  };
+  // const bodyRBody = {
+  //   title: "Sales Summery",
+  //   drowelList: [],
+  // };
 
-  const bodyR = <HeaderButtens1 props={bodyRBody} />;
+  // const bodyR = <HeaderButtens1 props={bodyRBody} />;
   // const filterBody = { onlyDate: true };
   // const filter = <TitleFilter1 props={filterBody} />;
 
@@ -156,8 +164,8 @@ function HomeReportPage({ state, setState }) {
             ))}
           </div>
           <div className="hrpBdC">
-            <div>Cash</div>
-            <div>Total</div>
+            <div>{viewPage?.bottamTitle}</div>
+            <div>{report[viewPage?.bottamValue]}</div>
           </div>
         </div>
         <div className="hrpBb">
@@ -165,5 +173,61 @@ function HomeReportPage({ state, setState }) {
         </div>
       </div>
     </StrictMode>
+  );
+}
+
+function SelectProdectPopup({ state, setState }) {
+  const { error, loading, selectedProdect } = state;
+  if (selectedProdect === null) return null;
+  const popupProps1 = {
+    close: () => setState({ selectedProdect: null }),
+    title: "Select Product",
+    desc: "Select a prodect to view report",
+    error,
+    loading,
+    small: true,
+    btnTitle: "ADD",
+    onChange: (e) => (selectedProdect[e.target.id] = e.target.value),
+    submit: async() => {
+      await getReport(selectedProdect.apiPath, state, setState);
+      setState({ selectedProdect: null })
+    },
+  };
+  return (
+    <WidgetPopUp1 props={popupProps1}>
+      <div style={{ width: "100%" }}>
+        <WidgetPopUp1In1 title="Branch">
+          <select style={{ width: "100%" }} id="branch">
+            <option hidden>Select branch</option>
+            {[]?.map((it) => (
+              <option value={it.branch_id}>{it.branch_name}</option>
+            ))}
+          </select>
+        </WidgetPopUp1In1>
+        <WidgetPopUp1In1 title="Select a Prodect">
+          <WidgetInputSelect
+            props={{
+              onChange: async (e) => {
+                await reportSearchProduct(
+                  e.target.value,
+                  (v) => (selectedProdect.list = v)
+                );
+                setState(selectedProdect);
+              },
+              list: selectedProdect?.list || [],
+              clearlist: () => {
+                selectedProdect.list = [];
+                setState(selectedProdect);
+              },
+              setValue: (v) => {
+                selectedProdect.id = selectedProdect?.list[v].id;
+                selectedProdect.name = selectedProdect?.list[v].name;
+              },
+              placeholder: "Search your product",
+            }}
+          />
+        </WidgetPopUp1In1>
+      </div>
+    </WidgetPopUp1>
   );
 }

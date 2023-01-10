@@ -19,9 +19,11 @@ export const purchaseGetAllPurchase = async (state, setState) => {
 
 export const postPurchaseList = async (flag, state, setState) => {
   const { form, succesPop } = state;
-  form.user_id = window.localStorage.getItem("userId");
+  const body = JSON.parse(JSON.stringify(form));
+  body.cashier_id = window.localStorage.getItem("userId");
+  body.items.pop();
   setState({ loading: true, error: null });
-  await postHttp("addPurchase", form)
+  await postHttp("addPurchase", body)
     .then(async () => {
       await purchaseGetAllPurchase(state, setState);
       if (flag === "payment") setState({ form: null });

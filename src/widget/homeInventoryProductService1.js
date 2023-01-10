@@ -38,7 +38,8 @@ export function ProductTable({ state, setState }) {
 
   const counterProps = {
     total: productPaging.totalCount,
-    onTap: (v) => {
+    onTap: (v, limit) => {
+      productPaging.limit = limit;
       productPaging.page_number = v;
       getProducts(state, setState);
     },
@@ -92,7 +93,8 @@ export function ServiceTable({ state, setState }) {
 
   const counterProps = {
     total: servicesPaging?.totalCount,
-    onTap: (v) => {
+    onTap: (v, limit) => {
+      servicesPaging.limit = limit;
       servicesPaging.page_number = v;
       getProducts(state, setState);
     },

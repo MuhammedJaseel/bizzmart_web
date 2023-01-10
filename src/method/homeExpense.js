@@ -1,4 +1,5 @@
 import { postHttp } from "../module/api_int";
+import { getTodayType1 } from "../module/simple";
 
 export const expenseGetExpenses = async (state, setState) => {
   const { expensesPaging } = state;
@@ -30,6 +31,7 @@ export const expenseGetAllDetails = async (state, setState) => {
 
 export const postExpense = async (state, setState) => {
   const { form, succesPop } = state;
+  form.date = getTodayType1();
   form.user_id = window.localStorage.getItem("userId");
   setState({ loading: true, error: null });
   await postHttp("addExpense", form)

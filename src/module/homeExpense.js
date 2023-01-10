@@ -13,8 +13,10 @@ export function calculateExpnseTax(it, state, setState) {
     const rate = allTax.filter((it1) => it1.id == it.tax_id)[0].rate;
     const cess = allTax.filter((it1) => it1.id == it.tax_id)[0].cess;
     const proTax = parseInt(rate) + parseInt(cess);
+    console.log(it.tax_type === "Inclusive");
     if (it.tax_type === "Inclusive") {
-      it.tax_amount = it.rate * (proTax / 100) * it.quantity;
+      // it.tax_amount = it.rate * (proTax / 100) * it.quantity;
+      it.tax_amount = it.rate - it.rate / (1 + proTax / 100);
       it.total = it.rate * it.quantity;
       it.taxTotal = it.rate * it.quantity;
     } else {

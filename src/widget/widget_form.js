@@ -1,12 +1,12 @@
 import { StrictMode, useRef, useState } from "react";
-import { postExpense } from "../method/home_expense";
-import { postPurchaseList, postPurchaseOrder } from "../method/home_purchase";
+import { postExpense } from "../method/homeExpense";
+import { postPurchaseList, postPurchaseOrder } from "../method/homePurchase";
 import {
   postEstimate,
   postInvoice,
   salesSearchProduct,
 } from "../method/home_sales";
-import { calculateExpnseTax } from "../module/home_expense";
+import { calculateExpnseTax } from "../module/homeExpense";
 import { getTodayType2, makeMyDate } from "../module/simple";
 import "../style/zf.css";
 import { WidgetInputSelect } from "./widget";
@@ -18,7 +18,7 @@ import { WidgetInputSelect } from "./widget";
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 export function MyForm1({ state, setState }) {
-  const { form, allExpenseHead, invoiceNumber, allAccounts } = state;
+  const { form, allExpenseHead, invoiceNumber, allAccounts, error } = state;
   const { allTax, allTransferType, lastInvoice, allSuppliers } = state;
   const typeSaves = [
     { title: "Save Invoice", fun: null },
@@ -136,10 +136,15 @@ export function MyForm1({ state, setState }) {
               </div>
               <div className="zfBaAa">
                 <div className="zfBaAaA">Expense Head #</div>
-                <select className="zfBaAaB" id="expense_head_id">
+                <select
+                  className="zfBaAaB"
+                  onChange={(e) => (form.expense_head_id = e.target.value)}
+                >
                   <option hidden>Select expense head</option>
                   {allExpenseHead.map((it, k) => (
-                    <option value={it.id}>{it.name}</option>
+                    <option key={k} value={it.id}>
+                      {it.name}
+                    </option>
                   ))}
                 </select>
               </div>
@@ -154,16 +159,30 @@ export function MyForm1({ state, setState }) {
               </div>
               <div className="zfBaAa">
                 <div className="zfBaAaA">Paid From Account</div>
-                <select className="zfBaAaB" id="account_id">
+                <select
+                  className="zfBaAaB"
+                  onChange={(e) => {
+                    form.account_id = e.target.value;
+                    form.account_name = allAccounts.filter(
+                      (it) => it.it === e.target.value
+                    )[0].account_display_name;
+                  }}
+                >
                   <option hidden>Select account</option>
                   {allAccounts.map((it, k) => (
-                    <option value={it.id}>{it.account_display_name}</option>
+                    <option value={it.id} key={k}>
+                      {it.account_display_name}
+                    </option>
                   ))}
                 </select>
               </div>
               <div className="zfBaAa">
                 <div className="zfBaAaA">Patment Method</div>
-                <select className="zfBaAaB" required>
+                <select
+                  className="zfBaAaB"
+                  required
+                  // onChange={(e) => (form.account_id = e.target.value)}
+                >
                   <option hidden>Select payment method</option>
                   {allTransferType.map((it, k) => (
                     <option value={it.id}>{it.name}</option>
@@ -376,12 +395,21 @@ export function MyForm1({ state, setState }) {
           <div className="zfBd">
             <div className="zfBdA">
               <div
+                style={{
+                  color: "red",
+                  fontSize: ".8vw",
+                  padding: ".3vw .5vw",
+                }}
+              >
+                {error}
+              </div>
+              <div
                 className="zfBdAa"
                 onClick={() => postExpense(state, setState)}
               >
                 SAVE
               </div>
-              {typeSaves !== null ? (
+              {/* {typeSaves !== null ? (
                 <div
                   className="zfBdAb"
                   onClick={() => setIsDrower(!isDrower)}
@@ -400,7 +428,7 @@ export function MyForm1({ state, setState }) {
                     {it.title}
                   </div>
                 ))}
-              </div>
+              </div> */}
             </div>
             <div className="zfBdB">CANCEL</div>
           </div>
@@ -488,8 +516,6 @@ export function MyForm1({ state, setState }) {
     </div>
   );
 }
-
-
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

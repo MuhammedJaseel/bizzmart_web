@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { MyTable1, MyTableCounter1 } from "./widget_table";
 import { Header1, Header2, Header4 } from "./widget";
 import { HeaderButtens1, TitleFilter1 } from "./widget";
-import { purchaseGetAllPurchase } from "../method/home_purchase";
-import { purchaseGetPurchase } from "../method/home_purchase";
+import { purchaseGetAllPurchase } from "../method/homePurchase";
+import { purchaseGetPurchase } from "../method/homePurchase";
 import { FormNewPurchase, newPurchaseStructure } from "./widgetFormPurchase";
 import { DrawerViewPurchase } from "./widget_view";
 import "../style/hpr.css";
@@ -30,13 +30,13 @@ const heads0 = [
 const heads1 = [null, "PON#", "Date", "Supplier", "Total", "Action"];
 
 export default class HomePurchase extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       page: 0,
       error: null,
       loading: false,
-      // /////////////////////////////
+      // ////////////////////////////////////////////////////////////
       allPurchaseList: [],
       allPurchaseOrder: [],
       purchasePaging: {},
@@ -47,6 +47,8 @@ export default class HomePurchase extends Component {
       form: null,
       selected: null,
       addPayment: null,
+      // FUNCTION ///////////////////////////////////////////////////
+      succesPop: props.succesPop,
     };
   }
 
@@ -105,10 +107,10 @@ export default class HomePurchase extends Component {
 }
 
 function HomePurchaseListTable({ state, setState }) {
-  const { page, allPurchaseList, form } = state;
+  const { page, allPurchaseList, form, purchasePaging } = state;
 
   const filterBody = { searchPh: "Search an asset" };
-  const filter = <TitleFilter1 props={filterBody} />;
+  const filter = ""; //<TitleFilter1 props={filterBody} />;
 
   const widths = [
     { width: 4 },
@@ -137,6 +139,16 @@ function HomePurchaseListTable({ state, setState }) {
     }
   const onclick = (v) => purchaseGetPurchase(v, state, setState);
   if (page !== 0 || form !== null) return null;
+
+  const counterProps = {
+    total: purchasePaging?.totalCount,
+    onTap: (v, limit) => {
+      purchasePaging.page_number = v;
+      purchasePaging.limit = limit;
+      purchaseGetAllPurchase(state, setState);
+    },
+  };
+
   return (
     <React.StrictMode>
       <Header2
@@ -146,7 +158,7 @@ function HomePurchaseListTable({ state, setState }) {
       />
       <Header4 title={pTitles[page]} desc={desc[page]} body={filter} />
       <MyTable1 widths={widths} heads={heads0} body={body} onclick={onclick} />
-      <MyTableCounter1 props={{ total: 100 }} />
+      <MyTableCounter1 props={counterProps} />
       <DrawerViewPurchase state={state} setState={setState} />
     </React.StrictMode>
   );
