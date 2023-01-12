@@ -81,6 +81,7 @@ export default class BranchScreen extends Component {
           <div className="br_S">
             <div className="br_T">
               <div className="br_U">BUSSNESS & BRANCH</div>
+              {/* <div className="br_W">BRANCH CODE</div> */}
               <div className="br_W">STATUS</div>
               <div className="br_X">LAST LOGIN</div>
               <div className="br_Y">ONLINE STORE</div>
@@ -97,6 +98,7 @@ export default class BranchScreen extends Component {
                   </div>
                 </div>
                 <div className="br_W brAh">{it.status}</div>
+                {/* <div className="br_W brAh">{it.status}</div> */}
                 <div className="br_X brAi">{it.last_login_time}</div>
                 <div className="br_Y brAj">{it.online_store}</div>
                 <div className="br_Z brAk">{it.plan}</div>
