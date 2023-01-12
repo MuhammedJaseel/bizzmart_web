@@ -188,7 +188,7 @@ export function HomeSettings1BussinessSettings({ state, setState }) {
           </AddingForm1>
         </AddingFormLayout>
         <AddingFormLayout
-          title="Other Details"
+          title="OTHER DETAILS"
           desc="Email sender address, You can select logged in users email or any email address of your choice"
         >
           <AddingForm1 title="Timezone*">
