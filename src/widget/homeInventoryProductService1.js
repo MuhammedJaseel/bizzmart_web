@@ -45,13 +45,8 @@ export function ProductTable({ state, setState }) {
     },
   };
 
-  const tableOnclick = (k) => {
-    state.product = allProduct[k];
-    state.product.type = parseInt(allProduct[k].product_type);
-    getProduct(state, setState);
-    setState({ product });
-  };
-
+  const tableOnclick = (k) => getProduct(k, state, setState);
+  
   if (page?.path !== "prodect") return null;
   return (
     <StrictMode>

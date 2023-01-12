@@ -1,12 +1,25 @@
 import { getHttp, postHttp } from "../module/api_int";
 import { getTodayType1 } from "../module/simple";
 
-export async function getProduct(state, setState) {
-  const { product } = state;
+export async function getProduct(k, state, setState) {
+  var { product, allProduct } = state;
+  product = {
+    type: Number(allProduct[k].product_type),
+    id: Number(allProduct[k].id),
+  };
+  setState({ product });
   await getHttp(`getProduct/${product?.id}`)
     .then((res) => {
-      res.data.image = [res.data.image].concat([]);
-      setState({ product: res.data });
+      console.log(res.data);
+      product.product_name = res.data.name;
+      product.inventory_type = res.data.inventory_type;
+      product.category_id = res.data.category_id;
+      product.tax_inclusion = res.data.tax_inclusion;
+      product.primary_unit = res.data.primary_unit;
+      product.secondry_unit = res.data.secondry_unit;
+      product.conversion = res.data.conversion;
+      // res.data.image = [res.data.image].concat([]);
+      setState({ product });
     })
     .catch((error) => setState({ error }));
   setState({ loading: false });
@@ -55,7 +68,16 @@ export async function getCategoryList(state, setState) {
   var getTax = postHttp("taxLists", {});
   var getToppings = postHttp("getToppingsProducts", {});
   var getBranches = postHttp("allBranchLists", {});
-  await Promise.all([getCat, getUnit, getKot, getTax, getToppings, getBranches])
+  var getAccounts = postHttp("getAccounts", {});
+  await Promise.all([
+    getCat,
+    getUnit,
+    getKot,
+    getTax,
+    getToppings,
+    getBranches,
+    getAccounts,
+  ])
     .then((res) => {
       setState({ allCategoty: res[0].data });
       setState({ allUnits: res[1].data });
@@ -63,6 +85,7 @@ export async function getCategoryList(state, setState) {
       setState({ allTax: res[3].data });
       setState({ allToppings: res[4].data });
       setState({ allBranches: res[5].data });
+      setState({ allAccounts: res[6].data });
     })
     .catch((error) => setState({ error }));
 }

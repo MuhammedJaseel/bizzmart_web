@@ -1,4 +1,4 @@
-import { postHttp } from "../module/api_int";
+import { getHttp, postHttp } from "../module/api_int";
 import { getTodayType1 } from "../module/simple";
 
 export const expenseGetExpenses = async (state, setState) => {
@@ -7,6 +7,14 @@ export const expenseGetExpenses = async (state, setState) => {
   await postHttp("getExpense", expensesPaging).then((res) => {
     setState({ allExpense: res.data, expensesPaging: res.page });
   });
+
+  setState({ loading: false });
+};
+export const expenseGetSingleExpense = async (item, state, setState) => {
+  setState({ loading: true, error: null, selected: item });
+  await getHttp("getExpenseDetails/" + item.id).then((res) =>
+    setState({ selected: res.data })
+  );
 
   setState({ loading: false });
 };

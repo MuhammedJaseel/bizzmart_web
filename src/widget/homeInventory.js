@@ -57,6 +57,7 @@ export default class HomeInventory extends Component {
       allUnits: [],
       allKot: [],
       allTax: [],
+      allAccounts: [],
       allToppings: [],
       allBranches: [],
       product: null,

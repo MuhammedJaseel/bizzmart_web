@@ -14,7 +14,7 @@ export async function getPriceManagment(state, setState) {
     .then((res) => {
       setState({ stockLookupList: res });
       // console.log("Stock ");
-      console.log(res.data);
+      // console.log(res.data);
     })
     .catch((error) => setState({ error }));
   await postHttp("getMSLLookupLists", productPaging)

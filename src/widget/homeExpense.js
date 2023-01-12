@@ -3,7 +3,10 @@ import { MyTable1, MyTableCounter1 } from "./widget_table";
 import { HeaderButtens1 } from "./widget";
 import { Header1, Header2, Header4 } from "./widget";
 import { MyForm1 } from "./widget_form";
-import { expenseGetExpenses } from "../method/homeExpense";
+import {
+  expenseGetExpenses,
+  expenseGetSingleExpense,
+} from "../method/homeExpense";
 import { expenseGetAllDetails } from "../method/homeExpense";
 import "../style/hdb.css";
 import DrawerView1 from "./widget_view";
@@ -62,11 +65,15 @@ export default class HomeExpense extends Component {
 
     return (
       <React.StrictMode>
-        <Header1 title="EXPENSES > EXPENSES LIST" bodyR={bodyR} />
+        <Header1
+          title="EXPENSES > EXPENSES LIST"
+          bodyR={bodyR}
+          onTap={() => setState({ form: null })}
+        />
         <Header2 titles={pTitles} page={0} setState={setState} />
         <HomeExpenceTable state={state} setState={setState} />
         <HomeExpenceForm state={state} setState={setState} />
-        <DrawerView1 state={state} setState={setState} />
+        <DrawerView1 state={state} setState={setState} expence />
       </React.StrictMode>
     );
   }
@@ -74,7 +81,6 @@ export default class HomeExpense extends Component {
 
 function HomeExpenceTable({ state, setState }) {
   const { form, allExpense, expensesPaging } = state;
-
   const widths = [
     { width: 4 },
     { width: 10 },
@@ -112,8 +118,8 @@ function HomeExpenceTable({ state, setState }) {
     },
   };
 
-  const _onclick = (v) => setState({ selected: allExpense[v] });
-
+  const _onclick = (v) =>
+    expenseGetSingleExpense(allExpense[v], state, setState);
   return (
     <React.StrictMode>
       <Header4 title={"Expenses List"} desc={desc} body={filter} />

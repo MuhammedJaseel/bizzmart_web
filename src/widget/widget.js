@@ -298,7 +298,7 @@ export function HeaderButtens1({ props }) {
         >
           {drowelList?.map((it, k) => (
             <div className="zcNcE" onClick={it.fun}>
-              {it?.t}
+              {it?.title}
             </div>
           ))}
         </div>

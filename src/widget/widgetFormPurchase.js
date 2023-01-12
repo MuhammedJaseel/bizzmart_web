@@ -6,7 +6,7 @@ import "../style/zf.css";
 import { calculatePurchaseTax } from "../module/homePurchase";
 
 export const newPurchaseStructure = {
-  invoice_number: "ab12dcd",
+  // invoice_number: null,
   purchase_order_id: null,
   purchase_order_invoice_no: null,
   due_in: null,
@@ -161,7 +161,10 @@ export function FormNewPurchase({ state, setState }) {
           <form
             key={k}
             className="zfBbB"
-            onChange={() => calculatePurchaseTax(it, state, setState)}
+            onChange={() => {
+              setState({ form });
+              calculatePurchaseTax(it, state, setState);
+            }}
           >
             <div
               className="zfBbAa zfBbA_d zfBbAa_"
@@ -216,25 +219,29 @@ export function FormNewPurchase({ state, setState }) {
               <input
                 className="zfBbAc zfBbBa zfBbA_d"
                 type="number"
-                id="quantity"
+                onChange={(e) => (it.quantity = e.target.value)}
                 placeholder="00"
                 value={it.quantity}
               />
               <input
                 className="zfBbAd zfBbA_d"
                 type="number"
-                id="price"
+                onChange={(e) => (it.price = e.target.value)}
                 value={it.price}
                 placeholder="0.0"
               />
               <input
                 className="zfBbAd zfBbA_d"
-                id="discount_amount"
                 placeholder="0.00"
+                onChange={(e) => (it.discount_amount = e.target.value)}
                 type="number"
                 value={it.discount_amount}
               />
-              <select className="zfBbAd zfBbA_d" id="tax_id" value={it.tax_id}>
+              <select
+                className="zfBbAd zfBbA_d"
+                value={it.tax_id}
+                onChange={(e) => (it.tax_id = e.target.value)}
+              >
                 <option>Tax Slab</option>
                 {allTax.map((it, k) => (
                   <option key={k} value={it.id}>

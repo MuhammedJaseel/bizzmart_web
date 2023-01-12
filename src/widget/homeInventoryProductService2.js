@@ -23,12 +23,14 @@ function ProductForm({ state, setState }) {
   const { allKot, allUnits, allCategoty, allTax } = state;
 
   const conRef = useRef(null);
+
   if (product === null) return null;
   const isEdit = product?.hasOwnProperty("id");
   const title = isEdit ? page?.editTitle : page?.title;
   return (
     <form
       onChange={(e) => {
+        setState({ product });
         if (e.target.id === "") return;
         const value = e.target.value;
         product[e.target.id] = value;
@@ -55,8 +57,8 @@ function ProductForm({ state, setState }) {
             <input
               className="hinDa"
               placeholder="Enter a name for your product"
-              id="product_name"
-              defaultValue={product?.name}
+              onChange={(e) => (product.product_name = e.target.value)}
+              value={product?.product_name}
             />
           </AddingForm1>
           <AddingForm2>
@@ -67,8 +69,8 @@ function ProductForm({ state, setState }) {
             <div className="hinDa">
               <select
                 className="hinDaA"
-                id="inventory_type"
-                defaultValue={product?.inventory_type}
+                onChange={(e) => (product.inventory_type = e.target.value)}
+                value={product?.inventory_type}
               >
                 <option hidden> Select prodect type</option>
                 {prodectTypes.map((it, k) => (
@@ -79,8 +81,8 @@ function ProductForm({ state, setState }) {
               </select>
               <select
                 className="hinDaA"
-                id="category_id"
-                defaultValue={product?.category_id}
+                onChange={(e) => (product.category_id = e.target.value)}
+                value={product?.category_id}
               >
                 <option hidden> Select Category</option>
                 {allCategoty.map((it, k) => (
@@ -95,8 +97,8 @@ function ProductForm({ state, setState }) {
             <textarea
               className="hinDa"
               placeholder="Enter a brief description for your product, this will be shown on all the linked selling channels for your customers."
-              id="product_description"
-              defaultValue={product?.product_description}
+              onChange={(e) => (product.product_description = e.target.value)}
+              value={product?.product_description}
             />
           </AddingForm1>
           <AddingForm1 title="Manage stock">
@@ -117,8 +119,8 @@ function ProductForm({ state, setState }) {
             <div className="hinDa">
               <select
                 className="hinDaB"
-                id="primary_unit"
-                defaultValue={product?.primary_unit}
+                onChange={(e) => (product.primary_unit = e.target.value)}
+                value={product?.primary_unit}
               >
                 <option hidden>Select Unit</option>
                 {allUnits.map((it, k) => (
@@ -127,7 +129,7 @@ function ProductForm({ state, setState }) {
               </select>
               <select
                 className="hinDaB"
-                id="secondry_unit"
+                onChange={(e) => (product.secondry_unit = e.target.value)}
                 defaultValue={product?.secondry_unit}
               >
                 <option hidden>Select alternate unit (optional)</option>
@@ -150,7 +152,7 @@ function ProductForm({ state, setState }) {
                       type="number"
                       id="conversion"
                       ref={conRef}
-                      defaultValue={product.conversion}
+                      value={product.conversion}
                       placeholder="0.00"
                     />
                     <div className="hinDaBa">
@@ -195,8 +197,8 @@ function ProductForm({ state, setState }) {
               </select>
               <select
                 className="hinDaB"
-                id="tax_inclusion"
-                defaultValue={product?.tax_inclusion}
+                value={product?.tax_inclusion}
+                onChange={(e) => (product.tax_inclusion = e.target.value)}
               >
                 <option hidden>Select tax type</option>
                 <option value="Inclusive">Inclusive</option>

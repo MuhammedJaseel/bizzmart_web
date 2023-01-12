@@ -19,6 +19,7 @@ import {
   postWriteOffAsset,
 } from "../method/homeInventoryAssest";
 import { getTodayType2 } from "../module/simple";
+import { calculateAssetPurchaseTax } from "../module/homeInventoryAssets";
 
 export function AssetTable({ state, setState }) {
   const { allFixedAssets, allAssignedAssets, page } = state;
@@ -662,10 +663,9 @@ function AssetWriteOffPoup({ state, setState }) {
   );
 }
 
-
 export function InventoryAddAssetPurchase({ state, setState }) {
   const { page, addAssetPurchase, allAssets, allPaymenyMode } = state;
-  const { allSuppliers } = state;
+  const { allSuppliers, allTax, allAccounts, error } = state;
   const [saveBtn, setsaveBtn] = useState(false);
 
   if (page?.path !== "addAssetPurchase") return null;
@@ -708,6 +708,11 @@ export function InventoryAddAssetPurchase({ state, setState }) {
             <br />
             <select>
               <option hidden>Select Payment from</option>
+              {allAccounts?.map((it, k) => (
+                <option value={it.id} key={k}>
+                  {it.account_display_name}
+                </option>
+              ))}
             </select>
           </div>
           <div style={{ width: "11%" }}>
@@ -769,7 +774,11 @@ export function InventoryAddAssetPurchase({ state, setState }) {
           </div>
           <div className="hiaCc">
             {addAssetPurchase?.items?.map((it, k) => (
-              <div key={k} className="hiaCcA">
+              <form
+                key={k}
+                className="hiaCcA"
+                onChange={() => calculateAssetPurchaseTax(it, state, setState)}
+              >
                 <div
                   className={
                     k + 1 === addAssetPurchase.items.length ? "" : "hiaCcAa"
@@ -800,6 +809,7 @@ export function InventoryAddAssetPurchase({ state, setState }) {
                           item_tax: "",
                           item_total: 0,
                         });
+                      calculateAssetPurchaseTax(it, state, setState);
                       setState(addAssetPurchase);
                     }}
                     bottom={{
@@ -851,8 +861,15 @@ export function InventoryAddAssetPurchase({ state, setState }) {
                       it.branch_id = e.target.value;
                       setState(addAssetPurchase);
                     }}
+                    id="tax_id"
+                    value={it.tax_id}
                   >
-                    <option>No Tax</option>
+                    <option hidden>Select tax</option>
+                    {allTax.map((it, k) => (
+                      <option key={k} value={it.id}>
+                        {it.name}
+                      </option>
+                    ))}
                   </select>
                 </div>
                 <div className="hiaCcAd" style={{ width: "10%" }}>
@@ -861,7 +878,7 @@ export function InventoryAddAssetPurchase({ state, setState }) {
                 <div className="hiaCcAd" style={{ width: "10%" }}>
                   {it.total}
                 </div>
-              </div>
+              </form>
             ))}
           </div>
           <div className="hiaCd">
@@ -908,6 +925,15 @@ export function InventoryAddAssetPurchase({ state, setState }) {
           </div>
         </div>
         <div className="hiaD">
+          <div
+            style={{
+              color: "red",
+              fontSize: ".8vw",
+              padding: ".3vw .5vw",
+            }}
+          >
+            {error}
+          </div>
           <div className="hiaDa">
             <div
               className="hiaDaA"
