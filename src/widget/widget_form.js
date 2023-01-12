@@ -950,7 +950,7 @@ export function DrawerForm1({ props }) {
                         type="password"
                         defaultValue={form?.pin}
                         id="pin"
-                        placeholder="Enter PIN"
+                        placeholder="Enter 4 digit PIN"
                       />
                     </div>
                   </StrictMode>
