@@ -22,10 +22,6 @@ export function HomeSettings1BussinessSettings({ state, setState }) {
   const body = "GENERAL SETTINGS";
   const bodyL = "BUSINESS & GST SETTINGS";
 
-  const title = "CASH & BANK ACCOUNTS";
-  const desc =
-    "Email sender address, You can select logged in users email or any email address of your choice";
-
   if (page?.path !== "bussnessSettings") return null;
   return (
     <form onChange={(e) => bussinessSettingsValidator(e, state, setState)}>
@@ -35,7 +31,10 @@ export function HomeSettings1BussinessSettings({ state, setState }) {
         onTap={() => setState({ page: null })}
       />
       <div className="hstD">
-        <AddingFormLayout title={title} desc={desc}>
+        <AddingFormLayout
+          title="BRANCH DETAILS"
+          desc="Email sender address, You can select logged in user email or any email address of your coice"
+        >
           <AddingForm1 title="Branch Name">
             <input
               className="hstDa"
@@ -115,7 +114,10 @@ export function HomeSettings1BussinessSettings({ state, setState }) {
             <div className="hstDa_">PIN code of your store location</div>
           </AddingForm1>
         </AddingFormLayout>
-        <AddingFormLayout title={title} desc={desc}>
+        <AddingFormLayout
+          title="CONTACT DETAILS"
+          desc="Email sender address, You can select logged in users email or any email address of your choice"
+        >
           <AddingForm1 title="Registered Mobile">
             <input
               className="hstDa"
@@ -185,7 +187,10 @@ export function HomeSettings1BussinessSettings({ state, setState }) {
             </div>
           </AddingForm1>
         </AddingFormLayout>
-        <AddingFormLayout title={title} desc={desc}>
+        <AddingFormLayout
+          title="Other Details"
+          desc="Email sender address, You can select logged in users email or any email address of your choice"
+        >
           <AddingForm1 title="Timezone*">
             <select className="hstDa" value={bussinessSettings.branch_timezone}>
               {allTimeZone?.map((it, k) => (

@@ -27,7 +27,7 @@ export const newPurchaseStructure = {
   paid: 0,
   total_amount: 0,
   notes: "",
-  balance_amount: "",
+  balance_amount: 0,
   delivery_address: "",
   items: [
     {
@@ -200,8 +200,10 @@ export function FormNewPurchase({ state, setState }) {
                       it.tax_type = res.data.tax_inclusion;
                       it.tax_id = res.data.selling_tax.toString();
                       it.quantity = 1;
+                      it.stock = 1;
                       it.discount_amount = 0;
                       it.price = res.data.purchase_price;
+                      it.stock_price = res.data.purchase_price;
 
                       calculatePurchaseTax(it, state, setState);
                       if (k + 1 === form.items.length)
@@ -219,14 +221,20 @@ export function FormNewPurchase({ state, setState }) {
               <input
                 className="zfBbAc zfBbBa zfBbA_d"
                 type="number"
-                onChange={(e) => (it.quantity = e.target.value)}
+                onChange={(e) => {
+                  it.quantity = e.target.value;
+                  it.stock = e.target.value;
+                }}
                 placeholder="00"
                 value={it.quantity}
               />
               <input
                 className="zfBbAd zfBbA_d"
                 type="number"
-                onChange={(e) => (it.price = e.target.value)}
+                onChange={(e) => {
+                  it.price = e.target.value;
+                  it.stock_price = e.target.value;
+                }}
                 value={it.price}
                 placeholder="0.0"
               />

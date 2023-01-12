@@ -89,7 +89,7 @@ export default class BranchScreen extends Component {
             </div>
             {allBranches.map((it, k) => (
               <div key={k} className="br_Ab">
-                <div className="br_U brAc">
+                <div className="br_U brAc" style={{ background: "none" }}>
                   <img className="br_Ad" src={it?.image} alt="LOgo" />
                   <div className="br_Ae">
                     <div className="br_Af">{it?.business_name}</div>
@@ -105,6 +105,10 @@ export default class BranchScreen extends Component {
                   className="br_Am"
                   onClick={() => {
                     window.localStorage.setItem("branchId", it.branch_id);
+                    // window.localStorage.setItem("profilePic", res.image);
+                    // window.localStorage.setItem("userName", res.data.phone);
+                    // window.localStorage.setItem("userId", res.data.id);
+                    // window.localStorage.setItem("address", res.data.address);
                     setScreen("/dashboard");
                   }}
                 >
