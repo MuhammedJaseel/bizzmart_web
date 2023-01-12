@@ -40,7 +40,7 @@ export async function branchLogin(e, state, setState) {
     branch_id: state.branch_id,
     username: e.target.br_li_username.value,
     password: e.target.br_li_password.value,
-    force_login: 0, // forceLogin,
+    force_login: 1, // forceLogin,
   };
   await postHttpStatic("branchUserLogin", body)
     .then((res) => {
