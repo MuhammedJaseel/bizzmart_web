@@ -1,4 +1,5 @@
 import { getHttp, postHttp } from "../module/api_int";
+import { newPurchaseStructure } from "../widget/widgetFormPurchase";
 
 export const purchaseGetAllPurchase = async (state, setState) => {
   const { purchasePaging } = state;
@@ -18,7 +19,8 @@ export const purchaseGetAllPurchase = async (state, setState) => {
 };
 
 export const postPurchaseList = async (flag, state, setState) => {
-  const { form, succesPop } = state;
+  const { form, succesPop, loading } = state;
+  if (loading) return;
   const body = JSON.parse(JSON.stringify(form));
   body.cashier_id = window.localStorage.getItem("userId");
   body.items.pop();
@@ -26,8 +28,9 @@ export const postPurchaseList = async (flag, state, setState) => {
   await postHttp("addPurchase", body)
     .then(async () => {
       await purchaseGetAllPurchase(state, setState);
-      if (flag === "payment") setState({ form: null });
-      else setState({ addPayment: {} });
+      setState({ form: JSON.parse(JSON.stringify(newPurchaseStructure)) });
+      if (flag === "save") setState({ form: null });
+
       succesPop({
         active: true,
         title: "Succesfully Added",

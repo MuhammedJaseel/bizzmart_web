@@ -91,6 +91,7 @@ export function FormNewPurchase({ state, setState }) {
               <div className="zfBaAaA">Supplier Invoice #</div>
               <input
                 className="zfBaAaC"
+                value={form?.supplier_invoice_no}
                 onChange={(e) => (form.supplier_invoice_no = e.target.value)}
               />
             </div>
@@ -98,6 +99,7 @@ export function FormNewPurchase({ state, setState }) {
               <div className="zfBaAaA">Supplier*</div>
               <select
                 className="zfBaAaB"
+                value={form?.supplier_id}
                 onChange={(e) => {
                   form.supplier_id = e.target.value;
                   form.supplier_name = allSuppliers.filter(
@@ -121,6 +123,7 @@ export function FormNewPurchase({ state, setState }) {
               <div className="zfBaAaA">Purchase Date*</div>
               <input
                 type="date"
+                value={form?.purchase_date}
                 className="zfBaAaC"
                 onChange={(e) => (form.purchase_date = e.target.value)}
               />
@@ -129,6 +132,7 @@ export function FormNewPurchase({ state, setState }) {
               <div className="zfBaAaA">Due Date</div>
               <input
                 type="date"
+                value={form?.due_date}
                 className="zfBaAaC"
                 onChange={(e) => (form.due_date = e.target.value)}
               />
@@ -202,8 +206,8 @@ export function FormNewPurchase({ state, setState }) {
                       it.quantity = 1;
                       it.stock = 1;
                       it.discount_amount = 0;
-                      it.price = res.data.purchase_price;
-                      it.stock_price = res.data.purchase_price;
+                      it.rate = res.data.purchase_price;
+                      // it.stock_price = res.data.purchase_price;
 
                       calculatePurchaseTax(it, state, setState);
                       if (k + 1 === form.items.length)
@@ -273,11 +277,23 @@ export function FormNewPurchase({ state, setState }) {
         <div className="zfBc">
           <div className="zfBcA">
             <div className="zfBcAa">Delivery Address</div>
-            <textarea className="zfBcAb" placeholder="Address" />
+            <textarea
+              className="zfBcAb"
+              placeholder="Address"
+              value={form?.delivery_address}
+              onChange={(e) => {
+                form.delivery_address = e.target.value;
+                setState({ form });
+              }}
+            />
             <div className="zfBcAa">Purchase Note</div>
             <textarea
               className="zfBcAc"
-              id="notes"
+              value={form?.notes}
+              onChange={(e) => {
+                form.notes = e.target.value;
+                setState({ form });
+              }}
               placeholder="Enter invoice terms / notes here"
             />
           </div>
@@ -287,22 +303,28 @@ export function FormNewPurchase({ state, setState }) {
               <div>Discount</div>
               <input
                 type="number"
-                id="discount"
                 className="zfBcBb"
                 placeholder="0.0"
+                value={form?.discount}
+                onChange={(e) => {
+                  form.discount = e.target.value;
+                  setState({ form });
+                }}
               />
             </div>
             <div className="zfBcBa">
               <div>Subtotal</div>
-              <div>4,685.00</div>
+              <div>{form.total_amount}</div>
             </div>
             <div className="zfBcBa">
               <div>Tax</div>
-              <div>0.00</div>
+              <div>{form?.totalTax}</div>
             </div>
             <div className="zfBcBc">
               <div>Total</div>
-              <div>4,685.00</div>
+              <div>
+                {form?.totalTax + form.total_amount - Number(form?.discount)}
+              </div>
             </div>
           </div>
         </div>
