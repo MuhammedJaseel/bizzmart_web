@@ -243,9 +243,9 @@ function ProductForm({ state, setState }) {
           <AddingForm1 title="Select production station">
             <select
               className="hinDa"
-              id="product_kot"
               defaultValue={product?.product_kot}
-              disabled={product?.category_default_kot === 1}
+              disabled={product?.product_kot === 1}
+              onChange={(e) => (product.product_kot = e.target.value)}
             >
               <option hidden>Select a prodect station to your product</option>
               {allKot.map((it, k) => (
@@ -263,22 +263,22 @@ function ProductForm({ state, setState }) {
         >
           {/* {product?.is_service === 0 ? (
             <AddingForm1 title="Product type*">
-              <SelectButton
-                isEdit
-                type={product.type}
-                setType={(v) =>
-                  setState({
-                    product: { ...product, type: v, variant_products: [] },
-                  })
-                }
-              />
+            <SelectButton
+            isEdit
+            type={product.type}
+            setType={(v) =>
+              setState({
+                product: { ...product, type: v, variant_products: [] },
+              })
+            }
+            />
             </AddingForm1>
           ) : null} */}
           {/*///////////////////////////////////////////////////////////////////////////////////////
             //////////////////////////////////////////////////////////////////////////////////////////
             //////////////////////////////      STARNDERD PRODUCT      ///////////////////////////////
             //////////////////////////////////////////////////////////////////////////////////////////
-            ////////////////////////////////////////////////////////////////////////////////////// */}
+          ////////////////////////////////////////////////////////////////////////////////////// */}
           {product.type === 1 ? (
             <StrictMode>
               <AddingForm2>
@@ -294,13 +294,15 @@ function ProductForm({ state, setState }) {
                 <div className="hinDa">
                   <input
                     className="hinDaB"
-                    id="bar_code"
+                    onChange={(e) => (product.bar_code = e.target.value)}
                     placeholder="Only uppercase letters and numbers"
+                    defaultValue={product?.bar_code}
                   />
                   <input
                     className="hinDaB"
-                    id="ean"
+                    onChange={(e) => (product.ean = e.target.value)}
                     placeholder="Only numeric characters"
+                    defaultValue={product?.ean}
                   />
                   <div className="hinDaB" />
                 </div>
@@ -313,12 +315,17 @@ function ProductForm({ state, setState }) {
               <AddingForm1 title="Purchase info *">
                 <div className="hinDa">
                   <input
-                    id="purchase_price"
+                    onChange={(e) => (product.purchase_price = e.target.value)}
+                    defaultValue={product?.purchase_price}
                     className="hinDaB"
                     type="number"
                     placeholder="Enter cost / purchase price"
                   />
-                  <select className="hinDaB">
+                  <select
+                    className="hinDaB"
+                    onChange={(e) => (product.stock_unit = e.target.value)}
+                    defaultValue={product?.stock_unit}
+                  >
                     <option hidden>Select Purchase Unit</option>
                     {product?.primary_unit !== "" ? (
                       <option value={product?.primary_unit}>
@@ -347,21 +354,24 @@ function ProductForm({ state, setState }) {
                 <div className="hinDa">
                   <input
                     className="hinDaB"
-                    id="mrp"
                     placeholder="Enter MRP"
                     type="number"
+                    onChange={(e) => (product.mrp = e.target.value)}
+                    defaultValue={product?.mrp}
                   />
                   <input
                     className="hinDaB"
-                    id="selling_price"
                     placeholder="Enter selling price"
                     type="number"
+                    onChange={(e) => (product.selling_price = e.target.value)}
+                    defaultValue={product?.selling_price}
                   />
                   <input
-                    id="online_price"
                     className="hinDaB"
                     placeholder="Enter online price"
                     type="number"
+                    onChange={(e) => (product.online_price = e.target.value)}
+                    defaultValue={product?.online_price}
                   />
                 </div>
               </AddingForm1>
@@ -376,16 +386,17 @@ function ProductForm({ state, setState }) {
                 <div className="hinDa">
                   <input
                     className="hinDaB"
-                    id="opening_stock"
                     placeholder="0.00"
                     defaultValue={product?.opening_stock}
                     type="number"
+                    onChange={(e) => (product.opening_stock = e.target.value)}
                   />
                   <input
                     className="hinDaB"
                     id="min_stock_level"
                     placeholder="Enter minimum stock level"
                     defaultValue={product?.min_stock_level}
+                    onChange={(e) => (product.min_stock_level = e.target.value)}
                   />
                   <div className="hinDaB" />
                 </div>

@@ -10,14 +10,36 @@ export async function getProduct(k, state, setState) {
   setState({ product });
   await getHttp(`getProduct/${product?.id}`)
     .then((res) => {
-      console.log(res.data);
+      // console.log(res.data);
+      product.type = res.data.inventory_type;
       product.product_name = res.data.name;
+      product.product_description = res.data.product_description;
       product.inventory_type = res.data.inventory_type;
       product.category_id = res.data.category_id;
       product.tax_inclusion = res.data.tax_inclusion;
+      product.selling_tax = res.data.selling_tax;
+      product.manage_stock = res.data.manage_stock;
       product.primary_unit = res.data.primary_unit;
       product.secondry_unit = res.data.secondry_unit;
       product.conversion = res.data.conversion;
+      product.hsncode = res.data.hsn_code;
+      product.is_online = res.data.is_online ? 1 : 0;
+      product.image = [];
+      product.category_default_kot = res.data.category_default_kot;
+      // product.product_kot = res.data.category_default_modifier; /////////////////////////////Missing
+      // ///////////////////////////////////////////////////
+      product.bar_code = res.data.barcode;
+      product.ean = res.data.ean; ////////////////////////////////////////////////////m Missing
+      product.bar_code = res.data.barcode;
+      product.purchase_price = res.data.purchase_price;
+      product.stock_unit = res.data.stock_unit;
+      product.mrp = res.data.mrp;
+      product.selling_price = res.data.selling_price;
+      product.online_price = res.data.online_price;
+      product.opening_stock = res.data.stock;
+      product.min_stock_level = res.data.min_stock_level; ////////////////////////////////////////////Missing
+      product.category_default_modifier = res.data.category_default_modifier;
+      product.product_modifier = res.data.product_modifier || []; ///////////////////////////////////// Missing
       // res.data.image = [res.data.image].concat([]);
       setState({ product });
     })
@@ -156,9 +178,7 @@ export async function setInventory(state, setState) {
 export async function postInventoryProduct(state, setState) {
   const { product, allTax, succesPop } = state;
   var error = null;
-
   if (product.selling_tax === "") error = "Select Tax";
-
   var purchasePrice = "";
   var proTax = 0;
   var costPrice = "";
@@ -201,6 +221,7 @@ export async function postInventoryProduct(state, setState) {
       }
     }
   } catch (e) {
+    console.log(e);
     error = "Something wrong at calculating tax, Check your tax details";
   }
 
