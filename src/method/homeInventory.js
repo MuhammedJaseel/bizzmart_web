@@ -48,6 +48,24 @@ export async function getProduct(k, state, setState) {
   return;
 }
 
+export async function deleteProducts(product_id, state, setState) {
+  const { loading, succesPop } = state;
+  if (loading) return;
+  await postHttp("productDestroy", { product_id })
+    .then(async (res) => {
+      await getProducts(state, setState);
+      succesPop({
+        active: true,
+        title: "Product deleted successfully",
+        desc: "Updated Successfully",
+      });
+      setState({ product: null });
+    })
+    .catch((error) => setState({ error }));
+  setState({ loading: false });
+  return;
+}
+
 export async function getProducts(state, setState) {
   const { productPaging } = state;
   await postHttp("products", productPaging)

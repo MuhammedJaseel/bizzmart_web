@@ -1,5 +1,9 @@
 import React, { StrictMode, useRef } from "react";
-import { postInventoryProduct, setInventory } from "../method/homeInventory";
+import {
+  deleteProducts,
+  postInventoryProduct,
+  setInventory,
+} from "../method/homeInventory";
 import { prodectTypes } from "../module/homeInventory";
 import { addProdectTitles } from "../module/homeInventory1";
 import { AssetForm } from "./homeInventoryAssest";
@@ -724,6 +728,7 @@ function ProductForm({ state, setState }) {
       <WidgetFooterSubmit
         props={{
           isEdit,
+          onDelete: () => deleteProducts(product?.id, state, setState),
           onTap: () => postInventoryProduct(state, setState),
           onCancel: () => setState({ page: null }),
           loading,

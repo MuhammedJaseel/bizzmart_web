@@ -2,10 +2,16 @@ import React from "react";
 import "../style/zft.css";
 
 export default function WidgetFooterSubmit({ props }) {
-  const { isEdit, onTap, onCancel, loading, error, onDeleate } = props;
+  const { isEdit, onTap, onCancel, loading, error, onDelete } = props;
   return (
     <div className="zftA">
-      {isEdit ? <div className="zftAa">DELETE PRODECT</div> : <div />}
+      {isEdit ? (
+        <div className="zftAa" onClick={onDelete}>
+          DELETE PRODECT
+        </div>
+      ) : (
+        <div />
+      )}
       <div className="zftAb">
         <div className="zftAbA">{error}</div>
         <div className="zftAbB" onClick={onCancel}>
