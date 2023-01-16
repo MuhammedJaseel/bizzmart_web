@@ -1,20 +1,16 @@
 import { postHttp } from "../module/api_int";
+import { assetPurchaseStruct } from "../module/homeInventoryAssets";
 
 export const getAllAssetsList = async (state, setState) => {
-  await postHttp("getAsserLists", {}).then((res) => {
-    setState({ allFixedAssets: res.data });
-    // console.log(res.data);
-  });
-  await postHttp("getassignedAssetLists", {}).then((res) => {
-    setState({ allAssignedAssets: res.data });
-    // console.log(res.data);
-  });
-  await postHttp("getSuppliersLists", {}).then((res) => {
-    setState({ allSuppliers: res.data });
-    // console.log(res.data);
-  });
-
-  // console.log(state.allFixedAssets);
+  await postHttp("getAsserLists", {}).then((res) =>
+    setState({ allFixedAssets: res.data })
+  );
+  await postHttp("getassignedAssetLists", {}).then((res) =>
+    setState({ allAssignedAssets: res.data })
+  );
+  await postHttp("getSuppliersLists", {}).then((res) =>
+    setState({ allSuppliers: res.data })
+  );
 };
 
 export const getAllassets = async (state, setState) => {
@@ -102,7 +98,7 @@ export const postExistingAsset = (state, setState, close) => {
   setState({ loading: false });
 };
 
-export const postAssetPurchase = (state, setState, close) => {
+export const postAssetPurchase = async (state, setState, close) => {
   const { loading, addAssetPurchase, succesPop } = state;
   if (loading) return 0;
 
@@ -110,25 +106,26 @@ export const postAssetPurchase = (state, setState, close) => {
   body.items.pop();
 
   // --START-- Form validation
-  if (body.supplier_id === undefined) {
+  if (body.supplier_id === "") {
     setState({ error: "Select supplier" });
     return;
   }
-  if (body.purchase_date === undefined) {
+  if (body.purchase_date === "") {
     setState({ error: "Select purchase date" });
     return;
   }
-  if (body.payment_mode === undefined) {
+  if (body.payment_mode === "") {
     setState({ error: "Select payment mode" });
     return;
   }
-  if (body.due_date === undefined) {
+  if (body.due_date === "") {
     setState({ error: "Select due date" });
     return;
   }
   // --END-- Form validation end
+  setState({ loading: true, error: null });
 
-  postHttp("addAssetPurchase", body)
+  await postHttp("addAssetPurchase", body)
     .then(() => {
       succesPop({
         active: true,
@@ -136,22 +133,7 @@ export const postAssetPurchase = (state, setState, close) => {
         desc: "Updated Successfully",
       });
       if (close) setState({ page: null });
-      else
-        setState({
-          addAssetPurchase: {
-            items: [
-              {
-                asset_id: "",
-                asset_category_id: "",
-                quantity: 1,
-                price: 0,
-                tax_id: "",
-                item_tax: "",
-                item_total: 0,
-              },
-            ],
-          },
-        });
+      else setState({ addAssetPurchase: assetPurchaseStruct });
     })
     .catch(() => setState({ error: "Error On adding asset purchase" }));
   setState({ loading: false });

@@ -19,7 +19,11 @@ import {
   postWriteOffAsset,
 } from "../method/homeInventoryAssest";
 import { getTodayType2 } from "../module/simple";
-import { calculateAssetPurchaseTax } from "../module/homeInventoryAssets";
+import {
+  assetPurchaseSinglrStruct,
+  assetPurchaseStruct,
+  calculateAssetPurchaseTax,
+} from "../module/homeInventoryAssets";
 
 export function AssetTable({ state, setState }) {
   const { allFixedAssets, allAssignedAssets, page } = state;
@@ -59,19 +63,7 @@ export function AssetTable({ state, setState }) {
         fun: () =>
           setState({
             page: { path: "addAssetPurchase" },
-            addAssetPurchase: {
-              items: [
-                {
-                  asset_id: "",
-                  asset_category_id: "",
-                  quantity: 1,
-                  price: 0,
-                  tax_id: "",
-                  item_tax: "",
-                  item_total: 0,
-                },
-              ],
-            },
+            addAssetPurchase: JSON.parse(JSON.stringify(assetPurchaseStruct)),
           }),
       },
     ],
@@ -664,7 +656,7 @@ function AssetWriteOffPoup({ state, setState }) {
 }
 
 export function InventoryAddAssetPurchase({ state, setState }) {
-  const { page, addAssetPurchase, allAssets, allPaymenyMode } = state;
+  const { page, addAssetPurchase, allAssets } = state;
   const { allSuppliers, allTax, allAccounts, error } = state;
   const [saveBtn, setsaveBtn] = useState(false);
 
@@ -678,13 +670,17 @@ export function InventoryAddAssetPurchase({ state, setState }) {
         bodyL={"ASSET > ASSET PURCHSE"}
         onTap={() => setState({ page: null })}
       />
-      <div style={{ overflow: "scroll", maxHeight: "calc(100vh - 5vw)" }}>
+      <form
+        style={{ overflow: "scroll", maxHeight: "calc(100vh - 5vw)" }}
+        onChange={() => setState({ addAssetPurchase })}
+      >
         <Header4 title={title} desc={desc} />
         <div className="hiaB">
           <div style={{ width: "25%" }}>
             Supplier *<br />
             <select
               onChange={(e) => (addAssetPurchase.supplier_id = e.target.value)}
+              value={addAssetPurchase.supplier_id}
             >
               <option hidden>Select Supplier</option>
               {allSuppliers?.map((it, k) => (
@@ -701,12 +697,16 @@ export function InventoryAddAssetPurchase({ state, setState }) {
               onChange={(e) =>
                 (addAssetPurchase.purchase_date = e.target.value)
               }
+              value={addAssetPurchase.purchase_date}
             />
           </div>
           <div style={{ width: "11%" }}>
             Payment From*
             <br />
-            <select>
+            <select
+              onChange={(e) => (addAssetPurchase.account_id = e.target.value)}
+              value={addAssetPurchase.account_id}
+            >
               <option hidden>Select Payment from</option>
               {allAccounts?.map((it, k) => (
                 <option value={it.id} key={k}>
@@ -720,13 +720,12 @@ export function InventoryAddAssetPurchase({ state, setState }) {
             <br />
             <select
               onChange={(e) => (addAssetPurchase.payment_mode = e.target.value)}
+              value={addAssetPurchase.payment_mode}
             >
               <option hidden>Select payment</option>
-              {allPaymenyMode?.map((it, k) => (
-                <option key={k} value={it.id}>
-                  {it.title}
-                </option>
-              ))}
+              <option>Cash</option>
+              <option>Cheque</option>
+              <option>Bank</option>
             </select>
           </div>
           <div style={{ width: "11%" }}>
@@ -734,7 +733,7 @@ export function InventoryAddAssetPurchase({ state, setState }) {
             <br />
             <input
               type="date"
-              id="due_date"
+              value={addAssetPurchase.due_date}
               onChange={(e) => (addAssetPurchase.due_date = e.target.value)}
             />
           </div>
@@ -744,6 +743,7 @@ export function InventoryAddAssetPurchase({ state, setState }) {
             <input
               placeholder="Enter payment reference or chequr number"
               onChange={(e) => (addAssetPurchase.reference = e.target.value)}
+              value={addAssetPurchase.reference}
             />
           </div>
         </div>
@@ -800,15 +800,9 @@ export function InventoryAddAssetPurchase({ state, setState }) {
                       it.asset_category = v.asset_category;
                       it.asset_category_id = v.asset_category_id;
                       if (k + 1 === addAssetPurchase.items.length)
-                        addAssetPurchase.items.push({
-                          asset_id: "",
-                          asset_category_id: "",
-                          quantity: 1,
-                          price: 0,
-                          tax_id: "",
-                          item_tax: "",
-                          item_total: 0,
-                        });
+                        addAssetPurchase.items.push(
+                          JSON.parse(JSON.stringify(assetPurchaseSinglrStruct))
+                        );
                       calculateAssetPurchaseTax(it, state, setState);
                       setState(addAssetPurchase);
                     }}
@@ -821,44 +815,36 @@ export function InventoryAddAssetPurchase({ state, setState }) {
                     }}
                   />
                 </div>
-                <div className="" style={{ width: "25%" }}>
+                <div style={{ width: "25%" }}>
                   <input
                     className="hiaCcAb"
                     disabled
                     value={it.asset_category}
                   />
                 </div>
-                <div className="" style={{ width: "8%" }}>
+                <div style={{ width: "8%" }}>
                   <input
                     className="hiaCcAb"
                     placeholder="0.00"
                     type="number"
                     value={it.quantity}
-                    onChange={(e) => {
-                      it.quantity = e.target.value;
-                      it.total = it.quantity * it.current_value;
-                      setState(addAssetPurchase);
-                    }}
+                    onChange={(e) => (it.quantity = e.target.value)}
                   />
                 </div>
-                <div className="" style={{ width: "8%" }}>
+                <div style={{ width: "8%" }}>
                   <input
                     className="hiaCcAb"
                     placeholder="0.00"
                     type="number"
-                    value={it.current_value}
-                    onChange={(e) => {
-                      it.current_value = e.target.value;
-                      it.total = it.quantity * it.current_value;
-                      setState(addAssetPurchase);
-                    }}
+                    value={it.price}
+                    onChange={(e) => (it.price = e.target.value)}
                   />
                 </div>
-                <div className="" style={{ width: "8%" }}>
+                <div style={{ width: "8%" }}>
                   <select
                     className="hiaCcAb"
                     onChange={(e) => {
-                      it.branch_id = e.target.value;
+                      it.tax_id = e.target.value;
                       setState(addAssetPurchase);
                     }}
                     id="tax_id"
@@ -873,10 +859,10 @@ export function InventoryAddAssetPurchase({ state, setState }) {
                   </select>
                 </div>
                 <div className="hiaCcAd" style={{ width: "10%" }}>
-                  {it.total}
+                  {it.item_tax}
                 </div>
                 <div className="hiaCcAd" style={{ width: "10%" }}>
-                  {it.total}
+                  {it.item_total}
                 </div>
               </form>
             ))}
@@ -888,11 +874,10 @@ export function InventoryAddAssetPurchase({ state, setState }) {
               <textarea
                 className="hiaCdAa"
                 placeholder="Enter notes here"
-                id="purchase_note"
-                onChange={(e) => {
-                  addAssetPurchase.asset_note = e.target.value;
-                  setState(addAssetPurchase);
-                }}
+                value={addAssetPurchase.purchase_note}
+                onChange={(e) =>
+                  (addAssetPurchase.purchase_note = e.target.value)
+                }
               ></textarea>
             </div>
             <div style={{ width: "30%" }}>
@@ -901,13 +886,18 @@ export function InventoryAddAssetPurchase({ state, setState }) {
                 style={{ width: "100%", fontSize: ".9vw" }}
               >
                 <b>Total Value</b>
-                <input id="discount" type="number" placeholder="0.00" />
+                <input
+                  value={addAssetPurchase.discount}
+                  onChange={(e) => (addAssetPurchase.discount = e.target.value)}
+                  type="number"
+                  placeholder="0.00"
+                />
               </div>
               <div
                 className="hiaCdB"
                 style={{ width: "100%", fontSize: ".9vw" }}
               >
-                <b>Subtitla</b>
+                <b>Subtotal</b>
                 <b>{addAssetPurchase?.sub_total}</b>
               </div>
               <div
@@ -915,11 +905,11 @@ export function InventoryAddAssetPurchase({ state, setState }) {
                 style={{ width: "100%", fontSize: ".9vw" }}
               >
                 <b>Tax</b>
-                {/* <b>{_getTotal()}</b> */}
+                <b>{addAssetPurchase?.tax_amount}</b>
               </div>
-              <div className="hiaCdB">
+              <div className="hiaCdB" style={{ width: "100%" }}>
                 <b>Total Value</b>
-                {/* <b>{_getTotal()}</b> */}
+                <b>{addAssetPurchase?.total_amount}</b>
               </div>
             </div>
           </div>
@@ -977,7 +967,7 @@ export function InventoryAddAssetPurchase({ state, setState }) {
             CANCEL
           </div>
         </div>
-      </div>
+      </form>
       <AddAssetPoup state={state} setState={setState} />
     </StrictMode>
   );
