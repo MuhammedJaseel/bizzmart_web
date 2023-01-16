@@ -5,31 +5,16 @@ import { getProducts } from "./homeInventory";
 export async function getInventoryManagment(state, setState) {
   const { productPaging } = state;
   await postHttp("getStockIssueLists", productPaging)
-    .then((res) => {
-      setState({ allStockIssue: res });
-      // console.log(res.data);
-    })
+    .then((res) => setState({ allStockIssue: res }))
     .catch((error) => setState({ error }));
   await postHttp("stockReceivedLists", productPaging)
-    .then((res) => {
-      setState({ allStockRecevied: res });
-      // console.log("Stock ");
-      // console.log(res.data);
-    })
+    .then((res) => setState({ allStockRecevied: res }))
     .catch((error) => setState({ error }));
-  await postHttp("stockAcknowledged", productPaging)
-    .then((res) => {
-      setState({ allStockAcknowledged: res });
-      // console.log("Stock ");
-      // console.log(res.data);
-    })
-    .catch((error) => setState({ error }));
+  // await postHttp("stockAcknowledged", productPaging)
+  //   .then((res) => setState({ allStockAcknowledged: res }))
+  //   .catch((error) => setState({ error }));
   await postHttp("getMSLLookupLists", productPaging)
-    .then((res) => {
-      setState({ allStockReturn: res });
-      // console.log("msl ");
-      // console.log(res.data);
-    })
+    .then((res) => setState({ allStockReturn: res }))
     .catch((error) => setState({ error }));
   setState({ loading: false });
   return;

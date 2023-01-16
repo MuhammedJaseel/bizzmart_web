@@ -10,8 +10,8 @@ export async function getProduct(k, state, setState) {
   setState({ product });
   await getHttp(`getProduct/${product?.id}`)
     .then((res) => {
-      // console.log(res.data);
-      product.type = res.data.inventory_type;
+      console.log(res.data);
+      product.type = Number(res.data.product_type);
       product.product_name = res.data.name;
       product.product_description = res.data.product_description;
       product.inventory_type = res.data.inventory_type;
@@ -23,7 +23,7 @@ export async function getProduct(k, state, setState) {
       product.secondry_unit = res.data.secondry_unit;
       product.conversion = res.data.conversion;
       product.hsncode = res.data.hsn_code;
-      product.is_online = res.data.is_online ? 1 : 0;
+      product.is_online = res.data.is_online;
       product.image = [];
       product.category_default_kot = res.data.category_default_kot;
       // product.product_kot = res.data.category_default_modifier; /////////////////////////////Missing
@@ -54,6 +54,7 @@ export async function getProducts(state, setState) {
     .then((res) => setState({ allProduct: res.data, productPaging: res.page }))
     .catch((error) => setState({ error }));
   setState({ loading: false });
+
   return;
 }
 
@@ -68,6 +69,7 @@ export async function inventorySearchProduct(v, state, setState) {
     .then((res) => setState({ allProductSearches: res.data }))
     .catch((error) => setState({ error }));
   setState({ loading: false });
+
   return;
 }
 
@@ -226,6 +228,7 @@ export async function postInventoryProduct(state, setState) {
   }
 
   const isEdit = product?.hasOwnProperty("id");
+
   const formData = new FormData();
   try {
     if (product.secondry_unit !== "" && product.secUnit)
@@ -239,67 +242,78 @@ export async function postInventoryProduct(state, setState) {
   if (error !== null) return;
   formData.append("branch_id", window.localStorage.getItem("branchId"));
   if (isEdit) formData.append("id", product.id);
-  formData.append("product_name", product.product_name);
-  formData.append("inventory_type", product.inventory_type);
-  formData.append("category_id", product.category_id);
-  formData.append("product_description", product.product_description);
-  formData.append("is_service", product.is_service);
-  formData.append("primary_unit", product.primary_unit);
-  formData.append("secondry_unit", product.secondry_unit);
-  formData.append("enable_unit_conversion", product.secondry_unit !== "");
-  formData.append("selling_tax", product.selling_tax);
-  formData.append("cost_tax", product.selling_tax);
-  formData.append("online_tax", product.selling_tax);
-  formData.append("tax_inclusion", product.tax_inclusion);
-  formData.append("hsncode", product.hsncode);
-  formData.append("is_online", product.is_online);
-  formData.append("category_default_kot", product.category_default_kot);
-  formData.append("product_kot", product.product_kot);
-  formData.append("product_type", product.type);
-  formData.append("product_modifier", JSON.stringify(product.product_modifier));
+  formData.append("product_name", product.product_name || "");
+  formData.append("inventory_type", product.inventory_type || "");
+  formData.append("category_id", product.category_id || "");
+  formData.append("product_description", product.product_description || "");
+  formData.append("is_service", product.is_service || "");
+  formData.append("primary_unit", product.primary_unit || "");
+  formData.append("secondry_unit", product.secondry_unit || "");
+  formData.append("enable_unit_conversion", product.secondry_unit || "" !== "");
+  formData.append("selling_tax", product.selling_tax || "");
+  formData.append("cost_tax", product.selling_tax || "");
+  formData.append("online_tax", product.selling_tax || "");
+  formData.append("tax_inclusion", product.tax_inclusion || "");
+  formData.append("hsncode", product.hsncode || "");
+  formData.append("is_online", product.is_online || "");
+  formData.append("category_default_kot", product.category_default_kot || "");
+  formData.append("product_kot", product.product_kot || "");
+  formData.append("product_type", product.type || "");
+  formData.append(
+    "product_modifier",
+    JSON.stringify(product.product_modifier || "")
+  );
   formData.append(
     "category_default_modifier",
-    product.category_default_kot === 0 ? "" : product.category_default_modifier
+    product.category_default_kot === 0
+      ? ""
+      : product.category_default_modifier || ""
   );
   // TYPE 1
-  formData.append("bar_code", product.bar_code);
-  formData.append("ean", product.ean);
+  formData.append("bar_code", product.bar_code || "");
+  formData.append("ean", product.ean || "");
   formData.append("cost_price", costPrice);
   formData.append("purchase_price", purchasePrice);
-  formData.append("stock_unit", product.primary_unit);
+  formData.append("stock_unit", product.primary_unit || "");
   formData.append("cost_with_tax", costWithTax);
   formData.append("cost_tax_amount", costTaxAmount);
-  formData.append("selling_price", product.selling_price);
-  formData.append("online_price", product.online_price);
-  formData.append("mrp", product.mrp);
-  formData.append("opening_stock", product.opening_stock);
+  formData.append("selling_price", product.selling_price || "");
+  formData.append("online_price", product.online_price || "");
+  formData.append("mrp", product.mrp || "");
+  formData.append("opening_stock", product.opening_stock || "");
   formData.append("stock_date", getTodayType1());
   formData.append("stock_price", costPrice);
-  formData.append("min_stock_level", product.min_stock_level);
+  formData.append("min_stock_level", product.min_stock_level || "");
   //TYPE 2
-  formData.append("variant_products", JSON.stringify(product.variant_products));
+  formData.append(
+    "variant_products",
+    JSON.stringify(product.variant_products || "")
+  );
   formData.append(
     "variant_attribute",
-    JSON.stringify(product.variant_attribute)
+    JSON.stringify(product.variant_attribute || "")
   );
-  formData.append("selectable", product.selectable);
-  formData.append("attribute_title", product.attribute_title);
-  formData.append("classification", JSON.stringify(product.classification));
+  formData.append("selectable", product.selectable || "");
+  formData.append("attribute_title", product.attribute_title || "");
+  formData.append(
+    "classification",
+    JSON.stringify(product.classification || "")
+  );
   //TYPE 3
   formData.append(
     "default_composites",
-    JSON.stringify(product.default_composites)
+    JSON.stringify(product.default_composites || "")
   );
   formData.append(
     "selectable_composites",
-    JSON.stringify(product.selectable_composites)
+    JSON.stringify(product.selectable_composites || "")
   );
   // IMAGE
   for (let i = 0; i < product.image.length; i++)
-    formData.append("image[]", product.image[i]);
+    formData.append("image[]", product.image[i] || "");
 
   setState({ loading: true });
-  await postHttp(isEdit ? "updateStore" : "productStore", formData, true)
+  await postHttp(isEdit ? "productUpdate" : "productStore", formData, true)
     .then(async (res) => {
       await getProducts(state, setState);
       succesPop({

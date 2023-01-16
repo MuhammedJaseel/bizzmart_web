@@ -130,7 +130,7 @@ function ProductForm({ state, setState }) {
               <select
                 className="hinDaB"
                 onChange={(e) => (product.secondry_unit = e.target.value)}
-                defaultValue={product?.secondry_unit}
+                value={product?.secondry_unit}
               >
                 <option hidden>Select alternate unit (optional)</option>
                 <option value="">NONE</option>
@@ -186,7 +186,8 @@ function ProductForm({ state, setState }) {
               <select
                 className="hinDaB"
                 id="selling_tax"
-                defaultValue={product?.selling_tax}
+                value={product?.selling_tax}
+                onChange={(e) => (product.selling_tax = e.target.value)}
               >
                 <option hidden>Select tax slab</option>
                 {allTax.map((it, k) => (
@@ -215,9 +216,9 @@ function ProductForm({ state, setState }) {
           <AddingForm1 title="Sell online">
             <div className="hinDaG">
               <FormSwitch
-                value={product?.is_online === 1}
+                value={product?.is_online}
                 onTap={() => {
-                  product.is_online = product?.is_online === 1 ? 0 : 1;
+                  product.is_online = !product?.is_online;
                   setState({ product });
                 }}
               />
@@ -228,7 +229,7 @@ function ProductForm({ state, setState }) {
           <AddingForm1 title="Upload images">
             <ImagePicker state={state} setState={setState} />
           </AddingForm1>
-          <AddingForm1 title="Set category default prodection station">
+          {/* <AddingForm1 title="Set category default prodection station">
             <div className="hinDaG">
               <FormSwitch
                 value={product?.category_default_kot === 1}
@@ -254,7 +255,7 @@ function ProductForm({ state, setState }) {
                 </option>
               ))}
             </select>
-          </AddingForm1>
+          </AddingForm1> */}
         </AddingFormLayout>
         {/*///////////////////////////////////////////////////////////////////////////////////////////////*/}
         <AddingFormLayout
@@ -389,6 +390,7 @@ function ProductForm({ state, setState }) {
                     placeholder="0.00"
                     defaultValue={product?.opening_stock}
                     type="number"
+                    disabled={isEdit}
                     onChange={(e) => (product.opening_stock = e.target.value)}
                   />
                   <input
@@ -972,7 +974,7 @@ function InventoryCompositProduct({ state, setState }) {
 
   return (
     <StrictMode>
-      {default_composites?.length !== 0 ? (
+      {default_composites?.length > 0 ? (
         <StrictMode>
           <AddingForm2>
             <div className="hinDaA">
@@ -1050,7 +1052,7 @@ function InventoryCompositProduct({ state, setState }) {
           >
             + ADD PRODUCTS
           </div>
-          {default_composites.length !== 0 ? (
+          {default_composites?.length !== 0 ? (
             <div
               className="hinDaE"
               onClick={() => {

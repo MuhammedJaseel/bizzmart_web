@@ -93,7 +93,7 @@ export default class HomeInventory extends Component {
     getCategoryList(state, setState);
     getAllassets(state, setState);
     getAllAssetsList(state, setState);
-    // ///////////////////////////
+    // // ///////////////////////////
     getPriceManagment(state, setState);
     getInventoryManagment(state, setState);
   }
