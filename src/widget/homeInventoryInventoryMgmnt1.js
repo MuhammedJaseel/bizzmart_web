@@ -1,14 +1,18 @@
 import { StrictMode, useState } from "react";
 import {
+  getStockIssueSingleProdect,
   inventorySearchProductStockIssue,
-  inventorySetSearchProductStockIssue,
+  postStockIssue,
 } from "../method/homeInventoryInventoryMgmnt";
-import { addStockIssueItemStruct } from "../module/homeInventoryInventoryMgmnt";
+import {
+  addStockIssueItemStruct,
+  calculateStockIssueTax,
+} from "../module/homeInventoryInventoryMgmnt";
 import { Select } from "./interface";
 import { Header1, Header4, WidgetInputSelect } from "./widget";
 
 export function InventoryAddIssueStock({ state, setState }) {
-  const { page, addIssueStock, allTax, allBranches } = state;
+  const { page, addIssueStock, allTax, allBranches, error } = state;
   const [saveBtn, setsaveBtn] = useState(false);
 
   if (page?.path !== "addIssueStock") return null;
@@ -23,9 +27,7 @@ export function InventoryAddIssueStock({ state, setState }) {
       />
       <form
         style={{ overflow: "scroll", maxHeight: "calc(100vh - 5vw)" }}
-        onChange={() => {
-          setState(addIssueStock);
-        }}
+        onChange={() => setState(addIssueStock)}
       >
         <Header4 title={title} desc={desc} />
         <div className="hiaB">
@@ -33,6 +35,8 @@ export function InventoryAddIssueStock({ state, setState }) {
             Main Branch *<br />
             <select
               onChange={(e) => (addIssueStock.main_branch_id = e.target.value)}
+              value={addIssueStock.main_branch_id}
+              disabled
             >
               <option hidden>Select branch</option>
               {allBranches?.map((it, k) =>
@@ -48,6 +52,8 @@ export function InventoryAddIssueStock({ state, setState }) {
             Date *<br />
             <input
               type="date"
+              value={addIssueStock.issue_date}
+              disabled={addIssueStock?._IsEdit}
               onChange={(e) => (addIssueStock.issue_date = e.target.value)}
             />
           </div>
@@ -55,6 +61,8 @@ export function InventoryAddIssueStock({ state, setState }) {
             Transfer to Branch *
             <br />
             <select
+              value={addIssueStock.to_branch_id}
+              disabled={addIssueStock?._IsEdit}
               onChange={(e) => (addIssueStock.to_branch_id = e.target.value)}
             >
               <option hidden>Select branch</option>
@@ -72,6 +80,8 @@ export function InventoryAddIssueStock({ state, setState }) {
             <br />
             <input
               placeholder="Enter payment reference or chequr number"
+              disabled={addIssueStock?._IsEdit}
+              value={addIssueStock.description}
               onChange={(e) => (addIssueStock.description = e.target.value)}
             />
           </div>
@@ -96,12 +106,19 @@ export function InventoryAddIssueStock({ state, setState }) {
               Tax Stab
             </div>
             <div className="hiaCbA" style={{ width: "10%" }}>
+              Tax
+            </div>
+            <div className="hiaCbA" style={{ width: "10%" }}>
               Total
             </div>
           </div>
           <div className="hiaCc">
             {addIssueStock?.items?.map((it, k) => (
-              <div key={k} className="hiaCcA">
+              <form
+                key={k}
+                className="hiaCcA"
+                onChange={() => calculateStockIssueTax(it, state, setState)}
+              >
                 <div
                   className={
                     k + 1 === addIssueStock.items.length ? "" : "hiaCcAa"
@@ -115,6 +132,8 @@ export function InventoryAddIssueStock({ state, setState }) {
                 <div style={{ width: "54.8%", marginRight: ".3%" }}>
                   <WidgetInputSelect
                     props={{
+                      disabled: addIssueStock?._IsEdit,
+                      defaultValue: it.name,
                       onChange: async (e) => {
                         await inventorySearchProductStockIssue(
                           e.target.value,
@@ -128,19 +147,23 @@ export function InventoryAddIssueStock({ state, setState }) {
                         setState({ addIssueStock });
                       },
                       setValue: async (v) => {
-                        it.product_id = it.list[k].id;
-                        it.name = it.list[k].name;
-                        if (addIssueStock?.items?.length - 1 === k)
-                          addIssueStock.items.push({
-                            ...addStockIssueItemStruct,
-                          });
-                        setState({ addIssueStock });
-                        await inventorySetSearchProductStockIssue(
-                          it.list[k].id,
-                          (v) => {
-                            it = { ...it, ...v };
-                            addIssueStock.items[k] = it;
-                            setState({ addIssueStock });
+                        getStockIssueSingleProdect(it.list[k].id).then(
+                          (res) => {
+                            it.cost_price = res.data.selling_price;
+                            it.price = res.data.selling_price;
+                            it.selling_price = res.data.selling_price;
+                            it.actual_price = res.data.selling_price;
+
+                            it.product_id = res.data.id;
+                            it.name = res.data.name;
+                            it.unit = res.data.primary_unit;
+                            it.tax_id = res.data.selling_tax.toString();
+                            it.product_type = res.data.product_type;
+                            if (addIssueStock?.items?.length - 1 === k)
+                              addIssueStock.items.push({
+                                ...addStockIssueItemStruct,
+                              });
+                            calculateStockIssueTax(it, state, setState);
                           }
                         );
                       },
@@ -154,7 +177,7 @@ export function InventoryAddIssueStock({ state, setState }) {
                     placeholder="0.00"
                     type="number"
                     value={it.quantity}
-                    disabled={it.product_id === ""}
+                    disabled
                     onChange={(e) => (it.quantity = e.target.value)}
                   />
                 </div>
@@ -162,7 +185,7 @@ export function InventoryAddIssueStock({ state, setState }) {
                   <input
                     className="hiaCcAb"
                     placeholder="0.00"
-                    disabled={it.product_id === ""}
+                    disabled={it.product_id === "" || addIssueStock?._IsEdit}
                     type="number"
                     value={it.cost_price}
                     onChange={(e) => (it.cost_price = e.target.value)}
@@ -174,15 +197,16 @@ export function InventoryAddIssueStock({ state, setState }) {
                     placeholder="0.00"
                     type="number"
                     value={it.price}
-                    disabled={it.product_id === ""}
+                    disabled={it.product_id === "" || addIssueStock?._IsEdit}
                     onChange={(e) => (it.price = e.target.value)}
                   />
                 </div>
                 <div className="hiaCcAd" style={{ width: "10%" }}>
                   <select
-                    disabled={it.product_id === ""}
+                    disabled={it.product_id === "" || addIssueStock?._IsEdit}
                     className="hiaCcAb"
-                    onChange={(e) => (it.branch_id = e.target.value)}
+                    value={it.tax_id}
+                    onChange={(e) => (it.tax_id = e.target.value)}
                   >
                     <option hidden>Select Tax</option>
                     {allTax?.map((it, k) => (
@@ -193,10 +217,12 @@ export function InventoryAddIssueStock({ state, setState }) {
                   </select>
                 </div>
                 <div className="hiaCcAd" style={{ width: "10%" }}>
-                  {it.total}
-                  {it.price}
+                  {it.tax_amount}
                 </div>
-              </div>
+                <div className="hiaCcAd" style={{ width: "10%" }}>
+                  {it.tax_amount}
+                </div>
+              </form>
             ))}
           </div>
           <div className="hiaCd">
@@ -206,11 +232,10 @@ export function InventoryAddIssueStock({ state, setState }) {
               <textarea
                 className="hiaCdAa"
                 placeholder="Enter notes here"
-                id="purchase_note"
-                onChange={(e) => {
-                  addIssueStock.asset_note = e.target.value;
-                  setState(addIssueStock);
-                }}
+                value={addIssueStock.delivary_address}
+                onChange={(e) =>
+                  (addIssueStock.delivary_address = e.target.value)
+                }
               ></textarea>
               <br />
               <br />
@@ -219,11 +244,8 @@ export function InventoryAddIssueStock({ state, setState }) {
               <textarea
                 className="hiaCdAa"
                 placeholder="Enter notes here"
-                id="purchase_note"
-                onChange={(e) => {
-                  addIssueStock.asset_note = e.target.value;
-                  setState(addIssueStock);
-                }}
+                value={addIssueStock.stock_note}
+                onChange={(e) => (addIssueStock.stock_note = e.target.value)}
               ></textarea>
             </div>
             <div style={{ width: "30%" }}>
@@ -232,41 +254,44 @@ export function InventoryAddIssueStock({ state, setState }) {
                 style={{ width: "100%", fontSize: ".9vw" }}
               >
                 <b>Subtitla</b>
-                <b>{addIssueStock?.sub_total}</b>
+                <b>{addIssueStock?.total - addIssueStock?.tax}</b>
               </div>
               <div
                 className="hiaCdB"
                 style={{ width: "100%", fontSize: ".9vw" }}
               >
                 <b>Tax</b>
-                {/* <b>{_getTotal()}</b> */}
+                <b>{addIssueStock?.tax}</b>
               </div>
-              <div className="hiaCdB">
+              <div className="hiaCdB" style={{ width: "100%" }}>
                 <b>Total</b>
-                {/* <b>{_getTotal()}</b> */}
+                <b>{addIssueStock?.total}</b>
               </div>
             </div>
           </div>
         </div>
         <div className="hiaD">
+          <div className="imaError">{error}</div> &nbsp;
           <div className="hiaDa">
             <div
               className="hiaDaA"
               onClick={() => {
                 setsaveBtn(false);
-                // postAssetPurchase(state, setState, true);
+                postStockIssue(state, setState, true);
               }}
             >
-              SAVE & PRINT
+              {addIssueStock?._IsEdit ? "PRINT" : "SAVE & PRINT"}
             </div>
-            <div className="hiaDaB" onClick={() => setsaveBtn(!saveBtn)} />
+            {!addIssueStock?._IsEdit ? (
+              <div className="hiaDaB" onClick={() => setsaveBtn(!saveBtn)} />
+            ) : null}
             {saveBtn ? (
               <div className="hiaDaC">
                 <div
                   className="hinaDaCa"
                   onClick={() => {
                     setsaveBtn(false);
-                    // postAssetPurchase(state, setState, true);
+                    postStockIssue(state, setState, true);
                   }}
                 >
                   Save Purchase
@@ -275,7 +300,7 @@ export function InventoryAddIssueStock({ state, setState }) {
                   className="hinaDaCa"
                   onClick={() => {
                     setsaveBtn(false);
-                    // postAssetPurchase(state, setState, false);
+                    postStockIssue(state, setState, false);
                   }}
                 >
                   Save & Add New

@@ -5,24 +5,13 @@ import { getProducts } from "./homeInventory";
 export async function getPriceManagment(state, setState) {
   const { productPaging } = state;
   await postHttp("getPriceLookupLists", productPaging)
-    .then((res) => {
-      setState({ priceLookupList: res });
-      // console.log(res.data);
-    })
+    .then((res) => setState({ priceLookupList: res }))
     .catch((error) => setState({ error }));
   await postHttp("getStockLookupLists", productPaging)
-    .then((res) => {
-      setState({ stockLookupList: res });
-      // console.log("Stock ");
-      // console.log(res.data);
-    })
+    .then((res) => setState({ stockLookupList: res }))
     .catch((error) => setState({ error }));
   await postHttp("getMSLLookupLists", productPaging)
-    .then((res) => {
-      setState({ maslLookupList: res });
-      // console.log("msl ");
-      // console.log(res.data);
-    })
+    .then((res) => setState({ maslLookupList: res }))
     .catch((error) => setState({ error }));
   setState({ loading: false });
   return;

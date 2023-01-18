@@ -1,4 +1,8 @@
 import { StrictMode, useState } from "react";
+import {
+  getSingleStockIssue,
+  getSingleStockRecived,
+} from "../method/homeInventoryInventoryMgmnt";
 import { setAddStockIssueItemStruct } from "../module/homeInventoryInventoryMgmnt";
 import { Header1, Header2, Header4, HeaderButtens1 } from "./widget";
 import { MyTable1, MyTableCounter1 } from "./widget_table";
@@ -13,8 +17,8 @@ export function StockIssueTable({ state, setState }) {
         { data: "" },
         { data: it.id, type: 3 },
         { data: it.date },
-        { data: it.transferTo },
-        { data: it.desc },
+        { data: it.transfer_to },
+        { data: it.description },
         { data: it.count },
         { data: it.amount },
         { data: it.status },
@@ -56,6 +60,13 @@ export function StockIssueTable({ state, setState }) {
   ];
 
   if (page?.path !== "stockIssue") return null;
+  const _onClickTable = (v) => {
+    setState({
+      page: { path: "addIssueStock" },
+      addIssueStock: setAddStockIssueItemStruct(),
+    });
+    getSingleStockIssue(allStockIssue?.data[v].id, state, setState);
+  };
   return (
     <StrictMode>
       <Header1
@@ -65,7 +76,13 @@ export function StockIssueTable({ state, setState }) {
         bodyR={bodyR}
       />
       <Header4 title={page?.title} desc={page?.desc} />
-      <MyTable1 lg widths={widths} heads={heads} body={body} />
+      <MyTable1
+        lg
+        widths={widths}
+        heads={heads}
+        body={body}
+        onclick={_onClickTable}
+      />
       <MyTableCounter1 props={{ total: 50 }} />
     </StrictMode>
   );
@@ -130,6 +147,7 @@ export function StockTransferTable({ state, setState }) {
   ];
 
   if (page?.path !== "stockTransfer") return null;
+
   return (
     <StrictMode>
       <Header1
@@ -162,8 +180,8 @@ export function StockReceivedTable({ state, setState }) {
         { data: "" },
         { data: it.id, type: 3 },
         { data: it.date },
-        { data: it.transferTo },
-        { data: it.desc },
+        { data: it.transfer_to },
+        { data: it.description },
         { data: it.count },
         { data: it.amount },
       ]);
@@ -192,6 +210,13 @@ export function StockReceivedTable({ state, setState }) {
   ];
 
   if (page?.path !== "stockReceived") return null;
+  const _onClickTable = (v) => {
+    setState({
+      page: { path: "addIssueStock" },
+      addIssueStock: setAddStockIssueItemStruct(),
+    });
+    getSingleStockRecived(allStockRecevied?.data[v].id, state, setState);
+  };
   return (
     <StrictMode>
       <Header1
@@ -202,7 +227,12 @@ export function StockReceivedTable({ state, setState }) {
       />
       <Header2 titles={pTitles} page={subPage} onTap={setsubPage} />
       <Header4 title={page?.title} desc={page?.desc} />
-      <MyTable1 widths={widths} heads={heads} body={body} />
+      <MyTable1
+        widths={widths}
+        heads={heads}
+        body={body}
+        onclick={_onClickTable}
+      />
       <MyTableCounter1 props={{ total: 50 }} />
     </StrictMode>
   );

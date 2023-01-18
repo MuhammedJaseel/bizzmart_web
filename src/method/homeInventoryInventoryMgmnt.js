@@ -1,7 +1,9 @@
 import { getHttp, postHttp } from "../module/api_int";
+import { setAddStockIssueItemStruct } from "../module/homeInventoryInventoryMgmnt";
 import { getProducts } from "./homeInventory";
 
 // //////////////////////
+
 export async function getInventoryManagment(state, setState) {
   const { productPaging } = state;
   await postHttp("getStockIssueLists", productPaging)
@@ -10,9 +12,9 @@ export async function getInventoryManagment(state, setState) {
   await postHttp("stockReceivedLists", productPaging)
     .then((res) => setState({ allStockRecevied: res }))
     .catch((error) => setState({ error }));
-  // await postHttp("stockAcknowledged", productPaging)
-  //   .then((res) => setState({ allStockAcknowledged: res }))
-  //   .catch((error) => setState({ error }));
+  await postHttp("stockAcknowledgesLists", productPaging)
+    .then((res) => setState({ allStockAcknowledged: res }))
+    .catch((error) => setState({ error }));
   await postHttp("getMSLLookupLists", productPaging)
     .then((res) => setState({ allStockReturn: res }))
     .catch((error) => setState({ error }));
@@ -53,16 +55,57 @@ export async function inventorySearchProductStockIssue(v, setData) {
       setData(res.data)
     );
 }
-export async function inventorySetSearchProductStockIssue(id, setCost) {
-  await getHttp("getProduct/" + id).then((res) => {
-    setCost({
-      price: res.data?.selling_price,
-      selling_price: res.data?.selling_price,
-      actual_price: res.data?.selling_price,
-      product_type: res.data?.product_type,
-      unit: res.data?.primary_unit,
-      variant: res.data?.variant,
-    });
-  });
-  return;
+
+export const getStockIssueSingleProdect = async (id) => {
+  return await getHttp("getProduct/" + id);
+};
+
+export const postStockIssue = async (state, setState, back) => {
+  const { addIssueStock, loading } = state;
+  if (loading || addIssueStock?._IsEdit) return false;
+
+  // --START-- Form validation
+  if (addIssueStock.main_branch_id === "") {
+    setState({ error: "Select main branch" });
+    return;
+  }
+  if (addIssueStock.issue_date === "") {
+    setState({ error: "Select issue date" });
+    return;
+  }
+  if (addIssueStock.to_branch_id === "") {
+    setState({ error: "Select transfering to branch" });
+    return;
+  }
+  // --END-- Form validation end
+
+  const body = JSON.parse(JSON.stringify(addIssueStock));
+  // body.cashier_id = window.localStorage.getItem("userId");
+  body.items.pop();
+
+  setState({ error: null, loading: true });
+  await postHttp("addStockIssue", body)
+    .then(() => {
+      getInventoryManagment(state, setState);
+      if (back) setState({ page: null, addIssueStock: null });
+      else setState({ addIssueStock: setAddStockIssueItemStruct() });
+    })
+    .catch((error) => setState({ error }));
+  setState({ loading: false });
+};
+
+export async function getSingleStockIssue(id, state, setState) {
+  setState({ loading: true });
+  postHttp("getStockIssueItem", { stock_issued_id: id })
+    .then((res) => setState({ addIssueStock: { ...res.data, _IsEdit: true } }))
+    .catch(() => setState({ error: "Error On feching data" }));
+  setState({ loading: false });
+}
+
+export async function getSingleStockRecived(id, state, setState) {
+  setState({ loading: true });
+  postHttp("stockAcknowledged", { stock_issued_id: id })
+    .then((res) => setState({ addIssueStock: { ...res.data, _IsEdit: true } }))
+    .catch(() => setState({ error: "Error On feching data" }));
+  setState({ loading: false });
 }
