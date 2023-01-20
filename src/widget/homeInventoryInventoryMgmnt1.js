@@ -2,6 +2,7 @@ import { StrictMode, useState } from "react";
 import {
   getStockIssueSingleProdect,
   inventorySearchProductStockIssue,
+  makeStockAcnowledged,
   postStockIssue,
 } from "../method/homeInventoryInventoryMgmnt";
 import {
@@ -147,7 +148,7 @@ export function InventoryAddIssueStock({ state, setState }) {
                         setState({ addIssueStock });
                       },
                       setValue: async (v) => {
-                        getStockIssueSingleProdect(it.list[k].id).then(
+                        getStockIssueSingleProdect(it.list[v].id).then(
                           (res) => {
                             it.cost_price = res.data.selling_price;
                             it.price = res.data.selling_price;
@@ -277,12 +278,18 @@ export function InventoryAddIssueStock({ state, setState }) {
               className="hiaDaA"
               onClick={() => {
                 setsaveBtn(false);
-                postStockIssue(state, setState, true);
+                if (addIssueStock?._IsAcknowledging)
+                  makeStockAcnowledged(addIssueStock?.id, state, setState);
+                else postStockIssue(state, setState, true);
               }}
             >
-              {addIssueStock?._IsEdit ? "PRINT" : "SAVE & PRINT"}
+              {addIssueStock?._IsAcknowledging
+                ? "ACKNOWLEDGED"
+                : addIssueStock?._IsEdit
+                ? "PRINT"
+                : "SAVE & PRINT"}
             </div>
-            {!addIssueStock?._IsEdit ? (
+            {!addIssueStock?._IsEdit || !addIssueStock?._IsAcknowledging ? (
               <div className="hiaDaB" onClick={() => setsaveBtn(!saveBtn)} />
             ) : null}
             {saveBtn ? (

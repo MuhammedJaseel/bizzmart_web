@@ -9,8 +9,9 @@ import "../style/zp.css";
 //////////////////////////////////////////////////////////////////////////////////////////////
 export function WidgetPopUp1({ props, children }) {
   const { close, title, desc, btnTitle, submit } = props;
-  const { error, loading, small, medium } = props;
+  const { error, loading, small, medium, hide } = props;
   const { onChange } = props;
+  if (hide) return;
   return (
     <form
       className="zpA"

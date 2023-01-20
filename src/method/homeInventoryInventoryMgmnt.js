@@ -104,8 +104,35 @@ export async function getSingleStockIssue(id, state, setState) {
 
 export async function getSingleStockRecived(id, state, setState) {
   setState({ loading: true });
+  postHttp("getStockItemDetails", { stock_issued_id: id })
+    .then((res) =>
+      setState({ addIssueStock: { ...res.data, _IsAcknowledging: true, id } })
+    )
+    .catch(() => setState({ error: "Error On feching data" }));
+  setState({ loading: false });
+}
+
+export async function makeStockAcnowledged(id, state, setState) {
+  setState({ loading: true });
   postHttp("stockAcknowledged", { stock_issued_id: id })
-    .then((res) => setState({ addIssueStock: { ...res.data, _IsEdit: true } }))
+    .then((res) => {
+      getInventoryManagment(state, setState);
+      setState({ page: null, addIssueStock: null });
+    })
+    .catch(() => setState({ error: "Error On feching data" }));
+  setState({ loading: false });
+}
+
+export async function getStockTrailList(state, setState) {
+  const { stockTrailProdect, loading } = state;
+
+  if (loading) return;
+  setState({ loading: true });
+  postHttp("report/getStockTril", stockTrailProdect)
+    .then((res) => {
+      stockTrailProdect.selected = true;
+      setState({ allStockTrails: res.data, stockTrailProdect });
+    })
     .catch(() => setState({ error: "Error On feching data" }));
   setState({ loading: false });
 }

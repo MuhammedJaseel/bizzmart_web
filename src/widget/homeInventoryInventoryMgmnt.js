@@ -2,9 +2,22 @@ import { StrictMode, useState } from "react";
 import {
   getSingleStockIssue,
   getSingleStockRecived,
+  getStockTrailList,
+  inventorySearchProductStockIssue,
 } from "../method/homeInventoryInventoryMgmnt";
 import { setAddStockIssueItemStruct } from "../module/homeInventoryInventoryMgmnt";
-import { Header1, Header2, Header4, HeaderButtens1 } from "./widget";
+import {
+  Header1,
+  Header2,
+  Header4,
+  HeaderButtens1,
+  WidgetInputSelect,
+} from "./widget";
+import {
+  WidgetPopUp1,
+  WidgetPopUp1Body,
+  WidgetPopUp1In1,
+} from "./widget_popup";
 import { MyTable1, MyTableCounter1 } from "./widget_table";
 
 export function StockIssueTable({ state, setState }) {
@@ -211,6 +224,7 @@ export function StockReceivedTable({ state, setState }) {
 
   if (page?.path !== "stockReceived") return null;
   const _onClickTable = (v) => {
+    if (subPage === 1) return;
     setState({
       page: { path: "addIssueStock" },
       addIssueStock: setAddStockIssueItemStruct(),
@@ -378,11 +392,132 @@ export function StockTakingTable({ state, setState }) {
 }
 
 export function StockTrailTable({ state, setState }) {
-  const { page } = state;
-  if (page?.path !== "stockTaking") return null;
+  const { page, error, loading, stockTrailProdect, allBranches } = state;
+  const { allStockTrails } = state;
+  const body = [];
+
+  if (allStockTrails?.items !== null)
+    for (let i = 0; i < allStockTrails?.items?.length; i++) {
+      const it = allStockTrails?.items[i];
+      body.push([
+        { data: "" },
+        { data: it.date },
+        { data: it.party },
+        { data: it.type },
+        { data: it.quantity },
+        { data: it.amount },
+        { data: it.cost },
+        { data: it.stock },
+      ]);
+    }
+
+  const bodyRBody = { drowelList: null, onShare: null, onDownload: null };
+  const bodyR = <HeaderButtens1 props={bodyRBody} />;
+
+  const heads = [
+    null,
+    "Date",
+    "Party",
+    "Type",
+    "Qty",
+    "Amount",
+    "Cost",
+    "Stock",
+  ];
+  const widths = [
+    { width: 1 },
+    { width: 16 },
+    { width: 16 },
+    { width: 16 },
+    { width: 16 },
+    { width: 16 },
+    { width: 10 },
+    { width: 10 },
+  ];
+
+  const [popup, setpopup] = useState(true);
+
+  const popupProps1 = {
+    close: () => setState({ page: null, stockTrailProdect: {} }),
+    title: "Select Product",
+    desc: "Select the prodect to track its journy",
+    error,
+    loading,
+    onChange: (e) => (stockTrailProdect[e.target.id] = e.target.value),
+    submit: () => getStockTrailList(state, setState),
+    btnTitle: "NEXT",
+    hide: stockTrailProdect?.selected,
+  };
+
+  if (page?.path !== "stockTrail") return null;
   return (
     <StrictMode>
-      <Header4 title={page?.title} desc={page?.desc} />
+      <Header1
+        title="INVENTORY"
+        bodyL="STOCK TRAIL"
+        onTap={() => setState({ page: null, stockTrailProdect: {} })}
+        bodyR={bodyR}
+      />
+      <Header4
+        title={stockTrailProdect?.name}
+        desc="Shows prices across all the connected branches"
+      />
+      <MyTable1
+        widths={widths}
+        heads={heads}
+        lg
+        body={body}
+        onclick={() => {}}
+      />
+      <MyTableCounter1 props={{ total: 50 }} />
+      <WidgetPopUp1 props={popupProps1}>
+        <WidgetPopUp1Body>
+          <WidgetPopUp1In1 title="Select Product*">
+            <WidgetInputSelect
+              props={{
+                onChange: async (e) => {
+                  await inventorySearchProductStockIssue(
+                    e.target.value,
+                    (v) => (stockTrailProdect.list = v)
+                  );
+                  setState({ stockTrailProdect });
+                },
+                list: stockTrailProdect?.list || [],
+                clearlist: () => {
+                  stockTrailProdect.list = [];
+                  setState({ stockTrailProdect });
+                },
+                setValue: async (v) => {
+                  stockTrailProdect.product_id = stockTrailProdect?.list[v].id;
+                  stockTrailProdect.name = stockTrailProdect?.list[v].name;
+                },
+                placeholder: "Search your product",
+              }}
+            />
+          </WidgetPopUp1In1>
+          <WidgetPopUp1In1 title="From Date*">
+            <input className="hcbAa" id="from_date" type="date" />
+          </WidgetPopUp1In1>
+        </WidgetPopUp1Body>
+
+        <WidgetPopUp1Body>
+          <WidgetPopUp1In1 title="Select Branch*">
+            <div className="hcbAc">
+              <select className="hcbAa" id="branch_id">
+                <option hidden>Select branch</option>
+                {allBranches.map((it, k) => (
+                  <option key={k} value={it.branch_id}>
+                    {it.branch_name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </WidgetPopUp1In1>
+          <WidgetPopUp1In1 title="To Date*">
+            <input className="hcbAa" id="to_date" type="date" />
+          </WidgetPopUp1In1>
+        </WidgetPopUp1Body>
+      </WidgetPopUp1>
     </StrictMode>
   );
 }
