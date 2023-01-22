@@ -18,7 +18,12 @@ export async function getInventoryManagment(state, setState) {
   await postHttp("getMSLLookupLists", productPaging)
     .then((res) => setState({ allStockReturn: res }))
     .catch((error) => setState({ error }));
-  setState({ loading: false });
+  await postHttp("getStockTakingLists", productPaging)
+    .then((res) => {
+      setState({ allStockTaking: res });
+      console.log(res.data);
+    })
+    .catch((error) => setState({ error }));
   return;
 }
 // //////////////////////
@@ -96,7 +101,7 @@ export const postStockIssue = async (state, setState, back) => {
 
 export async function getSingleStockIssue(id, state, setState) {
   setState({ loading: true });
-  postHttp("getStockIssueItem", { stock_issued_id: id })
+  await postHttp("getStockIssueItem", { stock_issued_id: id })
     .then((res) => setState({ addIssueStock: { ...res.data, _IsEdit: true } }))
     .catch(() => setState({ error: "Error On feching data" }));
   setState({ loading: false });
@@ -104,7 +109,7 @@ export async function getSingleStockIssue(id, state, setState) {
 
 export async function getSingleStockRecived(id, state, setState) {
   setState({ loading: true });
-  postHttp("getStockItemDetails", { stock_issued_id: id })
+  await postHttp("getStockItemDetails", { stock_issued_id: id })
     .then((res) =>
       setState({ addIssueStock: { ...res.data, _IsAcknowledging: true, id } })
     )
@@ -114,7 +119,7 @@ export async function getSingleStockRecived(id, state, setState) {
 
 export async function makeStockAcnowledged(id, state, setState) {
   setState({ loading: true });
-  postHttp("stockAcknowledged", { stock_issued_id: id })
+  await postHttp("stockAcknowledged", { stock_issued_id: id })
     .then((res) => {
       getInventoryManagment(state, setState);
       setState({ page: null, addIssueStock: null });
@@ -128,11 +133,132 @@ export async function getStockTrailList(state, setState) {
 
   if (loading) return;
   setState({ loading: true });
-  postHttp("report/getStockTril", stockTrailProdect)
+  await postHttp("report/getStockTril", stockTrailProdect)
     .then((res) => {
       stockTrailProdect.selected = true;
       setState({ allStockTrails: res.data, stockTrailProdect });
     })
     .catch(() => setState({ error: "Error On feching data" }));
+  setState({ loading: false });
+}
+
+export async function postInventoryCountRequest(state, setState) {
+  const { newInventoryCount, loading, succesPop } = state;
+
+  newInventoryCount.from_branch_id = window.localStorage.getItem("branchId");
+
+  if (loading) return;
+  setState({ loading: true });
+  await postHttp("createStockTaking", newInventoryCount)
+    .then((res) => {
+      getInventoryManagment(state, setState);
+      succesPop({
+        active: true,
+        title: "Request Created Succesfully",
+        desc: "Updated Successfully",
+      });
+      setState({ newInventoryCount: null });
+    })
+    .catch((error) => setState({ error }));
+  setState({ loading: false });
+}
+
+export async function getCategoryForInventoryCountRequest(
+  branch_id,
+  state,
+  setState
+) {
+  var { newInventoryCount } = state;
+  newInventoryCount.category = [];
+  setState({ loading: true, newInventoryCount });
+  await postHttp("getCategories", { branch_id })
+    .then((res) => {
+      newInventoryCount.allCategory = res.data;
+      setState({ newInventoryCount });
+    })
+    .catch((error) => setState({ error }));
+  setState({ loading: false });
+}
+
+export async function onClickStartCount(state, setState) {
+  var { newInventoryCount, page } = state;
+  setState({ loading: true });
+  await postHttp("countingStart", { stock_taking_id: page?.stock_taking_id })
+    .then(async (res) => {
+      setState({ newInventoryCount });
+      await getStockTakingProdectList(page?.stock_taking_id, state, setState);
+    })
+    .catch((error) => setState({ error }));
+  setState({ loading: false });
+}
+
+export async function getStockTakingProdectList(id, state, setState) {
+  var { countingProductList } = state;
+  setState({ loading: true });
+  await postHttp("getReviewProductLists", { stock_taking_id: id })
+    .then((res) => setStockTakingProdectCount({ items: res.data }, setState))
+    .catch((error) => setState({ error }));
+  setState({ loading: false });
+}
+
+export function setStockTakingProdectCount(data, setState) {
+  const counted = [];
+  const notCounted = [];
+  for (let i = 0; i < data?.items.length; i++)
+    if (Number(data?.items[i].counted) > 0) counted.push(data?.items[i]);
+    else notCounted.push(data?.items[i]);
+  setState({
+    countingProductList: {
+      ...data,
+      counted: counted,
+      notCounted: notCounted,
+    },
+  });
+}
+
+export async function postInventoryCountedItems(state, setState) {
+  var { countingProductList, succesPop, page } = state;
+  setState({ loading: true });
+  await postHttp("getReviewProductLists", {
+    stock_taking_id: page?.stock_taking_id,
+    counted_items: countingProductList?.items,
+  })
+    .then((res) =>
+      succesPop({
+        active: true,
+        title: "Updated Successfully",
+        desc: "Prodect counted up to this is succesfully saved",
+      })
+    )
+    .catch((error) => setState({ error }));
+  setState({ loading: false });
+}
+
+export async function postInventoryCountedAsSubmit(state, setState) {
+  var { countingProductList, succesPop, page } = state;
+  setState({ loading: true });
+  await postHttp("submitReview", {
+    stock_taking_id: page?.stock_taking_id,
+    counted_items: countingProductList?.items,
+  })
+    .then((res) => {
+      succesPop({
+        active: true,
+        title: "Updated Successfully",
+        desc: "Prodect counted up to this is succesfully saved",
+      });
+      setState({ page: null });
+      getInventoryManagment(state, setState);
+    })
+    .catch((error) => setState({ error }));
+  setState({ loading: false });
+}
+
+export async function getAllInventoryCountingReivew(state, setState) {
+  var { allReviewItems, page } = state;
+  setState({ loading: true });
+  await postHttp("AllReviewedLists", { stock_taking_id: page?.stock_taking_id })
+    .then((res) => setState({ allReviewItems: { all: res.data } }))
+    .catch((error) => setState({ error }));
   setState({ loading: false });
 }

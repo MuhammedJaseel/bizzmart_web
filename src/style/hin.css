@@ -641,3 +641,142 @@
   display: flex;
   flex-wrap: wrap;
 }
+
+/*////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////     INVENTORY STOCK TAKING     /////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+.hinGa {
+  padding-top: 0.5vw;
+  display: flex;
+  flex-wrap: wrap;
+}
+.hinGaA {
+  color: white;
+  font-size: 0.75vw;
+  background-color: #2d4c86;
+  border-radius: 0.2vw;
+  margin: 0.1vw;
+  padding: 0.2vw 0.4vw;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+}
+.hinGaAa {
+  width: 0.8vw;
+  height: 0.8vw;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  background-image: url(../asset/ic_bin4.svg);
+  cursor: pointer;
+  margin-left: 0.3vw;
+}
+.hinGb {
+  display: flex;
+  justify-content: space-between;
+}
+.hinGbA {
+  width: 70%;
+}
+.hinGbAa {
+  background-color: white;
+  padding: 1vw;
+  margin: 1vw;
+  border-radius: 0.3vw;
+  box-shadow: 0.1vw 0.1vw 0.4vw #8e8e8e2d;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+.hinGbAaD {
+  color: white;
+  background-color: #2d4c86;
+  border-top-right-radius: 0.2vw;
+  border-bottom-right-radius: 0.2vw;
+  padding: 0.342vw 2vw;
+  font-size: 1vw;
+  font-weight: 500;
+  cursor: pointer;
+  margin-left: -2.8vw;
+}
+.hinGbAaE {
+  width: 13%;
+  font-size: 0.8vw;
+  font-weight: 500;
+  display: flex;
+  justify-content: space-between;
+}
+.hinGbB {
+  width: 30%;
+  margin: 1vw;
+  margin-left: 0.3vw;
+}
+.hinGbBa {
+  background-color: white;
+  padding: 1vw;
+  border-radius: 0.3vw;
+  box-shadow: 0.1vw 0.1vw 0.4vw #8e8e8e2d;
+  height: calc(100vh - 17.8vw);
+}
+.hinGbBaA {
+  display: flex;
+  align-items: flex-end;
+  font-size: 1vw;
+  font-weight: 500;
+  padding-bottom: 0.7vw;
+}
+.hinGbBaAa {
+  font-size: 0.6vw;
+  color: #727374;
+  margin-left: 0.5vw;
+}
+.hinGbBaB {
+  padding: 0.6vw 1vw;
+  border-radius: 0.3vw;
+  box-shadow: 0.1vw 0.1vw 0.4vw #8e8e8e4a;
+  font-size: 0.9vw;
+  margin-top: 0.8vw;
+  margin-bottom: 0.2vw;
+  font-size: 1vw;
+  display: flex;
+  justify-content: space-between;
+}
+.hinGbBaBa {
+  width: 5%;
+}
+.hinGbBaBb {
+  width: 70%;
+}
+.hinGbBaBc {
+  width: 10%;
+}
+.hinGbBaBd {
+  width: 5%;
+  height: 1vw;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  background-image: url(../asset/ic_bin3.svg);
+  cursor: pointer;
+}
+.hinGbBb {
+  background-color: white;
+  margin-top: 0.8vw;
+  padding: 0.6vw;
+  border-radius: 0.3vw;
+  box-shadow: 0.1vw 0.1vw 0.4vw #8e8e8e2d;
+}
+.hinGbBbA {
+  color: white;
+  font-size: 1.1vw;
+  font-weight: 500;
+  padding: 0.6vw;
+  text-align: center;
+  background-color: #2d4c86;
+  border-radius: 0.3vw;
+  cursor: pointer;
+}

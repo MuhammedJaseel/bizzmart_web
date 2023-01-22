@@ -132,3 +132,14 @@ export function calculateStockIssueTax(it, state, setState) {
 
   setState(addIssueStock);
 }
+
+export const newInventoryCountStruct = {
+  from_branch_id: "",
+  to_branch_id: "",
+  title: "",
+  start_date: "",
+  end_date: "",
+  invetory_type: "",
+  category: [],
+  allCategory: [],
+};

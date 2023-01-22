@@ -1052,7 +1052,7 @@ export function AddingFormLayout1({ title, desc, ic }) {
 
 export function AddingForm1({ title, children }) {
   return (
-    <div className="zfJ">
+    <div className="zfJ" >
       <div className="zfJa">{title}</div>
       <div className="zfJb">{children}</div>
     </div>

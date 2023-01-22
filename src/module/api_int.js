@@ -41,7 +41,8 @@ export const postHttp = async (path, body, isForm) => {
   };
   if (isForm) header.headers["Content-type"] = "multipart/form-data";
 
-  body.branch_id = window.localStorage.getItem("branchId");
+  if (body?.branch_id === undefined)
+    body.branch_id = window.localStorage.getItem("branchId");
   return await axios
     .post(baseApi + path, body, header)
     .then((res) => {

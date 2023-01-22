@@ -87,7 +87,7 @@ export default class BranchScreen extends Component {
               <div className="br_Y">ONLINE STORE</div>
               <div className="br_Z">PLAN</div>
               <div className="br_Aa">VALID TILL</div>
-              <div width={{ minWidth: "10%" }}></div>
+              <div width={{ minWidth: "20%" }}></div>
             </div>
             {allBranches.map((it, k) => (
               <div key={k} className="br_Ab">

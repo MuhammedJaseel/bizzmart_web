@@ -2,10 +2,14 @@ import { StrictMode, useState } from "react";
 import {
   getSingleStockIssue,
   getSingleStockRecived,
+  getStockTakingProdectList,
   getStockTrailList,
   inventorySearchProductStockIssue,
 } from "../method/homeInventoryInventoryMgmnt";
-import { setAddStockIssueItemStruct } from "../module/homeInventoryInventoryMgmnt";
+import {
+  newInventoryCountStruct,
+  setAddStockIssueItemStruct,
+} from "../module/homeInventoryInventoryMgmnt";
 import {
   Header1,
   Header2,
@@ -382,11 +386,93 @@ export function StockReceivedStockReturnTable({ state, setState }) {
 }
 
 export function StockTakingTable({ state, setState }) {
-  const { page } = state;
+  const { allStockTaking, page } = state;
+  const body = [];
+
+  const [subPage, setsubPage] = useState(0);
+  const pTitles = ["Due", "Complated", "Canclled"];
+  const items = allStockTaking;
+
+  if (items?.data !== null)
+    for (let i = 0; i < items?.data?.length; i++) {
+      const it = items?.data[i];
+      body.push([
+        { data: it.image, data2: it.name, type: 1 },
+        { data: it.title },
+        { data: it.start_date },
+        { data: it.branch },
+        { data: it.invetory_type },
+        { data: it.end_date },
+        { data: it.counting_status },
+      ]);
+    }
+
+  const bodyRBody = {
+    drowelList: null,
+    onShare: null,
+    onDownload: null,
+    title: "+ New Count",
+    makeAdd: () =>
+      setState({
+        newInventoryCount: JSON.parse(JSON.stringify(newInventoryCountStruct)),
+      }),
+  };
+  const bodyR = <HeaderButtens1 props={bodyRBody} />;
+
+  const heads = [
+    null,
+    "Count Details",
+    "Start Date",
+    "Branch",
+    "Count Type",
+    "End Before",
+    "Counting Status",
+  ];
+  const widths = [
+    { width: 3 },
+    { width: 16 },
+    { width: 16 },
+    { width: 16 },
+    { width: 16 },
+    { width: 16 },
+    { width: 10 },
+  ];
+
   if (page?.path !== "stockTaking") return null;
+  const _onClickTable = (v) => {
+    setState({
+      page: {
+        path:
+          items?.data[v]?.review_status === "Review"
+            ? "inventoryProductReviewPage"
+            : "inventoryProductCountPage",
+        title: items?.data[v].title,
+        stock_taking_id: items?.data[v].id,
+        status: items?.data[v].counting_status,
+      },
+    });
+    getStockTakingProdectList(items?.data[v].id, state, setState);
+  };
   return (
     <StrictMode>
-      <Header4 title={page?.title} desc={page?.desc} />
+      <Header1
+        title="INVENTORY"
+        bodyL="STOCK RECEIVED"
+        onTap={() => setState({ page: null })}
+        bodyR={bodyR}
+      />
+      <Header2 titles={pTitles} page={subPage} onTap={setsubPage} />
+      <Header4
+        title="Invnetory Count"
+        desc="Show all the team members recorded against your business"
+      />
+      <MyTable1
+        widths={widths}
+        heads={heads}
+        body={body}
+        onclick={_onClickTable}
+      />
+      <MyTableCounter1 props={{ total: 50 }} />
     </StrictMode>
   );
 }
@@ -394,7 +480,18 @@ export function StockTakingTable({ state, setState }) {
 export function StockTrailTable({ state, setState }) {
   const { page, error, loading, stockTrailProdect, allBranches } = state;
   const { allStockTrails } = state;
-  const body = [];
+  const body = [
+    [
+      { data: "" },
+      { data: "Opening Stock" },
+      { data: "" },
+      { data: "" },
+      { data: allStockTrails.opening_stock },
+      { data: allStockTrails.opening_total },
+      { data: allStockTrails.closing_stock },
+      { data: allStockTrails.closing_total },
+    ],
+  ];
 
   if (allStockTrails?.items !== null)
     for (let i = 0; i < allStockTrails?.items?.length; i++) {
@@ -402,12 +499,12 @@ export function StockTrailTable({ state, setState }) {
       body.push([
         { data: "" },
         { data: it.date },
-        { data: it.party },
-        { data: it.type },
-        { data: it.quantity },
-        { data: it.amount },
-        { data: it.cost },
-        { data: it.stock },
+        { data: it.name },
+        { data: it.description },
+        { data: it.stock_movement },
+        { data: it.stock_movemet_value },
+        { data: it.closing_stock },
+        { data: it.closing_stock_value },
       ]);
     }
 

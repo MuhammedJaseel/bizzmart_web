@@ -36,6 +36,9 @@ import { getInventoryManagment } from "../method/homeInventoryInventoryMgmnt";
 import {
   InventoryAddIssueStock,
   InventoryAddStockReturn,
+  InventoryNewInventoryCountPopup,
+  InventoryProdectCountPage,
+  StockTakingReviewPage,
 } from "./homeInventoryInventoryMgmnt1";
 
 export default class HomeInventory extends Component {
@@ -79,10 +82,14 @@ export default class HomeInventory extends Component {
       allStockAcknowledged: {},
       allStockTrails: {},
       allStockReturn: {},
+      allStockTaking: {},
       addIssueStock: {},
       addStockTransfer: {},
       addStockReturn: {},
+      newInventoryCount: null,
       stockTrailProdect: {},
+      countingProductList: [],
+      allReviewItems: {},
       // FUNCTION ///////////////////////////////////////////////////
       succesPop: props.succesPop,
     };
@@ -113,6 +120,9 @@ export default class HomeInventory extends Component {
         <InventoryAddAssetPurchase state={state} setState={setState} />
         <InventoryAddIssueStock state={state} setState={setState} />
         <InventoryAddStockReturn state={state} setState={setState} />
+        <InventoryNewInventoryCountPopup state={state} setState={setState} />
+        <InventoryProdectCountPage state={state} setState={setState} />
+        <StockTakingReviewPage state={state} setState={setState} />
       </StrictMode>
     );
   }
