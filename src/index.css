@@ -51,8 +51,11 @@ input {
   box-sizing: border-box;
 }
 input:disabled {
+  box-shadow: inset 0 0 0 0.05vw #ced0d3;
   box-sizing: border-box;
-  padding: 0.35vw 0.7vw;
+  padding: 0.45vw 0.7vw;
+  border: none;
+  background-color: rgba(90, 90, 90, 0.11);
 }
 select {
   font-family: Mic32NewRounded;
