@@ -1,5 +1,6 @@
 import { StrictMode, useState } from "react";
 import {
+  getAllInventoryCountingReivew,
   getSingleStockIssue,
   getSingleStockRecived,
   getStockTakingProdectList,
@@ -386,12 +387,19 @@ export function StockReceivedStockReturnTable({ state, setState }) {
 }
 
 export function StockTakingTable({ state, setState }) {
-  const { allStockTaking, page } = state;
+  const {
+    allStockTaking,
+    allStockTakingComplated,
+    allStockTakingCanclleed,
+    page,
+  } = state;
   const body = [];
 
   const [subPage, setsubPage] = useState(0);
   const pTitles = ["Due", "Complated", "Canclled"];
-  const items = allStockTaking;
+  var items = allStockTaking;
+  if (subPage === 1) items = allStockTakingComplated;
+  if (subPage === 2) items = allStockTakingCanclleed;
 
   if (items?.data !== null)
     for (let i = 0; i < items?.data?.length; i++) {
@@ -451,7 +459,9 @@ export function StockTakingTable({ state, setState }) {
         status: items?.data[v].counting_status,
       },
     });
-    getStockTakingProdectList(items?.data[v].id, state, setState);
+    if (items?.data[v]?.review_status === "Review")
+      getAllInventoryCountingReivew(items?.data[v].id, state, setState);
+    else getStockTakingProdectList(items?.data[v].id, state, setState);
   };
   return (
     <StrictMode>

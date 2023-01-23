@@ -779,4 +779,13 @@
   background-color: #48b183;
   border-radius: 0.3vw;
   cursor: pointer;
-}   
+}
+.hinGc {
+  display: flex;
+  background-color: white;
+  margin: 0.6vw 1vw;
+  padding: 0.7vw;
+  border-radius: 0.3vw;
+  box-shadow: 0.1vw 0.1vw 0.4vw #8e8e8e2d;
+  font-size: 1vw;
+}

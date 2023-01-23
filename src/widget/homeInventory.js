@@ -83,13 +83,15 @@ export default class HomeInventory extends Component {
       allStockTrails: {},
       allStockReturn: {},
       allStockTaking: {},
+      allStockTakingComplated: {},
+      allStockTakingCanclleed: {},
       addIssueStock: {},
       addStockTransfer: {},
       addStockReturn: {},
       newInventoryCount: null,
       stockTrailProdect: {},
       countingProductList: [],
-      allReviewItems: {},
+      allReviewItems: [],
       // FUNCTION ///////////////////////////////////////////////////
       succesPop: props.succesPop,
     };

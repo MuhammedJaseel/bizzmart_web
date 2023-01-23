@@ -8,6 +8,7 @@ import {
   postInventoryCountedAsSubmit,
   postInventoryCountedItems,
   postInventoryCountRequest,
+  postInventoryStockTakenStatus,
   postStockIssue,
   setStockTakingProdectCount,
 } from "../method/homeInventoryInventoryMgmnt";
@@ -1176,31 +1177,42 @@ export function StockTakingReviewPage({ state, setState }) {
 
   const [subPage, setsubPage] = useState(0);
   const pTitles = [
-    `Uncounted (${""})`,
-    `Counted (${""})`,
-    `Unmatched (${""})`,
-    `Matched (${""})`,
-    `All (${""})`,
+    `Uncounted (${allReviewItems[0]?.length || 0})`,
+    `Counted (${allReviewItems[1]?.length || 0})`,
+    `Unmatched (${allReviewItems[2]?.length || 0})`,
+    `Matched (${allReviewItems[3]?.length || 0})`,
+    `All (${allReviewItems[4]?.length || 0})`,
   ];
-  const items = allReviewItems;
 
-  if (items?.data !== null)
-    for (let i = 0; i < items?.data?.length; i++) {
-      const it = items?.data[i];
-      body.push([
-        { data: it.title },
-        { data: it.title },
-        { data: it.title },
-        { data: it.title },
-        { data: it.title },
-      ]);
-    }
+  for (let i = 0; i < allReviewItems[subPage]?.length; i++) {
+    const it = allReviewItems[subPage][i];
+    body.push([
+      { data: it.product_name },
+      { data: it.expected },
+      { data: it.counted },
+      { data: it.difference },
+      { data: it.difference_value },
+    ]);
+  }
 
   const bodyRBody = {
-    drowelList: null,
+    drowelList: [
+      {
+        title: "Complated",
+        fun: () => postInventoryStockTakenStatus(1, state, setState),
+      },
+      {
+        title: "Reject Stocktake",
+        fun: () => postInventoryStockTakenStatus(2, state, setState),
+      },
+      {
+        title: "Reopen Stocktake",
+        fun: () => postInventoryStockTakenStatus(3, state, setState),
+      },
+    ],
     onShare: null,
     onDownload: null,
-    title: "+ New Count",
+    title: "MARK COMPLATED",
     makeAdd: () => {},
   };
   const bodyR = <HeaderButtens1 props={bodyRBody} />;
@@ -1214,11 +1226,18 @@ export function StockTakingReviewPage({ state, setState }) {
   ];
   const widths = [
     { width: 40 },
-    { width: 14 },
-    { width: 14 },
-    { width: 14 },
-    { width: 14 },
+    { width: 14, align: "center" },
+    { width: 14, align: "center" },
+    { width: 14, align: "center" },
+    { width: 14, align: "center" },
   ];
+
+  const _addAll = (name) => {
+    var value = 0;
+    for (let i = 0; i < allReviewItems[subPage]?.length; i++)
+      value += Number(allReviewItems[subPage][i][name]);
+    return value;
+  };
 
   if (page?.path !== "inventoryProductReviewPage") return null;
   const _onClickTable = (v) => {};
@@ -1241,6 +1260,21 @@ export function StockTakingReviewPage({ state, setState }) {
         body={body}
         onclick={_onClickTable}
       />
+      <div className="hinGc">
+        <div style={{ width: "40%" }}></div>
+        <div style={{ width: "15%", textAlign: "center" }}>
+          {_addAll("expected")}
+        </div>
+        <div style={{ width: "15%", textAlign: "center" }}>
+          {_addAll("counted")}
+        </div>
+        <div style={{ width: "15%", textAlign: "center" }}>
+          {_addAll("difference")}
+        </div>
+        <div style={{ width: "15%", textAlign: "center" }}>
+          {_addAll("difference_value")}
+        </div>
+      </div>
     </StrictMode>
   );
 }

@@ -19,10 +19,13 @@ export async function getInventoryManagment(state, setState) {
     .then((res) => setState({ allStockReturn: res }))
     .catch((error) => setState({ error }));
   await postHttp("getStockTakingLists", productPaging)
-    .then((res) => {
-      setState({ allStockTaking: res });
-      console.log(res.data);
-    })
+    .then((res) => setState({ allStockTaking: res }))
+    .catch((error) => setState({ error }));
+  await postHttp("getCompletedStockTakingLists", productPaging)
+    .then((res) => setState({ allStockTakingComplated: res }))
+    .catch((error) => setState({ error }));
+  await postHttp("getRejectedStockTakingLists", productPaging)
+    .then((res) => setState({ allStockTakingCanclleed: res }))
     .catch((error) => setState({ error }));
   return;
 }
@@ -185,7 +188,8 @@ export async function onClickStartCount(state, setState) {
   setState({ loading: true });
   await postHttp("countingStart", { stock_taking_id: page?.stock_taking_id })
     .then(async (res) => {
-      setState({ newInventoryCount });
+      page.status = "Submit";
+      setState({ newInventoryCount, page });
       await getStockTakingProdectList(page?.stock_taking_id, state, setState);
     })
     .catch((error) => setState({ error }));
@@ -193,7 +197,6 @@ export async function onClickStartCount(state, setState) {
 }
 
 export async function getStockTakingProdectList(id, state, setState) {
-  var { countingProductList } = state;
   setState({ loading: true });
   await postHttp("getReviewProductLists", { stock_taking_id: id })
     .then((res) => setStockTakingProdectCount({ items: res.data }, setState))
@@ -219,7 +222,7 @@ export function setStockTakingProdectCount(data, setState) {
 export async function postInventoryCountedItems(state, setState) {
   var { countingProductList, succesPop, page } = state;
   setState({ loading: true });
-  await postHttp("getReviewProductLists", {
+  await postHttp("saveCount", {
     stock_taking_id: page?.stock_taking_id,
     counted_items: countingProductList?.items,
   })
@@ -254,11 +257,48 @@ export async function postInventoryCountedAsSubmit(state, setState) {
   setState({ loading: false });
 }
 
-export async function getAllInventoryCountingReivew(state, setState) {
+export async function getAllInventoryCountingReivew(id, state, setState) {
   var { allReviewItems, page } = state;
   setState({ loading: true });
-  await postHttp("AllReviewedLists", { stock_taking_id: page?.stock_taking_id })
-    .then((res) => setState({ allReviewItems: { all: res.data } }))
+  await postHttp("AllReviewedLists", { stock_taking_id: id })
+    .then((res) => {
+      const uncounted = [];
+      const counted = [];
+      const unmatched = [];
+      const matched = [];
+
+      for (let i = 0; i < res.data.length; i++) {
+        const el = res.data[i];
+        if (Number(el?.counted || 0) > 0) counted.push(el);
+        else uncounted.push(el);
+        if (Number(el?.difference || 0) === 0) matched.push(el);
+        else unmatched.push(el);
+      }
+
+      setState({
+        allReviewItems: [uncounted, counted, unmatched, matched, res.data],
+      });
+    })
+    .catch((error) => setState({ error }));
+  setState({ loading: false });
+}
+
+export async function postInventoryStockTakenStatus(status, state, setState) {
+  var { succesPop, page } = state;
+  setState({ loading: true });
+  await postHttp("countStatusChange", {
+    stock_taking_id: page?.stock_taking_id,
+    status,
+  })
+    .then((res) => {
+      succesPop({
+        active: true,
+        title: "Updated Successfully",
+        desc: "Review status updated succesfully",
+      });
+      setState({ page: null });
+      getInventoryManagment(state, setState);
+    })
     .catch((error) => setState({ error }));
   setState({ loading: false });
 }
