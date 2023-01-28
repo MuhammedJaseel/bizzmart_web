@@ -2,6 +2,7 @@ import {
   getAllAssetAndRecExpense,
   getAllEquity,
   getAllSalesTaxes,
+  getBussinessSettings,
 } from "../method/home_settings";
 
 export const allSettings = [
@@ -13,6 +14,7 @@ export const allSettings = [
         title: "Business & GST Settings",
         desc: "Manage General business and legal settings for your business in bizzSmart here. You can set GST settings, store opening and closing times, contacts, timezone details etc.",
         path: "bussnessSettings",
+        initCall: getBussinessSettings,
       },
       // {
       //   title: "Upload Items",

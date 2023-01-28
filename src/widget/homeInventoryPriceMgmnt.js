@@ -1,5 +1,11 @@
 import { StrictMode } from "react";
-import { postPriceChange } from "../method/homeInventoryPriceMgmnt";
+import {
+  postPriceChange,
+  getAllPriceLookupList,
+  getAllStockLookupList,
+  getAllPriceChangeList,
+  getAllMaslLookupList,
+} from "../method/homeInventoryPriceMgmnt";
 import { Input } from "./interface";
 import { Header1, Header4, HeaderButtens1 } from "./widget";
 import {
@@ -36,26 +42,35 @@ export function PriceLookupTable({ state, setState }) {
   ];
 
   const body = [];
-  if (priceLookupList?.data !== null)
-    for (let i = 0; i < priceLookupList?.data?.length; i++) {
-      const it = priceLookupList?.data[i];
-      body.push([
-        { data: it.image, data2: it.name, type: 1 },
-        { data: it.name, data2: it.product_type, type: 2 },
-        { data: it.code, type: 2 },
-        { data: it.category },
-        { data: it.type },
-        { data: it.purchase_price },
-        { data: it.rrp },
-        { data: it.mrp },
-        { data: it.online },
-      ]);
-    }
+  for (let i = 0; i < priceLookupList?.data?.length; i++) {
+    const it = priceLookupList?.data[i];
+    body.push([
+      { data: it.image, data2: it.name, type: 1 },
+      { data: it.name, data2: it.product_type, type: 2 },
+      { data: it.code, type: 2 },
+      { data: it.category },
+      { data: it.type },
+      { data: it.purchase_price },
+      { data: it.rrp },
+      { data: it.mrp },
+      { data: it.online },
+    ]);
+  }
 
   const bodyRBody = { drowelList: null, onShare: null, onDownload: null };
   const bodyR = <HeaderButtens1 props={bodyRBody} />;
 
   if (page?.path !== "priceLookup") return null;
+
+  const counterProps = {
+    total: priceLookupList?.page?.totalCount,
+    onTap: (v, limit) => {
+      priceLookupList.page.page_number = v;
+      priceLookupList.page.limit = limit;
+      getAllPriceLookupList(state, setState);
+    },
+  };
+
   return (
     <StrictMode>
       <Header1
@@ -66,15 +81,7 @@ export function PriceLookupTable({ state, setState }) {
       />
       <Header4 title={page?.title} desc={page?.desc} />
       <MyTable1 lg widths={widths} heads={heads} body={body} />
-      <MyTableCounter1
-        props={{
-          total: priceLookupList?.page?.totalCount,
-          onTap: (p, l) => {
-            console.log(p);
-            console.log(l);
-          },
-        }}
-      />
+      <MyTableCounter1 props={counterProps} />
     </StrictMode>
   );
 }
@@ -82,24 +89,31 @@ export function PriceLookupTable({ state, setState }) {
 export function StockLookupTable({ state, setState }) {
   const { stockLookupList, page } = state;
   const body = [];
-  if (stockLookupList?.data !== null)
-    for (let i = 0; i < stockLookupList?.data?.length; i++) {
-      const it = stockLookupList?.data[i];
-      body.push([
-        { data: it.image, data2: it.name, type: 1 },
-        { data: it.name, data2: it.product_type, type: 2 },
-        { data: it.code, type: 2 },
-        { data: it.category },
-        { data: it.type },
-        { data: it.stock + " " + it.primary_unit },
-        { data: it.stock + " " + it.secondary_unit },
-      ]);
-    }
+  for (let i = 0; i < stockLookupList?.data?.length; i++) {
+    const it = stockLookupList?.data[i];
+    body.push([
+      { data: it.image, data2: it.name, type: 1 },
+      { data: it.name, data2: it.product_type, type: 2 },
+      { data: it.code, type: 2 },
+      { data: it.category },
+      { data: it.type },
+      { data: it.stock + " " + it.primary_unit },
+      { data: it.stock + " " + it.secondary_unit },
+    ]);
+  }
 
   const bodyRBody = { drowelList: null, onShare: null, onDownload: null };
   const bodyR = <HeaderButtens1 props={bodyRBody} />;
 
   if (page?.path !== "stockLookup") return null;
+  const counterProps = {
+    total: stockLookupList?.page?.totalCount,
+    onTap: (v, limit) => {
+      stockLookupList.page.page_number = v;
+      stockLookupList.page.limit = limit;
+      getAllStockLookupList(state, setState);
+    },
+  };
   return (
     <StrictMode>
       <Header1
@@ -110,47 +124,55 @@ export function StockLookupTable({ state, setState }) {
       />
       <Header4 title={page?.title} desc={page?.desc} />
       <MyTable1 lg widths={page.widths} heads={page.heads} body={body} />
-      <MyTableCounter1 props={{ total: 50 }} />
+      <MyTableCounter1 props={counterProps} />
     </StrictMode>
   );
 }
 export function PriceChargeTable({ state, setState }) {
-  const { allProduct, page } = state;
+  const { priceChangeList, page } = state;
+  var { addPriceChange } = state;
   const body = [];
-  if (allProduct !== null)
-    for (let i = 0; i < allProduct.length; i++) {
-      const it = allProduct[i];
-      body.push([
-        { data: it.image, data2: it.name, type: 1 },
-        { data: it.name, data2: it.product_type, type: 2 },
-        { data: it.code, type: 2 },
-        { data: it.category_name },
-        { data: it.type },
-        { data: it.cost },
-        { data: it.selling, type: 2 },
-        { data: it.MRP },
-        { data: it.tax },
-        { data: it.stock },
-        { data: it.MSL },
-      ]);
-    }
+  for (let i = 0; i < priceChangeList?.data?.length; i++) {
+    const it = priceChangeList?.data[i];
+    body.push([
+      { data: it.image, data2: it.name, type: 1 },
+      { data: it.name, data2: it.product_type, type: 2 },
+      { data: it.code, type: 2 },
+      { data: it.category_name },
+      { data: it.type },
+      { data: it.cost },
+      { data: it.selling, type: 2 },
+      { data: it.MRP },
+      { data: it.tax },
+      { data: it.stock },
+      { data: it.MSL },
+    ]);
+  }
 
-  const _onCLick = (k) =>
-    setState({
-      addPriceChange: {
-        name: allProduct[k].name,
-        product_id: allProduct[k].id,
-        mrp: allProduct[k].MRP,
-        rrp: allProduct[k].rrp,
-        online: allProduct[k].online_price,
-        purchase_price: allProduct[k].purchase_price,
-      },
-    });
+  const _onCLick = (k) => {
+    addPriceChange = {
+      name: priceChangeList?.data[k].name,
+      product_id: priceChangeList?.data[k].id,
+      mrp: priceChangeList?.data[k].MRP,
+      rrp: priceChangeList?.data[k].rrp,
+      online: priceChangeList?.data[k].online_price,
+      purchase_price: priceChangeList?.data[k].purchase_price,
+    };
+    setState({ addPriceChange });
+  };
 
   const bodyRBody = { drowelList: null, onShare: null, onDownload: null };
   const bodyR = <HeaderButtens1 props={bodyRBody} />;
 
   if (page?.path !== "priceCharge") return null;
+  const counterProps = {
+    total: priceChangeList?.page?.totalCount,
+    onTap: (v, limit) => {
+      priceChangeList.page.page_number = v;
+      priceChangeList.page.limit = limit;
+      getAllPriceChangeList(state, setState);
+    },
+  };
   return (
     <StrictMode>
       <Header1
@@ -167,7 +189,7 @@ export function PriceChargeTable({ state, setState }) {
         body={body}
         onclick={_onCLick}
       />
-      <MyTableCounter1 props={{ total: 50 }} />
+      <MyTableCounter1 props={counterProps} />
       <PriceChangePopup state={state} setState={setState} />
     </StrictMode>
   );
@@ -175,25 +197,32 @@ export function PriceChargeTable({ state, setState }) {
 export function MslLookupTable({ state, setState }) {
   const { page, maslLookupList } = state;
   const body = [];
-  if (maslLookupList?.data !== null)
-    for (let i = 0; i < maslLookupList?.data?.length; i++) {
-      const it = maslLookupList?.data[i];
-      body.push([
-        { data: it.image, data2: it.name, type: 1 },
-        { data: it.name, data2: it.product_type, type: 2 },
-        { data: it.code, type: 2 },
-        { data: it.category },
-        { data: it.type },
-        { data: it.MSL + " " + it.primary_unit },
-        { data: it.stock + " " + it.primary_unit },
-        { data: Number(it.stock) - Number(it.MSL) + " " + it.primary_unit },
-      ]);
-    }
+  for (let i = 0; i < maslLookupList?.data?.length; i++) {
+    const it = maslLookupList?.data[i];
+    body.push([
+      { data: it.image, data2: it.name, type: 1 },
+      { data: it.name, data2: it.product_type, type: 2 },
+      { data: it.code, type: 2 },
+      { data: it.category },
+      { data: it.type },
+      { data: it.MSL + " " + it.primary_unit },
+      { data: it.stock + " " + it.primary_unit },
+      { data: Number(it.stock) - Number(it.MSL) + " " + it.primary_unit },
+    ]);
+  }
 
   const bodyRBody = { drowelList: null, onShare: null, onDownload: null };
   const bodyR = <HeaderButtens1 props={bodyRBody} />;
 
   if (page?.path !== "mslLookup") return null;
+  const counterProps = {
+    total: maslLookupList?.page?.totalCount,
+    onTap: (v, limit) => {
+      maslLookupList.page.page_number = v;
+      maslLookupList.page.limit = limit;
+      getAllMaslLookupList(state, setState);
+    },
+  };
   return (
     <StrictMode>
       <Header1
@@ -204,17 +233,16 @@ export function MslLookupTable({ state, setState }) {
       />
       <Header4 title={page?.title} desc={page?.desc} />
       <MyTable1 lg widths={page.widths} heads={page.heads} body={body} />
-      <MyTableCounter1 props={{ total: 50 }} />
+      <MyTableCounter1 props={counterProps} />
     </StrictMode>
   );
 }
 
 function PriceChangePopup({ state, setState }) {
   const { loading, error, addPriceChange } = state;
-
-  if (addPriceChange === undefined) return null;
+  if (addPriceChange === null) return null;
   const popupProps1 = {
-    close: () => setState({ addPriceChange: undefined }),
+    close: () => setState({ addPriceChange: null }),
     title: addPriceChange?.name,
     error,
     loading,
@@ -222,7 +250,6 @@ function PriceChangePopup({ state, setState }) {
     onChange: (e) => (addPriceChange[e.target.id] = e.target.value),
     submit: () => postPriceChange(state, setState),
   };
-
   return (
     <WidgetPopUp1 props={popupProps1}>
       <WidgetPopUp1Body>

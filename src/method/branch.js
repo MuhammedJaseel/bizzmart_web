@@ -1,9 +1,9 @@
 import { postHttp } from "../module/api_int";
 
 export const getAllBranches = async (state, setState) => {
-  await postHttp("allBranchLists", {})
-    .then((res) => setState({ allBranches: res.data }))
-    .catch();
+  await postHttp("allBranchLists", {}).then((res) =>
+    setState({ allBranches: res.data })
+  );
 };
 
 export const getFormListes = async (state, setState) => {
@@ -25,6 +25,7 @@ export const getAllStates = async (country_name, setState) => {
   );
   setState({ loading: false });
 };
+
 export const getAllDistricts = async (state_id, setState) => {
   setState({ loading: true });
   await postHttp("getDistrictLists", { state_id }).then((res) =>
@@ -37,8 +38,6 @@ export const postNewBranch = async (state, setState) => {
   const { loading, addBranch } = state;
   if (loading) return;
 
-  console.log(addBranch);
-
   // --START-- Validation starts from here
   if (addBranch?.branch_name === undefined || addBranch?.branch_name === "") {
     setState({ error: "Enter branch name" });
@@ -48,19 +47,25 @@ export const postNewBranch = async (state, setState) => {
     setState({ error: "Enter phone number" });
     return;
   }
-  if (addBranch?.country === undefined) {
+  if (addBranch?.country === undefined || addBranch?.country === "") {
     setState({ error: "Select business contry" });
     return;
   }
-  if (addBranch?.state_id === undefined) {
+  if (addBranch?.state_id === undefined || addBranch?.state_id === "") {
     setState({ error: "Select state" });
     return;
   }
-  if (addBranch?.industry_type_id === undefined) {
+  if (
+    addBranch?.industry_type_id === undefined ||
+    addBranch?.industry_type_id === ""
+  ) {
     setState({ error: "Select industry type" });
     return;
   }
-  if (addBranch?.business_type_id === undefined) {
+  if (
+    addBranch?.business_type_id === undefined ||
+    addBranch?.business_type_id === ""
+  ) {
     setState({ error: "Select business type" });
     return;
   }

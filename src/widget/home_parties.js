@@ -92,7 +92,11 @@ export default class HomeParties extends Component {
 
 function HomePartiesCoustomerTable({ state, setState }) {
   const { page, customerPaging, allCustomer } = state;
-  const onclick = (v) => getCustomer(allCustomer[v], state, setState);
+  var { partie } = state;
+  const onclick = (v) => {
+    partie = JSON.parse(JSON.stringify(allCustomer[v]));
+    getCustomer(partie, setState);
+  };
   const widths = [
     { width: 4 },
     { width: 18 },
@@ -138,8 +142,11 @@ function HomePartiesCoustomerTable({ state, setState }) {
 }
 function HomePartiesSuppliersTable({ state, setState }) {
   const { page, supplierPaging, allSupplier } = state;
-
-  const onclick = (v) => getSupplier(allSupplier[v], state, setState);
+  var { partie } = state;
+  const onclick = (v) => {
+    partie = JSON.parse(JSON.stringify(allSupplier[v]));
+    getSupplier(partie, setState);
+  };
 
   const widths = [
     { width: 4 },
@@ -238,7 +245,10 @@ function HomePartiesEditForm({ state, setState }) {
     allStates,
     allLoyaltyType,
     allSupplierType,
-    getItem: (from, to) => getCustomer(partie, state, setState, from, to),
+    getItem: (from, to) =>
+      page === 0
+        ? getCustomer(partie, setState, from, to)
+        : getSupplier(partie, setState, from, to),
     setPaymentMethord: (v) => {
       partie.paymentRecord.payment_method_id = v;
       setState({ partie });
@@ -250,6 +260,7 @@ function HomePartiesEditForm({ state, setState }) {
       onChange={(e) => {
         if (e.target.id === "image") partie.image = e.target.files[0];
         else partie[e.target.id] = e.target.value;
+        setState({ partie });
       }}
       onSubmit={(e) => {
         e.preventDefault();

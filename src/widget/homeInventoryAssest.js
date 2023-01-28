@@ -10,7 +10,9 @@ import {
   WidgetPopUp1In1,
 } from "./widget_popup";
 import {
+  getAllassets,
   getAllAssetsCategory,
+  getAllAssetsList,
   getAssetStockLists,
   postAsset,
   postAssetPurchase,
@@ -30,6 +32,7 @@ export function AssetTable({ state, setState }) {
   const title = "INVENTORY";
   const bodyRBody = {
     makeAdd: () => {
+      getAllassets(state, setState);
       setState({
         page: inventoryFormData.filter((k) => k.path === "addAsset")[0],
         addExistingAsset: {
@@ -52,19 +55,27 @@ export function AssetTable({ state, setState }) {
     drowelList: [
       {
         title: "Asset Transfer",
-        fun: () => setState({ assetTransfer: {} }),
+        fun: () => {
+          setState({ assetTransfer: {} });
+          getAllassets(state, setState);
+        },
       },
       {
         title: "Asset Writeoff",
-        fun: () => setState({ assetWriteoff: {} }),
+        fun: () => {
+          setState({ assetWriteoff: {} });
+          getAllassets(state, setState);
+        },
       },
       {
         title: "Asset Purchase",
-        fun: () =>
+        fun: () => {
           setState({
             page: { path: "addAssetPurchase" },
             addAssetPurchase: JSON.parse(JSON.stringify(assetPurchaseStruct)),
-          }),
+          });
+          getAllassets(state, setState);
+        },
       },
     ],
     onShare: null,
@@ -73,39 +84,53 @@ export function AssetTable({ state, setState }) {
   const bodyR = <HeaderButtens1 props={bodyRBody} />;
 
   const body = [];
-  if (allFixedAssets !== null)
-    for (let i = 0; i < allFixedAssets.length; i++) {
-      const it = allFixedAssets[i];
-      body.push([
-        { data: null },
-        { data: it.asset_category },
-        { data: it.asset_category },
-        { data: it.quantity },
-        { data: it.total_cost },
-        { data: null },
-      ]);
-    }
+  for (let i = 0; i < allFixedAssets?.data?.length; i++) {
+    const it = allFixedAssets?.data[i];
+    body.push([
+      { data: null },
+      { data: it.asset_category },
+      { data: it.asset_category },
+      { data: it.quantity },
+      { data: it.total_cost },
+      { data: null },
+    ]);
+  }
   const body1 = [];
-  if (allAssignedAssets !== null)
-    for (let i = 0; i < allAssignedAssets.length; i++) {
-      const it = allAssignedAssets[i];
-      body1.push([
-        { data: null },
-        { data: it.asset_category },
-        { data: it.asset_category },
-        { data: it.quantity },
-        { data: it.custodian_name },
-        { data: it.assigned_date },
-        { data: it.cost },
-        { data: it.total_cost },
-        { data: null },
-      ]);
-    }
+  for (let i = 0; i < allAssignedAssets?.data?.length; i++) {
+    const it = allAssignedAssets?.data[i];
+    body1.push([
+      { data: null },
+      { data: it.asset_category },
+      { data: it.asset_category },
+      { data: it.quantity },
+      { data: it.custodian_name },
+      { data: it.assigned_date },
+      { data: it.cost },
+      { data: it.total_cost },
+      { data: null },
+    ]);
+  }
 
   const [subPage, setsubPage] = useState(0);
-
   const pTitles = ["All Fixed Assets", "Assigned Assets"];
   if (page?.path !== "asset") return null;
+
+  const counterProps = {
+    total: allFixedAssets?.page?.totalCount,
+    onTap: (v, limit) => {
+      allFixedAssets.page.page_number = v;
+      allFixedAssets.page.limit = limit;
+      getAllAssetsList(state, setState);
+    },
+  };
+  const counterProps1 = {
+    total: allAssignedAssets?.page?.totalCount,
+    onTap: (v, limit) => {
+      allAssignedAssets.page.page_number = v;
+      allAssignedAssets.page.limit = limit;
+      getAllAssetsList(state, setState);
+    },
+  };
   return (
     <StrictMode>
       <Header1
@@ -163,7 +188,7 @@ export function AssetTable({ state, setState }) {
           body={body1}
         />
       )}
-      <MyTableCounter1 props={{ total: 50 }} />
+      <MyTableCounter1 props={page === 0 ? counterProps : counterProps1} />
       <AssetTranferPoup state={state} setState={setState} />
       <AssetWriteOffPoup state={state} setState={setState} />
     </StrictMode>

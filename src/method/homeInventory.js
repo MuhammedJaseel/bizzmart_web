@@ -1,6 +1,26 @@
 import { getHttp, postHttp } from "../module/api_int";
 import { getTodayType1 } from "../module/simple";
 
+export async function getAllProducts(state, setState) {
+  const { productPaging } = state;
+  setState({ loading: true });
+  await postHttp("products", productPaging)
+    .then((res) => setState({ allProduct: res.data, productPaging: res.page }))
+    .catch((error) => setState({ error }));
+  setState({ loading: false });
+  return;
+}
+
+export async function getAllServices(state, setState) {
+  const { servicesPaging } = state;
+  setState({ loading: true });
+  await postHttp("serviceProducts", servicesPaging)
+    .then((res) => setState({ allService: res.data, servicesPaging: res.page }))
+    .catch((error) => setState({ error }));
+  setState({ loading: false });
+  return;
+}
+
 export async function getProduct(k, state, setState) {
   var { product, allProduct } = state;
   product = {
@@ -53,7 +73,7 @@ export async function deleteProducts(product_id, state, setState) {
   if (loading) return;
   await postHttp("productDestroy", { product_id })
     .then(async (res) => {
-      await getProducts(state, setState);
+      await getAllProducts(state, setState);
       succesPop({
         active: true,
         title: "Product deleted successfully",
@@ -66,38 +86,14 @@ export async function deleteProducts(product_id, state, setState) {
   return;
 }
 
-export async function getProducts(state, setState) {
-  const { productPaging } = state;
-  await postHttp("products", productPaging)
-    .then((res) => setState({ allProduct: res.data, productPaging: res.page }))
-    .catch((error) => setState({ error }));
-  setState({ loading: false });
-
-  return;
-}
-
 export async function inventorySearchProduct(v, state, setState) {
   if (v === "") {
     setState({ loading: false, error: null, allProductSearches: [] });
     return;
   }
   setState({ loading: true, error: null });
-
   await postHttp("getSearchProducts", { serach: v })
     .then((res) => setState({ allProductSearches: res.data }))
-    .catch((error) => setState({ error }));
-  setState({ loading: false });
-
-  return;
-}
-
-export async function getServices(state, setState) {
-  const { servicesPaging } = state;
-
-  await postHttp("serviceProducts", servicesPaging)
-    .then((res) => {
-      setState({ allService: res.data, servicesPaging: res.page });
-    })
     .catch((error) => setState({ error }));
   setState({ loading: false });
   return;
@@ -207,8 +203,12 @@ export async function postInventoryProduct(state, setState) {
   var rate = "";
   var cess = "";
   try {
-    rate = allTax.filter((it) => it.id == product.selling_tax)[0].rate;
-    cess = allTax.filter((it) => it.id == product.selling_tax)[0].cess;
+    rate = allTax.filter(
+      (it) => it?.id?.toString() === product?.selling_tax?.toString()
+    )[0].rate;
+    cess = allTax.filter(
+      (it) => it?.id?.toString() === product?.selling_tax?.toString()
+    )[0].cess;
     if (product.type === 1) {
       purchasePrice = product.purchase_price;
       if (product.tax_inclusion === "Inclusive") {
@@ -241,7 +241,6 @@ export async function postInventoryProduct(state, setState) {
       }
     }
   } catch (e) {
-    console.log(e);
     error = "Something wrong at calculating tax, Check your tax details";
   }
 
@@ -252,7 +251,7 @@ export async function postInventoryProduct(state, setState) {
     if (product.secondry_unit !== "" && product.secUnit)
       formData.append("conversion", 1 / product.conversion);
     else formData.append("conversion", product.conversion);
-  } catch (error) {
+  } catch (e) {
     error = "Error on unit convertion";
   }
 
@@ -267,7 +266,7 @@ export async function postInventoryProduct(state, setState) {
   formData.append("is_service", product.is_service || "");
   formData.append("primary_unit", product.primary_unit || "");
   formData.append("secondry_unit", product.secondry_unit || "");
-  formData.append("enable_unit_conversion", product.secondry_unit || "" !== "");
+  formData.append("enable_unit_conversion", product.secondry_unit || "");
   formData.append("selling_tax", product.selling_tax || "");
   formData.append("cost_tax", product.selling_tax || "");
   formData.append("online_tax", product.selling_tax || "");
@@ -332,8 +331,9 @@ export async function postInventoryProduct(state, setState) {
 
   setState({ loading: true });
   await postHttp(isEdit ? "productUpdate" : "productStore", formData, true)
-    .then(async (res) => {
-      await getProducts(state, setState);
+    .then(async () => {
+      await getAllProducts(state, setState);
+      await getAllServices(state, setState);
       succesPop({
         active: true,
         title: "Product added successfully",
@@ -342,12 +342,7 @@ export async function postInventoryProduct(state, setState) {
       setState({ product: null });
     })
     .catch((desc) =>
-      succesPop({
-        active: true,
-        type: "error",
-        title: "Error on Adding",
-        desc,
-      })
+      succesPop({ active: true, type: "error", title: "Error on Adding", desc })
     );
   setState({ loading: false });
 }

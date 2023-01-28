@@ -1,15 +1,10 @@
-import React, { Component, StrictMode, useRef, useState } from "react";
-import {
-  getAllBranches,
-  getAllDistricts,
-  getAllStates,
-  getFormListes,
-  postNewBranch,
-} from "../method/branch";
+import { Component, StrictMode, useRef, useState } from "react";
+import { getAllBranches, getAllDistricts } from "../method/branch";
+import { getAllStates, getFormListes, postNewBranch } from "../method/branch";
 import { onClickUserLogout } from "../method/login";
-import "../style/br.css";
 import { Input } from "../widget/interface";
 import { DrawerLayout1 } from "../widget/widget_form";
+import "../style/br.css";
 
 export default class BranchScreen extends Component {
   constructor(props) {
@@ -58,7 +53,6 @@ export default class BranchScreen extends Component {
                 <img
                   alt="ic"
                   className="hmAaR"
-                  // src="https://shotkit.com/wp-content/uploads/2021/06/cool-profile-pic-matheus-ferrero.jpeg"
                   src={window.localStorage.getItem("profilePic")}
                 />
                 <div
@@ -154,8 +148,8 @@ function AddBranchDrower({ state, setState }) {
   const body = (
     <form
       onChange={(e) => {
-        addBranch[e.target.id] = e.target.value;
-        setState(addBranch);
+        if (e.target.id !== "image") addBranch[e.target.id] = e.target.value;
+        setState({ addBranch });
       }}
     >
       <div className="brCa">
@@ -168,7 +162,8 @@ function AddBranchDrower({ state, setState }) {
             {addBranch?.image !== undefined ? (
               <img
                 className="brCbAaA"
-                src={URL.createObjectURL(addBranch.image)}
+                alt="Bizz"
+                src={URL.createObjectURL(addBranch?.image || "")}
               />
             ) : (
               <div className="brCbAaA" />
@@ -181,10 +176,7 @@ function AddBranchDrower({ state, setState }) {
               type="file"
               id="image"
               className="brCbAaC"
-              onChange={(e) => {
-                addBranch.image = e.target.files[0];
-                setState(addBranch);
-              }}
+              onChange={(e) => (addBranch.image = e.target.files[0])}
             />
           </div>
           <div className={selected === 0 ? "brCbAb_" : "brCbAb"}>
@@ -213,6 +205,7 @@ function AddBranchDrower({ state, setState }) {
                 onFocus={() => setSelected(0)}
                 placeholder="Enter branch name"
                 id="branch_name"
+                value={addBranch?.branch_name || ""}
               />
               <div className="brCbBbA">Business Legal Name</div>
               <input
@@ -220,6 +213,7 @@ function AddBranchDrower({ state, setState }) {
                 onFocus={() => setSelected(0)}
                 placeholder="Enter vusiness legal name"
                 id="business_legal_name"
+                value={addBranch?.business_legal_name || ""}
               />
               <div className="brCbBbA">Branch Address</div>
               <textarea
@@ -227,6 +221,7 @@ function AddBranchDrower({ state, setState }) {
                 onFocus={() => setSelected(0)}
                 placeholder="Enter branch address"
                 id="address"
+                value={addBranch?.address || ""}
               />
               <div className="brCbBbA">
                 <div className="brCbBbAa">Business Country*</div>
@@ -237,9 +232,11 @@ function AddBranchDrower({ state, setState }) {
                   className="brCbBbBa"
                   onFocus={() => setSelected(0)}
                   id="country"
+                  value={addBranch?.country || ""}
                   onChange={(e) => {
-                    addBranch.state_id = undefined;
-                    addBranch.district_id = undefined;
+                    delete addBranch.state_id;
+                    delete addBranch.district_id;
+                    setState({ addBranch });
                     getAllStates(e.target.value, setState);
                   }}
                 >
@@ -254,9 +251,10 @@ function AddBranchDrower({ state, setState }) {
                   className="brCbBbBa"
                   onFocus={() => setSelected(0)}
                   id="state_id"
+                  value={addBranch?.state_id || ""}
                   disabled={addBranch?.country === undefined}
                   onChange={(e) => {
-                    addBranch.district_id = undefined;
+                    delete addBranch.district_id;
                     getAllDistricts(e.target.value, setState);
                   }}
                 >
@@ -279,12 +277,14 @@ function AddBranchDrower({ state, setState }) {
                   placeholder="PIN Code"
                   type="number"
                   id="pin_code"
+                  value={addBranch?.pin_code || ""}
                 />
                 <select
                   className="brCbBbBa"
                   onFocus={() => setSelected(0)}
                   disabled={addBranch?.state_id === undefined}
                   id="district_id"
+                  value={addBranch?.district_id || ""}
                 >
                   <option hidden>Select district</option>
                   {allDistrict?.map((it, k) => (
@@ -305,12 +305,14 @@ function AddBranchDrower({ state, setState }) {
                   placeholder="Latitude"
                   type="number"
                   id="latitude"
+                  value={addBranch?.latitude || ""}
                 />
                 <input
                   className="brCbBbBa"
                   onFocus={() => setSelected(0)}
                   placeholder="Longitude"
                   id="longitude"
+                  value={addBranch?.longitude || ""}
                   type="number"
                 />
               </div>
@@ -328,6 +330,7 @@ function AddBranchDrower({ state, setState }) {
                   placeholder="Enter registered number"
                   type="number"
                   id="phone"
+                  value={addBranch?.phone || ""}
                 />
                 <input
                   className="brCbBbBa"
@@ -335,6 +338,7 @@ function AddBranchDrower({ state, setState }) {
                   placeholder="Enter sales contact number"
                   type="number"
                   id="sales_number"
+                  value={addBranch?.sales_number || ""}
                 />
               </div>
               <div className="brCbBbA">
@@ -348,6 +352,7 @@ function AddBranchDrower({ state, setState }) {
                   placeholder="Enter support contact"
                   type="number"
                   id="support_number"
+                  value={addBranch?.support_number || ""}
                 />
                 <input
                   className="brCbBbBa"
@@ -355,6 +360,7 @@ function AddBranchDrower({ state, setState }) {
                   placeholder="Enter whatsapp number"
                   type="number"
                   id="whatsApp_number"
+                  value={addBranch?.whatsApp_number || ""}
                 />
               </div>
               <div className="brCbBbA">
@@ -368,12 +374,14 @@ function AddBranchDrower({ state, setState }) {
                   placeholder="Enter email address"
                   type="email"
                   id="email"
+                  value={addBranch?.email || ""}
                 />
                 <input
                   className="brCbBbBa"
                   onFocus={() => setSelected(1)}
                   placeholder="Enter website"
                   id="web_site"
+                  value={addBranch?.web_site || ""}
                 />
               </div>
             </div>
@@ -406,6 +414,7 @@ function AddBranchDrower({ state, setState }) {
                   className="brCbBbBa"
                   onFocus={() => setSelected(0)}
                   id="industry_type_id"
+                  value={addBranch?.industry_type_id || ""}
                 >
                   <option hidden>Select industry type</option>{" "}
                   {allIndustryType?.map((it, k) => (
@@ -418,6 +427,7 @@ function AddBranchDrower({ state, setState }) {
                   className="brCbBbBa"
                   onFocus={() => setSelected(0)}
                   id="business_type_id"
+                  value={addBranch?.business_type_id || ""}
                 >
                   <option hidden>Select bussness type</option>{" "}
                   {allBusinessType?.map((it, k) => (
@@ -427,8 +437,7 @@ function AddBranchDrower({ state, setState }) {
                   ))}
                 </select>
               </div>
-              <div className="brCbBbA">
-                {/* <div className="brCbBbAa">Business Type*</div> */}
+              {/* <div className="brCbBbA">
                 <div className="brCbBbAa">TRN Number</div>
               </div>
               <div className="brCbBbB">
@@ -436,9 +445,9 @@ function AddBranchDrower({ state, setState }) {
                   className="brCbBbBa"
                   onFocus={() => setSelected(1)}
                   placeholder="Enter TRN number"
-                  id="gst_status"
+                  id="gst_status" value={addBranch?.gst_status||""}
                 />
-              </div>
+              </div> */}
             </div>
             <div className="brCbBa">CREDENTIAL INFORMATION</div>
             <div className="brCbBb">
@@ -450,7 +459,7 @@ function AddBranchDrower({ state, setState }) {
                 <input
                   className="brCbBbBa"
                   onFocus={() => setSelected(1)}
-                  value={addBranch?.phone}
+                  value={addBranch?.phone || ""}
                   disabled
                 />
                 <Input
@@ -459,6 +468,7 @@ function AddBranchDrower({ state, setState }) {
                   placeholder="Enter Password"
                   type="password"
                   id="password"
+                  value={addBranch?.password || ""}
                 />
               </div>
             </div>

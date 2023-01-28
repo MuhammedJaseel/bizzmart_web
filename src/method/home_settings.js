@@ -8,12 +8,14 @@ import { postHttp } from "../module/api_int";
 ///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
 export async function getBussinessSettings(state, setState) {
-  await postHttp("businessSettings", {}).then((res) => {
-    setState({ bussinessSettings: res.data });
-  });
-  await postHttp("getBusinessTypeLists", {}).then((res) => {
-    setState({ allBusinessType: res.data });
-  });
+  setState({ loading: true });
+  await postHttp("businessSettings", {}).then((res) =>
+    setState({ bussinessSettings: res.data })
+  );
+  await postHttp("getBusinessTypeLists", {}).then((res) =>
+    setState({ allBusinessType: res.data })
+  );
+  setState({ loading: false });
 }
 
 export function bussinessSettingsValidator(e, state, setState) {
@@ -43,7 +45,8 @@ export function postBusinessDay(body, state, setState, setAllDay) {
     });
 }
 export async function postBussinessSettings(state, setState) {
-  const { bussinessSettings, succesPop } = state;
+  const { bussinessSettings, succesPop, loading } = state;
+  if (loading) return;
   setState({ error: null, loading: true });
   await postHttp("updateBusinessSettings", bussinessSettings)
     .then(async (res) => {
@@ -240,17 +243,10 @@ export async function postTax(state, setState) {
 }
 
 export async function updateOrDeleateTax(it, state, setState) {
-  const { succesPop, loading, addTax } = state;
+  const { succesPop, loading } = state;
   if (loading) return;
   setState({ loading: true, error: null });
-
-  const body = {
-    tax_id: it.id,
-    title: it.name,
-    gst: it.rate,
-    css: it.cess,
-  };
-
+  const body = { tax_id: it.id, title: it.name, gst: it.rate, css: it.cess };
   await postHttp(it.edited ? "updateTax" : "deleteTax", body)
     .then(async () => {
       it.edited = false;

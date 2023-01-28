@@ -47,7 +47,7 @@ const make2Digit = (v) => {
 
 const setCalender = (list, state, setState) => {
   const date = new Date();
-  const day = date.getDate();
+  // const day = date.getDate();
   const month = date.getMonth();
   const year = date.getFullYear();
   const lastDay = getMonthLastDays(month, year);
@@ -79,6 +79,7 @@ export const getAllCalenderData = async (state, setState) => {
   await postHttp("calendar/getCalendar", {})
     .then((res) => setCalender(res.data, state, setState))
     .catch(() => {});
+  setState({ loading: false });
 };
 
 export const getAllAddedvalue = (lsit, name) => {

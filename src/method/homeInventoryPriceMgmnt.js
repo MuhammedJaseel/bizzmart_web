@@ -1,20 +1,37 @@
 import { postHttp } from "../module/api_int";
-import { getProducts } from "./homeInventory";
 
 // //////////////////////
-export async function getPriceManagment(state, setState) {
-  const { productPaging } = state;
-  await postHttp("getPriceLookupLists", productPaging)
+export async function getAllPriceLookupList(state, setState) {
+  const { priceLookupList } = state;
+  setState({ loading: true });
+  await postHttp("getPriceLookupLists", priceLookupList?.page ?? {})
     .then((res) => setState({ priceLookupList: res }))
     .catch((error) => setState({ error }));
-  await postHttp("getStockLookupLists", productPaging)
+  setState({ loading: false });
+}
+export async function getAllStockLookupList(state, setState) {
+  const { stockLookupList } = state;
+  setState({ loading: true });
+  await postHttp("getStockLookupLists", stockLookupList?.page ?? {})
     .then((res) => setState({ stockLookupList: res }))
     .catch((error) => setState({ error }));
-  await postHttp("getMSLLookupLists", productPaging)
+  setState({ loading: false });
+}
+export async function getAllPriceChangeList(state, setState) {
+  const { priceChangeList } = state;
+  setState({ loading: true });
+  await postHttp("products", priceChangeList?.page ?? {})
+    .then((res) => setState({ priceChangeList: res }))
+    .catch((error) => setState({ error }));
+  setState({ loading: false });
+}
+export async function getAllMaslLookupList(state, setState) {
+  const { maslLookupList } = state;
+  setState({ loading: true });
+  await postHttp("getMSLLookupLists", maslLookupList?.page ?? {})
     .then((res) => setState({ maslLookupList: res }))
     .catch((error) => setState({ error }));
   setState({ loading: false });
-  return;
 }
 // //////////////////////
 
@@ -36,8 +53,8 @@ export async function postPriceChange(state, setState) {
         title: "Price successfully changed",
         desc: "Updated Successfully",
       });
-      setState({ addPriceChange: undefined });
-      getProducts(state, setState);
+      setState({ addPriceChange: null });
+      getAllPriceChangeList(state, setState);
     })
     .catch(() => setState({ error: "Error On changing price" }));
   setState({ loading: false });

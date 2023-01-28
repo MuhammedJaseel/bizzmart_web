@@ -1,11 +1,14 @@
 import { StrictMode, useState } from "react";
 import {
   getAllInventoryCountingReivew,
+  getAllStockIssueLists,
+  getAllStockTakingLists,
   getSingleStockIssue,
   getSingleStockRecived,
   getStockTakingProdectList,
   getStockTrailList,
   inventorySearchProductStockIssue,
+  stockAllReceivedLists,
 } from "../method/homeInventoryInventoryMgmnt";
 import {
   newInventoryCountStruct,
@@ -85,6 +88,14 @@ export function StockIssueTable({ state, setState }) {
     });
     getSingleStockIssue(allStockIssue?.data[v].id, state, setState);
   };
+  const counterProps = {
+    total: allStockIssue?.page?.totalCount,
+    onTap: (v, limit) => {
+      allStockIssue.page.page_number = v;
+      allStockIssue.page.limit = limit;
+      getAllStockIssueLists(state, setState);
+    },
+  };
   return (
     <StrictMode>
       <Header1
@@ -101,7 +112,7 @@ export function StockIssueTable({ state, setState }) {
         body={body}
         onclick={_onClickTable}
       />
-      <MyTableCounter1 props={{ total: 50 }} />
+      <MyTableCounter1 props={counterProps} />
     </StrictMode>
   );
 }
@@ -236,6 +247,14 @@ export function StockReceivedTable({ state, setState }) {
     });
     getSingleStockRecived(allStockRecevied?.data[v].id, state, setState);
   };
+  const counterProps = {
+    total: items?.page?.totalCount,
+    onTap: (v, limit) => {
+      items.page.page_number = v;
+      items.page.limit = limit;
+      stockAllReceivedLists(state, setState);
+    },
+  };
   return (
     <StrictMode>
       <Header1
@@ -252,7 +271,7 @@ export function StockReceivedTable({ state, setState }) {
         body={body}
         onclick={_onClickTable}
       />
-      <MyTableCounter1 props={{ total: 50 }} />
+      <MyTableCounter1 props={counterProps} />
     </StrictMode>
   );
 }
@@ -447,6 +466,7 @@ export function StockTakingTable({ state, setState }) {
   ];
 
   if (page?.path !== "stockTaking") return null;
+
   const _onClickTable = (v) => {
     setState({
       page: {
@@ -462,6 +482,14 @@ export function StockTakingTable({ state, setState }) {
     if (items?.data[v]?.review_status === "Review")
       getAllInventoryCountingReivew(items?.data[v].id, state, setState);
     else getStockTakingProdectList(items?.data[v].id, state, setState);
+  };
+  const counterProps = {
+    total: items?.page?.totalCount,
+    onTap: (v, limit) => {
+      items.page.page_number = v;
+      items.page.limit = limit;
+      getAllStockTakingLists(state, setState);
+    },
   };
   return (
     <StrictMode>
@@ -482,7 +510,7 @@ export function StockTakingTable({ state, setState }) {
         body={body}
         onclick={_onClickTable}
       />
-      <MyTableCounter1 props={{ total: 50 }} />
+      <MyTableCounter1 props={counterProps} />
     </StrictMode>
   );
 }
@@ -572,11 +600,11 @@ export function StockTrailTable({ state, setState }) {
       <MyTable1
         widths={widths}
         heads={heads}
-        lg
+        xl
         body={body}
         onclick={() => {}}
       />
-      <MyTableCounter1 props={{ total: 50 }} />
+      {/* <MyTableCounter1 props={{ total: 50 }} /> */}
       <WidgetPopUp1 props={popupProps1}>
         <WidgetPopUp1Body>
           <WidgetPopUp1In1 title="Select Product*">

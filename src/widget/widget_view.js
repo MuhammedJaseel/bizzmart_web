@@ -35,7 +35,7 @@ export default function DrawerView1({ state, setState, expence }) {
     <DrawerLayout1 show={selected !== null}>
       <div className="zvBa">
         <div className="zvBaA">
-          <div className="zvBaAa">INV22-0653</div>
+          <div className="zvBaAa">{selected?.invoice_no}</div>
           {selected?.balance_amount > 0 ? (
             <div className="zvBaAb" style={{ background: "orange" }}>
               PARTIALLY PAID
@@ -61,13 +61,16 @@ export default function DrawerView1({ state, setState, expence }) {
             <div className="zvBbBa">
               <div className="zvBbBaA">Invoice Date:</div>
               <div className="zvBbBaB">
-                {selected?.invoice_date || selected?.payment_date}2022
+                {selected?.invoice_date?.slice(0, 10) ||
+                  selected?.payment_date?.slice(0, 10)}
               </div>
             </div>
+            <br />
             <div className="zvBbBa">
               <div className="zvBbBaA">Due Date:</div>
               <div className="zvBbBaB">
-                {selected?.due_date || selected?.date}
+                {selected?.due_date?.slice(0, 10) ||
+                  selected?.date?.slice(0, 10)}
               </div>
             </div>
           </div>
@@ -244,7 +247,7 @@ export function DrawerViewPurchase({ state, setState }) {
     <DrawerLayout1 show={selected !== null}>
       <div className="zvBa">
         <div className="zvBaA">
-          <div className="zvBaAa">INV22-0653</div>
+          <div className="zvBaAa">{selected?.invoice_no}</div>
           {selected?.balance_amount > 0 ? (
             <div className="zvBaAb" style={{ background: "orange" }}>
               PARTIALLY PAID
@@ -258,17 +261,18 @@ export function DrawerViewPurchase({ state, setState }) {
       <div className="zvB-body">
         <div className="zvBb">
           <div className="zvBbA">
-            <div className="zvBbAa">To</div>
+            <div className="zvBbAa">From</div>
             <div className="zvBbAb">
               <div className="zvBbAbA">{selected?.customer_name}</div>
-              <div className="zvBbAbb">{selected?.customer_address}</div>
+              <div className="zvBbAbb">{selected?.from_address}</div>
             </div>
           </div>
           <div className="zvBbB">
             <div className="zvBbBa">
               <div className="zvBbBaA">Invoice Date:</div>
-              <div className="zvBbBaB">{selected?.invoice_date}2022</div>
+              <div className="zvBbBaB">{selected?.invoice_date}</div>
             </div>
+            <br />
             <div className="zvBbBa">
               <div className="zvBbBaA">Due Date:</div>
               <div className="zvBbBaB">{selected?.due_date}</div>
@@ -317,7 +321,9 @@ export function DrawerViewPurchase({ state, setState }) {
             <div className="zvBdBc">
               <div className="zvBdBcA">Subtotal:</div>
               <div className="zvBdBcB">
-                {selected?.total_amount - selected?.CGST - selected?.SCGST}
+                {Math.round(
+                  selected?.total_amount - selected?.CGST - selected?.SCGST
+                )}
               </div>
             </div>
             <div className="zvBdBd">Tax Breakdown</div>
@@ -487,7 +493,11 @@ export function DrowerView2({ props }) {
             }
           >
             {image !== null ? (
-              <img className="zvDbAaA" src={URL.createObjectURL(image)} />
+              <img
+                className="zvDbAaA"
+                alt="Pic"
+                src={URL.createObjectURL(image)}
+              />
             ) : null}
             <div className="zvDbAaB" onClick={() => refForKey.current.click()}>
               <div className="zvDbAaBa" />
@@ -546,11 +556,11 @@ export function DrowerView2({ props }) {
             <div className="zvDbE">BASIC INFORMATION</div>
             <div className="zvDbF">
               <div className="zvDbFa">Full name *</div>
-              <input className="zvDbFb" defaultValue={item.name} id="name" />
+              <input className="zvDbFb" value={item.name} id="name" />
               <div className="zvDbFa">Loyalty Tier</div>
               <select
                 className="zvDbFb"
-                defaultValue={item.loyalty_tire}
+                value={item.loyalty_tire}
                 id="loyalty_tire"
               >
                 <option hidden>Select Loyelty</option>
@@ -564,7 +574,7 @@ export function DrowerView2({ props }) {
                   <input
                     className="zvDbFb"
                     id="create_from"
-                    defaultValue={item.create_from}
+                    value={item.create_from}
                     disabled
                   />
                 </StrictMode>
@@ -573,9 +583,9 @@ export function DrowerView2({ props }) {
             <div className="zvDbE">CONTACT INFORMATION</div>
             <div className="zvDbF">
               <div className="zvDbFa">Mobile Number *</div>
-              <input className="zvDbFb" defaultValue={item.phone} id="phone" />
+              <input className="zvDbFb" value={item.phone} id="phone" />
               <div className="zvDbFa">Email Address</div>
-              <input className="zvDbFb" defaultValue={item.email} id="email" />
+              <input className="zvDbFb" value={item.email} id="email" />
             </div>
             <div className="zvDbE">FINANCIAL INFORMATION</div>
             <div className="zvDbF">
@@ -585,7 +595,7 @@ export function DrowerView2({ props }) {
                   <div className="row">
                     <input
                       className="zvDbFb"
-                      defaultValue={item.credit_limit}
+                      value={item.credit_limit}
                       id="credit_limit"
                     />
                     <div className="iamInputPrfix2">INR</div>
@@ -596,7 +606,7 @@ export function DrowerView2({ props }) {
                   <div className="row">
                     <input
                       className="zvDbFb"
-                      defaultValue={item.credit_period}
+                      value={item.credit_period}
                       id="credit_period"
                     />
                     <div className="iamInputPrfix2">INR</div>
@@ -608,7 +618,7 @@ export function DrowerView2({ props }) {
                   <div className="zvDbFa">GST Number</div>
                   <input
                     className="zvDbFb"
-                    defaultValue={item.gst_number}
+                    value={item.gst_number}
                     id="gst_number"
                   />
                 </div>
@@ -631,26 +641,18 @@ export function DrowerView2({ props }) {
             <div className="zvDbE">ADDRESS INFORMATION</div>
             <div className="zvDbF">
               <div className="zvDbFa">Full Address</div>
-              <textarea
-                className="zvDbFb"
-                defaultValue={item.address}
-                id="address"
-              />
+              <textarea className="zvDbFb" value={item.address} id="address" />
               <div className="zvDbFc">
                 <div className="zvDbFd">
                   <div className="zvDbFa">PIN Code</div>
-                  <input
-                    className="zvDbFb"
-                    defaultValue={item.phone}
-                    id="phone"
-                  />
+                  <input className="zvDbFb" value={item.phone} id="phone" />
                 </div>
                 <div className="zvDbFd">
                   <div className="zvDbFa">State</div>
                   <select
                     className="zvDbFb"
                     id="state_id"
-                    defaultValue={item.state_id}
+                    value={item.state_id}
                   >
                     {allStates.map((it, k) => (
                       <option key={k} value={it.id}>

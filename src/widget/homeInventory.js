@@ -1,10 +1,6 @@
 import { StrictMode, Component } from "react";
 import { inventoryPages } from "../module/homeInventory";
-import {
-  getCategoryList,
-  getProducts,
-  getServices,
-} from "../method/homeInventory";
+import { getCategoryList } from "../method/homeInventory";
 import { Header1, TitleTable1 } from "./widget";
 import {
   HomeInventoryModifersPopup,
@@ -13,10 +9,7 @@ import {
 import { InventoryAddProdectPop } from "./homeInventoryProductService3";
 import HomeInventoryForms from "./homeInventoryProductService2";
 import "../style/hin.css";
-import { getAllassets, getAllAssetsList } from "../method/homeInventoryAssest";
 import { InventoryAddAssetPurchase } from "./homeInventoryAssest";
-import { getPriceManagment } from "../method/homeInventoryPriceMgmnt";
-
 import { AssetTable } from "./homeInventoryAssest";
 import {
   PromotionsTable,
@@ -32,7 +25,6 @@ import {
 import { MslLookupTable, PriceChargeTable } from "./homeInventoryPriceMgmnt";
 import { PriceLookupTable, StockLookupTable } from "./homeInventoryPriceMgmnt";
 import { ProductTable, ServiceTable } from "./homeInventoryProductService1";
-import { getInventoryManagment } from "../method/homeInventoryInventoryMgmnt";
 import {
   InventoryAddIssueStock,
   InventoryAddStockReturn,
@@ -75,7 +67,9 @@ export default class HomeInventory extends Component {
       // ///////////////////////////////////////////
       priceLookupList: {},
       stockLookupList: {},
+      priceChangeList: {},
       maslLookupList: {},
+      addPriceChange: null,
       // ////////////////////////////////////////////////////
       allStockIssue: {},
       allStockRecevied: {},
@@ -97,16 +91,7 @@ export default class HomeInventory extends Component {
     };
   }
   componentDidMount() {
-    const setState = (v) => this.setState(v);
-    const state = this.state;
-    getProducts(state, setState);
-    getServices(state, setState);
-    getCategoryList(state, setState);
-    getAllassets(state, setState);
-    getAllAssetsList(state, setState);
-    // ///////////////////////////
-    getPriceManagment(state, setState);
-    getInventoryManagment(state, setState);
+    getCategoryList(this.state, (v) => this.setState(v));
   }
   render() {
     const setState = (v) => this.setState(v);
@@ -131,7 +116,7 @@ export default class HomeInventory extends Component {
 }
 
 function InventoryLanding({ state, setState }) {
-  const { page } = state;
+  var { page } = state;
   if (page !== null) return null;
   return (
     <StrictMode>
@@ -142,7 +127,10 @@ function InventoryLanding({ state, setState }) {
       />
       <TitleTable1
         data={inventoryPages}
-        setPage={(page) => setState({ page })}
+        setPage={(v) => {
+          if (v?.initCall !== undefined) v?.initCall(state, setState);
+          setState({ page: v, error: null });
+        }}
       />
     </StrictMode>
   );

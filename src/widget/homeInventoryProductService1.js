@@ -1,16 +1,17 @@
-import React, { StrictMode } from "react";
-import { getProduct, getProducts } from "../method/homeInventory";
+import { StrictMode } from "react";
+import { getAllProducts, getProduct } from "../method/homeInventory";
 import { inventoryStateData } from "../module/homeInventory";
-
 import { Header1, Header4, HeaderButtens1 } from "./widget";
 import { MyTable1, MyTableCounter1 } from "./widget_table";
 
 export function ProductTable({ state, setState }) {
   const { allProduct, page, productPaging } = state;
-  var { product } = state;
   const title = "INVENTORY";
   const bodyRBody = {
-    makeAdd: () => setState({ product: inventoryStateData.product }),
+    makeAdd: () =>
+      setState({
+        product: JSON.parse(JSON.stringify(inventoryStateData.product)),
+      }),
     title: "+ New Product",
     drowelList: null,
     onShare: null,
@@ -41,12 +42,12 @@ export function ProductTable({ state, setState }) {
     onTap: (v, limit) => {
       productPaging.limit = limit;
       productPaging.page_number = v;
-      getProducts(state, setState);
+      getAllProducts(state, setState);
     },
   };
 
   const tableOnclick = (k) => getProduct(k, state, setState);
-  
+
   if (page?.path !== "prodect") return null;
   return (
     <StrictMode>
@@ -74,7 +75,7 @@ export function ServiceTable({ state, setState }) {
   const title = "INVENTORY";
   const bodyRBody = {
     makeAdd: () => {
-      product = inventoryStateData.product;
+      product = JSON.parse(JSON.stringify(inventoryStateData.product));
       product.type = 2;
       product.is_service = 1;
       setState({ product });
@@ -91,7 +92,7 @@ export function ServiceTable({ state, setState }) {
     onTap: (v, limit) => {
       servicesPaging.limit = limit;
       servicesPaging.page_number = v;
-      getProducts(state, setState);
+      getAllProducts(state, setState);
     },
   };
 

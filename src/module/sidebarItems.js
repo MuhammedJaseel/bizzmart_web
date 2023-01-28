@@ -39,7 +39,7 @@ import HomeCashbank from "../widget/home_cashbank";
 import HomeParties from "../widget/home_parties";
 import HomeTeam from "../widget/home_team";
 import HomeSettings from "../widget/home_settings";
-import HomeAbout from "../widget/home_about";
+import HomeAbout from "../widget/homeAbout";
 
 const sidebarIc = [
   // {

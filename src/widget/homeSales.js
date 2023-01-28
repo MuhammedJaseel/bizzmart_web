@@ -3,9 +3,9 @@ import { MyTable1, MyTableCounter1 } from "./widget_table";
 import { Header1, Header2, Header4 } from "./widget";
 import { HeaderButtens1, TitleFilter1 } from "./widget";
 import { MyForm1 } from "./widget_form";
+import { salesGetSale, salesGetSales } from "../method/home_sales";
 import DrawerView1 from "./widget_view";
 import "../style/hsl.css";
-import { salesGetSale, salesGetSales } from "../method/home_sales";
 
 const pTitles = ["Sales Invoices", "Sales Estimates"];
 const titS = {
@@ -139,7 +139,7 @@ function HomeSalesInvoicesTable({ state, setState }) {
   const onclick = (v) => salesGetSale(v, state, setState);
   if (page !== 0 || form !== null) return null;
   const counterProps = {
-    total: invoicePaging.totalCount,
+    total: invoicePaging?.totalCount,
     onTap: (v, limit) => {
       invoicePaging.page_number = v;
       invoicePaging.limit = limit;
@@ -164,22 +164,21 @@ function HomeSalesEstimatesTable({ state, setState }) {
     { width: 5 },
   ];
   const body = [];
-  if (allEstimate !== null)
-    for (let i = 0; i < allEstimate.length; i++) {
-      const it = allEstimate[i];
-      body.push([
-        { data: it.image, data2: it.customer, type: 1 },
-        { data: it.estimate },
-        { data: it.date, type: 2 },
-        { data: it.customer, data2: it.type, type: 2 },
-        { data: it.phoneNumber },
-        { data: it.total },
-        { data: it.action },
-      ]);
-    }
+  for (let i = 0; i < allEstimate?.length; i++) {
+    const it = allEstimate[i];
+    body.push([
+      { data: it.image, data2: it.customer, type: 1 },
+      { data: it.estimate },
+      { data: it.date, type: 2 },
+      { data: it.customer, data2: it.type, type: 2 },
+      { data: it.phoneNumber },
+      { data: it.total },
+      { data: it.action },
+    ]);
+  }
   if (page !== 1 || form !== null) return null;
   const counterProps = {
-    total: estimatePaging.totalCount,
+    total: estimatePaging?.totalCount,
     onTap: (v, limit) => {
       estimatePaging.page_number = v;
       estimatePaging.limit = limit;

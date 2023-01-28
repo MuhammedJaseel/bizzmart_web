@@ -29,7 +29,11 @@ export function WidgetPopUp1({ props, children }) {
         <div className="zpAc">{desc}</div>
         <div className="zpAd">{children}</div>
         <div className="zpAe">
-          {error !== null ? <div className="zpAeA">{error}</div> : <div />}
+          {error !== null ? (
+            <div className="zpAeA">{error?.toString()}</div>
+          ) : (
+            <div />
+          )}
           <div className="zpAeB">
             <div className="zpAeBa" onClick={close}>
               CANCEL

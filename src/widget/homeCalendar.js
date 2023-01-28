@@ -1,34 +1,25 @@
-import React, { Component, StrictMode } from "react";
+import { Component, StrictMode } from "react";
 import { Header1, Header4 } from "./widget";
-import {
-  getAllAddedvalue,
-  getAllCalenderData,
-  getMonth,
-  getWeekDay,
-} from "../method/homeCalendar";
-import "../style/hcl.css";
+import { getAllAddedvalue, getWeekDay } from "../method/homeCalendar";
+import { getAllCalenderData, getMonth } from "../method/homeCalendar";
 import { getTodayType1 } from "../module/simple";
+import "../style/hcl.css";
 
 export default class HomeCalender extends Component {
   constructor(props) {
-    super(props);
+    super(props); 
     this.state = { day: null, today: getTodayType1(), calender: [] };
   }
-
   componentDidMount() {
     getAllCalenderData(this.state, (v) => this.setState(v));
   }
-
   current = false;
-
   render() {
     const state = this.state;
     const setState = (v) => this.setState(v);
     const { today, calender } = state;
     const days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
-
     const tD = new Date();
-
     return (
       <StrictMode>
         <Header1 title="CALENDAR" />

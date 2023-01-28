@@ -1,11 +1,8 @@
 import { Component, StrictMode } from "react";
 import { allSettings } from "../module/home_settings";
 import { Header1 } from "./widget";
-import {
-  getAllOtherSettings,
-  getAllPayments,
-  getBussinessSettings,
-} from "../method/home_settings";
+import { getBussinessSettings } from "../method/home_settings";
+import { getAllOtherSettings, getAllPayments } from "../method/home_settings";
 import { getMasterData } from "../method/home_settings";
 import { HomeSettings1AddPaymentPopup } from "./home_settings1";
 import { HomeSettings1CashAndBank } from "./home_settings1";
@@ -28,13 +25,13 @@ import {
   HomeSettings2ServiceAndJobOrder,
   HomeSettings2Barcode,
 } from "./home_settings2";
-import "../style/hst.css";
-import "../style/hst2.css";
 import { HomeSettings4AllowanceInceventves } from "./home_settings4";
 import {
   HomeSettings6AssetsExpenses,
   HomeSettings6EquityEarnings,
 } from "./home_settings6";
+import "../style/hst.css";
+import "../style/hst2.css";
 
 export default class HomeSettings extends Component {
   constructor(props) {
@@ -68,7 +65,6 @@ export default class HomeSettings extends Component {
   componentDidMount() {
     const state = this.state;
     const setState = (v) => this.setState(v);
-    getBussinessSettings(state, setState);
     getAllCashandBank(state, setState);
     getMasterData(state, setState);
     getAllPayments(state, setState);
@@ -122,7 +118,7 @@ function HomeSettingsLanding({ state, setState }) {
                 key={k}
                 onClick={() => {
                   setState({ page: it1, error: null });
-                  it1?.myFunction(state, setState);
+                  it1?.initCall(state, setState);
                 }}
               >
                 <div className="hstAe">{it1.title}</div>

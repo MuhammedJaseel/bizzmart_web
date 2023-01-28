@@ -2,18 +2,21 @@ import { postHttp } from "../module/api_int";
 import { assetPurchaseStruct } from "../module/homeInventoryAssets";
 
 export const getAllAssetsList = async (state, setState) => {
-  await postHttp("getAsserLists", {}).then((res) =>
-    setState({ allFixedAssets: res.data })
+  const { allFixedAssets, allAssignedAssets } = state;
+  setState({ loading: true });
+  await postHttp("getAsserLists", allFixedAssets?.page ?? {}).then((res) =>
+    setState({ allFixedAssets: res })
   );
-  await postHttp("getassignedAssetLists", {}).then((res) =>
-    setState({ allAssignedAssets: res.data })
+  await postHttp("getassignedAssetLists", allAssignedAssets?.page ?? {}).then(
+    (res) => setState({ allAssignedAssets: res })
   );
-  await postHttp("getSuppliersLists", {}).then((res) =>
-    setState({ allSuppliers: res.data })
-  );
+  setState({ loading: false });
 };
 
 export const getAllassets = async (state, setState) => {
+  await postHttp("getSuppliersLists", {}).then((res) =>
+    setState({ allSuppliers: res.data })
+  );
   await postHttp("getAsset", {}).then((res) =>
     setState({ allAssets: res.data })
   );

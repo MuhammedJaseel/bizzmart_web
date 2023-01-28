@@ -1,3 +1,17 @@
+import { getAllProducts, getAllServices } from "../method/homeInventory";
+import { getAllAssetsList } from "../method/homeInventoryAssest";
+import {
+  getAllStockIssueLists,
+  getAllStockTakingLists,
+  stockAllReceivedLists,
+} from "../method/homeInventoryInventoryMgmnt";
+import {
+  getAllMaslLookupList,
+  getAllPriceChangeList,
+  getAllPriceLookupList,
+  getAllStockLookupList,
+} from "../method/homeInventoryPriceMgmnt";
+
 export const prodectTypes = [
   { name: "Stock", id: "1" },
   { name: "Raw Material", id: "2" },
@@ -19,6 +33,7 @@ export const inventoryPages = [
           d1: "Add all the products your business offering to its customers",
           title: "Product List",
           desc: "Shows all the team members recorded against your business",
+          initCall: getAllProducts,
           heads: [
             null,
             "Product Name",
@@ -53,6 +68,7 @@ export const inventoryPages = [
           path: "service",
           title: "Service List",
           desc: "Shows all the team members recorded against your business",
+          initCall: getAllServices,
           heads: [
             null,
             "Product Name",
@@ -87,6 +103,7 @@ export const inventoryPages = [
           path: "asset",
           title: "Asset List",
           desc: "Shows all the team members recorded against your business",
+          initCall: getAllAssetsList,
         },
       ],
     },
@@ -102,6 +119,7 @@ export const inventoryPages = [
           t2: "PRICE LOOKUP",
           title: "Price Lookup",
           desc: "Shows prices across all the connected branches",
+          initCall: getAllPriceLookupList,
         },
         {
           t: "Stock Lookup >",
@@ -110,6 +128,7 @@ export const inventoryPages = [
           path: "stockLookup",
           title: "Stock Lookup",
           desc: "Shows stock positions across all the connected branches",
+          initCall: getAllStockLookupList,
           heads: [
             null,
             "Product Name",
@@ -136,6 +155,7 @@ export const inventoryPages = [
           path: "priceCharge",
           title: "Price Charge",
           desc: "You can change price branch level or global business level here",
+          initCall: getAllPriceChangeList,
           heads: [
             null,
             "Product Name",
@@ -170,6 +190,7 @@ export const inventoryPages = [
           path: "mslLookup",
           title: "MSL Lookup",
           desc: "Shows prices across all the connected branches",
+          initCall: getAllMaslLookupList,
           heads: [
             null,
             "Product Name",
@@ -206,6 +227,7 @@ export const inventoryPages = [
           path: "stockIssue",
           title: "Stock Issue",
           desc: "Issue stock from your main branch to connected branches",
+          initCall: getAllStockIssueLists,
         },
         // {
         //   t: "Stock Transfer >",
@@ -222,6 +244,7 @@ export const inventoryPages = [
           path: "stockReceived",
           title: "Stock Issue",
           desc: "Issue stock from your main branch to connected branches",
+          initCall: stockAllReceivedLists,
         },
         {
           t: "Stock Return >",
@@ -244,6 +267,7 @@ export const inventoryPages = [
           d: "How you can initiate and manage a stoke taking both partially or wholly?",
           d1: "Initiate, manage and record a stock taking event at the branch level",
           path: "stockTaking",
+          initCall: getAllStockTakingLists,
         },
 
         {

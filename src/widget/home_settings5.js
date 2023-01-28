@@ -21,10 +21,18 @@ import { WidgetPopUp1, WidgetPopUp2Body } from "./widget_popup";
 export function HomeSettings5ExpenseCategory({ state, setState }) {
   const title = `EXPENSE CATEGORY`;
   const desc = `Add your prodect station here`;
-  const { page, allKot, addKot, deleteKot, loading, error } = state;
+  const { page, allKot, deleteKot } = state;
   if (page?.path === "expenceCategories")
     return (
       <StrictMode>
+        <Header1
+          title="MASTERDATA SETTINGS"
+          bodyL="EXPENSE CATEGORIES"
+          onTap={() => {
+            setState({ page: null });
+            getMasterData(state, setState);
+          }}
+        />
         <div className="hstN">
           <AddingFormLayout title={title} desc={desc}>
             <AddingForm1 title="All Stations">
@@ -63,7 +71,7 @@ export function HomeSettings5ExpenseCategory({ state, setState }) {
 export function HomeSettings5ProductCategory({ state, setState }) {
   const title = `PRODUCT CATEGORIES`;
   const desc = `Add your prodect station here`;
-  const { page, allCategory, allKot, loading, error } = state;
+  const { page, allCategory, allKot, loading } = state;
   if (page?.path === "productCategories")
     return (
       <StrictMode>

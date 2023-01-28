@@ -1,4 +1,4 @@
-import { getHttp, postHttp } from "../module/api_int";
+import { postHttp } from "../module/api_int";
 import { addNumberList } from "../module/simple";
 import { getToday } from "../widget/widgets/calender";
 
@@ -117,6 +117,7 @@ export async function updateCustomer(state, setState) {
   if (partie?.isToPay) partie.opening_balance *= -1;
   const formData = new FormData();
   formData.append("branch_id", window.localStorage.getItem("branchId"));
+  formData.append("id", partie.id);
   formData.append("name", partie.name);
   formData.append("phone", partie.phone);
   formData.append("email", partie.email);
@@ -133,10 +134,10 @@ export async function updateCustomer(state, setState) {
   formData.append("image", partie.image);
   formData.append("thumbnail", partie.image);
   setState({ loading: true, error: null });
-  await postHttp("updateCustomer", partie, true)
+  await postHttp("updateCustomer", formData, true)
     .then(async (res) => {
       await getAllCustomers(state, setState);
-      setState({ addPage: false, partie: {}, partie: null });
+      setState({ addPage: false, partie: null });
       succesPop({
         active: true,
         title: "Succesfully Added",
@@ -153,6 +154,7 @@ export async function updateSuplier(state, setState) {
   if (partie?.isToPay) partie.opening_balance *= -1;
   const formData = new FormData();
   formData.append("branch_id", window.localStorage.getItem("branchId"));
+  formData.append("id", partie.id);
   formData.append("name", partie.name);
   formData.append("nick_name", partie.nick_name);
   formData.append("phone", partie.phone);
@@ -174,10 +176,10 @@ export async function updateSuplier(state, setState) {
     formData.append("thumbnail[]", partie.image);
   }
   setState({ loading: true, error: null });
-  await postHttp("updateSupplier", partie, true)
+  await postHttp("updateSupplier", formData, true)
     .then(async (res) => {
       await getAllSuppliers(state, setState);
-      setState({ addPage: false, addParties: {}, partie: null });
+      setState({ addPage: false, partie: null });
       succesPop({
         active: true,
         title: "Succesfully Added",
@@ -188,18 +190,13 @@ export async function updateSuplier(state, setState) {
   setState({ loading: false });
 }
 
-export const getCustomer = async (item, state, setState, from, to) => {
-  var { partie } = state;
-  partie = item;
-
+export const getCustomer = async (partie, setState, from, to) => {
+  setState({ partie });
   const body = {
     customer_id: partie.id,
-    member_id: partie.id,
     from_date: from || getToday(),
     to_date: to || getToday(),
-    type: "customer",
   };
-
   await postHttp("getPaymentMethod", { customer_id: partie.id }).then(
     (res) => (partie.paymentList = res.data)
   );
@@ -217,22 +214,16 @@ export const getCustomer = async (item, state, setState, from, to) => {
       balance: addNumberList(res.data.invoice_lists, "credit"),
     };
   });
-
   setState({ partie });
 };
 
-export const getSupplier = async (item, state, setState, from, to) => {
-  var { partie } = state;
-  partie = item;
-
+export const getSupplier = async (partie, setState, from, to) => {
+  setState({ partie });
   const body = {
     supplier_id: partie.id,
-    member_id: partie.id,
     from_date: from || getToday(),
     to_date: to || getToday(),
-    type: "customer",
   };
-
   await postHttp("getPaymentMethod", { customer_id: partie.id }).then(
     (res) => (partie.paymentList = res.data)
   );
@@ -252,7 +243,6 @@ export const getSupplier = async (item, state, setState, from, to) => {
       balance: addNumberList(res.data.invoice_lists, "credit"),
     };
   });
-
   setState({ partie });
 };
 

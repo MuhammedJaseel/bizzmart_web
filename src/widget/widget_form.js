@@ -184,9 +184,12 @@ export function MyForm1({ state, setState }) {
                   // onChange={(e) => (form.account_id = e.target.value)}
                 >
                   <option hidden>Select payment method</option>
-                  {allTransferType.map((it, k) => (
+                  {/* {allTransferType.map((it, k) => (
                     <option value={it.id}>{it.name}</option>
-                  ))}
+                  ))} */}
+                  <option>Cash</option>
+                  <option>Cheque</option>
+                  <option>Bank</option>
                 </select>
               </div>
               <div className="zfBaAa">
@@ -554,7 +557,11 @@ export function DrawerFormTeam({ props }) {
         <div className="zfEbA">
           <div className="zfEbAa">
             {image !== null ? (
-              <img className="zfEbAaA" src={URL.createObjectURL(image)} />
+              <img
+                className="zfEbAaA"
+                alt="pro"
+                src={URL.createObjectURL(image)}
+              />
             ) : (
               <div className="zfEbAaA" />
             )}
@@ -815,7 +822,11 @@ export function DrawerFormParties({ props }) {
         <div className="zfEbA">
           <div className="zfEbAa">
             {image !== null ? (
-              <img className="zfEbAaA" src={URL.createObjectURL(image)} />
+              <img
+                className="zfEbAaA"
+                alt="pro"
+                src={URL.createObjectURL(image)}
+              />
             ) : (
               <div className="zfEbAaA" />
             )}
@@ -1145,7 +1156,7 @@ export function AddingFormLayout2({ t1, t2, t3, setImg }) {
       </div>
       {image !== null ? (
         <div className="zfMb">
-          <img className="zfMbA" src={URL.createObjectURL(image)} />
+          <img className="zfMbA" alt="Pro" src={URL.createObjectURL(image)} />
           <div
             className="zfMbB"
             onClick={() => {

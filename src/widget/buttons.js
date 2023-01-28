@@ -1,8 +1,6 @@
-import React, { useState } from "react";
 import "../style/btn.css";
 
 export function SwitchButton1({ onTap, value }) {
-  const [checked, setChecked] = useState(false);
   return (
     <div className={value ? "btnA" : "btnA_"} onClick={onTap}>
       <div className={value ? "btnAa" : "btnAa_"} />

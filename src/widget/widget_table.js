@@ -8,7 +8,7 @@ import "../style/zc1.css";
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-export function MyTable1({ widths, heads, body, onclick, lg }) {
+export function MyTable1({ widths, heads, body, onclick, lg, xl }) {
   const st = [];
   for (let i = 0; i < widths.length; i++)
     st.push({
@@ -29,7 +29,10 @@ export function MyTable1({ widths, heads, body, onclick, lg }) {
           </div>
         ))}
       </div>
-      <div className={lg ? "zc1Ab_lg" : "zc1Ab"}>
+      <div
+        className={lg ? "zc1Ab_lg" : "zc1Ab"}
+        style={xl ? { height: "calc(100vh - 13.5vw)" } : {}}
+      >
         {body.map((it, k) => (
           <div key={k} className="zc1AbA" onClick={() => onclick(k)}>
             {it.map((it2, j) => (
@@ -46,7 +49,7 @@ export function MyTable1({ widths, heads, body, onclick, lg }) {
                       {(it2.data2 || "**").substring(0, 2).toUpperCase()}
                     </div>
                   ) : (
-                    <img className="zc1AbB1A" src={it2.data} />
+                    <img className="zc1AbB1A" alt="Bizz" src={it2.data} />
                   )
                 ) : it2.type === 2 ? (
                   <StrictMode>

@@ -1,4 +1,4 @@
-import React, { Component, StrictMode } from "react";
+import { Component, StrictMode } from "react";
 import { branchFind, branchLogin } from "../method/login";
 import { getLoginPageData, hosLogin } from "../method/login";
 import { LoadingScreen1 } from "../widget/warnings";
@@ -43,7 +43,6 @@ export default class LoginScreen extends Component {
 
   render() {
     const state = this.state;
-    const setState = (v) => this.setState(v);
     const { error, loading } = state;
     const { pageloading, pageData, logintype, logintitle, forgetState } = state;
     if (pageloading) return <LoadingScreen1 />;
@@ -68,7 +67,7 @@ export default class LoginScreen extends Component {
                 className={logintype === "hoslogin" ? "lnBbF_" : "lnBbF"}
               >
                 <div>Branch Login</div>
-                
+
                 {logintype !== "hoslogin" ? <div className="lnBbH" /> : null}
               </div>
               <div
@@ -146,20 +145,20 @@ export default class LoginScreen extends Component {
 
 function BranchForm() {
   return (
-    <React.StrictMode>
+    <StrictMode>
       <div className="lnBbJ">Branch Code</div>
       <input
         id="br_code"
         className="lnBbK"
         placeholder="Enter your branch code here"
       />
-    </React.StrictMode>
+    </StrictMode>
   );
 }
 function BranchLoginForm({ props }) {
   const { showPassword } = props.state;
   return (
-    <React.StrictMode>
+    <StrictMode>
       <div className="lnBbJ">
         <div>Branch Code</div>
         <div
@@ -201,12 +200,12 @@ function BranchLoginForm({ props }) {
         className="lnBbK-ic"
         onClick={() => props.setState({ showPassword: !showPassword })}
       />
-    </React.StrictMode>
+    </StrictMode>
   );
 }
 function HOSLoginForm() {
   return (
-    <React.StrictMode>
+    <StrictMode>
       <div className="lnBbJ">Username</div>
       <input
         id="hos_username"
@@ -220,6 +219,6 @@ function HOSLoginForm() {
         className="lnBbK"
         placeholder="Enter password"
       />
-    </React.StrictMode>
+    </StrictMode>
   );
 }

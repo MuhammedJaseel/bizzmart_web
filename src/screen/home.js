@@ -1,18 +1,18 @@
-import React, { Component, StrictMode } from "react";
+import { Component, StrictMode } from "react";
 import { quickButtons } from "../module/home";
+import { WidgetSuccesPopup } from "../widget/widget_popup";
+import { onClickUserLogout } from "../method/login";
 import bizzMartLogo2 from "../asset/bizzmart_logo2.png";
 import sidebarIc from "../module/sidebarItems";
 import icBack from "../asset/icon/ic_back.png";
 import "../style/hm.css";
-import { WidgetSuccesPopup } from "../widget/widget_popup";
-import { onClickUserLogout } from "../method/login";
 
 export default class HomeScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
       setScreen: props.setScreen,
-      selectedDash: 0,
+      selectedDash: null,
       isNoti: false,
       isQuickPop: false,
       msgSucces: {},
@@ -25,17 +25,23 @@ export default class HomeScreen extends Component {
   }
   componentDidMount() {
     const path = window.location.pathname.split("/")[2];
+    var setted = false;
     for (let i = 0; i < sidebarIc.length; i++)
-      if (sidebarIc[i].path === path) this.setState({ selectedDash: i });
+      if (sidebarIc[i].path === path) {
+        this.setState({ selectedDash: i });
+        setted = true;
+      }
+    if (!setted) this.setState({ selectedDash: 0 });
   }
 
   render() {
     const state = this.state;
     const setState = (v) => this.setState(v);
     const { selectedDash, setScreen, isQuickPop, msgSucces, succesPop } = state;
-    const SubWidget = sidebarIc[selectedDash].widget;
+    const SubWidget = sidebarIc[selectedDash]?.widget;
+    if (selectedDash == null) return null;
     return (
-      <React.StrictMode>
+      <StrictMode>
         <div className="hmA">
           <div className="hmAa">
             <div className="hmAaA">
@@ -94,8 +100,8 @@ export default class HomeScreen extends Component {
                 <img
                   alt="ic"
                   className="hmAaR"
-                  src="https://shotkit.com/wp-content/uploads/2021/06/cool-profile-pic-matheus-ferrero.jpeg"
-                  // src={window.localStorage.getItem("profilePic")}
+                  // src="https://shotkit.com/wp-content/uploads/2021/06/cool-profile-pic-matheus-ferrero.jpeg"
+                  src={window.localStorage.getItem("profilePic")}
                 />
                 <div
                   className="hmAaQa"
@@ -123,7 +129,7 @@ export default class HomeScreen extends Component {
               </div>
             </div>
             {sidebarIc.map((ic, k) => (
-              <React.StrictMode key={k}>
+              <StrictMode key={k}>
                 <div
                   className={selectedDash === k ? "hmBi_" : "hmBi"}
                   onClick={() => {
@@ -146,7 +152,7 @@ export default class HomeScreen extends Component {
                   <div className="hmBk">{ic.title}</div>
                 </div>
                 {k === 1 || k === 8 ? <div className="hmBi_a" /> : null}
-              </React.StrictMode>
+              </StrictMode>
             ))}
           </div>
           <div className="hmBl" onClick={() => setScreen("/branches")}>
@@ -156,7 +162,7 @@ export default class HomeScreen extends Component {
         </div>
         <HomeNotificationPopup state={state} setState={setState} />
         <WidgetSuccesPopup props={msgSucces} />
-      </React.StrictMode>
+      </StrictMode>
     );
   }
 }
