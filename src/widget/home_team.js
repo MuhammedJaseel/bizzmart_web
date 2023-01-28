@@ -5,9 +5,14 @@ import { HeaderButtens1, TitleFilter1 } from "./widget";
 import { deletePartner, getAllMembers } from "../method/home_team";
 import { getAllPartners, getAllTeamData } from "../method/home_team";
 import { postMember, postPartner, updatedPartner } from "../method/home_team";
-import { teamDummyData, teamHeads0, teamHeads1 } from "../module/home_team";
+import {
+  setTeamMemberRoles,
+  teamDummyData,
+  teamHeads0,
+  teamHeads1,
+} from "../module/home_team";
 import { teamPTitles, teamTitles } from "../module/home_team";
-import { DrawerForm1 } from "./widget_form";
+import { DrawerFormTeam } from "./widget_form";
 import { WidgetConfirmPopup } from "./widget_popup";
 import { WidgetPopUp1, WidgetPopUp1Body } from "./widget_popup";
 import { WidgetPopUp1In1 } from "./widget_popup";
@@ -35,7 +40,6 @@ export default class HomeTeam extends Component {
       allPartner: [],
       allRols: [],
       allSalatyTypes: [],
-      allModules: [],
       member: null,
       addMember: {},
       addPartner: {},
@@ -67,7 +71,11 @@ export default class HomeTeam extends Component {
     const filter = !addPage ? <TitleFilter1 props={filterBody} /> : null;
     const titleL = page === 0 ? "TEAM LIST" : "PARTNERS";
     const bodyRBody = {
-      makeAdd: () => setState({ addPage: true, addMember: teamDummyData }),
+      makeAdd: () =>
+        setState({
+          addPage: true,
+          addMember: JSON.parse(JSON.stringify(teamDummyData)),
+        }),
       title: page === 0 ? "+ NEW EMPLOYEE" : "+ ADD PARTNER",
       drowelList: null,
       // drowelList:
@@ -116,7 +124,8 @@ export default class HomeTeam extends Component {
 }
 
 function HomeTeamMembersTable({ state, setState }) {
-  const { page, allMember, memberPaging } = state;
+  const { page, allMember, memberPaging, allRols } = state;
+  var { addMember } = state;
 
   const widths = [
     { width: 4 },
@@ -162,13 +171,19 @@ function HomeTeamMembersTable({ state, setState }) {
     },
   };
 
+  const _onClickTableRow = (v) => {
+    addMember = JSON.parse(JSON.stringify(allMember[v]));
+    setTeamMemberRoles(addMember, allRols, addMember.role_id, true);
+    setState({ addPage: true, addMember });
+  };
+
   return (
     <React.StrictMode>
       <MyTable1
         widths={widths}
         heads={heads0}
         body={body}
-        onclick={(v) => setState({ addPage: true, addMember: allMember[v] })}
+        onclick={_onClickTableRow}
       />
       <MyTableCounter1 props={counterProps} />
     </React.StrictMode>
@@ -259,8 +274,8 @@ function HomeTeamPartnersTable({ state, setState }) {
 }
 
 function HomeTeamMembersForm({ state, setState }) {
-  const { loading, error, page, addPage, addMember } = state;
-  var { allRols, allSalatyTypes, allModules } = state;
+  const { loading, error, page, addPage, addMember, allRols } = state;
+  const { allSalatyTypes } = state;
   const title = addMember.hasOwnProperty("employee_id") ? "EDIT" : "NEW";
   const body = {
     title: title + " TEAM MEMBER",
@@ -269,32 +284,15 @@ function HomeTeamMembersForm({ state, setState }) {
     submit: () => postMember(state, setState),
     loading,
     error,
-    type: "member",
-    systemUser: addMember.system_user === 1,
-    setSystemUser: () => {
-      addMember.system_user = addMember.system_user === 1 ? 0 : 1;
-      setState({ addMember });
-    },
+    // type: "member",
+    setSystemUser: () => setState({ addMember }),
     allRols,
     allSalatyTypes,
-    allModules,
     setRole: (e) => {
-      addMember.role_id = allRols[e.target.value].id;
-      allModules = allRols[e.target.value].modules || [];
-      addMember.permissions = [];
-      for (let i = 0; i < allModules.length; i++) {
-        addMember.permissions.push({
-          module_title: allModules[i].title,
-          permission_title: "",
-        });
-        for (let j = 0; j < allModules[i]?.pemissions.length; j++)
-          if (allModules[i]?.pemissions[j].is_default === 1)
-            addMember.permissions[i].permission_title =
-              allModules[i]?.pemissions[j].title;
-      }
-      setState({ allModules, addMember });
+      addMember.role_id = e.target.value;
+      setTeamMemberRoles(addMember, allRols, e.target.value);
+      setState({ addMember });
     },
-    setPermission: (i, v) => (addMember.permission[i].permission_title = v),
     form: addMember,
   };
   return (
@@ -302,9 +300,10 @@ function HomeTeamMembersForm({ state, setState }) {
       onChange={(e) => {
         if (e.target.id === "image") addMember.image = e.target.files[0];
         else addMember[e.target.id] = e.target.value;
+        setState({ addMember });
       }}
     >
-      <DrawerForm1 props={body} />
+      <DrawerFormTeam props={body} />
     </form>
   );
 }

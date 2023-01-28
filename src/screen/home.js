@@ -94,8 +94,8 @@ export default class HomeScreen extends Component {
                 <img
                   alt="ic"
                   className="hmAaR"
-                  // src="https://shotkit.com/wp-content/uploads/2021/06/cool-profile-pic-matheus-ferrero.jpeg"
-                  src={window.localStorage.getItem("profilePic")}
+                  src="https://shotkit.com/wp-content/uploads/2021/06/cool-profile-pic-matheus-ferrero.jpeg"
+                  // src={window.localStorage.getItem("profilePic")}
                 />
                 <div
                   className="hmAaQa"

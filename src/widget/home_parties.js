@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { MyTable1, MyTableCounter1 } from "./widget_table";
 import { Header1, Header2, Header4 } from "./widget";
 import { HeaderButtens1, TitleFilter1 } from "./widget";
-import { DrawerForm1 } from "./widget_form";
+import { DrawerFormParties } from "./widget_form";
 import { DrowerView2 } from "./widget_view";
 import { getAllData, getSupplier } from "../method/home_parties";
 import { reduceCreditOneByOne } from "../method/home_parties";
@@ -92,9 +92,7 @@ export default class HomeParties extends Component {
 
 function HomePartiesCoustomerTable({ state, setState }) {
   const { page, customerPaging, allCustomer } = state;
-
   const onclick = (v) => getCustomer(allCustomer[v], state, setState);
-
   const widths = [
     { width: 4 },
     { width: 18 },
@@ -200,10 +198,7 @@ function HomePartiesAddForm({ state, setState }) {
   const body = {
     title: "New " + (page === 0 ? "customer" : "suppliers"),
     show: addPage,
-    close: () => {
-      setState({ addPage: false, addParties: null, error: null });
-      document.getElementById("partiesAddForm").reset();
-    },
+    close: () => setState({ addPage: false, addParties: null, error: null }),
     submit: () =>
       page === 0 ? postCustomer(state, setState) : postSuplier(state, setState),
     loading,
@@ -214,24 +209,24 @@ function HomePartiesAddForm({ state, setState }) {
     allStates,
     allLoyaltyType,
     allSupplierType,
+    addParties: addParties,
   };
   return (
     <form
       onChange={(e) => {
         if (e.target.id === "image") addParties.image = e.target.files[0];
         else addParties[e.target.id] = e.target.value;
+        setState({ addParties });
       }}
-      id="partiesAddForm"
     >
-      <DrawerForm1 props={body} />
+      <DrawerFormParties props={body} />
     </form>
   );
 }
 
 function HomePartiesEditForm({ state, setState }) {
-  const { partie, error, loading, page } = state;
-  const { allPlaceofSupplay, allStates, allLoyaltyType, allSupplierType } =
-    state;
+  const { partie, error, loading, page, allSupplierType } = state;
+  const { allPlaceofSupplay, allStates, allLoyaltyType } = state;
   const body = {
     show: partie !== null,
     item: partie,

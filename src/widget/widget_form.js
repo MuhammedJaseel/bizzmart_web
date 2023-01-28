@@ -528,22 +528,17 @@ export function DrawerLayout1({ show, body }) {
   return (
     <StrictMode>
       <div className={show ? "zfDa" : "zfDa_"}></div>
-      <div className={show ? "zfDb" : "zfDb_"}>{body}</div>
+      <div className={show ? "zfDb" : "zfDb_"}>{show ? body : null}</div>
     </StrictMode>
   );
 }
-export function DrawerForm1({ props }) {
-  const { show, close, submit, loading, error, title, type, setToPay } = props;
-  const { allPlaceofSupplay, allStates, allLoyaltyType, allSupplierType } =
-    props;
-  // Next two props data decleration is only for Team Member
-  const { systemUser, setSystemUser, allRols, allSalatyTypes } = props;
-  const { allModules, setRole, setPermission, form } = props;
+export function DrawerFormTeam({ props }) {
+  const { show, close, submit, loading, error, title } = props;
+  const { setSystemUser, allRols, allSalatyTypes, setRole, form } = props;
   const [selected, setSelected] = useState(0);
-  const [isToPay, setIsToPay] = useState(false);
   const [image, setImage] = useState(null);
   const refForKey = useRef(null);
-  const body = (
+  const body = !show ? null : (
     <StrictMode>
       <div className="zfEa">
         <div className="zfEaA">{title}</div>
@@ -577,29 +572,18 @@ export function DrawerForm1({ props }) {
           <div className={selected === 0 ? "zfEbAb_" : "zfEbAb"}>
             Basic information
           </div>
-          {type !== "member" ? (
-            <StrictMode>
-              <div className={selected === 1 ? "zfEbAb_" : "zfEbAb"}>
-                Contact information
-              </div>
-              <div className={selected === 2 ? "zfEbAb_" : "zfEbAb"}>
-                Financial Information
-              </div>
-              <div className={selected === 3 ? "zfEbAb_" : "zfEbAb"}>
-                Delivery Information
-              </div>
-            </StrictMode>
-          ) : (
-            <StrictMode>
-              <div className={selected === 1 ? "zfEbAb_" : "zfEbAb"}>
-                Financial Information
-              </div>
-              <div className={selected === 2 ? "zfEbAb_" : "zfEbAb"}>
-                System Information
-              </div>
-            </StrictMode>
-          )}
-          {systemUser ? (
+          <StrictMode>
+            <div className={selected === 1 ? "zfEbAb_" : "zfEbAb"}>
+              Contact information
+            </div>
+            <div className={selected === 2 ? "zfEbAb_" : "zfEbAb"}>
+              Financial Information
+            </div>
+            <div className={selected === 3 ? "zfEbAb_" : "zfEbAb"}>
+              Delivery Information
+            </div>
+          </StrictMode>
+          {form?.system_user ? (
             <div className={selected === 4 ? "zfEbAb_" : "zfEbAb"}>
               Access Information
             </div>
@@ -608,43 +592,260 @@ export function DrawerForm1({ props }) {
         <div className="zfEbB">
           <div className="zfEbBa">BASIC INFORMATION</div>
           <div className="zfEbBb">
-            {type === "member" ? (
+            <div className="zfEbBbA">Full name *</div>
+            <input
+              className="zfEbBbB"
+              onFocus={() => setSelected(0)}
+              placeholder="Enter customer full name"
+              id="name"
+              value={form?.name}
+            />
+            <div className="zfEbBbA">Mobile Number *</div>
+            <input
+              className="zfEbBbB"
+              onFocus={() => setSelected(0)}
+              type="number"
+              placeholder="Enter customer mobile number"
+              id="phone"
+              value={form?.phone}
+            />
+            <div className="zfEbBbA">Email Address</div>
+            <input
+              className="zfEbBbB"
+              onFocus={() => setSelected(0)}
+              placeholder="Enter customer email address"
+              id="email"
+              value={form?.email}
+            />
+            <div className="zfEbBbA">Address</div>
+            <textarea
+              className="zfEbBbB"
+              onFocus={() => setSelected(0)}
+              placeholder="Enter customer’s default address"
+              id="address"
+              value={form?.address}
+            />
+          </div>
+
+          <div className="zfEbBa">FINANCIAL INFORMATION</div>
+          <div className="zfEbBb">
+            <div className="zfEbBbA">
+              <div className="zfEbBbAa">Salary*</div>
+              <div className="zfEbBbAa">Type*</div>
+            </div>
+            <div className="zfEbBbB">
+              <input
+                className="zfEbBbBa"
+                onFocus={() => setSelected(1)}
+                id="salary"
+                placeholder="0.00"
+                value={form?.salary}
+              />
+              <select
+                className="zfEbBbBa"
+                id="salary_type_id"
+                onFocus={() => setSelected(1)}
+              >
+                <option hidden>Select Salary type</option>
+                {allSalatyTypes.map((it, k) => (
+                  <option
+                    key={k}
+                    value={it.id}
+                    selected={it.id === form?.salary_type_id}
+                  >
+                    {it.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="zfEbBbA">
+              <div className="zfEbBbAa">Joining Date</div>
+              <div className="zfEbBbAa">Birth Date</div>
+            </div>
+            <div className="zfEbBbB">
+              <input
+                className="zfEbBbBa"
+                onFocus={() => setSelected(1)}
+                type="date"
+                id="join_date"
+                value={makeMyDate(form?.join_date)}
+              />
+              <input
+                className="zfEbBbBa"
+                onFocus={() => setSelected(1)}
+                type="date"
+                id="dob"
+                value={makeMyDate(form?.dob)}
+              />
+            </div>
+          </div>
+          <div className="zfEbBa">SYSTEM INFORMATION</div>
+          <div className="zfEbBb">
+            <div className="zfEbBbA">Role</div>
+            <select
+              className="zfEbBbB"
+              onFocus={() => setSelected(2)}
+              onChange={setRole}
+              value={form?.role_id}
+            >
+              <option hidden>Select Role</option>
+              {allRols.map((it, k) => (
+                <option value={it.id}>{it.name}</option>
+              ))}
+            </select>
+            <div className="zfEbBbA" />
+            <div className="zfEbBbB">
+              <FormSwitch
+                value={form?.system_user}
+                onTap={() => {
+                  form.system_user = !form.system_user;
+                  setSystemUser();
+                  setSelected(2);
+                }}
+              />
+              <div className="zfEbBbBc">
+                <div>System User</div>
+                <div className="zfEbBbBcA">Enable to set user credentials</div>
+              </div>
+            </div>
+            {form?.system_user ? (
               <StrictMode>
-                <div className="zfEbBbA">Full name *</div>
+                <div className="zfEbBbA">User ID*</div>
                 <input
                   className="zfEbBbB"
-                  onFocus={() => setSelected(0)}
-                  placeholder="Enter customer full name"
-                  id="name"
-                  defaultValue={form?.name}
+                  onFocus={() => setSelected(2)}
+                  placeholder="Enter user ID"
+                  id="number"
                 />
-                <div className="zfEbBbA">Mobile Number *</div>
-                <input
-                  className="zfEbBbB"
-                  onFocus={() => setSelected(0)}
-                  type="number"
-                  placeholder="Enter customer mobile number"
-                  id="phone"
-                  defaultValue={form?.phone}
-                />
-                <div className="zfEbBbA">Email Address</div>
-                <input
-                  className="zfEbBbB"
-                  onFocus={() => setSelected(0)}
-                  placeholder="Enter customer email address"
-                  id="email"
-                  defaultValue={form?.email}
-                />
-                <div className="zfEbBbA">Address</div>
-                <textarea
-                  className="zfEbBbB"
-                  onFocus={() => setSelected(0)}
-                  placeholder="Enter customer’s default address"
-                  id="address"
-                  defaultValue={form?.address}
-                />
+                <div className="zfEbBbA">
+                  <div className="zfEbBbAa">Password*</div>
+                  <div className="zfEbBbAa">PIN*</div>
+                </div>
+                <div className="zfEbBbB">
+                  <input
+                    className="zfEbBbBa"
+                    onFocus={() => setSelected(2)}
+                    type="password"
+                    id="password"
+                    placeholder="Password"
+                  />
+                  <input
+                    className="zfEbBbBa"
+                    onFocus={() => setSelected(2)}
+                    type="password"
+                    value={form?.pin}
+                    id="pin"
+                    placeholder="Enter 4 digit PIN"
+                  />
+                </div>
               </StrictMode>
             ) : null}
+          </div>
+
+          {form?.system_user ? (
+            <StrictMode>
+              <div className="zfEbBa">ACCES INFORMATION</div>
+              <br />
+              {form?.modules?.map((it, k) => (
+                <div className="zfEbBc" key={k}>
+                  {it?.full_title} ({it?.title})
+                  <select
+                    onFocus={() => setSelected(4)}
+                    className="zfEbBcB"
+                    onChange={(e) =>
+                      (form.permission[k].permission_title = e.target.value)
+                    }
+                    value={form?.permission[k]?.permission_title}
+                  >
+                    <option hidden>Select Permission</option>
+                    {it?.pemissions?.map((it1, k1) => (
+                      <option key={k1} value={it1?.title}>
+                        {it1?.title}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              ))}
+              <br />
+              <br />
+            </StrictMode>
+          ) : null}
+        </div>
+      </div>
+      <div className="zfEd">
+        <div className="zfEdA">{error}</div>
+        <div
+          className="zfEdB"
+          onClick={() => {
+            close();
+            setImage(null);
+          }}
+        >
+          CANCEL
+        </div>
+        <div className={loading ? "zfEdC_" : "zfEdC"} onClick={submit}>
+          SAVE
+        </div>
+      </div>
+    </StrictMode>
+  );
+  return <DrawerLayout1 body={body} show={show} />;
+}
+export function DrawerFormParties({ props }) {
+  const { show, close, submit, loading, error, title, type } = props;
+  const { allPlaceofSupplay, allStates, allLoyaltyType, setToPay } = props;
+  const { addParties, allSupplierType } = props;
+  const [selected, setSelected] = useState(0);
+  const [isToPay, setIsToPay] = useState(false);
+  const [image, setImage] = useState(null);
+  const refForKey = useRef(null);
+  const body = !show ? null : (
+    <StrictMode>
+      <div className="zfEa">
+        <div className="zfEaA">{title}</div>
+        <div
+          className="zfEaB"
+          onClick={() => {
+            close();
+            setImage(null);
+          }}
+        />
+      </div>
+      <div className="zfEb">
+        <div className="zfEbA">
+          <div className="zfEbAa">
+            {image !== null ? (
+              <img className="zfEbAaA" src={URL.createObjectURL(image)} />
+            ) : (
+              <div className="zfEbAaA" />
+            )}
+            <div className="zfEbAaB" onClick={() => refForKey.current.click()}>
+              <div className="zfEbAaBa"></div>
+            </div>
+            <input
+              ref={refForKey}
+              type="file"
+              id="image"
+              className="zfEbAaC"
+              onChange={(e) => setImage(e.target.files[0])}
+            />
+          </div>
+          <div className={selected === 0 ? "zfEbAb_" : "zfEbAb"}>
+            Basic information
+          </div>
+          <div className={selected === 1 ? "zfEbAb_" : "zfEbAb"}>
+            Contect Information
+          </div>
+          <div className={selected === 2 ? "zfEbAb_" : "zfEbAb"}>
+            Financial Information
+          </div>
+          <div className={selected === 3 ? "zfEbAb_" : "zfEbAb"}>
+            Delivery Information
+          </div>
+        </div>
+        <div className="zfEbB">
+          <div className="zfEbBa">BASIC INFORMATION</div>
+          <div className="zfEbBb">
             {type === "customer" ? (
               <StrictMode>
                 <div className="zfEbBbA">Full name *</div>
@@ -653,12 +854,14 @@ export function DrawerForm1({ props }) {
                   onFocus={() => setSelected(0)}
                   placeholder="Enter customer full name"
                   id="name"
+                  value={addParties?.name}
                 />
                 <div className="zfEbBbA">Loyalty Tier</div>
                 <select
                   className="zfEbBbB"
                   onFocus={() => setSelected(0)}
                   id="loyality_tier"
+                  value={addParties?.loyality_tier}
                 >
                   <option hidden>Select Loyelty</option>
                   {allLoyaltyType.map((it, k) => (
@@ -684,6 +887,7 @@ export function DrawerForm1({ props }) {
                   onFocus={() => setSelected(0)}
                   placeholder="Enter supplier name"
                   id="name"
+                  value={addParties?.name}
                 />
                 <div className="zfEbBbA">Nickname / Contact Person</div>
                 <input
@@ -697,6 +901,8 @@ export function DrawerForm1({ props }) {
                   className="zfEbBbB"
                   onFocus={() => setSelected(0)}
                   placeholder="Distributor"
+                  id="supplier_type"
+                  value={addParties?.supplier_type}
                 >
                   {allSupplierType.map((it, k) => (
                     <option value={it.title}>{it.title}</option>
@@ -705,288 +911,147 @@ export function DrawerForm1({ props }) {
               </StrictMode>
             ) : null}
           </div>
-          {type !== "member" ? (
-            <StrictMode>
-              <div className="zfEbBa">CONTACT INFORMATION</div>
-              <div className="zfEbBb">
-                <div className="zfEbBbA">Mobile Number *</div>
-                <input
-                  className="zfEbBbB"
-                  onFocus={() => setSelected(1)}
-                  type="number"
-                  placeholder="Enter customer mobile number"
-                  id="phone"
-                />
-                <div className="zfEbBbA">Email Address</div>
-                <input
-                  className="zfEbBbB"
-                  onFocus={() => setSelected(1)}
-                  placeholder="Enter customer email address"
-                  id="email"
-                />
-              </div>
-              <div className="zfEbBa">FINANCIAL INFORMATION</div>
-              <div className="zfEbBb">
-                <div className="zfEbBbA">
-                  <div className="zfEbBbAa">Opening Balance</div>
-                  <div className="zfEbBbAa" />
+          <div className="zfEbBa">CONTACT INFORMATION</div>
+          <div className="zfEbBb">
+            <div className="zfEbBbA">Mobile Number *</div>
+            <input
+              className="zfEbBbB"
+              onFocus={() => setSelected(1)}
+              type="number"
+              placeholder={`Enter ${type} mobile number`}
+              id="phone"
+              value={addParties?.phone}
+            />
+            <div className="zfEbBbA">Email Address</div>
+            <input
+              className="zfEbBbB"
+              onFocus={() => setSelected(1)}
+              placeholder={`Enter ${type} email address`}
+              id="email"
+              value={addParties?.email}
+            />
+          </div>
+          <div className="zfEbBa">FINANCIAL INFORMATION</div>
+          <div className="zfEbBb">
+            <div className="zfEbBbA">
+              <div className="zfEbBbAa">Opening Balance</div>
+              <div className="zfEbBbAa" />
+            </div>
+            <div className="zfEbBbB">
+              <input
+                className="zfEbBbBa"
+                onFocus={() => setSelected(2)}
+                placeholder="0.00"
+                id="opening_balance"
+                value={addParties?.opening_balance}
+                type="number"
+              />
+              <div className="iamInputPrfix">INR</div>
+              <div
+                className="zfEbBbBb"
+                onClick={() => {
+                  setIsToPay(!isToPay);
+                  setToPay(!isToPay);
+                }}
+              >
+                <div className={!isToPay ? "zfEbBbBbA_" : "zfEbBbBbA"}>
+                  To Recive
                 </div>
-                <div className="zfEbBbB">
-                  <input
-                    className="zfEbBbBa"
-                    onFocus={() => setSelected(2)}
-                    placeholder="0.00"
-                    id="opening_balance"
-                    type="number"
-                  />
-                  <div className="iamInputPrfix">INR</div>
-                  <div
-                    className="zfEbBbBb"
-                    onClick={() => {
-                      setIsToPay(!isToPay);
-                      setToPay(!isToPay);
-                    }}
-                  >
-                    <div className={!isToPay ? "zfEbBbBbA_" : "zfEbBbBbA"}>
-                      To Recive
-                    </div>
-                    <div className={isToPay ? "zfEbBbBbA__" : "zfEbBbBbA"}>
-                      To Pay
-                    </div>
-                  </div>
-                </div>
-                <div className="zfEbBbA">
-                  <div className="zfEbBbAa">Credit Limit</div>
-                  <div className="zfEbBbAa">Credit Period</div>
-                </div>
-                <div className="zfEbBbB">
-                  <input
-                    className="zfEbBbBa"
-                    onFocus={() => setSelected(2)}
-                    type="number"
-                    placeholder="0.00"
-                    id="credit_limit"
-                  />
-                  <div className="iamInputPrfix">INR</div>
-                  <input
-                    className="zfEbBbBa"
-                    onFocus={() => setSelected(2)}
-                    type="number"
-                    placeholder="0"
-                    id="credit_period"
-                  />
-                  <div className="iamInputPrfix">DAY</div>
-                </div>
-                <div className="zfEbBbA">
-                  <div className="zfEbBbAa">GST Number</div>
-                  <div className="zfEbBbAa">Place of Supply</div>
-                </div>
-                <div className="zfEbBbB">
-                  <input
-                    className="zfEbBbBa"
-                    onFocus={() => setSelected(2)}
-                    id="gst_number"
-                    placeholder="Enter GST number"
-                  />
-                  <select
-                    className="zfEbBbBa"
-                    onFocus={() => setSelected(2)}
-                    id="place_of_supply"
-                    placeholder="Place of supply"
-                  >
-                    {allPlaceofSupplay?.map((it, k) => (
-                      <option key={k} value={it.state_name}>
-                        {it.state_name}
-                      </option>
-                    ))}
-                  </select>
+                <div className={isToPay ? "zfEbBbBbA__" : "zfEbBbBbA"}>
+                  To Pay
                 </div>
               </div>
-              <div className="zfEbBa">ADDRESS INFORMATION</div>
-              <div className="zfEbBb">
-                <div className="zfEbBbA">Address</div>
-                <textarea
-                  className="zfEbBbB"
-                  onFocus={() => setSelected(3)}
-                  placeholder="Enter customer’s default address"
-                  id="address"
-                />
-                <div className="zfEbBbA">
-                  <div className="zfEbBbAa">PIN Code</div>
-                  <div className="zfEbBbAa">State</div>
-                </div>
-                <div className="zfEbBbB">
-                  <input
-                    className="zfEbBbBa"
-                    onFocus={() => setSelected(2)}
-                    type="number"
-                    placeholder="PIN code"
-                    id="pin_code"
-                  />
-                  <select
-                    className="zfEbBbBa"
-                    onFocus={() => setSelected(2)}
-                    id="state_id"
-                  >
-                    {allStates?.map((it, k) => (
-                      <option key={k} value={it.id}>
-                        {it.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-            </StrictMode>
-          ) : (
-            <StrictMode>
-              <div className="zfEbBa">FINANCIAL INFORMATION</div>
-              <div className="zfEbBb">
-                <div className="zfEbBbA">
-                  <div className="zfEbBbAa">Salary*</div>
-                  <div className="zfEbBbAa">Type*</div>
-                </div>
-                <div className="zfEbBbB">
-                  <input
-                    className="zfEbBbBa"
-                    onFocus={() => setSelected(1)}
-                    id="salary"
-                    placeholder="0.00"
-                    defaultValue={form?.salary}
-                  />
-                  <select
-                    className="zfEbBbBa"
-                    id="salary_type_id"
-                    onFocus={() => setSelected(1)}
-                  >
-                    <option hidden>Select Salary type</option>
-                    {allSalatyTypes.map((it, k) => (
-                      <option
-                        key={k}
-                        value={it.id}
-                        selected={it.id === form?.salary_type_id}
-                      >
-                        {it.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="zfEbBbA">
-                  <div className="zfEbBbAa">Joining Date</div>
-                  <div className="zfEbBbAa">Birth Date</div>
-                </div>
-                <div className="zfEbBbB">
-                  <input
-                    className="zfEbBbBa"
-                    onFocus={() => setSelected(1)}
-                    type="date"
-                    id="join_date"
-                    defaultValue={makeMyDate(form?.join_date)}
-                  />
-                  <input
-                    className="zfEbBbBa"
-                    onFocus={() => setSelected(1)}
-                    type="date"
-                    id="dob"
-                    defaultValue={makeMyDate(form?.dob)}
-                  />
-                </div>
-              </div>
-              <div className="zfEbBa">SYSTEM INFORMATION</div>
-              <div className="zfEbBb">
-                <div className="zfEbBbA">Role</div>
-                <select
-                  className="zfEbBbB"
-                  onFocus={() => setSelected(2)}
-                  onChange={setRole}
-                  defaultValue={form?.role_id}
-                >
-                  <option hidden>Select Role</option>
-                  {allRols.map((it, k) => (
-                    <option value={k} selected={it.id === form?.role_id}>
-                      {it.name}
-                    </option>
-                  ))}
-                </select>
-                <div className="zfEbBbA" />
-                <div className="zfEbBbB">
-                  <FormSwitch
-                    value={systemUser}
-                    onTap={() => {
-                      setSystemUser();
-                      setSelected(2);
-                    }}
-                  />
-                  <div className="zfEbBbBc">
-                    <div>System User</div>
-                    <div className="zfEbBbBcA">
-                      Enable to set user credentials
-                    </div>
-                  </div>
-                </div>
-                {systemUser ? (
-                  <StrictMode>
-                    <div className="zfEbBbA">User ID*</div>
-                    <input
-                      className="zfEbBbB"
-                      onFocus={() => setSelected(2)}
-                      placeholder="Enter user ID"
-                      id="number"
-                    />
-                    <div className="zfEbBbA">
-                      <div className="zfEbBbAa">Password*</div>
-                      <div className="zfEbBbAa">PIN*</div>
-                    </div>
-                    <div className="zfEbBbB">
-                      <input
-                        className="zfEbBbBa"
-                        onFocus={() => setSelected(2)}
-                        type="password"
-                        id="password"
-                        placeholder="Password"
-                      />
-                      <input
-                        className="zfEbBbBa"
-                        onFocus={() => setSelected(2)}
-                        type="password"
-                        defaultValue={form?.pin}
-                        id="pin"
-                        placeholder="Enter 4 digit PIN"
-                      />
-                    </div>
-                  </StrictMode>
-                ) : null}
-              </div>
-            </StrictMode>
-          )}
-          {systemUser ? (
-            <StrictMode>
-              <div className="zfEbBa">ACCES INFORMATION</div>
-              <br />
-              {allModules?.map((it, k) => (
-                <div className="zfEbBc" key={k}>
-                  {it.full_title} ({it.title})
-                  <select
-                    onFocus={() => setSelected(4)}
-                    className="zfEbBcB"
-                    onChange={(e) => setPermission(k, e.target.value)}
-                    defaultValue={
-                      it?.pemissions.filter((it2) => it2.is_default === 1)[0]
-                        ?.title
-                    }
-                  >
-                    <option hidden>Select Permission</option>
-                    {it?.pemissions?.map((it1, k1) => (
-                      <option key={k1} value={it1.title}>
-                        {it1.title}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              ))}
-              <br />
-              <br />
-            </StrictMode>
-          ) : null}
+            </div>
+            <div className="zfEbBbA">
+              <div className="zfEbBbAa">Credit Limit</div>
+              <div className="zfEbBbAa">Credit Period</div>
+            </div>
+            <div className="zfEbBbB">
+              <input
+                className="zfEbBbBa"
+                onFocus={() => setSelected(2)}
+                type="number"
+                placeholder="0.00"
+                id="credit_limit"
+                value={addParties?.credit_limit}
+              />
+              <div className="iamInputPrfix">INR</div>
+              <input
+                className="zfEbBbBa"
+                onFocus={() => setSelected(2)}
+                type="number"
+                placeholder="0"
+                id="credit_period"
+                value={addParties?.credit_period}
+              />
+              <div className="iamInputPrfix">DAY</div>
+            </div>
+            <div className="zfEbBbA">
+              <div className="zfEbBbAa">GST Number</div>
+              <div className="zfEbBbAa">Place of Supply</div>
+            </div>
+            <div className="zfEbBbB">
+              <input
+                className="zfEbBbBa"
+                onFocus={() => setSelected(2)}
+                id="gst_number"
+                value={addParties?.gst_number}
+                placeholder="Enter GST number"
+              />
+              <select
+                className="zfEbBbBa"
+                onFocus={() => setSelected(2)}
+                id="place_of_supply"
+                value={addParties?.place_of_supply}
+                placeholder="Place of supply"
+              >
+                <option hidden>Select place of supplay</option>
+                {allPlaceofSupplay?.map((it, k) => (
+                  <option key={k} value={it.state_name}>
+                    {it.state_name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+          <div className="zfEbBa">ADDRESS INFORMATION</div>
+          <div className="zfEbBb">
+            <div className="zfEbBbA">Address</div>
+            <textarea
+              className="zfEbBbB"
+              onFocus={() => setSelected(3)}
+              placeholder="Enter customer’s default address"
+              id="address"
+              value={addParties?.address}
+            />
+            <div className="zfEbBbA">
+              <div className="zfEbBbAa">PIN Code</div>
+              <div className="zfEbBbAa">State</div>
+            </div>
+            <div className="zfEbBbB">
+              <input
+                className="zfEbBbBa"
+                onFocus={() => setSelected(2)}
+                type="number"
+                placeholder="PIN code"
+                id="pin_code"
+                value={addParties?.pin_code}
+              />
+              <select
+                className="zfEbBbBa"
+                onFocus={() => setSelected(2)}
+                id="state_id"
+                value={addParties?.state_id}
+              >
+                <option hidden>Select State</option>
+                {allStates?.map((it, k) => (
+                  <option key={k} value={it.id}>
+                    {it.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
         </div>
       </div>
       <div className="zfEd">
@@ -1052,7 +1117,7 @@ export function AddingFormLayout1({ title, desc, ic }) {
 
 export function AddingForm1({ title, children }) {
   return (
-    <div className="zfJ" >
+    <div className="zfJ">
       <div className="zfJa">{title}</div>
       <div className="zfJb">{children}</div>
     </div>

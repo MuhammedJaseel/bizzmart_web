@@ -108,10 +108,15 @@ export default class BranchScreen extends Component {
                   className="br_Am"
                   onClick={() => {
                     window.localStorage.setItem("branchId", it.branch_id);
-                    // window.localStorage.setItem("profilePic", res.image);
+                    window.localStorage.setItem("profilePic", it.image);
                     // window.localStorage.setItem("userName", res.data.phone);
                     // window.localStorage.setItem("userId", res.data.id);
                     // window.localStorage.setItem("address", res.data.address);
+                    window.localStorage.setItem("branchName", it?.branch_name);
+                    window.localStorage.setItem(
+                      "buisnessName",
+                      it.business_name
+                    );
                     setScreen("/dashboard");
                   }}
                 >

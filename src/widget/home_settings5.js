@@ -349,23 +349,23 @@ export function HomeSettings5SalesTaxes({ state, setState }) {
                     }}
                   >
                     <input
-                      id="title"
+                      id="name"
                       style={{ width: "40%" }}
                       placeholder="Type..."
-                      defaultValue={it.name}
+                      value={it.name}
                     />
                     <input
                       id="rate"
                       style={{ width: "22%" }}
                       placeholder="0.00%"
-                      defaultValue={it.rate}
+                      value={it.rate}
                       type="number"
                     />
                     <input
                       style={{ width: "22%" }}
                       id="cess"
                       placeholder="0.00%"
-                      defaultValue={it.cess}
+                      value={it.cess}
                       type="number"
                     />
                     <div

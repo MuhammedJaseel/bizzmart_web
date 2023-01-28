@@ -42,13 +42,15 @@ export async function postMember(state, setState) {
   formData.append("permission", JSON.stringify(addMember.permission));
   formData.append("salary", addMember.salary);
   formData.append("salary_type_id", addMember.salary_type_id);
-  formData.append("system_user", addMember.system_user);
-  formData.append("pin", addMember.pin);
-  formData.append("password", addMember.password);
   formData.append("join_date", addMember.join_date);
   formData.append("dob", addMember.dob);
+  formData.append("system_user", addMember.system_user);
 
-  console.log(typeof addMember.image);
+  if (addMember.system_user) {
+    formData.append("password", addMember.password);
+    formData.append("pin", addMember.pin);
+    console.log(addMember.permission);
+  }
 
   if (typeof addMember.image === "object") {
     formData.append("image", addMember.image);

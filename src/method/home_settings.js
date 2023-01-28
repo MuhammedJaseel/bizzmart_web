@@ -246,7 +246,7 @@ export async function updateOrDeleateTax(it, state, setState) {
 
   const body = {
     tax_id: it.id,
-    title: it.title,
+    title: it.name,
     gst: it.rate,
     css: it.cess,
   };
@@ -257,7 +257,7 @@ export async function updateOrDeleateTax(it, state, setState) {
       await getAllSalesTaxes(state, setState);
       succesPop({
         active: true,
-        title: "Succesfully Updated",
+        name: "Succesfully Updated",
         desc: "Tax list is succesfully updated",
       });
     })
