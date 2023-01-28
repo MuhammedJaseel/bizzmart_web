@@ -77,9 +77,11 @@ export function MyTable1({ widths, heads, body, onclick, lg, xl }) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 export function MyTableCounter1({ props }) {
-  const { total, onTap } = props;
-  const [sel, setSel] = useState(1);
+  const { onTap, loading, error, noPaging, page } = props;
+  var { total } = props;
+  const [sel, setSel] = useState(Number(page || 1));
   const [limit, setLimit] = useState(10);
+  if (total === undefined || total === null) total = 0;
   const n = total / limit;
   let numbers = [];
   if (n < limit) for (let i = 0; i < n; i++) numbers.push(i + 1);
@@ -90,65 +92,87 @@ export function MyTableCounter1({ props }) {
 
   return (
     <div className="zc1B">
-      <div className="zc1Ba">
-        SHOW:
-        <input
-          onChange={(e) => {
-            const value = e.target.value;
-            if (value !== "" && value !== "1" && value !== "2") {
-              setSel(1);
-              setLimit(value);
-              onTap(1, value);
-            }
-          }}
-          defaultValue={limit}
-          className="zc1BaB"
-          type="number"
-        />
-        ENTRIES
-      </div>
-      <div className="zc1Bb">
-        Showing {(sel - 1) * limit} to{" "}
-        {sel * limit > total ? total : sel * limit} of {total} entries
-      </div>
-      <div className="zc1Bb">
-        <div
-          className={sel === 1 ? "zc1BbA_" : "zc1BbA"}
-          onClick={() => {
-            if (sel !== 1) {
-              setSel(sel - 1);
-              onTap(sel - 1, limit);
-            }
-          }}
-        >
-          Previous
-        </div>
-        {numbers.map((i, k) => (
-          <div
-            key={k}
-            onClick={() => {
-              if (typeof i === "number") {
-                setSel(i);
-                onTap(i, limit);
+      {!noPaging ? (
+        <div className="zc1Ba">
+          SHOW:
+          <input
+            onChange={(e) => {
+              const value = e.target.value;
+              if (value !== "" && value !== "1" && value !== "2") {
+                setSel(1);
+                setLimit(value);
+                onTap(1, value);
               }
             }}
-            className={i === sel ? "zc1BbB zc1BbB_" : "zc1BbB"}
-          >
-            {typeof i === "number" ? parseInt(i) : i}
-          </div>
-        ))}
-        <div
-          className={sel === n ? "zc1BbA_" : "zc1BbA"}
-          onClick={() => {
-            if (sel !== n) {
-              setSel(sel + 1);
-              onTap(sel + 1);
-            }
-          }}
-        >
-          Next
+            defaultValue={limit}
+            className="zc1BaB"
+            type="number"
+          />
+          ENTRIES
         </div>
-      </div>
+      ) : (
+        <div />
+      )}
+      {/* This line is to show loding when it is loading */}
+      {loading ? (
+        <div className="zc1Bb">Loading...</div>
+      ) : error !== null && error !== undefined ? (
+        <div className="zc1Bb" style={{ color: "darkred" }}>
+          {/* This line is to show error mesage if any */}
+          {error}
+        </div>
+      ) : Number(total) === 0 ? (
+        <div className="zc1Bb">No Data</div>
+      ) : noPaging ? (
+        <div className="zc1Bb">Showing {total} entries</div>
+      ) : (
+        <div className="zc1Bb">
+          Showing {(sel - 1) * limit + 1} to{" "}
+          {sel * limit > total ? total : sel * limit} of {total} entries
+        </div>
+      )}
+      {!noPaging ? (
+        <div className="zc1Bb">
+          <div
+            className={sel === 1 ? "zc1BbA_" : "zc1BbA"}
+            onClick={() => {
+              if (sel !== 1) {
+                setSel(sel - 1);
+                onTap(sel - 1, limit);
+              }
+            }}
+          >
+            Previous
+          </div>
+          {numbers.map((i, k) => (
+            <div
+              key={k}
+              onClick={() => {
+                if (typeof i === "number") {
+                  setSel(i);
+                  onTap(i, limit);
+                }
+              }}
+              className={i === sel ? "zc1BbB zc1BbB_" : "zc1BbB"}
+            >
+              {typeof i === "number" ? parseInt(i) : i}
+            </div>
+          ))}
+          <div
+            className={sel === n ? "zc1BbA_" : "zc1BbA"}
+            onClick={() => {
+              if (sel !== n) {
+                setSel(sel + 1);
+                onTap(sel + 1);
+              }
+            }}
+          >
+            Next
+          </div>
+        </div>
+      ) : (
+        <div />
+      )}
     </div>
   );
 }

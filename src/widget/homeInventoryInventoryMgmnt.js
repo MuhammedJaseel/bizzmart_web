@@ -29,7 +29,7 @@ import {
 import { MyTable1, MyTableCounter1 } from "./widget_table";
 
 export function StockIssueTable({ state, setState }) {
-  const { allStockIssue, page } = state;
+  const { allStockIssue, page, loading, error } = state;
   const body = [];
   if (allStockIssue?.data !== null)
     for (let i = 0; i < allStockIssue?.data?.length; i++) {
@@ -90,6 +90,9 @@ export function StockIssueTable({ state, setState }) {
   };
   const counterProps = {
     total: allStockIssue?.page?.totalCount,
+    page: allStockIssue?.page?.page_number,
+    loading,
+    error,
     onTap: (v, limit) => {
       allStockIssue.page.page_number = v;
       allStockIssue.page.limit = limit;
@@ -249,6 +252,7 @@ export function StockReceivedTable({ state, setState }) {
   };
   const counterProps = {
     total: items?.page?.totalCount,
+    page: items?.page?.page_number,
     onTap: (v, limit) => {
       items.page.page_number = v;
       items.page.limit = limit;
@@ -406,12 +410,8 @@ export function StockReceivedStockReturnTable({ state, setState }) {
 }
 
 export function StockTakingTable({ state, setState }) {
-  const {
-    allStockTaking,
-    allStockTakingComplated,
-    allStockTakingCanclleed,
-    page,
-  } = state;
+  const { allStockTakingComplated, allStockTakingCanclleed } = state;
+  const { allStockTaking, page, loading, error } = state;
   const body = [];
 
   const [subPage, setsubPage] = useState(0);
@@ -485,6 +485,9 @@ export function StockTakingTable({ state, setState }) {
   };
   const counterProps = {
     total: items?.page?.totalCount,
+    page: items?.page?.page_number,
+    loading,
+    error,
     onTap: (v, limit) => {
       items.page.page_number = v;
       items.page.limit = limit;
@@ -569,8 +572,6 @@ export function StockTrailTable({ state, setState }) {
     { width: 10 },
     { width: 10 },
   ];
-
-  const [popup, setpopup] = useState(true);
 
   const popupProps1 = {
     close: () => setState({ page: null, stockTrailProdect: {} }),

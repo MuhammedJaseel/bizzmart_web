@@ -3,21 +3,20 @@ import { addNumberList } from "../module/simple";
 import { getToday } from "../widget/widgets/calender";
 
 export async function getAllCustomers(state, setState) {
-  var customerPaging = state.customerPaging;
-  const body = {
-    page_number: customerPaging.page_number,
-    limit: customerPaging.limit,
-  };
-  await postHttp("getCustomers", body).then((res) => {
-    customerPaging.totalCount = res.page.totalCount;
-    setState({ allCustomer: res.data, customerPaging: res.page });
-  });
+  const { allCustomer } = state;
+  setState({ loading: true });
+  await postHttp("getCustomers", allCustomer?.page || {})
+    .then((res) => setState({ allCustomer: res }))
+    .catch((error) => setState({ error }));
+  setState({ loading: false });
 }
 export async function getAllSuppliers(state, setState) {
-  const { supplierPaging } = state;
-  await postHttp("getSuppliers", supplierPaging).then((res) => {
-    setState({ allSupplier: res.data, supplierPaging: res.page });
-  });
+  const { allSupplier } = state;
+  setState({ loading: true });
+  await postHttp("getSuppliers", allSupplier?.page || {})
+    .then((res) => setState({ allSupplier: res }))
+    .catch((error) => setState({ error }));
+  setState({ loading: false });
 }
 
 export async function getAllData(state, setState) {
@@ -57,10 +56,10 @@ export async function postCustomer(state, setState) {
   formData.append("image[]", addParties.image || "");
   formData.append("thumbnail", addParties.image || "");
   setState({ loading: true, error: null });
-  await postHttp("addCustomer", addParties, true)
+  await postHttp("addCustomer", formData, true)
     .then(async (res) => {
       await getAllCustomers(state, setState);
-      setState({ addPage: false, addParties: {}, partie: null });
+      setState({ addParties: {} });
       succesPop({
         active: true,
         title: "Succesfully Added",
@@ -98,10 +97,10 @@ export async function postSuplier(state, setState) {
     formData.append("thumbnail[]", addParties.image, "[PROXY]");
   }
   setState({ loading: true, error: null });
-  await postHttp("addSupplier", addParties, true)
+  await postHttp("addSupplier", formData, true)
     .then(async (res) => {
       await getAllSuppliers(state, setState);
-      setState({ addPage: false, addParties: {}, partie: null });
+      setState({ addParties: {} });
       succesPop({
         active: true,
         title: "Succesfully Added",
@@ -117,27 +116,29 @@ export async function updateCustomer(state, setState) {
   if (partie?.isToPay) partie.opening_balance *= -1;
   const formData = new FormData();
   formData.append("branch_id", window.localStorage.getItem("branchId"));
-  formData.append("id", partie.id);
-  formData.append("name", partie.name);
-  formData.append("phone", partie.phone);
-  formData.append("email", partie.email);
-  formData.append("address", partie.address);
-  formData.append("image", partie.image);
-  formData.append("credit_period", partie.credit_period);
-  formData.append("opening_balance", partie.opening_balance);
-  formData.append("credit_limit", partie.credit_limit);
-  formData.append("gst_number", partie.gst_number);
-  formData.append("place_of_supply", partie.place_of_supply);
-  formData.append("pin_code", partie.pin_code);
-  formData.append("state", partie.state);
-  formData.append("loyality_tier", partie.loyality_tier);
-  formData.append("image", partie.image);
-  formData.append("thumbnail", partie.image);
+  formData.append("id", partie.id || "");
+  formData.append("name", partie.name || "");
+  formData.append("phone", partie.phone || "");
+  formData.append("email", partie.email || "");
+  formData.append("address", partie.address || "");
+  formData.append("image", partie.image || "");
+  formData.append("credit_period", partie.credit_period || "");
+  formData.append("opening_balance", partie.opening_balance || "");
+  formData.append("credit_limit", partie.credit_limit || "");
+  formData.append("gst_number", partie.gst_number || "");
+  formData.append("place_of_supply", partie.place_of_supply || "");
+  formData.append("pin_code", partie.pin_code || "");
+  formData.append("state", partie.state || "");
+  formData.append("loyality_tier", partie.loyality_tier || "");
+  if (typeof partie.image === "object") {
+    formData.append("image[]", partie.image, "[PROXY]");
+    formData.append("thumbnail[]", partie.image);
+  }
   setState({ loading: true, error: null });
   await postHttp("updateCustomer", formData, true)
     .then(async (res) => {
       await getAllCustomers(state, setState);
-      setState({ addPage: false, partie: null });
+      setState({ partie: null });
       succesPop({
         active: true,
         title: "Succesfully Added",
@@ -154,23 +155,23 @@ export async function updateSuplier(state, setState) {
   if (partie?.isToPay) partie.opening_balance *= -1;
   const formData = new FormData();
   formData.append("branch_id", window.localStorage.getItem("branchId"));
-  formData.append("id", partie.id);
-  formData.append("name", partie.name);
-  formData.append("nick_name", partie.nick_name);
-  formData.append("phone", partie.phone);
-  formData.append("email", partie.email);
-  formData.append("address", partie.address);
-  formData.append("image", partie.image);
-  formData.append("credit_period", partie.credit_period);
-  formData.append("opening_balance", partie.opening_balance);
-  formData.append("credit_limit", partie.credit_limit);
-  formData.append("gst_number", partie.gst_number);
-  formData.append("place_of_supply", partie.place_of_supply);
-  formData.append("pin_code", partie.pin_code);
-  formData.append("state", partie.state);
-  formData.append("state_id", partie.state_id);
-  formData.append("supplier_type", partie.supplier_type);
-  formData.append("balance_type", partie.balance_type);
+  formData.append("id", partie.id || "");
+  formData.append("name", partie.name || "");
+  formData.append("nick_name", partie.nick_name || "");
+  formData.append("phone", partie.phone || "");
+  formData.append("email", partie.email || "");
+  formData.append("address", partie.address || "");
+  formData.append("image", partie.image || "");
+  formData.append("credit_period", partie.credit_period || "");
+  formData.append("opening_balance", partie.opening_balance || "");
+  formData.append("credit_limit", partie.credit_limit || "");
+  formData.append("gst_number", partie.gst_number || "");
+  formData.append("place_of_supply", partie.place_of_supply || "");
+  formData.append("pin_code", partie.pin_code || "");
+  formData.append("state", partie.state || "");
+  formData.append("state_id", partie.state_id || "");
+  formData.append("supplier_type", partie.supplier_type || "");
+  formData.append("balance_type", partie.balance_type || "");
   if (typeof partie.image === "object") {
     formData.append("image[]", partie.image, "[PROXY]");
     formData.append("thumbnail[]", partie.image);
@@ -179,7 +180,7 @@ export async function updateSuplier(state, setState) {
   await postHttp("updateSupplier", formData, true)
     .then(async (res) => {
       await getAllSuppliers(state, setState);
-      setState({ addPage: false, partie: null });
+      setState({ partie: null });
       succesPop({
         active: true,
         title: "Succesfully Added",
@@ -248,9 +249,7 @@ export const getSupplier = async (partie, setState, from, to) => {
 
 export const reduceCreditOneByOne = (v, state, setState) => {
   const { ordersTemp } = state.partie.paymentRecord;
-
   state.partie.paymentRecord.orders = JSON.parse(JSON.stringify(ordersTemp));
-
   for (let i = 0; i < state.partie.paymentRecord.orders.length; i++) {
     if (v > 0) state.partie.paymentRecord.orders[i].redused = true;
     if (state.partie.paymentRecord.orders[i].credit > v) {
@@ -268,7 +267,6 @@ export const postMultiplePaymentRecord = async (state, setState) => {
   const { page, loading, succesPop, partie } = state;
   if (loading) return;
   setState({ loading: true, error: null });
-
   const body = {
     orders: [],
     payment_method_id: partie.paymentRecord.payment_method_id,

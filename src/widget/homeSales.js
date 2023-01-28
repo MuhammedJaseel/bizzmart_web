@@ -111,7 +111,7 @@ export default class HomeSales extends Component {
 }
 
 function HomeSalesInvoicesTable({ state, setState }) {
-  const { page, form, allInvoice, invoicePaging } = state;
+  const { page, form, allInvoice, invoicePaging, loading, error } = state;
   const widths = [
     { width: 4 },
     { width: 10 },
@@ -140,6 +140,9 @@ function HomeSalesInvoicesTable({ state, setState }) {
   if (page !== 0 || form !== null) return null;
   const counterProps = {
     total: invoicePaging?.totalCount,
+    page: invoicePaging?.page_number,
+    loading,
+    error,
     onTap: (v, limit) => {
       invoicePaging.page_number = v;
       invoicePaging.limit = limit;
@@ -179,6 +182,7 @@ function HomeSalesEstimatesTable({ state, setState }) {
   if (page !== 1 || form !== null) return null;
   const counterProps = {
     total: estimatePaging?.totalCount,
+    page: estimatePaging?.page_number,
     onTap: (v, limit) => {
       estimatePaging.page_number = v;
       estimatePaging.limit = limit;

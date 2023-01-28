@@ -28,7 +28,7 @@ import {
 } from "../module/homeInventoryAssets";
 
 export function AssetTable({ state, setState }) {
-  const { allFixedAssets, allAssignedAssets, page } = state;
+  const { allFixedAssets, allAssignedAssets, page, loading, error } = state;
   const title = "INVENTORY";
   const bodyRBody = {
     makeAdd: () => {
@@ -117,6 +117,9 @@ export function AssetTable({ state, setState }) {
 
   const counterProps = {
     total: allFixedAssets?.page?.totalCount,
+    page: allFixedAssets?.page?.page_number,
+    loading,
+    error,
     onTap: (v, limit) => {
       allFixedAssets.page.page_number = v;
       allFixedAssets.page.limit = limit;
@@ -125,6 +128,9 @@ export function AssetTable({ state, setState }) {
   };
   const counterProps1 = {
     total: allAssignedAssets?.page?.totalCount,
+    page: allAssignedAssets?.page?.page_number,
+    loading,
+    error,
     onTap: (v, limit) => {
       allAssignedAssets.page.page_number = v;
       allAssignedAssets.page.limit = limit;
@@ -188,7 +194,7 @@ export function AssetTable({ state, setState }) {
           body={body1}
         />
       )}
-      <MyTableCounter1 props={page === 0 ? counterProps : counterProps1} />
+      <MyTableCounter1 props={subPage === 0 ? counterProps : counterProps1} />
       <AssetTranferPoup state={state} setState={setState} />
       <AssetWriteOffPoup state={state} setState={setState} />
     </StrictMode>

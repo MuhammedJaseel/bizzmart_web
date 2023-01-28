@@ -16,7 +16,7 @@ import {
 import { MyTable1, MyTableCounter1 } from "./widget_table";
 
 export function PriceLookupTable({ state, setState }) {
-  const { priceLookupList, page } = state;
+  const { priceLookupList, page, loading, error } = state;
 
   const heads = [
     null,
@@ -64,6 +64,9 @@ export function PriceLookupTable({ state, setState }) {
 
   const counterProps = {
     total: priceLookupList?.page?.totalCount,
+    page: priceLookupList?.page?.page_number,
+    loading,
+    error,
     onTap: (v, limit) => {
       priceLookupList.page.page_number = v;
       priceLookupList.page.limit = limit;
@@ -87,7 +90,7 @@ export function PriceLookupTable({ state, setState }) {
 }
 
 export function StockLookupTable({ state, setState }) {
-  const { stockLookupList, page } = state;
+  const { stockLookupList, page, loading, error } = state;
   const body = [];
   for (let i = 0; i < stockLookupList?.data?.length; i++) {
     const it = stockLookupList?.data[i];
@@ -108,6 +111,9 @@ export function StockLookupTable({ state, setState }) {
   if (page?.path !== "stockLookup") return null;
   const counterProps = {
     total: stockLookupList?.page?.totalCount,
+    page: stockLookupList?.page?.page_number,
+    loading,
+    error,
     onTap: (v, limit) => {
       stockLookupList.page.page_number = v;
       stockLookupList.page.limit = limit;
@@ -129,7 +135,7 @@ export function StockLookupTable({ state, setState }) {
   );
 }
 export function PriceChargeTable({ state, setState }) {
-  const { priceChangeList, page } = state;
+  const { priceChangeList, page, loading, error } = state;
   var { addPriceChange } = state;
   const body = [];
   for (let i = 0; i < priceChangeList?.data?.length; i++) {
@@ -167,6 +173,9 @@ export function PriceChargeTable({ state, setState }) {
   if (page?.path !== "priceCharge") return null;
   const counterProps = {
     total: priceChangeList?.page?.totalCount,
+    page: priceChangeList?.page?.page_number,
+    loading,
+    error,
     onTap: (v, limit) => {
       priceChangeList.page.page_number = v;
       priceChangeList.page.limit = limit;
@@ -195,7 +204,7 @@ export function PriceChargeTable({ state, setState }) {
   );
 }
 export function MslLookupTable({ state, setState }) {
-  const { page, maslLookupList } = state;
+  const { page, maslLookupList, loading, error } = state;
   const body = [];
   for (let i = 0; i < maslLookupList?.data?.length; i++) {
     const it = maslLookupList?.data[i];
@@ -217,6 +226,9 @@ export function MslLookupTable({ state, setState }) {
   if (page?.path !== "mslLookup") return null;
   const counterProps = {
     total: maslLookupList?.page?.totalCount,
+    page: maslLookupList?.page?.page_number,
+    loading,
+    error,
     onTap: (v, limit) => {
       maslLookupList.page.page_number = v;
       maslLookupList.page.limit = limit;

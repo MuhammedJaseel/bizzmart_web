@@ -5,7 +5,7 @@ import { Header1, Header4, HeaderButtens1 } from "./widget";
 import { MyTable1, MyTableCounter1 } from "./widget_table";
 
 export function ProductTable({ state, setState }) {
-  const { allProduct, page, productPaging } = state;
+  const { allProduct, page, productPaging, loading, error } = state;
   const title = "INVENTORY";
   const bodyRBody = {
     makeAdd: () =>
@@ -38,7 +38,10 @@ export function ProductTable({ state, setState }) {
     }
 
   const counterProps = {
-    total: productPaging.totalCount,
+    total: productPaging?.totalCount,
+    page: productPaging?.page_number,
+    loading,
+    error,
     onTap: (v, limit) => {
       productPaging.limit = limit;
       productPaging.page_number = v;
@@ -70,7 +73,7 @@ export function ProductTable({ state, setState }) {
   );
 }
 export function ServiceTable({ state, setState }) {
-  const { allService, page, servicesPaging } = state;
+  const { allService, page, servicesPaging, loading, error } = state;
   var { product } = state;
   const title = "INVENTORY";
   const bodyRBody = {
@@ -89,6 +92,9 @@ export function ServiceTable({ state, setState }) {
 
   const counterProps = {
     total: servicesPaging?.totalCount,
+    page: servicesPaging?.page_number,
+    loading,
+    error,
     onTap: (v, limit) => {
       servicesPaging.limit = limit;
       servicesPaging.page_number = v;

@@ -28,7 +28,6 @@ export async function addCashandBank(state, setState) {
   addAccount.account_display_name = `${account_display_name} ${account_number.substr(
     account_number.length - 4
   )}`;
-
   const url = addAccount.hasOwnProperty("id") ? "updateAccount" : "addAccount";
   setState({ loading: true, error: null });
   await postHttp(url, addAccount)
@@ -76,15 +75,17 @@ export async function postFundTransfer(state, setState) {
 }
 
 export async function getBankHistory(it, state, setState) {
-  const { account } = state;
-  setState({ account: it, page: 1, allHistory: [], error: null });
-  await postHttp("accountTransactions", {
+  setState({ account: it, page: 1, allHistory: [] });
+  setState({ loading: true, error: null });
+  const body = {
+    from_date: it.from_date,
+    to_date: it.to_date,
     account_id: it.id,
-    from_date: "01-01-2021",
-    to_date: "25-10-2022",
-  }).then((res) =>
-    setState({ account: { ...it, ...res.data }, historyPaging: res.page })
+  };
+  await postHttp("accountTransactions", body).then((res) =>
+    setState({ account: { ...it, ...res.data } })
   );
+  setState({ loading: false });
 }
 
 export async function postReceiveMoney(state, setState) {

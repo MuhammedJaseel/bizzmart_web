@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { MyTable1, MyTableCounter1 } from "./widget_table";
 import { Header1, Header2, Header4 } from "./widget";
 import { HeaderButtens1, TitleFilter1 } from "./widget";
-import { purchaseGetAllPurchase } from "../method/homePurchase";
+import { purchaseGetAllPurchase, purchaseGetDatas } from "../method/homePurchase";
 import { purchaseGetPurchase } from "../method/homePurchase";
 import { FormNewPurchase, newPurchaseStructure } from "./widgetFormPurchase";
 import { DrawerViewPurchase } from "./widget_view";
@@ -56,6 +56,7 @@ export default class HomePurchase extends Component {
     const state = this.state;
     const setState = (v) => this.setState(v);
     purchaseGetAllPurchase(state, setState);
+    purchaseGetDatas(state, setState);
   }
 
   render() {
@@ -107,7 +108,7 @@ export default class HomePurchase extends Component {
 }
 
 function HomePurchaseListTable({ state, setState }) {
-  const { page, allPurchaseList, form, purchasePaging } = state;
+  const { page, allPurchaseList, form, purchasePaging, loading, error } = state;
 
   const filterBody = { searchPh: "Search an asset" };
   const filter = ""; //<TitleFilter1 props={filterBody} />;
@@ -142,6 +143,9 @@ function HomePurchaseListTable({ state, setState }) {
 
   const counterProps = {
     total: purchasePaging?.totalCount,
+    page: purchasePaging?.page_number,
+    loading,
+    error,
     onTap: (v, limit) => {
       purchasePaging.page_number = v;
       purchasePaging.limit = limit;

@@ -124,7 +124,7 @@ export default class HomeTeam extends Component {
 }
 
 function HomeTeamMembersTable({ state, setState }) {
-  const { page, allMember, memberPaging, allRols } = state;
+  const { page, allMember, memberPaging, allRols, loading, error } = state;
   var { addMember } = state;
 
   const widths = [
@@ -164,6 +164,9 @@ function HomeTeamMembersTable({ state, setState }) {
 
   const counterProps = {
     total: memberPaging?.totalCount,
+    page: memberPaging?.page_number,
+    loading,
+    error,
     onTap: (v, limit) => {
       memberPaging.page_number = v;
       memberPaging.limit = limit;
@@ -258,6 +261,9 @@ function HomeTeamPartnersTable({ state, setState }) {
 
   const counterProps = {
     total: partnerPaging?.totalCount,
+    page: partnerPaging?.page_number,
+    loading,
+    error,
     onTap: (v, limit) => {
       partnerPaging.page_number = v;
       partnerPaging.limit = limit;

@@ -12,6 +12,7 @@ import { ReciveMoneyPopUpLayout } from "./home_cashbank1";
 import { SpendMoneyPopUpLayout } from "./home_cashbank1";
 import { TitleFilter1 } from "./widget";
 import "../style/hcb.css";
+import { getTodayType1, getTodayType2 } from "../module/simple";
 
 export default class HomeCashbank extends Component {
   constructor(props) {
@@ -23,7 +24,7 @@ export default class HomeCashbank extends Component {
       allAccounts: [],
       allBanks: [],
       allTransferType: [],
-      allContact: [], 
+      allContact: [],
       allPaymenyMode: [],
       addAccount: null,
       confirmPop: null,
@@ -32,7 +33,6 @@ export default class HomeCashbank extends Component {
       receiveMoney: null,
       spendMoney: null,
       allCheque: [],
-      historyPaging: {},
       chequePaging: {},
       chequePage: 0,
       // FUNCTION ///////////////////////////////////////////////////
@@ -101,7 +101,11 @@ function HomeCashBankBody({ state, setState }) {
             <PaymentCard1
               props={it}
               hide={it.account_display_name === "Cash in hand"}
-              onTap={() => getBankHistory(it, state, setState)}
+              onTap={() => {
+                it.from_date = getTodayType2();
+                it.to_date = getTodayType2();
+                getBankHistory(it, state, setState);
+              }}
               onEdit={() => setState({ addAccount: it })}
               onDelete={() =>
                 setState({
@@ -123,7 +127,7 @@ function HomeCashBankBody({ state, setState }) {
 }
 
 function BankHistory({ state, setState }) {
-  const { page, account, historyPaging } = state;
+  const { page, account, loading, error } = state;
 
   const balanceBody = (
     <div className="hcbCa">
@@ -132,8 +136,31 @@ function BankHistory({ state, setState }) {
     </div>
   );
 
-  const filterBody = { onlyDate: true };
-  const filter = <TitleFilter1 props={filterBody} />;
+  // const filterBody = { onlyDate: true };
+  // const filter = <TitleFilter1 props={filterBody} />;
+  const filter = (
+    <div className="hrpAa">
+      <input
+        type="date"
+        className="hrpAaA"
+        defaultValue={account?.from_date}
+        onChange={(e) => {
+          account.from_date = e.target.value;
+          getBankHistory(account, state, setState);
+        }}
+      />
+      &ensp; to &ensp;
+      <input
+        type="date"
+        className="hrpAaA"
+        defaultValue={account?.to_date}
+        onChange={(e) => {
+          account.to_date = e.target.value;
+          getBankHistory(account, state, setState);
+        }}
+      />
+    </div>
+  );
 
   const heads = [
     "",
@@ -171,13 +198,14 @@ function BankHistory({ state, setState }) {
       { data: it.balance },
     ]);
   }
+
   const counterProps = {
-    // total: historyPaging.totalCount,
-    onTap: (v) => {
-      // historyPaging.page_number = v;
-      // getAllCustomers(state, setState);TODO
-    },
+    noPaging: true,
+    total: account?.transactions?.length,
+    loading,
+    error,
   };
+
   if (page !== 1) return null;
   return (
     <React.StrictMode>
@@ -238,7 +266,8 @@ function ChequeList({ state, setState }) {
     ]);
   }
   const counterProps = {
-    total: chequePaging.totalCount,
+    total: chequePaging?.totalCount,
+    page: chequePaging?.page_number,
     onTap: (v) => {
       chequePaging.page_number = v;
       // getAllCustomers(state, setState);TODO

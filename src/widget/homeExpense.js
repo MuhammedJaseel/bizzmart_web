@@ -80,7 +80,7 @@ export default class HomeExpense extends Component {
 }
 
 function HomeExpenceTable({ state, setState }) {
-  const { form, allExpense, expensesPaging } = state;
+  const { form, allExpense, expensesPaging, loading, error } = state;
   const widths = [
     { width: 4 },
     { width: 10 },
@@ -111,6 +111,9 @@ function HomeExpenceTable({ state, setState }) {
 
   const counterProps = {
     total: expensesPaging?.totalCount,
+    page: expensesPaging?.page_number,
+    loading,
+    error,
     onTap: (v, limit) => {
       expensesPaging.page_number = v;
       expensesPaging.limit = limit;

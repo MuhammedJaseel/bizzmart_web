@@ -52,8 +52,12 @@ export const postHttp = async (path, body, isForm) => {
         window.location.href = "/login";
         Promise.reject(res.data.message);
       }
-      if (res.data.statusCode === 200 || res.data.statusCode === 210)
+      if (res.data.statusCode === 200 || res.data.statusCode === 210) {
+        if (res.data.hasOwnProperty("page")) {
+          res.data.page.page_number = body?.page_number || 1;
+        }
         return Promise.resolve(res.data);
+      }
       return Promise.reject(new Error(res.data.message));
     })
     .catch((e) => Promise.reject(e?.message));

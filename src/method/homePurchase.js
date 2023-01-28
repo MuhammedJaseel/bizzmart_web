@@ -7,15 +7,18 @@ export const purchaseGetAllPurchase = async (state, setState) => {
   await postHttp("getPurchase", purchasePaging).then((res) => {
     setState({ allPurchaseList: res.data, purchasePaging: res.page });
   });
-  await postHttp("purchaseLastInvoiceNumber", {}).then((res) =>
-    setState({ lastInvoice: "API Pending" })
-  );
+  setState({ loading: false });
+};
+
+export const purchaseGetDatas = (state, setState) => {
+  // postHttp("purchaseLastInvoiceNumber", {}).then((res) =>
+  //   setState({ lastInvoice: "API Pending" })
+  // );
   postHttp("getSuppliersLists", {}).then((res) =>
     setState({ allSuppliers: res.data })
   );
   postHttp("taxLists", {}).then((res) => setState({ allTax: res.data }));
   postHttp("getAccounts", {}).then((res) => setState({ allAccount: res.data }));
-  setState({ loading: false });
 };
 
 export const postPurchaseList = async (flag, state, setState) => {

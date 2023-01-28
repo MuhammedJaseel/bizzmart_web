@@ -27,31 +27,28 @@ export default class HomeParties extends Component {
     super(props);
     this.state = {
       page: 0,
-      addPage: false,
-      allCustomer: [],
-      allSupplier: [],
+      allCustomer: {},
+      allSupplier: {},
       allPlaceofSupplay: [],
       allLoyaltyType: [],
       allStates: [],
       allSupplierType: [],
-      customerPaging: {},
-      supplierPaging: {},
       partie: null,
-      addParties: {},
+      addParties: null,
       succesPop: props.succesPop,
     };
   }
-  componentDidMount() {
+  async componentDidMount() {
     const state = this.state;
     const setState = (v) => this.setState(v);
-    getAllCustomers(state, setState);
-    getAllSuppliers(state, setState);
+    await getAllCustomers(state, setState);
+    await getAllSuppliers(state, setState);
     getAllData(state, setState);
   }
   render() {
     const state = this.state;
     const setState = (v) => this.setState(v);
-    const { page, addPage } = state;
+    const { page } = state;
     const titleL = page === 0 ? "COUSTOMERS" : "SUPPLIERS";
 
     const filterBody = {
@@ -59,14 +56,13 @@ export default class HomeParties extends Component {
       noDate: true,
       onlyDate: true,
     };
-    const filter = !addPage ? <TitleFilter1 props={filterBody} /> : null;
+    const filter = <TitleFilter1 props={filterBody} />;
     const bodyRBody = {
-      makeAdd: () =>
-        setState({ addPage: true, addCustomer: {}, addSupplier: {} }),
+      makeAdd: () => setState({ addParties: {} }),
       title: page === 0 ? "+ New Customer" : "+ New Suppliers",
       drowelList: null,
     };
-    const bodyR = addPage ? null : <HeaderButtens1 props={bodyRBody} />;
+    const bodyR = <HeaderButtens1 props={bodyRBody} />;
 
     return (
       <React.StrictMode>
@@ -74,7 +70,7 @@ export default class HomeParties extends Component {
         <Header2
           titles={pTitles}
           page={page}
-          onTap={(k) => setState({ page: k, addPage: false })}
+          onTap={(k) => setState({ page: k })}
         />
         <Header4
           title={titles.title[page]}
@@ -91,10 +87,10 @@ export default class HomeParties extends Component {
 }
 
 function HomePartiesCoustomerTable({ state, setState }) {
-  const { page, customerPaging, allCustomer } = state;
+  const { page, allCustomer, loading, error } = state;
   var { partie } = state;
   const onclick = (v) => {
-    partie = JSON.parse(JSON.stringify(allCustomer[v]));
+    partie = JSON.parse(JSON.stringify(allCustomer?.data[v]));
     getCustomer(partie, setState);
   };
   const widths = [
@@ -109,26 +105,28 @@ function HomePartiesCoustomerTable({ state, setState }) {
     { width: 6, right: true },
   ];
   const body = [];
-  if (allCustomer !== null)
-    for (let i = 0; i < allCustomer.length; i++) {
-      const it = allCustomer[i];
-      body.push([
-        { data: it.image, data2: it.name, type: 1 },
-        { data: it.name },
-        { data: [statDot("y"), it.loyality_tier], type: 2 },
-        { data: [statDot("g"), it.status], type: 2 },
-        { data: it.phone },
-        { data: it.email },
-        { data: it.last_seen_date },
-        { data: it.credit_limit, data2: it.turnover, type: 2 },
-        { data: it.opening_balance, data2: it.balance, type: 2 },
-      ]);
-    }
+  for (let i = 0; i < allCustomer?.data?.length; i++) {
+    const it = allCustomer?.data[i];
+    body.push([
+      { data: it.image, data2: it.name, type: 1 },
+      { data: it.name },
+      { data: [statDot("y"), it.loyality_tier], type: 2 },
+      { data: [statDot("g"), it.status], type: 2 },
+      { data: it.phone },
+      { data: it.email },
+      { data: it.last_seen_date },
+      { data: it.credit_limit, data2: it.turnover, type: 2 },
+      { data: it.opening_balance, data2: it.balance, type: 2 },
+    ]);
+  }
   const counterProps = {
-    total: customerPaging.totalCount,
+    total: allCustomer?.page?.totalCount,
+    page: allCustomer?.page?.page_number,
+    loading,
+    error,
     onTap: (v, limit) => {
-      customerPaging.page_number = v;
-      customerPaging.limit = limit;
+      allCustomer.page.page_number = v;
+      allCustomer.page.limit = limit;
       getAllCustomers(state, setState);
     },
   };
@@ -141,10 +139,10 @@ function HomePartiesCoustomerTable({ state, setState }) {
   );
 }
 function HomePartiesSuppliersTable({ state, setState }) {
-  const { page, supplierPaging, allSupplier } = state;
+  const { page, allSupplier, loading, error } = state;
   var { partie } = state;
   const onclick = (v) => {
-    partie = JSON.parse(JSON.stringify(allSupplier[v]));
+    partie = JSON.parse(JSON.stringify(allSupplier?.data[v]));
     getSupplier(partie, setState);
   };
 
@@ -158,33 +156,35 @@ function HomePartiesSuppliersTable({ state, setState }) {
     { width: 6 },
   ];
   const body = [];
-  if (allSupplier !== null)
-    for (let i = 0; i < allSupplier.length; i++) {
-      const it = allSupplier[i];
-      body.push([
-        { data: it.image, data2: it.name, type: 1 },
-        { data: it.name },
-        {
-          data: [
-            statDot(
-              it.status === "ACTIVE" ? "g" : it.status === "IDLE" ? "y" : "r"
-            ),
-            it.status,
-          ],
-          type: 2,
-        },
-        { data: it.phone },
-        { data: it.email },
-        { data: it.last_seen_date },
-        { data: it.total_invoice_amount },
-      ]);
-    }
+  for (let i = 0; i < allSupplier?.data?.length; i++) {
+    const it = allSupplier?.data[i];
+    body.push([
+      { data: it.image, data2: it.name, type: 1 },
+      { data: it.name },
+      {
+        data: [
+          statDot(
+            it.status === "ACTIVE" ? "g" : it.status === "IDLE" ? "y" : "r"
+          ),
+          it.status,
+        ],
+        type: 2,
+      },
+      { data: it.phone },
+      { data: it.email },
+      { data: it.last_seen_date },
+      { data: it.total_invoice_amount },
+    ]);
+  }
 
   const counterProps = {
-    total: supplierPaging.totalCount,
-    onTap: (page, limit) => {
-      supplierPaging.page_number = page;
-      supplierPaging.limit = limit;
+    total: allSupplier?.page?.totalCount,
+    page: allSupplier?.page?.page_number,
+    loading,
+    error,
+    onTap: (v, limit) => {
+      allSupplier.page.page_number = v;
+      allSupplier.page.limit = limit;
       getAllSuppliers(state, setState);
     },
   };
@@ -199,13 +199,13 @@ function HomePartiesSuppliersTable({ state, setState }) {
 }
 
 function HomePartiesAddForm({ state, setState }) {
-  const { loading, error, page, addPage, addParties } = state;
+  const { loading, error, page, addParties } = state;
   const { allPlaceofSupplay, allStates, allLoyaltyType, allSupplierType } =
     state;
   const body = {
     title: "New " + (page === 0 ? "customer" : "suppliers"),
-    show: addPage,
-    close: () => setState({ addPage: false, addParties: null, error: null }),
+    show: addParties !== null,
+    close: () => setState({ addParties: null, error: null }),
     submit: () =>
       page === 0 ? postCustomer(state, setState) : postSuplier(state, setState),
     loading,
@@ -216,7 +216,7 @@ function HomePartiesAddForm({ state, setState }) {
     allStates,
     allLoyaltyType,
     allSupplierType,
-    addParties: addParties,
+    addParties,
   };
   return (
     <form

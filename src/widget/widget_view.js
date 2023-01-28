@@ -627,8 +627,9 @@ export function DrowerView2({ props }) {
                   <select
                     className="zvDbFb"
                     id="place_of_supply"
-                    defaultChecked={item.place_of_supply}
+                    value={item?.place_of_supply}
                   >
+                    <option>Select place of supplay</option>
                     {allPlaceofSupplay.map((it, k) => (
                       <option key={k} value={it.state_name}>
                         {it.state_name}

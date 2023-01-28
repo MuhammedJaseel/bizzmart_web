@@ -108,7 +108,7 @@ function HomeReportPage({ state, setState }) {
             defaultValue={getTodayType2()}
             onChange={(e) => {
               selectedDate.from = e.target.value;
-              setState(selectedDate);
+              setState({ selectedDate });
               getReport(null, state, setState);
             }}
           />
@@ -119,7 +119,7 @@ function HomeReportPage({ state, setState }) {
             defaultValue={getTodayType2()}
             onChange={(e) => {
               selectedDate.from = e.target.value;
-              setState(selectedDate);
+              setState({ selectedDate });
               getReport(null, state, setState);
             }}
           />
@@ -188,9 +188,9 @@ function SelectProdectPopup({ state, setState }) {
     small: true,
     btnTitle: "ADD",
     onChange: (e) => (selectedProdect[e.target.id] = e.target.value),
-    submit: async() => {
+    submit: async () => {
       await getReport(selectedProdect.apiPath, state, setState);
-      setState({ selectedProdect: null })
+      setState({ selectedProdect: null });
     },
   };
   return (
