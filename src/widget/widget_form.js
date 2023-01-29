@@ -177,7 +177,7 @@ export function MyForm1({ state, setState }) {
                 </select>
               </div>
               <div className="zfBaAa">
-                <div className="zfBaAaA">Patment Method</div>
+                <div className="zfBaAaA">Payment Method</div>
                 <select
                   className="zfBaAaB"
                   required
@@ -433,7 +433,9 @@ export function MyForm1({ state, setState }) {
                 ))}
               </div> */}
             </div>
-            <div className="zfBdB">CANCEL</div>
+            <div className="zfBdB" onClick={() => setState({ form: null })}>
+              CANCEL
+            </div>
           </div>
         </StrictMode>
       ) : (
@@ -721,8 +723,8 @@ export function DrawerFormTeam({ props }) {
                 <input
                   className="zfEbBbB"
                   onFocus={() => setSelected(2)}
-                  placeholder="Enter user ID"
-                  id="number"
+                  value={form?.phone}
+                  disabled
                 />
                 <div className="zfEbBbA">
                   <div className="zfEbBbAa">Password*</div>
@@ -733,6 +735,7 @@ export function DrawerFormTeam({ props }) {
                     className="zfEbBbBa"
                     onFocus={() => setSelected(2)}
                     type="password"
+                    value={form?.password}
                     id="password"
                     placeholder="Password"
                   />
@@ -842,7 +845,7 @@ export function DrawerFormParties({ props }) {
             />
           </div>
           <div className={selected === 0 ? "zfEbAb_" : "zfEbAb"}>
-            Basic information
+            Basic Information
           </div>
           <div className={selected === 1 ? "zfEbAb_" : "zfEbAb"}>
             Contect Information

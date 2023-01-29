@@ -33,23 +33,22 @@ export async function postMember(state, setState) {
 
   const formData = new FormData();
   formData.append("branch_id", window.localStorage.getItem("branchId"));
-  formData.append("employee_id", addMember?.employee_id);
-  formData.append("name", addMember.name);
-  formData.append("phone", addMember.phone);
-  formData.append("email", addMember.email);
-  formData.append("address", addMember.address);
-  formData.append("role_id", addMember.role_id);
-  formData.append("permission", JSON.stringify(addMember.permission));
-  formData.append("salary", addMember.salary);
-  formData.append("salary_type_id", addMember.salary_type_id);
-  formData.append("join_date", addMember.join_date);
-  formData.append("dob", addMember.dob);
-  formData.append("system_user", addMember.system_user);
+  formData.append("employee_id", addMember?.employee_id || "");
+  formData.append("name", addMember?.name || "");
+  formData.append("phone", addMember?.phone || "");
+  formData.append("email", addMember?.email || "");
+  formData.append("address", addMember?.address || "");
+  formData.append("role_id", addMember?.role_id || "");
+  formData.append("salary", addMember?.salary || "");
+  formData.append("salary_type_id", addMember?.salary_type_id || "");
+  formData.append("join_date", addMember?.join_date || "");
+  formData.append("dob", addMember?.dob || "");
+  formData.append("system_user", addMember?.system_user ? 1 : 0);
 
   if (addMember.system_user) {
-    formData.append("password", addMember.password);
-    formData.append("pin", addMember.pin);
-    console.log(addMember.permission);
+    formData.append("password", addMember?.password || "");
+    formData.append("pin", addMember?.pin || "");
+    formData.append("permission", addMember?.permission || "");
   }
 
   if (typeof addMember.image === "object") {
@@ -58,7 +57,7 @@ export async function postMember(state, setState) {
   }
 
   await postHttp(url, formData)
-    .then(async (res) => {
+    .then(async () => {
       await getAllMembers(state, setState);
       setState({ addPage: false, addMember: {} });
     })

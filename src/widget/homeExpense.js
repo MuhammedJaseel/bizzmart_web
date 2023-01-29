@@ -53,7 +53,7 @@ export default class HomeExpense extends Component {
   render() {
     const state = this.state;
     const setState = (v) => this.setState(v);
-    const { invoiceNumber } = state;
+    const { invoiceNumber, form } = state;
 
     const bodyRBody = {
       makeAdd: () =>
@@ -61,16 +61,19 @@ export default class HomeExpense extends Component {
       title: "+ New Expense",
       drowelList: null,
     };
-    const bodyR = <HeaderButtens1 props={bodyRBody} />;
+    const bodyR = form === null ? <HeaderButtens1 props={bodyRBody} /> : null;
 
     return (
       <React.StrictMode>
         <Header1
-          title="EXPENSES > EXPENSES LIST"
+          title="EXPENSES"
+          bodyL={form === null ? "EXPENSES LIST" : "ADD EXPENSES"}
           bodyR={bodyR}
           onTap={() => setState({ form: null })}
         />
-        <Header2 titles={pTitles} page={0} setState={setState} />
+        {form === null ? (
+          <Header2 titles={pTitles} page={0} setState={setState} />
+        ) : null}
         <HomeExpenceTable state={state} setState={setState} />
         <HomeExpenceForm state={state} setState={setState} />
         <DrawerView1 state={state} setState={setState} expence />

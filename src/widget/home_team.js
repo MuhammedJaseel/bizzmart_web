@@ -290,7 +290,6 @@ function HomeTeamMembersForm({ state, setState }) {
     submit: () => postMember(state, setState),
     loading,
     error,
-    // type: "member",
     setSystemUser: () => setState({ addMember }),
     allRols,
     allSalatyTypes,
