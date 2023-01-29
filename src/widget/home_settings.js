@@ -1,7 +1,10 @@
 import { Component, StrictMode } from "react";
 import { allSettings } from "../module/home_settings";
 import { Header1 } from "./widget";
-import { getBussinessSettings } from "../method/home_settings";
+import {
+  getAllSalesTaxes,
+  getBussinessSettings,
+} from "../method/home_settings";
 import { getAllOtherSettings, getAllPayments } from "../method/home_settings";
 import { getMasterData } from "../method/home_settings";
 import { HomeSettings1AddPaymentPopup } from "./home_settings1";
@@ -67,6 +70,7 @@ export default class HomeSettings extends Component {
     const setState = (v) => this.setState(v);
     getAllCashandBank(state, setState);
     getMasterData(state, setState);
+    getAllSalesTaxes(state, setState);
     getAllPayments(state, setState);
   }
 

@@ -21,11 +21,13 @@
   margin: 0.63vw;
   width: 1.88vw;
   height: 1.88vw;
-  background-color: red;
+  background-color: rgba(188, 188, 188, 0.25);
   border-radius: 0.3vw;
 }
 .hmAaC {
-  width: 1vw;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .hmAaD {
   color: white;

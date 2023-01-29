@@ -102,10 +102,10 @@ export default class BranchScreen extends Component {
                   className="br_Am"
                   onClick={() => {
                     window.localStorage.setItem("branchId", it.branch_id);
-                    window.localStorage.setItem("profilePic", it.image);
                     // window.localStorage.setItem("userName", res.data.phone);
                     // window.localStorage.setItem("userId", res.data.id);
                     // window.localStorage.setItem("address", res.data.address);
+                    window.localStorage.setItem("branchImage", it.image);
                     window.localStorage.setItem("branchName", it?.branch_name);
                     window.localStorage.setItem(
                       "buisnessName",
@@ -124,7 +124,12 @@ export default class BranchScreen extends Component {
               className="br_Ap"
               onClick={() => {
                 getFormListes(this.state, setState);
-                setState({ addBranch: {} });
+                setState({
+                  addBranch: {
+                    business_legal_name:
+                      window.localStorage.getItem("buisnessName"),
+                  },
+                });
               }}
             >
               <div className="br_Aq" />

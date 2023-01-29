@@ -46,14 +46,18 @@ export default class HomeScreen extends Component {
           <div className="hmAa">
             <div className="hmAaA">
               <div className="hmAaB">
-                <div className="hmAaC" />
+                <img
+                  className="hmAaC"
+                  alt="Bizz"
+                  src={window.localStorage.getItem("branchImage")}
+                />
               </div>
               <div className="hmAaD">
                 <div className="hmAaE">
                   {window.localStorage.getItem("buisnessName")}
                 </div>
                 <div className="hmAaF">
-                  {window.localStorage.getItem("address")}
+                  {window.localStorage.getItem("branchName")}
                 </div>
               </div>
             </div>

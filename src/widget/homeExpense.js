@@ -97,7 +97,7 @@ function HomeExpenceTable({ state, setState }) {
       body.push([
         { data: it.image, data2: "it.expenseCategory", type: 1 },
         { data: it.invoice_no, type: 2 },
-        { data: it.date },
+        { data: it.data },
         { data: it.expense_head_name, type: 2 },
         { data: it.notes },
         { data: it.account_name },
