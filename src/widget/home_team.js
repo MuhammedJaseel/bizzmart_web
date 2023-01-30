@@ -176,7 +176,9 @@ function HomeTeamMembersTable({ state, setState }) {
 
   const _onClickTableRow = (v) => {
     addMember = JSON.parse(JSON.stringify(allMember[v]));
+    addMember.system_user = Number(addMember.system_user) === 1;
     setTeamMemberRoles(addMember, allRols, addMember.role_id, true);
+    console.log(addMember.permission);
     setState({ addPage: true, addMember });
   };
 

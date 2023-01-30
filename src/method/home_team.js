@@ -48,7 +48,7 @@ export async function postMember(state, setState) {
   if (addMember.system_user) {
     formData.append("password", addMember?.password || "");
     formData.append("pin", addMember?.pin || "");
-    formData.append("permission", addMember?.permission || "");
+    formData.append("permission", JSON.stringify(addMember?.permission || ""));
   }
 
   if (typeof addMember.image === "object") {

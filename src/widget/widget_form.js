@@ -180,13 +180,9 @@ export function MyForm1({ state, setState }) {
                 <div className="zfBaAaA">Payment Method</div>
                 <select
                   className="zfBaAaB"
-                  required
-                  // onChange={(e) => (form.account_id = e.target.value)}
+                  onChange={(e) => (form.payment_mode = e.target.value)}
                 >
                   <option hidden>Select payment method</option>
-                  {/* {allTransferType.map((it, k) => (
-                    <option value={it.id}>{it.name}</option>
-                  ))} */}
                   <option>Cash</option>
                   <option>Cheque</option>
                   <option>Bank</option>
@@ -618,7 +614,7 @@ export function DrawerFormTeam({ props }) {
               id="phone"
               value={form?.phone}
             />
-            <div className="zfEbBbA">Email Address</div>
+            <div className="zfEbBbA">Email Address *</div>
             <input
               className="zfEbBbB"
               onFocus={() => setSelected(0)}
