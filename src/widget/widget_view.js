@@ -597,6 +597,7 @@ export function DrowerView2({ props }) {
                       className="zvDbFb"
                       value={item.credit_limit}
                       id="credit_limit"
+                      type="number"
                     />
                     <div className="iamInputPrfix2">INR</div>
                   </div>
@@ -608,6 +609,7 @@ export function DrowerView2({ props }) {
                       className="zvDbFb"
                       value={item.credit_period}
                       id="credit_period"
+                      type="number"
                     />
                     <div className="iamInputPrfix2">INR</div>
                   </div>
