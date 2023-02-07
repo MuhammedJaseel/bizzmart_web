@@ -300,11 +300,8 @@ export function MyForm1({ state, setState }) {
                 <WidgetInputSelect
                   className="zfBbAb zfBbA_d"
                   props={{
-                    onChange: async (e) => {
-                      await salesSearchProduct(
-                        e.target.value,
-                        (v) => (it.list = v)
-                      );
+                    onChange: async (v) => {
+                      await salesSearchProduct(v, (v1) => (it.list = v1));
                       setState({ form });
                     },
                     list: it?.list || [],
@@ -673,14 +670,14 @@ export function DrawerFormTeam({ props }) {
                 onFocus={() => setSelected(1)}
                 type="date"
                 id="join_date"
-                value={makeMyDate(form?.join_date)}
+                defaultValue={makeMyDate(form?.join_date)}
               />
               <input
                 className="zfEbBbBa"
                 onFocus={() => setSelected(1)}
                 type="date"
                 id="dob"
-                value={makeMyDate(form?.dob)}
+                defaultValue={makeMyDate(form?.dob)}
               />
             </div>
           </div>
@@ -873,7 +870,7 @@ export function DrawerFormParties({ props }) {
                   id="loyality_tier"
                   value={addParties?.loyality_tier}
                 >
-                  <option hidden>Select Loyelty</option>
+                  <option hidden>Select Loyalty</option>
                   {allLoyaltyType.map((it, k) => (
                     <option key={k} value={it.title}>
                       {it.title}
@@ -1015,7 +1012,7 @@ export function DrawerFormParties({ props }) {
                 value={addParties?.place_of_supply}
                 placeholder="Place of supply"
               >
-                <option hidden>Select place of supplay</option>
+                <option hidden>Select place of supply</option>
                 {allPlaceofSupplay?.map((it, k) => (
                   <option key={k} value={it.state_name}>
                     {it.state_name}

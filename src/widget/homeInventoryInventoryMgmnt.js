@@ -611,10 +611,10 @@ export function StockTrailTable({ state, setState }) {
           <WidgetPopUp1In1 title="Select Product*">
             <WidgetInputSelect
               props={{
-                onChange: async (e) => {
+                onChange: async (v) => {
                   await inventorySearchProductStockIssue(
-                    e.target.value,
-                    (v) => (stockTrailProdect.list = v)
+                    v,
+                    (v1) => (stockTrailProdect.list = v1)
                   );
                   setState({ stockTrailProdect });
                 },

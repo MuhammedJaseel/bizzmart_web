@@ -380,9 +380,9 @@ export function WidgetInputSelect({ className, props }) {
     name,
     setValue,
     placeholder,
-    style,
     defaultValue,
-    disabled
+    disabled,
+    value,
   } = props;
   const inputRef = useRef(null);
   if (list === undefined || list === null) list = [];
@@ -394,10 +394,11 @@ export function WidgetInputSelect({ className, props }) {
           <input
             ref={inputRef}
             className="zc1Fb default"
-            onChange={onChange}
+            onChange={(e) => onChange(e.target.value)}
             placeholder={placeholder}
             defaultValue={defaultValue || ""}
             disabled={disabled}
+            value={value}
           />
           <div className="zc1Fc" onClick={clearlist}>
             {list?.map((it, k) => (

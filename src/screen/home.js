@@ -16,6 +16,7 @@ export default class HomeScreen extends Component {
       isNoti: false,
       isQuickPop: false,
       msgSucces: {},
+      isProfilePopup: false,
       succesPop: (v) => {
         v.close = this.setState({ msgSucces: {} });
         this.setState({ msgSucces: v });
@@ -38,6 +39,7 @@ export default class HomeScreen extends Component {
     const state = this.state;
     const setState = (v) => this.setState(v);
     const { selectedDash, setScreen, isQuickPop, msgSucces, succesPop } = state;
+    const { isProfilePopup } = state;
     const SubWidget = sidebarIc[selectedDash]?.widget;
     if (selectedDash == null) return null;
     return (
@@ -100,19 +102,29 @@ export default class HomeScreen extends Component {
               <div className="hmAaM">
                 <div className="hmAaO">Help</div>
               </div> */}
+
               <div className="hmAaQ">
                 <img
                   alt="ic"
                   className="hmAaR"
                   // src="https://shotkit.com/wp-content/uploads/2021/06/cool-profile-pic-matheus-ferrero.jpeg"
                   src={window.localStorage.getItem("profilePic")}
+                  onClick={() => setState({ isProfilePopup: true })}
                 />
-                <div
-                  className="hmAaQa"
-                  onClick={() => onClickUserLogout(state)}
-                >
-                  Logout
-                </div>
+                {isProfilePopup ? (
+                  <div
+                    className="hmAaQa"
+                    onClick={() => setState({ isProfilePopup: false })}
+                  />
+                ) : null}
+                {isProfilePopup ? (
+                  <div
+                    className="hmAaQb"
+                    onClick={() => onClickUserLogout(state)}
+                  >
+                    Logout
+                  </div>
+                ) : null}
               </div>
             </div>
           </div>

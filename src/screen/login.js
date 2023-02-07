@@ -151,6 +151,7 @@ function BranchForm() {
         id="br_code"
         className="lnBbK"
         placeholder="Enter your branch code here"
+        maxLength={6}
       />
     </StrictMode>
   );

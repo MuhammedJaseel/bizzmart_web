@@ -207,11 +207,8 @@ function SelectProdectPopup({ state, setState }) {
         <WidgetPopUp1In1 title="Select a Prodect">
           <WidgetInputSelect
             props={{
-              onChange: async (e) => {
-                await reportSearchProduct(
-                  e.target.value,
-                  (v) => (selectedProdect.list = v)
-                );
+              onChange: async (v) => {
+                await reportSearchProduct(v, (v1) => (selectedProdect.list = v1));
                 setState(selectedProdect);
               },
               list: selectedProdect?.list || [],

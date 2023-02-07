@@ -11,7 +11,7 @@ import { expenseGetAllDetails } from "../method/homeExpense";
 import "../style/hdb.css";
 import DrawerView1 from "./widget_view";
 
-const pTitles = ["Expense Enteries"];
+const pTitles = ["Expense Entries"];
 const desc =
   "Shows all the recorded expense entries against the selected date range";
 const heads = [

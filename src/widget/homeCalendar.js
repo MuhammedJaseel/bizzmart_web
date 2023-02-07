@@ -7,8 +7,13 @@ import "../style/hcl.css";
 
 export default class HomeCalender extends Component {
   constructor(props) {
-    super(props); 
-    this.state = { day: null, today: getTodayType1(), calender: [] };
+    super(props);
+    this.state = {
+      day: null,
+      today: getTodayType1(),
+      calender: [],
+      selectedStringDate: "",
+    };
   }
   componentDidMount() {
     getAllCalenderData(this.state, (v) => this.setState(v));
@@ -28,7 +33,7 @@ export default class HomeCalender extends Component {
           title={`${tD.getDate()}th ${getMonth(tD.getMonth())}, ${getWeekDay(
             tD.getDay()
           )}`}
-          desc="Shows all the recorded purchase enteries the selected date range"
+          desc="Shows all the recorded purchase entries the selected date range"
           body={
             <StrictMode>
               {/* <div className="hclEc" />
@@ -50,7 +55,15 @@ export default class HomeCalender extends Component {
                 <div
                   className="hclFd"
                   key={k}
-                  onClick={() => setState({ day: it })}
+                  onClick={() => {
+                    if (it.day !== undefined)
+                      setState({
+                        day: it,
+                        selectedStringDate: `${it.day || ""}th ${getMonth(
+                          tD.getMonth()
+                        )}, ${getWeekDay(tD.getDay())}`,
+                      });
+                  }}
                 >
                   <div className="hclFe">
                     <div
@@ -97,7 +110,7 @@ export default class HomeCalender extends Component {
 }
 
 function HomeCalenderDetailsPop({ state, setState }) {
-  const { day } = state;
+  const { day, selectedStringDate } = state;
   return (
     <StrictMode>
       <div className={day === null ? "hclG" : "hclG_"} />
@@ -105,7 +118,7 @@ function HomeCalenderDetailsPop({ state, setState }) {
         {day !== null ? (
           <StrictMode>
             <div className="hclGaA">
-              <div className="hclGaAa">5th July, Tuesday</div>
+              <div className="hclGaAa">{selectedStringDate}</div>
               <div
                 className="hclGaAb"
                 onClick={() => setState({ day: null })}

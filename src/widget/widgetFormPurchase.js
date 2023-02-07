@@ -183,20 +183,20 @@ export function FormNewPurchase({ state, setState }) {
               <WidgetInputSelect
                 className="zfBbAb zfBbA_d"
                 props={{
-                  onChange: async (e) => {
-                    await salesSearchProduct(
-                      e.target.value,
-                      (v) => (it.list = v)
-                    );
+                  onChange: async (v) => {
+                    it.typedInputValue = v;
+                    await salesSearchProduct(v, (v1) => (it.list = v1));
                     setState({ form });
                   },
                   list: it?.list || [],
+                  value: it?.typedInputValue || "",
                   clearlist: () => {
                     it.list = [];
                     setState({ form });
                   },
-                  setValue: (v) => {
-                    getSingleProdect(it.list[k].id).then((res) => {
+                  setValue: (k1) => {
+                    it.typedInputValue = it.list[k1].name;
+                    getSingleProdect(it.list[k1].id).then((res) => {
                       it.product_id = res.data.id;
                       it.name = res.data.name;
                       it.unit_name = res.data.primary_unit;

@@ -59,7 +59,7 @@ export async function postCustomer(state, setState) {
   await postHttp("addCustomer", formData, true)
     .then(async (res) => {
       await getAllCustomers(state, setState);
-      setState({ addParties: {} });
+      setState({ addParties: null });
       succesPop({
         active: true,
         title: "Succesfully Added",
@@ -100,7 +100,7 @@ export async function postSuplier(state, setState) {
   await postHttp("addSupplier", formData, true)
     .then(async (res) => {
       await getAllSuppliers(state, setState);
-      setState({ addParties: {} });
+      setState({ addParties: null });
       succesPop({
         active: true,
         title: "Succesfully Added",

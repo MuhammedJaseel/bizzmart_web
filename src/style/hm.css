@@ -184,14 +184,17 @@
   align-items: center;
   position: relative;
 }
-.hmAaQ:hover .hmAaQa {
-  display: flex;
-}
 .hmAaQa {
-  top: 2vw;
+  position: fixed;
+  top: 0;
+  left: 0;
   right: 0;
-  width: 6vw;
-  display: none;
+  bottom: 0;
+}
+.hmAaQb {
+  top: 3vw;
+  right: 1vw;
+  width: 7vw;
   position: absolute;
   background-color: white;
   border-radius: 0.3vw;
@@ -199,6 +202,9 @@
   box-shadow: 0 0 2vw #00000048;
   font-size: 1vw;
   cursor: pointer;
+}
+.hmAaQb:hover {
+  background-color: rgb(200, 200, 200);
 }
 .hmAaR {
   width: 2vw;

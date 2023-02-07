@@ -194,7 +194,24 @@ export async function setInventory(state, setState) {
 export async function postInventoryProduct(state, setState) {
   const { product, allTax, succesPop } = state;
   var error = null;
+
+  // //////////////////////////
+  // //////////////////////////
+  // Validation Starts from here
+
   if (product.selling_tax === "") error = "Select Tax";
+  for (let i = 0; i < product.image.length; i++)
+    if (
+      product.image[i].type !== "image/jpeg" &&
+      product.image[i].type !== "image/png"
+    )
+      error = "Image file time not supported";
+  setState({ error });
+  if (error !== null) return;
+
+  // //////////////////////////
+  // //////////////////////////
+
   var purchasePrice = "";
   var proTax = 0;
   var costPrice = "";
@@ -202,6 +219,7 @@ export async function postInventoryProduct(state, setState) {
   var costWithTax = "";
   var rate = "";
   var cess = "";
+
   try {
     rate = allTax.filter(
       (it) => it?.id?.toString() === product?.selling_tax?.toString()

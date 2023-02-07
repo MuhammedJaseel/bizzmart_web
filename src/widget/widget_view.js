@@ -530,7 +530,7 @@ export function DrowerView2({ props }) {
             className={page === 0 ? "zvDbDa" : "zvDbDb"}
             onClick={() => setPage(0)}
           >
-            EDIT CUSTOMER
+            EDIT {type.toUpperCase( )}
           </div>
           <div
             className={page === 1 ? "zvDbDa" : "zvDbDb"}
@@ -556,14 +556,14 @@ export function DrowerView2({ props }) {
             <div className="zvDbE">BASIC INFORMATION</div>
             <div className="zvDbF">
               <div className="zvDbFa">Full name *</div>
-              <input className="zvDbFb" value={item.name} id="name" />
+              <input className="zvDbFb" value={item?.name} id="name" />
               <div className="zvDbFa">Loyalty Tier</div>
               <select
                 className="zvDbFb"
-                value={item.loyalty_tire}
+                value={item?.loyalty_tire}
                 id="loyalty_tire"
               >
-                <option hidden>Select Loyelty</option>
+                <option hidden>Select Loyalty</option>
                 {allLoyaltyType.map((it, k) => (
                   <option value={it.title}>{it.title}</option>
                 ))}
@@ -574,7 +574,7 @@ export function DrowerView2({ props }) {
                   <input
                     className="zvDbFb"
                     id="create_from"
-                    value={item.create_from}
+                    value={item?.create_from}
                     disabled
                   />
                 </StrictMode>
@@ -583,9 +583,9 @@ export function DrowerView2({ props }) {
             <div className="zvDbE">CONTACT INFORMATION</div>
             <div className="zvDbF">
               <div className="zvDbFa">Mobile Number *</div>
-              <input className="zvDbFb" value={item.phone} id="phone" />
+              <input className="zvDbFb" value={item?.phone} id="phone" />
               <div className="zvDbFa">Email Address</div>
-              <input className="zvDbFb" value={item.email} id="email" />
+              <input className="zvDbFb" value={item?.email} id="email" />
             </div>
             <div className="zvDbE">FINANCIAL INFORMATION</div>
             <div className="zvDbF">
@@ -595,7 +595,7 @@ export function DrowerView2({ props }) {
                   <div className="row">
                     <input
                       className="zvDbFb"
-                      value={item.credit_limit}
+                      value={item?.credit_limit}
                       id="credit_limit"
                       type="number"
                     />
@@ -607,7 +607,7 @@ export function DrowerView2({ props }) {
                   <div className="row">
                     <input
                       className="zvDbFb"
-                      value={item.credit_period}
+                      value={item?.credit_period}
                       id="credit_period"
                       type="number"
                     />
@@ -620,18 +620,18 @@ export function DrowerView2({ props }) {
                   <div className="zvDbFa">GST Number</div>
                   <input
                     className="zvDbFb"
-                    value={item.gst_number}
+                    value={item?.gst_number}
                     id="gst_number"
                   />
                 </div>
                 <div className="zvDbFd">
-                  <div className="zvDbFa">Place of Supplay</div>
+                  <div className="zvDbFa">Place of Supply</div>
                   <select
                     className="zvDbFb"
                     id="place_of_supply"
                     value={item?.place_of_supply}
                   >
-                    <option>Select place of supplay</option>
+                    <option>Select place of supply</option>
                     {allPlaceofSupplay.map((it, k) => (
                       <option key={k} value={it.state_name}>
                         {it.state_name}
@@ -644,18 +644,18 @@ export function DrowerView2({ props }) {
             <div className="zvDbE">ADDRESS INFORMATION</div>
             <div className="zvDbF">
               <div className="zvDbFa">Full Address</div>
-              <textarea className="zvDbFb" value={item.address} id="address" />
+              <textarea className="zvDbFb" value={item?.address} id="address" />
               <div className="zvDbFc">
                 <div className="zvDbFd">
                   <div className="zvDbFa">PIN Code</div>
-                  <input className="zvDbFb" value={item.phone} id="phone" />
+                  <input className="zvDbFb" value={item?.phone} id="phone" />
                 </div>
                 <div className="zvDbFd">
                   <div className="zvDbFa">State</div>
                   <select
                     className="zvDbFb"
                     id="state_id"
-                    value={item.state_id}
+                    value={item?.state_id}
                   >
                     {allStates.map((it, k) => (
                       <option key={k} value={it.id}>
@@ -808,7 +808,7 @@ export function DrowerView2({ props }) {
               setImage(null);
             }}
           >
-            {page === 2 ? "DOWNLOAD" : "CANCAL"}
+            {page === 2 ? "DOWNLOAD" : "CANCEL"}
           </div>
         ) : null}
         <button

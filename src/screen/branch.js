@@ -20,6 +20,7 @@ export default class BranchScreen extends Component {
       allDistrict: [],
       allIndustryType: [],
       allBusinessType: [],
+      isProfilePopup: false,
     };
   }
 
@@ -30,7 +31,7 @@ export default class BranchScreen extends Component {
 
   render() {
     const setState = (v) => this.setState(v);
-    const { setScreen, allBranches } = this.state;
+    const { setScreen, allBranches, isProfilePopup } = this.state;
     return (
       <StrictMode>
         <div className="br_A">
@@ -54,13 +55,22 @@ export default class BranchScreen extends Component {
                   alt="ic"
                   className="hmAaR"
                   src={window.localStorage.getItem("profilePic")}
+                  onClick={() => setState({ isProfilePopup: true })}
                 />
-                <div
-                  className="hmAaQa"
-                  onClick={() => onClickUserLogout(this.state)}
-                >
-                  Logout
-                </div>
+                {isProfilePopup ? (
+                  <div
+                    className="hmAaQa"
+                    onClick={() => setState({ isProfilePopup: false })}
+                  />
+                ) : null}
+                {isProfilePopup ? (
+                  <div
+                    className="hmAaQb"
+                    onClick={() => onClickUserLogout(this.state)}
+                  >
+                    Logout
+                  </div>
+                ) : null}
               </div>
             </div>
           </div>

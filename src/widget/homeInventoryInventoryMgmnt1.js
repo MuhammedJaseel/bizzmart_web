@@ -156,10 +156,10 @@ export function InventoryAddIssueStock({ state, setState }) {
                     props={{
                       disabled: addIssueStock?._IsEdit,
                       defaultValue: it.name,
-                      onChange: async (e) => {
+                      onChange: async (v) => {
                         await inventorySearchProductStockIssue(
-                          e.target.value,
-                          (v) => (it.list = v)
+                          v,
+                          (v1) => (it.list = v1)
                         );
                         setState({ addIssueStock });
                       },
@@ -1043,10 +1043,10 @@ export function InventoryProdectCountPage({ state, setState }) {
                   props={{
                     name: "product_name",
                     // defaultValue: it.name,
-                    onChange: async (e) => {
+                    onChange: async (v) => {
                       countingProductList.searchList = [];
                       const searchingItems = countingProductList?.items;
-                      const v1 = e.target.value.toLowerCase();
+                      const v1 = v.toLowerCase();
                       if (v1 !== "")
                         for (let i = 0; i < searchingItems?.length; i++) {
                           const el = searchingItems[i];
