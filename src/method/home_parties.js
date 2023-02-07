@@ -130,6 +130,7 @@ export async function updateCustomer(state, setState) {
   formData.append("state", partie?.state || "");
   formData.append("loyality_tier", partie?.loyality_tier || "");
   if (typeof partie.image === "object") formData.append("image", partie.image);
+  else formData.append("image", null);
 
   setState({ loading: true, error: null });
   await postHttp("updateCustomer", formData, true)
@@ -169,6 +170,7 @@ export async function updateSuplier(state, setState) {
   formData.append("supplier_type", partie.supplier_type || "");
   formData.append("balance_type", partie.balance_type || "");
   if (typeof partie.image === "object") formData.append("image", partie.image);
+  else formData.append("image", null);
 
   setState({ loading: true, error: null });
   await postHttp("updateSupplier", formData, true)
