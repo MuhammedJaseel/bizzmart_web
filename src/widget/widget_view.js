@@ -1,4 +1,4 @@
-import { StrictMode, useRef, useState } from "react";
+import { StrictMode, useEffect, useRef, useState } from "react";
 import { postSalesPaymentRecord } from "../method/home_sales";
 import { addNumberList } from "../module/simple";
 import "../style/zv.css";
@@ -24,7 +24,7 @@ function DrawerLayout2({ show, children }) {
   return (
     <StrictMode>
       <div className={show ? "zvAa" : "zvAa_"}></div>
-      <div className={show ? "zvAb1" : "zvAb_1"}>{children}</div>
+      <div className={show ? "zvAb1" : "zvAb_1"}>{show ? children : null}</div>
     </StrictMode>
   );
 }
@@ -530,7 +530,7 @@ export function DrowerView2({ props }) {
             className={page === 0 ? "zvDbDa" : "zvDbDb"}
             onClick={() => setPage(0)}
           >
-            EDIT {type.toUpperCase( )}
+            EDIT {type.toUpperCase()}
           </div>
           <div
             className={page === 1 ? "zvDbDa" : "zvDbDb"}

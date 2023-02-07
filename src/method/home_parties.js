@@ -44,7 +44,6 @@ export async function postCustomer(state, setState) {
   formData.append("phone", addParties.phone || "");
   formData.append("email", addParties.email || "");
   formData.append("address", addParties.address || "");
-  formData.append("image", addParties.image || "");
   formData.append("credit_period", addParties.credit_period || "");
   formData.append("opening_balance", addParties.opening_balance || "");
   formData.append("credit_limit", addParties.credit_limit || "");
@@ -53,8 +52,10 @@ export async function postCustomer(state, setState) {
   formData.append("pin_code", addParties.pin_code || "");
   formData.append("state", addParties.state || "");
   formData.append("loyality_tier", addParties.loyality_tier || "");
-  formData.append("image[]", addParties.image || "");
-  formData.append("thumbnail", addParties.image || "");
+  if (typeof addParties.image === "object") {
+    formData.append("image", addParties.image);
+    formData.append("thumbnail", addParties.image);
+  }
   setState({ loading: true, error: null });
   await postHttp("addCustomer", formData, true)
     .then(async (res) => {
@@ -81,7 +82,6 @@ export async function postSuplier(state, setState) {
   formData.append("phone", addParties?.phone || "");
   formData.append("email", addParties?.email || "");
   formData.append("address", addParties?.address || "");
-  formData.append("image", addParties?.image || "");
   formData.append("credit_period", addParties?.credit_period || "");
   formData.append("opening_balance", addParties?.opening_balance || "");
   formData.append("credit_limit", addParties?.credit_limit || "");
@@ -93,8 +93,8 @@ export async function postSuplier(state, setState) {
   formData.append("supplier_type", addParties?.supplier_type || "");
   formData.append("balance_type", addParties?.balance_type || "");
   if (typeof addParties.image === "object") {
-    formData.append("image[]", addParties.image, "[PROXY]");
-    formData.append("thumbnail[]", addParties.image, "[PROXY]");
+    formData.append("image", addParties.image);
+    formData.append("thumbnail", addParties.image);
   }
   setState({ loading: true, error: null });
   await postHttp("addSupplier", formData, true)
@@ -121,7 +121,6 @@ export async function updateCustomer(state, setState) {
   formData.append("phone", partie?.phone || "");
   formData.append("email", partie?.email || "");
   formData.append("address", partie?.address || "");
-  formData.append("image", partie?.image || "");
   formData.append("credit_period", partie?.credit_period || "");
   formData.append("opening_balance", partie?.opening_balance || "");
   formData.append("credit_limit", partie?.credit_limit || "");
@@ -130,10 +129,8 @@ export async function updateCustomer(state, setState) {
   formData.append("pin_code", partie?.pin_code || "");
   formData.append("state", partie?.state || "");
   formData.append("loyality_tier", partie?.loyality_tier || "");
-  if (typeof partie.image === "object") {
-    formData.append("image[]", partie.image, "[PROXY]");
-    formData.append("thumbnail[]", partie.image);
-  }
+  if (typeof partie.image === "object") formData.append("image", partie.image);
+
   setState({ loading: true, error: null });
   await postHttp("updateCustomer", formData, true)
     .then(async (res) => {
@@ -161,7 +158,6 @@ export async function updateSuplier(state, setState) {
   formData.append("phone", partie.phone || "");
   formData.append("email", partie.email || "");
   formData.append("address", partie.address || "");
-  formData.append("image", partie.image || "");
   formData.append("credit_period", partie.credit_period || "");
   formData.append("opening_balance", partie.opening_balance || "");
   formData.append("credit_limit", partie.credit_limit || "");
@@ -172,10 +168,8 @@ export async function updateSuplier(state, setState) {
   formData.append("state_id", partie.state_id || "");
   formData.append("supplier_type", partie.supplier_type || "");
   formData.append("balance_type", partie.balance_type || "");
-  if (typeof partie.image === "object") {
-    formData.append("image[]", partie.image, "[PROXY]");
-    formData.append("thumbnail[]", partie.image);
-  }
+  if (typeof partie.image === "object") formData.append("image", partie.image);
+
   setState({ loading: true, error: null });
   await postHttp("updateSupplier", formData, true)
     .then(async (res) => {

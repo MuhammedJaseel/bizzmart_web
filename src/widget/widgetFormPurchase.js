@@ -175,6 +175,7 @@ export function FormNewPurchase({ state, setState }) {
               onClick={() => {
                 if ((form?.items || []).length !== k) {
                   form.items.splice(k, 1);
+                  calculatePurchaseTax({}, state, setState);
                   setState(form);
                 }
               }}
