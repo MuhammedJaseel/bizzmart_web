@@ -668,10 +668,11 @@ export function DrowerView2({ props }) {
             </div>
           </StrictMode>
         ) : null}
-        {item !== null && page === 1 ? (
-          <StrictMode>
-            <DatePicker onChange={getItem} />
-            {item?.invoiceList?.map((it, k) => (
+        {item !== null && (page === 1 || page === 2) ? (
+          <DatePicker onChange={getItem} framed />
+        ) : null}
+        {item !== null && page === 1
+          ? item?.invoiceList?.map((it, k) => (
               <StrictMode key={k}>
                 <div className="zvDbHb">{it.date}</div>
                 <div className="zvDbHc">
@@ -691,12 +692,10 @@ export function DrowerView2({ props }) {
                   </div>
                 </div>
               </StrictMode>
-            ))}
-          </StrictMode>
-        ) : null}
+            ))
+          : null}
         {item !== null && page === 2 ? (
           <StrictMode>
-            <DatePicker onChange={getItem} />
             <div className="zvDbIa">
               <div className="zvDbIaA">Date</div>
               <div className="zvDbIaA">Reference</div>

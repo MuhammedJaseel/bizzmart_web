@@ -13,6 +13,7 @@ import { SpendMoneyPopUpLayout } from "./home_cashbank1";
 import { TitleFilter1 } from "./widget";
 import "../style/hcb.css";
 import { getTodayType1, getTodayType2 } from "../module/simple";
+import { DatePicker } from "./widgets/calender";
 
 export default class HomeCashbank extends Component {
   constructor(props) {
@@ -139,27 +140,14 @@ function BankHistory({ state, setState }) {
   // const filterBody = { onlyDate: true };
   // const filter = <TitleFilter1 props={filterBody} />;
   const filter = (
-    <div className="hrpAa">
-      <input
-        type="date"
-        className="hrpAaA"
-        defaultValue={account?.from_date}
-        onChange={(e) => {
-          account.from_date = e.target.value;
-          getBankHistory(account, state, setState);
-        }}
-      />
-      &ensp; to &ensp;
-      <input
-        type="date"
-        className="hrpAaA"
-        defaultValue={account?.to_date}
-        onChange={(e) => {
-          account.to_date = e.target.value;
-          getBankHistory(account, state, setState);
-        }}
-      />
-    </div>
+    <DatePicker
+      style={{ width: "25vw" }}
+      onChange={(from, to) => {
+        account.from_date = from;
+        account.to_date = to;
+        getBankHistory(account, state, setState);
+      }}
+    />
   );
 
   const heads = [

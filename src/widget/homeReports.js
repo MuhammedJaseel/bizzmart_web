@@ -6,6 +6,7 @@ import { getReport, reportSearchProduct } from "../method/homeReports";
 import { getTodayType1, getTodayType2 } from "../module/simple";
 import { WidgetPopUp1, WidgetPopUp1In1 } from "./widget_popup";
 import "../style/hrp.css";
+import { DatePicker } from "./widgets/calender";
 
 const pTitles = [
   "All Report",
@@ -102,24 +103,9 @@ function HomeReportPage({ state, setState }) {
         <div />
         {/* {filter} */}
         <div className="hrpAa">
-          <input
-            type="date"
-            className="hrpAaA"
-            defaultValue={getTodayType2()}
-            onChange={(e) => {
-              selectedDate.from = e.target.value;
-              setState({ selectedDate });
-              getReport(null, state, setState);
-            }}
-          />
-          &ensp; to &ensp;
-          <input
-            type="date"
-            className="hrpAaA"
-            defaultValue={getTodayType2()}
-            onChange={(e) => {
-              selectedDate.from = e.target.value;
-              setState({ selectedDate });
+          <DatePicker
+            onChange={(from, to) => {
+              state.selectedDate = { from, to };
               getReport(null, state, setState);
             }}
           />
@@ -208,7 +194,10 @@ function SelectProdectPopup({ state, setState }) {
           <WidgetInputSelect
             props={{
               onChange: async (v) => {
-                await reportSearchProduct(v, (v1) => (selectedProdect.list = v1));
+                await reportSearchProduct(
+                  v,
+                  (v1) => (selectedProdect.list = v1)
+                );
                 setState(selectedProdect);
               },
               list: selectedProdect?.list || [],

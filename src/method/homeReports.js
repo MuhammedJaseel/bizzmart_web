@@ -10,8 +10,8 @@ export const getReport = async (path, state, setState) => {
 
   setState({ report: { items: [] }, loading: true });
   const body = {
-    from_date: "01-01-2022",
-    // from_date: selectedDate?.from || getTodayType1(), //"01-01-2022",
+    // from_date: "01-01-2022",
+    from_date: selectedDate?.from || getTodayType1(), //"01-01-2022",
     to_date: selectedDate?.to || getTodayType1(), //"26-12-2022",
     //
     order_by: "count",
