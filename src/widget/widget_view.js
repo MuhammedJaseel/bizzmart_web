@@ -248,12 +248,12 @@ export function DrawerViewPurchase({ state, setState }) {
       <div className="zvBa">
         <div className="zvBaA">
           <div className="zvBaAa">{selected?.invoice_no}</div>
-          {selected?.balance_amount > 0 ? (
+          {Number(selected?.balance_amount) > 0 ? (
             <div className="zvBaAb" style={{ background: "orange" }}>
               PARTIALLY PAID
             </div>
           ) : (
-            <div className="zvBaAb">PAID </div>
+            <div className="zvBaAb">PAID</div>
           )}
         </div>
         <div className="zvBaB" onClick={() => setState({ selected: null })} />
@@ -381,7 +381,7 @@ export function DrawerViewPurchase({ state, setState }) {
                   }}
                   defaultValue={addPaymentRecord?.patment_methord_id || ""}
                 >
-                  <option hidden>Select payment method</option>
+                  <option hidden>Select account</option>
                   {allPaymentMethod?.map((it, k) => (
                     <option key={k} value={it.id}>
                       {it.name}
@@ -403,7 +403,7 @@ export function DrawerViewPurchase({ state, setState }) {
                   }}
                   defaultValue={addPaymentRecord?.patment_methord_id || ""}
                 >
-                  <option hidden>Select payment method</option>
+                  <option hidden>Select payment mode</option>
                   {allPaymentMethod?.map((it, k) => (
                     <option key={k} value={it.id}>
                       {it.name}
@@ -416,11 +416,8 @@ export function DrawerViewPurchase({ state, setState }) {
                 <input
                   placeholder="Enter reference / note"
                   className="zvBeBcBb"
-                  type="date"
-                  onChange={(e) =>
-                    (addPaymentRecord.reference = e.target.value)
-                  }
-                  value={addPaymentRecord?.reference || ""}
+                  value={selected?.due_date}
+                  disabled
                 />
               </div>
               <div className="zvBeBcC">
