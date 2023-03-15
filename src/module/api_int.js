@@ -1,6 +1,7 @@
 import axios from "axios";
 
 export const baseApi = "https://smartservices.bizzsmart.in/api/isWebAppApi/V1/";
+// export const baseApi = "https://drops.bizzsmart.in/api/isWebAppApi/V1/";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -76,6 +77,7 @@ export const postHttpStatic = async (path, body) => {
   const header = {
     headers: {
       Authorization: "Bearer wcXuHh8TBDVNbn8NQ9acMro4ysrMESZxG94pGfioomM=",
+      // Authorization: "Bearer 6Ufw7bS+7yElKQJtvUCM3vNfOZsqQmMjmHZ8cdbMBuQ=",
       "Content-type": "multipart/form-data",
     },
   };

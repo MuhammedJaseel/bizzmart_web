@@ -199,7 +199,6 @@ export function InventoryAddIssueStock({ state, setState }) {
                     placeholder="0.00"
                     type="number"
                     value={it.quantity}
-                    disabled
                     onChange={(e) => (it.quantity = e.target.value)}
                   />
                 </div>
@@ -209,7 +208,7 @@ export function InventoryAddIssueStock({ state, setState }) {
                     placeholder="0.00"
                     disabled={it.product_id === "" || addIssueStock?._IsEdit}
                     type="number"
-                    value={it.cost_price}
+                    value={it.selling_price * it.quantity}
                     onChange={(e) => (it.cost_price = e.target.value)}
                   />
                 </div>

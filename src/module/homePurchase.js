@@ -10,19 +10,20 @@ export function calculatePurchaseTax(it, state, setState) {
     const cess = allTax.filter((it1) => it1.id == it.tax_id)[0].cess;
     const proTax = parseInt(rate) + parseInt(cess);
     if (it.tax_type === "Inclusive") {
-      it.tax_amount = it.rate - (it.rate / (1 + proTax / 100)) * it.quantity;
+      it.tax_amount = (it.rate - it.rate / (1 + proTax / 100)) * it.quantity;
       it.taxAmount = it.rate - it.rate / (1 + proTax / 100);
       it.price = it.rate - it.taxAmount;
+      it.taxTotal = it.rate * it.quantity;
     } else {
       it.tax_amount = it.rate * (proTax / 100) * it.quantity;
       it.taxAmount = it.rate * (proTax / 100);
       it.price = it.rate;
+      it.taxTotal = it.tax_amount + it.rate * it.quantity;
     }
 
     it.price = Math.round(it.price);
 
     it.total_price = it.price * it.quantity + it.tax_amount;
-    it.taxTotal = it.tax_amount + it.rate * it.quantity;
     it.CESS = (it.rate - it.rate / (1 + parseInt(cess) / 100)) * it.quantity;
 
     it.SCGST = it.tax_amount / 2;

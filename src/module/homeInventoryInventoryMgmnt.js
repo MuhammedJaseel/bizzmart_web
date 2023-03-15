@@ -70,13 +70,15 @@ export function calculateStockIssueTax(it, state, setState) {
     if (it.tax_type === "Inclusive") {
       it.tax_amount = it.price - (it.price / (1 + proTax / 100)) * it.quantity;
       it._CostTaxAmount =
-        it.cost_price - (it.cost_price / (1 + proTax / 100)) * it.quantity;
+        Number(it.cost_price) -
+        (Number(it.cost_price) / (1 + proTax / 100)) * it.quantity;
     } else {
       it.tax_amount = it.price * (proTax / 100) * it.quantity;
-      it._CostTaxAmount = it.cost_price * (proTax / 100) * it.quantity;
+      it._CostTaxAmount = Number(it.cost_price) * (proTax / 100) * it.quantity;
     }
 
     it.totalPrice = it.price * it.quantity;
+
     it.cost_price = it.cost_price * it.quantity;
 
     it.CESS = (it.price - it.price / (1 + parseInt(cess) / 100)) * it.quantity;

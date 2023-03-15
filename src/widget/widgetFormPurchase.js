@@ -315,7 +315,7 @@ export function FormNewPurchase({ state, setState }) {
             </div>
             <div className="zfBcBa">
               <div>Subtotal</div>
-              <div>{form.total_amount}</div>
+              <div>{form.total_amount - form?.totalTax}</div>
             </div>
             <div className="zfBcBa">
               <div>Tax</div>
@@ -323,9 +323,7 @@ export function FormNewPurchase({ state, setState }) {
             </div>
             <div className="zfBcBc">
               <div>Total</div>
-              <div>
-                {form?.totalTax + form.total_amount - Number(form?.discount)}
-              </div>
+              <div>{form.total_amount - Number(form?.discount)}</div>
             </div>
           </div>
         </div>
