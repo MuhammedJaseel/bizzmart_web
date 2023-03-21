@@ -4,7 +4,7 @@ import { Header1, Header2, Header4 } from "./widget";
 import { HeaderButtens1, TitleFilter1 } from "./widget";
 import { purchaseGetAllPurchase, purchaseGetDatas } from "../method/homePurchase";
 import { purchaseGetPurchase } from "../method/homePurchase";
-import { FormNewPurchase, newPurchaseStructure } from "./widgetFormPurchase";
+import { FormNewPurchase, newPurchaseStructure } from "./widgetPurchaseForm";
 import { DrawerViewPurchase } from "./widget_view";
 import "../style/hpr.css";
 

@@ -171,10 +171,12 @@ export default class HomeScreen extends Component {
               </StrictMode>
             ))}
           </div>
-          <div className="hmBl" onClick={() => setScreen("/branches")}>
-            <img alt="ic" src={icBack} className="hmBm" />
-            <div className="hmBn">All Branches</div>
-          </div>
+          {window.localStorage.getItem("isDefaultBranch") === "yes" ? (
+            <div className="hmBl" onClick={() => setScreen("/branches")}>
+              <img alt="ic" src={icBack} className="hmBm" />
+              <div className="hmBn">All Branches</div>
+            </div>
+          ) : null}
         </div>
         <HomeNotificationPopup state={state} setState={setState} />
         <WidgetSuccesPopup props={msgSucces} />

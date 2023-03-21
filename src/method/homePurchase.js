@@ -1,5 +1,5 @@
 import { getHttp, postHttp } from "../module/api_int";
-import { newPurchaseStructure } from "../widget/widgetFormPurchase";
+import { newPurchaseStructure } from "../widget/widgetPurchaseForm";
 
 export const purchaseGetAllPurchase = async (state, setState) => {
   const { purchasePaging } = state;

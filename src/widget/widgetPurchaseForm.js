@@ -6,7 +6,6 @@ import "../style/zf.css";
 import { calculatePurchaseTax } from "../module/homePurchase";
 
 export const newPurchaseStructure = {
-  // invoice_number: null,
   purchase_order_id: null,
   purchase_order_invoice_no: null,
   due_in: null,
@@ -21,7 +20,7 @@ export const newPurchaseStructure = {
   supplier_id: "",
   supplier_name: "",
   cashier_id: "",
-  cashier_name: "", //Logined person name and I
+  cashier_name: "",
   discount: 0,
   round_off: 0,
   paid: 0,
@@ -35,7 +34,7 @@ export const newPurchaseStructure = {
       product_name: "",
       quantity: 0,
       price: 0,
-      discount_percent: 0, // Calculate discount persentage
+      discount_percent: 0,
       discount_amount: 0,
       tax_id: "",
       tax_rate: 0,
@@ -78,15 +77,6 @@ export function FormNewPurchase({ state, setState }) {
       <form onChange={() => setState(form)}>
         <div className="zfBa">
           <div className="zfBaA">
-            {/* <div className="zfBaAa">
-                <div className="zfBaAaA">Ref/PO#</div>
-                <input
-                  className="zfBaAaC"
-                  disabled
-                  id="invoice_number"
-                  value={lastInvoice}
-                />
-              </div> */}
             <div className="zfBaAa">
               <div className="zfBaAaA">Supplier Invoice #</div>
               <input
@@ -137,10 +127,6 @@ export function FormNewPurchase({ state, setState }) {
                 onChange={(e) => (form.due_date = e.target.value)}
               />
             </div>
-            {/* <div className="zfBaAa">
-              <div className="zfBaAaA">Contact Person</div>
-              <input className="zfBaAaC" />
-            </div> */}
           </div>
           <div className="zfBaB">
             <div className="zfBaBa">Address</div>
@@ -176,7 +162,7 @@ export function FormNewPurchase({ state, setState }) {
                 if ((form?.items || []).length !== k) {
                   form.items.splice(k, 1);
                   calculatePurchaseTax({}, state, setState);
-                  setState(form);
+                  setState({ form });
                 }
               }}
             />
@@ -208,8 +194,6 @@ export function FormNewPurchase({ state, setState }) {
                       it.stock = 1;
                       it.discount_amount = 0;
                       it.rate = res.data.purchase_price;
-                      // it.stock_price = res.data.purchase_price;
-
                       calculatePurchaseTax(it, state, setState);
                       if (k + 1 === form.items.length)
                         form.items.push(
@@ -217,7 +201,7 @@ export function FormNewPurchase({ state, setState }) {
                             JSON.stringify(newPurchaseStructure.items[0])
                           )
                         );
-                      setState(form);
+                      setState({ form });
                     });
                   },
                   placeholder: "Search your product",
@@ -237,12 +221,14 @@ export function FormNewPurchase({ state, setState }) {
                 className="zfBbAd zfBbA_d"
                 type="number"
                 onChange={(e) => {
+                  it.rate = e.target.value;
                   it.price = e.target.value;
                   it.stock_price = e.target.value;
                 }}
-                value={it.price}
+                value={it.rate}
                 placeholder="0.0"
               />
+               
               <input
                 className="zfBbAd zfBbA_d"
                 placeholder="0.00"
@@ -378,7 +364,6 @@ export function FormNewPurchase({ state, setState }) {
               marginTop: "1vw",
               background: "white",
             }}
-            // onSubmit={(e) => postSalesPaymentRecord(e, state, setState)}
             onChange={(e) => setState(addPayment)}
           >
             <div className="zvBeBc">

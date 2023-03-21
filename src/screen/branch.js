@@ -494,7 +494,7 @@ function AddBranchDrower({ state, setState }) {
                 className="brCbBbB"
                 onFocus={() => setSelected(4)}
                 disabled
-                value={window.localStorage.getItem("branchName")}
+                value={window.localStorage.getItem("mainBranch")}
               />
             </div>
           </div>

@@ -193,7 +193,7 @@ export function InventoryAddIssueStock({ state, setState }) {
                     }}
                   />
                 </div>
-                <div className="" style={{ width: "8%" }}>
+                <div style={{ width: "8%" }}>
                   <input
                     className="hiaCcAb"
                     placeholder="0.00"
@@ -202,7 +202,7 @@ export function InventoryAddIssueStock({ state, setState }) {
                     onChange={(e) => (it.quantity = e.target.value)}
                   />
                 </div>
-                <div className="" style={{ width: "8%" }}>
+                <div style={{ width: "8%" }}>
                   <input
                     className="hiaCcAb"
                     placeholder="0.00"
@@ -212,7 +212,7 @@ export function InventoryAddIssueStock({ state, setState }) {
                     onChange={(e) => (it.cost_price = e.target.value)}
                   />
                 </div>
-                <div className="" style={{ width: "8%" }}>
+                <div style={{ width: "8%" }}>
                   <input
                     className="hiaCcAb"
                     placeholder="0.00"
@@ -472,7 +472,7 @@ export function InventoryAddStockTransfer({ state, setState }) {
                     }}
                   />
                 </div>
-                <div className="" style={{ width: "8%" }}>
+                <div style={{ width: "8%" }}>
                   <input
                     className="hiaCcAb"
                     placeholder="0.00"
@@ -485,7 +485,7 @@ export function InventoryAddStockTransfer({ state, setState }) {
                     }}
                   />
                 </div>
-                <div className="" style={{ width: "8%" }}>
+                <div style={{ width: "8%" }}>
                   <input
                     className="hiaCcAb"
                     placeholder="0.00"
@@ -498,7 +498,7 @@ export function InventoryAddStockTransfer({ state, setState }) {
                     }}
                   />
                 </div>
-                <div className="" style={{ width: "8%" }}>
+                <div style={{ width: "8%" }}>
                   <select
                     className="hiaCcAb"
                     onChange={(e) => {
@@ -731,7 +731,7 @@ export function InventoryAddStockReturn({ state, setState }) {
                     }}
                   />
                 </div>
-                <div className="" style={{ width: "8%" }}>
+                <div style={{ width: "8%" }}>
                   <input
                     className="hiaCcAb"
                     placeholder="0.00"
@@ -744,7 +744,7 @@ export function InventoryAddStockReturn({ state, setState }) {
                     }}
                   />
                 </div>
-                <div className="" style={{ width: "8%" }}>
+                <div style={{ width: "8%" }}>
                   <input
                     className="hiaCcAb"
                     placeholder="0.00"
@@ -757,7 +757,7 @@ export function InventoryAddStockReturn({ state, setState }) {
                     }}
                   />
                 </div>
-                <div className="" style={{ width: "8%" }}>
+                <div style={{ width: "8%" }}>
                   <select
                     className="hiaCcAb"
                     onChange={(e) => {

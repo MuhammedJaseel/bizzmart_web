@@ -1,11 +1,6 @@
 export function calculatePurchaseTax(it, state, setState) {
   const { form, allTax } = state;
-  if (
-    it.quantity !== undefined &&
-    it.quantity !== "" &&
-    it.tax_id !== undefined &&
-    it.tax_id !== ""
-  ) {
+  if (it.quantity !== "" && it.tax_id !== "") {
     const rate = allTax.filter((it1) => it1.id == it.tax_id)[0].rate;
     const cess = allTax.filter((it1) => it1.id == it.tax_id)[0].cess;
     const proTax = parseInt(rate) + parseInt(cess);

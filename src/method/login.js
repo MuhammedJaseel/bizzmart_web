@@ -14,9 +14,12 @@ export async function branchFind(e, state, setState) {
     .then((res) => {
       window.localStorage.setItem("branchId", res.data.branch_id);
       window.localStorage.setItem(
-        "idDefaultBranch",
+        "isDefaultBranch",
         res.data.is_default_branch ? "yes" : "no"
       );
+      window.localStorage.setItem("mainBranch", "");
+      if (res.data.is_default_branch)
+        window.localStorage.setItem("mainBranch", res.data?.name ?? "");
       window.localStorage.setItem("branchName", res.data?.name ?? "");
       window.localStorage.setItem("branchCurrency", res.data?.currency ?? "");
       var buisnessName = res.data?.legal_buisness_name;
@@ -57,9 +60,9 @@ export async function branchLogin(e, state, setState) {
         window.localStorage.setItem("userName", res.data.phone);
         window.localStorage.setItem("userId", res.data.id);
         window.localStorage.setItem("address", res.data.address);
-        if (window.localStorage.getItem("idDefaultBranch") === "yes")
+        if (window.localStorage.getItem("isDefaultBranch") === "yes")
           state.setScreen("/branches");
-        else state.setScreen("/calendar");
+        else state.setScreen("/dashboard/calendar");
       }
     })
     .catch((error) => setState({ error }));
