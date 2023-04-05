@@ -30,7 +30,6 @@ export async function getProduct(k, state, setState) {
   setState({ product });
   await getHttp(`getProduct/${product?.id}`)
     .then((res) => {
-      console.log(res.data);
       product.type = Number(res.data.product_type);
       product.product_name = res.data.name;
       product.product_description = res.data.product_description;
@@ -46,6 +45,7 @@ export async function getProduct(k, state, setState) {
       product.is_online = res.data.is_online;
       product.image = [];
       product.category_default_kot = res.data.category_default_kot;
+      product.cost_price = res.data.cost_price;
       // product.product_kot = res.data.category_default_modifier; /////////////////////////////Missing
       // ///////////////////////////////////////////////////
       product.bar_code = res.data.barcode;
@@ -195,10 +195,6 @@ export async function postInventoryProduct(state, setState) {
   const { product, allTax, succesPop } = state;
   var error = null;
 
-  // //////////////////////////
-  // //////////////////////////
-  // Validation Starts from here
-
   if (product.selling_tax === "") error = "Select Tax";
   for (let i = 0; i < product.image.length; i++)
     if (
@@ -209,8 +205,7 @@ export async function postInventoryProduct(state, setState) {
   setState({ error });
   if (error !== null) return;
 
-  // //////////////////////////
-  // //////////////////////////
+  const isEdit = product?.hasOwnProperty("id");
 
   var purchasePrice = "";
   var proTax = 0;
@@ -220,30 +215,19 @@ export async function postInventoryProduct(state, setState) {
   var rate = "";
   var cess = "";
 
-  try {
-    rate = allTax.filter(
-      (it) => it?.id?.toString() === product?.selling_tax?.toString()
-    )[0].rate;
-    cess = allTax.filter(
-      (it) => it?.id?.toString() === product?.selling_tax?.toString()
-    )[0].cess;
-    if (product.type === 1) {
-      purchasePrice = product.purchase_price;
-      if (product.tax_inclusion === "Inclusive") {
-        costPrice = purchasePrice / ((1 + proTax) / 100);
-        costTaxAmount = purchasePrice - costPrice;
-        costWithTax = purchasePrice;
-      } else {
-        costPrice = purchasePrice;
-        costTaxAmount = purchasePrice * (proTax / 100);
-        costWithTax = costPrice + costTaxAmount;
-      }
-      proTax = parseInt(rate) + parseInt(cess);
-    }
-    // if (product.type === 2) {
-    else {
-      for (let i = 0; i < product.variant_products.length; i++) {
-        purchasePrice = product.variant_products[i].purchase_price;
+  if (isEdit) {
+    costPrice = product?.cost_price;
+    purchasePrice = product.purchase_price;
+  } else {
+    try {
+      rate = allTax.filter(
+        (it) => it?.id?.toString() === product?.selling_tax?.toString()
+      )[0].rate;
+      cess = allTax.filter(
+        (it) => it?.id?.toString() === product?.selling_tax?.toString()
+      )[0].cess;
+      if (product.type === 1) {
+        purchasePrice = product.purchase_price;
         if (product.tax_inclusion === "Inclusive") {
           costPrice = purchasePrice / ((1 + proTax) / 100);
           costTaxAmount = purchasePrice - costPrice;
@@ -253,16 +237,30 @@ export async function postInventoryProduct(state, setState) {
           costTaxAmount = purchasePrice * (proTax / 100);
           costWithTax = costPrice + costTaxAmount;
         }
-        product.variant_products[i].cost_price = costPrice;
-        product.variant_products[i].cost_tax_amount = costTaxAmount;
-        product.variant_products[i].cost_with_tax = costWithTax; //set category default prodection station
+        proTax = parseInt(rate) + parseInt(cess);
       }
+      // if (product.type === 2) {
+      else {
+        for (let i = 0; i < product.variant_products.length; i++) {
+          purchasePrice = product.variant_products[i].purchase_price;
+          if (product.tax_inclusion === "Inclusive") {
+            costPrice = purchasePrice / ((1 + proTax) / 100);
+            costTaxAmount = purchasePrice - costPrice;
+            costWithTax = purchasePrice;
+          } else {
+            costPrice = purchasePrice;
+            costTaxAmount = purchasePrice * (proTax / 100);
+            costWithTax = costPrice + costTaxAmount;
+          }
+          product.variant_products[i].cost_price = costPrice;
+          product.variant_products[i].cost_tax_amount = costTaxAmount;
+          product.variant_products[i].cost_with_tax = costWithTax; //set category default prodection station
+        }
+      }
+    } catch (e) {
+      error = "Something wrong at calculating tax, Check your tax details";
     }
-  } catch (e) {
-    error = "Something wrong at calculating tax, Check your tax details";
   }
-
-  const isEdit = product?.hasOwnProperty("id");
 
   const formData = new FormData();
   try {

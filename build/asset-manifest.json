@@ -1,13 +1,14 @@
 {
   "files": {
-    "main.css": "/static/css/main.7b9f8fb4.css",
-    "main.js": "/static/js/main.c6e7be21.js",
+    "main.css": "/static/css/main.cf2d149e.css",
+    "main.js": "/static/js/main.bcdc5e40.js",
     "static/media/Light.ttf": "/static/media/Light.3692bc104616319f5b4c.ttf",
     "static/media/Regular.ttf": "/static/media/Regular.da8350030578117f661b.ttf",
     "static/media/Medium.ttf": "/static/media/Medium.0569c545ac247779f51f.ttf",
     "static/media/Bold.ttf": "/static/media/Bold.4df3edebefce68178afa.ttf",
     "static/media/ic_profile.svg": "/static/media/ic_profile.e1dfed21cad37ff21d86.svg",
     "static/media/img_drager.svg": "/static/media/img_drager.2be8b00f4fd4f2156495.svg",
+    "static/media/ic_+.png": "/static/media/ic_+.de0987179c3540adafa4.png",
     "static/media/ic_invoice.svg": "/static/media/ic_invoice.3230534bd8ffc4670c10.svg",
     "static/media/ic_balance.svg": "/static/media/ic_balance.b08698aa3261004b85d2.svg",
     "static/media/ic_xl.svg": "/static/media/ic_xl.ccfc119136c473b7583113d86f8dfc30.svg",
@@ -81,11 +82,11 @@
     "static/media/ic_eyeClose.svg": "/static/media/ic_eyeClose.538a2be5b523839ddb09.svg",
     "static/media/ic_eye.svg": "/static/media/ic_eye.d42e2dff8b09be94d6d2.svg",
     "static/media/ic_+.svg": "/static/media/ic_+.1579ff3bd596e128394e.svg",
-    "main.7b9f8fb4.css.map": "/static/css/main.7b9f8fb4.css.map",
-    "main.c6e7be21.js.map": "/static/js/main.c6e7be21.js.map"
+    "main.cf2d149e.css.map": "/static/css/main.cf2d149e.css.map",
+    "main.bcdc5e40.js.map": "/static/js/main.bcdc5e40.js.map"
   },
   "entrypoints": [
-    "static/css/main.7b9f8fb4.css",
-    "static/js/main.c6e7be21.js"
+    "static/css/main.cf2d149e.css",
+    "static/js/main.bcdc5e40.js"
   ]
 }
