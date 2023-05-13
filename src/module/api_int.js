@@ -1,7 +1,17 @@
 import axios from "axios";
 
-// export const baseApi = "https://smartservices.bizzsmart.in/api/isWebAppApi/V1/";
-export const baseApi = "https://drops.bizzsmart.in/api/isWebAppApi/V1/";
+const ENV = "development";
+
+const envVar = {
+  development: {
+    baseApi: "https://drops.bizzsmart.in/api/isWebAppApi/V1/",
+    staticAccessToken: "Bearer 6Ufw7bS+7yElKQJtvUCM3vNfOZsqQmMjmHZ8cdbMBuQ=",
+  },
+  smartservices: {
+    baseApi: "https://smartservices.bizzsmart.in/api/isWebAppApi/V1/",
+    staticAccessToken: "Bearer wcXuHh8TBDVNbn8NQ9acMro4ysrMESZxG94pGfioomM=",
+  },
+};
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -18,7 +28,7 @@ export const getHttp = async (path, prams, isForm) => {
   };
   if (isForm) header.headers["Content-type"] = "multipart/form-data";
   return await axios
-    .get(baseApi + path, header)
+    .get(envVar[ENV].baseApi + path, header)
     .then((res) => {
       if (res.data.statusCode === 700 || res.data.statusCode === 500) {
         window.localStorage.setItem("bearerToken", "");
@@ -45,7 +55,7 @@ export const postHttp = async (path, body, isForm) => {
   if (body?.branch_id === undefined)
     body.branch_id = window.localStorage.getItem("branchId");
   return await axios
-    .post(baseApi + path, body, header)
+    .post(envVar[ENV].baseApi + path, body, header)
     .then((res) => {
       if (res.data.statusCode === 700 || res.data.statusCode === 500) {
         window.localStorage.setItem("bearerToken", "");
@@ -76,13 +86,12 @@ export const deleteHttp = () => {};
 export const postHttpStatic = async (path, body) => {
   const header = {
     headers: {
-      // Authorization: "Bearer wcXuHh8TBDVNbn8NQ9acMro4ysrMESZxG94pGfioomM=",
-      Authorization: "Bearer 6Ufw7bS+7yElKQJtvUCM3vNfOZsqQmMjmHZ8cdbMBuQ=",
+      Authorization: envVar[ENV].staticAccessToken,
       "Content-type": "multipart/form-data",
     },
   };
   return await axios
-    .post(baseApi + path, body, header)
+    .post(envVar[ENV].baseApi + path, body, header)
     .then((res) => {
       if (res.data.statusCode === 200 || res.data.statusCode === 801)
         return Promise.resolve(res.data);
