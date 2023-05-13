@@ -171,16 +171,20 @@ export function InventoryAddIssueStock({ state, setState }) {
                       setValue: async (v) => {
                         getStockIssueSingleProdect(it.list[v].id).then(
                           (res) => {
-                            it.cost_price = res.data.selling_price;
-                            it.price = res.data.selling_price;
-                            it.selling_price = res.data.selling_price;
-                            it.actual_price = res.data.selling_price;
-
                             it.product_id = res.data.id;
                             it.name = res.data.name;
-                            it.unit = res.data.primary_unit;
+                            it.cost_price = res.data.cost_price;
+                            it.selling_price = res.data.selling_price;
+                            it.tax_inclusion = res.data.tax_inclusion;
                             it.tax_id = res.data.selling_tax.toString();
+                            
                             it.product_type = res.data.product_type;
+                            it.price = res.data.selling_price;
+                            it.actual_price = res.data.selling_price;
+                            it.unit = res.data.primary_unit;
+                            
+                            it.branchPrice = res.data.selling_price;
+
                             if (addIssueStock?.items?.length - 1 === k)
                               addIssueStock.items.push({
                                 ...addStockIssueItemStruct,
@@ -189,7 +193,7 @@ export function InventoryAddIssueStock({ state, setState }) {
                           }
                         );
                       },
-                      placeholder: "Search your product",
+                      placeholder: "Search your product...",
                     }}
                   />
                 </div>
@@ -198,6 +202,7 @@ export function InventoryAddIssueStock({ state, setState }) {
                     className="hiaCcAb"
                     placeholder="0.00"
                     type="number"
+                    disabled={it.product_id === "" || addIssueStock?._IsEdit}
                     value={it.quantity}
                     onChange={(e) => (it.quantity = e.target.value)}
                   />
@@ -217,9 +222,9 @@ export function InventoryAddIssueStock({ state, setState }) {
                     className="hiaCcAb"
                     placeholder="0.00"
                     type="number"
-                    value={it.price}
+                    value={it.branchPrice}
                     disabled={it.product_id === "" || addIssueStock?._IsEdit}
-                    onChange={(e) => (it.price = e.target.value)}
+                    onChange={(e) => (it.branchPrice = e.target.value)}
                   />
                 </div>
                 <div className="hiaCcAd" style={{ width: "10%" }}>
@@ -241,7 +246,7 @@ export function InventoryAddIssueStock({ state, setState }) {
                   {it.tax_amount}
                 </div>
                 <div className="hiaCcAd" style={{ width: "10%" }}>
-                  {it.tax_amount}
+                  {it.total_with_tax}
                 </div>
               </form>
             ))}

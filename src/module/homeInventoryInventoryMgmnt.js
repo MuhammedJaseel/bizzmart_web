@@ -62,43 +62,46 @@ export const setAddStockIssueItemStruct = () => {
 export function calculateStockIssueTax(it, state, setState) {
   const { addIssueStock, allTax } = state;
 
-  if (it.quantity !== "" && it.tax_id !== "" && it.product_id !== "") {
+  if (it.tax_id !== "" && it.product_id !== "") {
     const rate = allTax.filter((it1) => it1.id == it.tax_id)[0].rate;
     const cess = allTax.filter((it1) => it1.id == it.tax_id)[0].cess;
     const proTax = parseInt(rate) + parseInt(cess);
 
-    if (it.tax_type === "Inclusive") {
-      it.tax_amount = it.price - (it.price / (1 + proTax / 100)) * it.quantity;
+    const qty = JSON.parse(JSON.stringify(it.quantity));
+    if (qty === "") qty = 0;
+    it.tax_amount = 0;
+    it.totalPrice = 0;
+    it.total_with_tax = 0;
+    it.taxable_amount = 0;
+
+    if (it.tax_inclusion === "Inclusive") {
+      it.tax_amount =
+        it.selling_price - (it.selling_price / (1 + proTax / 100)) * qty;
       it._CostTaxAmount =
         Number(it.cost_price) -
-        (Number(it.cost_price) / (1 + proTax / 100)) * it.quantity;
+        (Number(it.cost_price) / (1 + proTax / 100)) * qty;
     } else {
-      it.tax_amount = it.price * (proTax / 100) * it.quantity;
-      it._CostTaxAmount = Number(it.cost_price) * (proTax / 100) * it.quantity;
+      it.tax_amount = it.selling_price * (proTax / 100) * qty;
+      it._CostTaxAmount = Number(it.cost_price) * (proTax / 100) * qty;
     }
 
-    it.totalPrice = it.price * it.quantity;
-
-    it.cost_price = it.cost_price * it.quantity;
-
-    it.CESS = (it.price - it.price / (1 + parseInt(cess) / 100)) * it.quantity;
+    it.totalPrice = it.selling_price * qty;
+    it.CESS =
+      (it.selling_price - it.selling_price / (1 + parseInt(cess) / 100)) * qty;
     it.SCGST = it.tax_amount / 2;
-    it.CGST = it.tax_amount / 2;
-
     it.cost_cess =
-      (it.cost_price - it.cost_price / (1 + parseInt(cess) / 100)) *
-      it.quantity;
+      (it.cost_price - it.cost_price / (1 + parseInt(cess) / 100)) * qty;
     it.cost_sgst = it._CostTaxAmount / 2;
     it.cost_cgst = it._CostTaxAmount / 2;
 
-    it.total_with_tax = it.price * it.quantity + it.tax_amount;
+    it.CGST = it.SCGST;
+    it.total_with_tax = it.price * qty + it.tax_amount;
     it.taxable_amount = it.total_with_tax;
 
-    it.tax_amount = Math.round(it.tax_amount);
-    it.totalPrice = Math.round(it.totalPrice);
-    it.cost_price = Math.round(it.cost_price);
-    it.total_with_tax = Math.round(it.total_with_tax);
-    it.taxable_amount = Math.round(it.taxable_amount);
+    it.tax_amount = it.tax_amount.toFixed(2);
+    it.totalPrice = it.totalPrice.toFixed(2);
+    it.total_with_tax = it.total_with_tax.toFixed(2);
+
   } else {
     it.tax_amount = "";
     it.totalPrice = "";
