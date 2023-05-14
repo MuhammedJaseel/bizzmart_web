@@ -12,46 +12,32 @@ import {
   postStockIssue,
   setStockTakingProdectCount,
 } from "../method/homeInventoryInventoryMgmnt";
-import {
-  addStockIssueItemStruct,
-  calculateStockIssueTax,
-} from "../module/homeInventoryInventoryMgmnt";
+import { addStockIssueItemStruct } from "../module/homeInventoryInventoryMgmnt";
+import { calculateStockIssueTax } from "../module/homeInventoryInventoryMgmnt";
 import { Select } from "./interface";
-import {
-  Header1,
-  Header2,
-  Header4,
-  HeaderButtens1,
-  WidgetInputSelect,
-} from "./widget";
-import { AddingForm1, FormSwitch } from "./widget_form";
-import {
-  WidgetPopUp1,
-  WidgetPopUp1Body,
-  WidgetPopUp1In1,
-  WidgetPopUp1In2,
-} from "./widget_popup";
+import { Header1, Header2, Header4 } from "./widget";
+import { HeaderButtens1, WidgetInputSelect } from "./widget";
+import { FormSwitch } from "./widget_form";
+import { WidgetPopUp1, WidgetPopUp1Body } from "./widget_popup";
+import { WidgetPopUp1In1, WidgetPopUp1In2 } from "./widget_popup";
 import { MyTable1 } from "./widget_table";
 
 export function InventoryAddIssueStock({ state, setState }) {
   const { page, addIssueStock, allTax, allBranches, error } = state;
   const [saveBtn, setsaveBtn] = useState(false);
 
+  const _onClkBack = () => setState({ page: null });
+
   if (page?.path !== "addIssueStock") return null;
-  const title = "Stock Issue";
   const desc = "Issue stock from your main branch to connected branches";
   return (
     <StrictMode>
-      <Header1
-        title="INVENTORY"
-        bodyL="STOCK ISSUE"
-        onTap={() => setState({ page: null })}
-      />
+      <Header1 title="INVENTORY" bodyL="STOCK ISSUE" onTap={_onClkBack} />
       <form
         style={{ overflow: "scroll", maxHeight: "calc(100vh - 5vw)" }}
         onChange={() => setState(addIssueStock)}
       >
-        <Header4 title={title} desc={desc} />
+        <Header4 title="Stock Issue" desc={desc} />
         <div className="hiaB">
           <div style={{ width: "20%" }}>
             Main Branch *<br />
@@ -111,28 +97,14 @@ export function InventoryAddIssueStock({ state, setState }) {
         </div>
         <div className="hiaC">
           <div className="hiaCb">
-            <div className="hiaCbA" style={{ width: "3%" }} />
-            <div className="hiaCbA" style={{ width: "55%" }}>
-              Prodect / Service
-            </div>
-            <div className="hiaCbA" style={{ width: "8%" }}>
-              Qty
-            </div>
-            <div className="hiaCbA" style={{ width: "8%" }}>
-              Cost
-            </div>
-            <div className="hiaCbA" style={{ width: "8%" }}>
-              Branch Price
-            </div>
-            <div className="hiaCbA" style={{ width: "10%" }}>
-              Tax Stab
-            </div>
-            <div className="hiaCbA" style={{ width: "10%" }}>
-              Tax
-            </div>
-            <div className="hiaCbA" style={{ width: "10%" }}>
-              Total
-            </div>
+            <div style={{ width: "3%" }} />
+            <div style={{ width: "55%" }}>Prodect / Service</div>
+            <div style={{ width: "8%" }}>Qty</div>
+            <div style={{ width: "8%" }}>Cost</div>
+            <div style={{ width: "8%" }}>Branch Price</div>
+            <div style={{ width: "10%" }}>Tax Stab</div>
+            <div style={{ width: "10%" }}>Tax</div>
+            <div style={{ width: "10%" }}>Total</div>
           </div>
           <div className="hiaCc">
             {addIssueStock?.items?.map((it, k) => (
@@ -156,7 +128,9 @@ export function InventoryAddIssueStock({ state, setState }) {
                     props={{
                       disabled: addIssueStock?._IsEdit,
                       defaultValue: it.name,
+                      value: it?.name,
                       onChange: async (v) => {
+                        it.name = v;
                         await inventorySearchProductStockIssue(
                           v,
                           (v1) => (it.list = v1)
@@ -177,7 +151,7 @@ export function InventoryAddIssueStock({ state, setState }) {
                             it.tax_inclusion = res.data.tax_inclusion;
                             it.tax_id = res.data.selling_tax.toString();
                             it.purchase_price = res.data.purchase_price;
-                            
+
                             it.selling_price = res.data.selling_price;
                             it.product_type = res.data.product_type;
                             it.price = res.data.selling_price;
@@ -209,18 +183,14 @@ export function InventoryAddIssueStock({ state, setState }) {
                   />
                 </div>
                 <div style={{ width: "8%" }}>
-                  <input
-                    className="hiaCcAb"
-                    disabled
-                    value={it.cost}
-                  />
+                  <input className="hiaCcAb" disabled value={it?.cost || "0"} />
                 </div>
                 <div style={{ width: "8%" }}>
                   <input
                     className="hiaCcAb"
                     placeholder="0.00"
                     type="number"
-                    value={it.purchase_price}
+                    value={it.purchase_price || "0.00"}
                     disabled={it.product_id === "" || addIssueStock?._IsEdit}
                     onChange={(e) => (it.purchase_price = e.target.value)}
                   />
@@ -411,25 +381,13 @@ export function InventoryAddStockTransfer({ state, setState }) {
         </div>
         <div className="hiaC">
           <div className="hiaCb">
-            <div className="hiaCbA" style={{ width: "3%" }} />
-            <div className="hiaCbA" style={{ width: "55%" }}>
-              Prodect / Service
-            </div>
-            <div className="hiaCbA" style={{ width: "8%" }}>
-              Qty
-            </div>
-            <div className="hiaCbA" style={{ width: "8%" }}>
-              Cost
-            </div>
-            <div className="hiaCbA" style={{ width: "8%" }}>
-              Branch Price
-            </div>
-            <div className="hiaCbA" style={{ width: "10%" }}>
-              Tax Stab
-            </div>
-            <div className="hiaCbA" style={{ width: "10%" }}>
-              Total
-            </div>
+            <div style={{ width: "3%" }} />
+            <div style={{ width: "55%" }}>Prodect / Service</div>
+            <div style={{ width: "8%" }}>Qty</div>
+            <div style={{ width: "8%" }}>Cost</div>
+            <div style={{ width: "8%" }}>Branch Price</div>
+            <div style={{ width: "10%" }}>Tax Stab</div>
+            <div style={{ width: "10%" }}>Total</div>
           </div>
           <div className="hiaCc">
             {addStockTransfer?.items?.map((it, k) => (
@@ -670,25 +628,13 @@ export function InventoryAddStockReturn({ state, setState }) {
         </div>
         <div className="hiaC">
           <div className="hiaCb">
-            <div className="hiaCbA" style={{ width: "3%" }} />
-            <div className="hiaCbA" style={{ width: "55%" }}>
-              Prodect / Service
-            </div>
-            <div className="hiaCbA" style={{ width: "8%" }}>
-              Qty
-            </div>
-            <div className="hiaCbA" style={{ width: "8%" }}>
-              Cost
-            </div>
-            <div className="hiaCbA" style={{ width: "8%" }}>
-              Branch Price
-            </div>
-            <div className="hiaCbA" style={{ width: "10%" }}>
-              Tax Stab
-            </div>
-            <div className="hiaCbA" style={{ width: "10%" }}>
-              Total
-            </div>
+            <div style={{ width: "3%" }} />
+            <div style={{ width: "55%" }}>Prodect / Service</div>
+            <div style={{ width: "8%" }}>Qty</div>
+            <div style={{ width: "8%" }}>Cost</div>
+            <div style={{ width: "8%" }}>Branch Price</div>
+            <div style={{ width: "10%" }}>Tax Stab</div>
+            <div style={{ width: "10%" }}>Total</div>
           </div>
           <div className="hiaCc">
             {addStockReturn?.items?.map((it, k) => (
