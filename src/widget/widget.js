@@ -373,17 +373,8 @@ export function PaymentButton1({ props }) {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 export function WidgetInputSelect({ className, props }) {
-  var {
-    onChange,
-    list,
-    clearlist,
-    name,
-    setValue,
-    placeholder,
-    defaultValue,
-    disabled,
-    value,
-  } = props;
+  var { onChange, list, clearlist, name, setValue } = props;
+  var { placeholder, defaultValue, disabled, value } = props;
   const inputRef = useRef(null);
   if (list === undefined || list === null) list = [];
   return (
@@ -394,7 +385,10 @@ export function WidgetInputSelect({ className, props }) {
           <input
             ref={inputRef}
             className="zc1Fb default"
-            onChange={(e) => onChange(e.target.value)}
+            onChange={(e) => {
+              inputRef.current.value = e.target.value;
+              onChange(e.target.value);
+            }}
             placeholder={placeholder}
             defaultValue={defaultValue || ""}
             disabled={disabled}
