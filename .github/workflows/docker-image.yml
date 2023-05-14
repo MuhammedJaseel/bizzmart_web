@@ -17,4 +17,4 @@ jobs:
     - name: Building Application
       run: | 
         npm i
-        npm run build
+        npm start
