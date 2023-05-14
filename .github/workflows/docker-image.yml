@@ -1,21 +1,37 @@
-name: Docker Image CI
+stages:
+  - build-reactjs
+  # - build-docker
+  # - deploy
 
-on:
-  push:
-    branches: [ "jaseel" ]
-  pull_request:
-    branches: [ "jaseel" ]
+# dashboard-assessment-admin
+build-dashboard-assessment-admin:
+  # image: 991438683447.dkr.ecr.ap-southeast-1.amazonaws.com/dockerhub/node:14.19.0-alpine3.14
+  stage: build-reactjs
+  # only:
+  #   refs:
+  #     - development
+  #     - release
+  #     - hotfix
+  #     - tags
+  # before_script:
+  #   - if [ $CI_COMMIT_BRANCH == "development" ]; then export TAG=dev; elif [ $CI_COMMIT_BRANCH == "release" ]; then export TAG=staging; elif [ $CI_COMMIT_BRANCH == "hotfix" ]; then export TAG=hotfix; elif [ $CI_COMMIT_BRANCH == "develop" ]; then export TAG=dev; fi
+  script:
+    - unset CI
+    - npm ci --cache .npm --prefer-offline
+    - npm install -g typescript
+    - npm link typescript
+    - npm run build -prod
 
-jobs:
-
-  build:
-
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v3
-    - name: Building Application
-      run: |
-           npm install
-           npm run build
-           EOF
+  cache:
+    paths:
+      - .npm
+  artifacts:
+    paths:
+      - Dockerfile
+      - .dockerignore
+      - package*.json
+      - build/*
+      - nginx.conf
+      - node_modules/*
+      - src/*
+      - public/*
