@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - uses: actions/checkout@v3
     - name: Building Application
-    - run: npm i;
+      run: npm install;
            npm run build
