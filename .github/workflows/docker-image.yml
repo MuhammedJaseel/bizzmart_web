@@ -3,8 +3,8 @@ stages:
   # - build-docker
   # - deploy
 
-# dashboard-assessment-admin
-build-dashboard-assessment-admin:
+# application
+build-application:
   # image: 991438683447.dkr.ecr.ap-southeast-1.amazonaws.com/dockerhub/node:14.19.0-alpine3.14
   stage: build-reactjs
   # only:
@@ -18,20 +18,19 @@ build-dashboard-assessment-admin:
   script:
     - unset CI
     - npm ci --cache .npm --prefer-offline
-    - npm install -g typescript
-    - npm link typescript
+    - npm install
     - npm run build -prod
 
-  cache:
-    paths:
-      - .npm
-  artifacts:
-    paths:
-      - Dockerfile
-      - .dockerignore
-      - package*.json
-      - build/*
-      - nginx.conf
-      - node_modules/*
-      - src/*
-      - public/*
+  # cache:
+  #   paths:
+  #     - .npm
+  # artifacts:
+  #   paths:
+  #     - Dockerfile
+  #     - .dockerignore
+  #     - package*.json
+  #     - build/*
+  #     - nginx.conf
+  #     - node_modules/*
+  #     - src/*
+  #     - public/*
