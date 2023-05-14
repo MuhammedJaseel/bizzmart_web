@@ -19,7 +19,7 @@ export default function App() {
   return <StrictMode>Hallow, its 404</StrictMode>;
 }
 
-// 0.0.1
+// 0.0.2
 // git add .
 // git commit -m "Hallow"
 // git push origin jaseel
