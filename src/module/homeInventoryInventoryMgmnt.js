@@ -76,18 +76,19 @@ export function calculateStockIssueTax(it, state, setState) {
 
     if (it.tax_inclusion === "Inclusive") {
       it.tax_amount =
-        it.selling_price - (it.selling_price / (1 + proTax / 100)) * qty;
+        (it.purchase_price - it.purchase_price / (1 + proTax / 100)) * qty;
       it._CostTaxAmount =
-        Number(it.cost_price) -
-        (Number(it.cost_price) / (1 + proTax / 100)) * qty;
+        (Number(it.cost_price) - Number(it.cost_price) / (1 + proTax / 100)) *
+        qty;
     } else {
-      it.tax_amount = it.selling_price * (proTax / 100) * qty;
+      it.tax_amount = it.purchase_price * (proTax / 100) * qty;
       it._CostTaxAmount = Number(it.cost_price) * (proTax / 100) * qty;
     }
 
-    it.totalPrice = it.selling_price * qty;
+    it.totalPrice = it.purchase_price * qty;
     it.CESS =
-      (it.selling_price - it.selling_price / (1 + parseInt(cess) / 100)) * qty;
+      (it.purchase_price - it.purchase_price / (1 + parseInt(cess) / 100)) *
+      qty;
     it.SCGST = it.tax_amount / 2;
     it.cost_cess =
       (it.cost_price - it.cost_price / (1 + parseInt(cess) / 100)) * qty;
@@ -95,13 +96,14 @@ export function calculateStockIssueTax(it, state, setState) {
     it.cost_cgst = it._CostTaxAmount / 2;
 
     it.CGST = it.SCGST;
-    it.total_with_tax = it.price * qty + it.tax_amount;
+    if (it.tax_inclusion === "Inclusive")
+      it.total_with_tax = it.purchase_price * qty;
+    else it.total_with_tax = it.purchase_price * qty + it.tax_amount;
     it.taxable_amount = it.total_with_tax;
 
     it.tax_amount = it.tax_amount.toFixed(2);
     it.totalPrice = it.totalPrice.toFixed(2);
     it.total_with_tax = it.total_with_tax.toFixed(2);
-
   } else {
     it.tax_amount = "";
     it.totalPrice = "";
@@ -119,21 +121,21 @@ export function calculateStockIssueTax(it, state, setState) {
   addIssueStock.cost_tax = 0;
 
   for (let i = 0; i < addIssueStock?.items.length; i++) {
-    addIssueStock.total += addIssueStock.items[i].totalPrice;
-    addIssueStock.total_cost_price += addIssueStock.items[i].cost_price;
-    addIssueStock.tax += addIssueStock.items[i].tax_amount;
-    addIssueStock.SCGST += addIssueStock.items[i].SCGST;
-    addIssueStock.CGST += addIssueStock.items[i].CGST;
-    addIssueStock.CESS += addIssueStock.items[i].CESS;
-    addIssueStock.cost_tax += addIssueStock.items[i]._CostTaxAmount;
+    addIssueStock.total += Number(addIssueStock.items[i].total_with_tax);
+    addIssueStock.total_cost_price += Number(addIssueStock.items[i].cost_price);
+    addIssueStock.tax += Number(addIssueStock.items[i].tax_amount);
+    addIssueStock.SCGST += Number(addIssueStock.items[i].SCGST);
+    addIssueStock.CGST += Number(addIssueStock.items[i].CGST);
+    addIssueStock.CESS += Number(addIssueStock.items[i].CESS);
+    addIssueStock.cost_tax += Number(addIssueStock.items[i]._CostTaxAmount);
   }
-  addIssueStock.total = Math.round(addIssueStock.total);
-  addIssueStock.total_cost_price = Math.round(addIssueStock.total_cost_price);
-  addIssueStock.tax = Math.round(addIssueStock.tax);
-  addIssueStock.SCGST = Math.round(addIssueStock.SCGST);
-  addIssueStock.CGST = Math.round(addIssueStock.CGST);
-  addIssueStock.CESS = Math.round(addIssueStock.CESS);
-  addIssueStock.cost_tax = Math.round(addIssueStock.cost_tax);
+  addIssueStock.total = addIssueStock.total.toFixed(2);
+  addIssueStock.total_cost_price = addIssueStock.total_cost_price.toFixed(2);
+  addIssueStock.tax = addIssueStock.tax.toFixed(2);
+  addIssueStock.SCGST = addIssueStock.SCGST.toFixed(2);
+  addIssueStock.CGST = addIssueStock.CGST.toFixed(2);
+  addIssueStock.CESS = addIssueStock.CESS.toFixed(2);
+  addIssueStock.cost_tax = addIssueStock.cost_tax.toFixed(2);
 
   setState(addIssueStock);
 }
