@@ -174,16 +174,17 @@ export function InventoryAddIssueStock({ state, setState }) {
                             it.product_id = res.data.id;
                             it.name = res.data.name;
                             it.cost_price = res.data.cost_price;
-                            it.selling_price = res.data.selling_price;
                             it.tax_inclusion = res.data.tax_inclusion;
                             it.tax_id = res.data.selling_tax.toString();
+                            it.purchase_price = res.data.purchase_price;
                             
+                            it.selling_price = res.data.selling_price;
                             it.product_type = res.data.product_type;
                             it.price = res.data.selling_price;
                             it.actual_price = res.data.selling_price;
                             it.unit = res.data.primary_unit;
-                            
-                            it.branchPrice = res.data.selling_price;
+
+                            it.cost = res.data.purchase_price;
 
                             if (addIssueStock?.items?.length - 1 === k)
                               addIssueStock.items.push({
@@ -210,11 +211,8 @@ export function InventoryAddIssueStock({ state, setState }) {
                 <div style={{ width: "8%" }}>
                   <input
                     className="hiaCcAb"
-                    placeholder="0.00"
-                    disabled={it.product_id === "" || addIssueStock?._IsEdit}
-                    type="number"
-                    value={it.cost_price}
-                    onChange={(e) => (it.cost_price = e.target.value)}
+                    disabled
+                    value={it.cost}
                   />
                 </div>
                 <div style={{ width: "8%" }}>
@@ -222,9 +220,9 @@ export function InventoryAddIssueStock({ state, setState }) {
                     className="hiaCcAb"
                     placeholder="0.00"
                     type="number"
-                    value={it.branchPrice}
+                    value={it.purchase_price}
                     disabled={it.product_id === "" || addIssueStock?._IsEdit}
-                    onChange={(e) => (it.branchPrice = e.target.value)}
+                    onChange={(e) => (it.purchase_price = e.target.value)}
                   />
                 </div>
                 <div className="hiaCcAd" style={{ width: "10%" }}>
@@ -279,7 +277,7 @@ export function InventoryAddIssueStock({ state, setState }) {
                 className="hiaCdB"
                 style={{ width: "100%", fontSize: ".9vw" }}
               >
-                <b>Subtitla</b>
+                <b>Sub Total</b>
                 <b>{addIssueStock?.total - addIssueStock?.tax}</b>
               </div>
               <div
@@ -549,7 +547,7 @@ export function InventoryAddStockTransfer({ state, setState }) {
                 className="hiaCdB"
                 style={{ width: "100%", fontSize: ".9vw" }}
               >
-                <b>Subtitla</b>
+                <b>Sub totla</b>
                 <b>{addStockTransfer?.sub_total}</b>
               </div>
               <div
