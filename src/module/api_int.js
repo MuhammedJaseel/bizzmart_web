@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const ENV = "smartservices";
+const ENV = "development";
 
 const envVar = {
   development: {
