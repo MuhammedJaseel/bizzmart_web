@@ -14,5 +14,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: npm i; npm run build
+    - name: Building Application
+      run: | 
+        npm i
+        npm run build
